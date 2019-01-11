@@ -3,7 +3,7 @@ const pathPrefix = '/medlem'
 module.exports = {
   pathPrefix,
   siteMetadata: {
-    title: 'Gatsby Default Starter',
+    title: 'Medlem D-sektionen',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
