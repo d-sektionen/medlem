@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[2],{186:function(e,n,t){"use strict";t.r(n);var a=t(0),r=t.n(a),u=t(34);n.default=function(){return r.a.createElement(u.b.Consumer,null,function(e){var n=e.user;return r.a.createElement("div",null,r.a.createElement("h1",null,"Hej",n.first_name&&" "+n.first_name,"!"),r.a.createElement("p",null,"Det finns just nu inget vettigt på startsidan."),r.a.createElement("p",null,"Använd sidomenyn, där finns vettiga saker."))})}}}]);
+//# sourceMappingURL=component---src-pages-index-js-73de9c297adc04d23e22.js.map
