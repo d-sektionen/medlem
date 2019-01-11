@@ -1,5 +1,7 @@
+const pathPrefix = '/medlem'
+
 module.exports = {
-  pathPrefix: '/medlem',
+  pathPrefix,
   siteMetadata: {
     title: 'Gatsby Default Starter',
   },
@@ -20,7 +22,7 @@ module.exports = {
       options: {
         name: 'Datateknologsektionen',
         short_name: 'D-sektionen',
-        start_url: '/',
+        start_url: pathPrefix ? pathPrefix : '/',
         background_color: '#FFFFFF',
         theme_color: '#20407c',
         display: 'standalone',
