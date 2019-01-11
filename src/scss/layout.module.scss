@@ -1,0 +1,82 @@
+@import 'vars';
+
+.app {
+  position: relative;
+  height: 100vh;
+
+  background: #eee;
+}
+
+.pixels {
+  position: fixed;
+  top: 10vw;
+  bottom: 10vw;
+  left: 10vw;
+  right: 10vw;
+
+  svg {
+    height: 100%;
+    max-width: 100%;
+  }
+}
+
+.containerWrapper {
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+
+  &,
+  * {
+    z-index: 10;
+  }
+}
+
+.container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: stretch;
+
+  .above {
+    order: 0;
+  }
+
+  .content {
+    margin: auto;
+    max-width: 700px;
+    order: 1;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+
+    p {
+      max-width: 20rem;
+    }
+  }
+
+  .below {
+    order: 2;
+  }
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(black, 0.7);
+  color: white;
+  z-index: 20;
+
+  > svg {
+    box-sizing: content-box;
+    padding: $base-padding;
+    height: 2 * $base-padding;
+    width: 2 * $base-padding;
+    cursor: pointer;
+    &:hover {
+      color: $dsek-cerise;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+@import 'vars';
+@import 'normalize';
+@import 'fonts';
+
+body {
+  font-family: $dsek-font-order;
+}
+
+
+.button {
+  text-decoration: none;
+  color: #fff;
+  background-color: $dsek-blue;
+  text-align: center;
+  padding: 1rem;
+  display: block;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
