@@ -45,7 +45,7 @@ class Layout extends Component {
         BASE_URL + '/account/token?redirect=' + this.props.location.href,
     })
 
-    get('/account/user/me')
+    get('/account/user/me/')
       .then(res => {
         this.success(res.data)
       })
