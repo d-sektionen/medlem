@@ -1,0 +1,85 @@
+@import 'vars';
+
+.root {
+  padding: $base-padding;
+}
+
+.items {
+  padding: $base-padding;
+  background: $very-light-gray;
+  width: 100%;
+  min-width: 200px;
+  outline: none;
+  appearance: none;
+  border: 1px solid $light-gray;
+  font-size: 1.25em;
+  margin-bottom: $base-padding;
+
+  &:focus {
+    border: 1px solid $dsek-blue;
+  }
+
+  > option {
+    padding: $base-padding;
+    background: $very-light-gray;
+  }
+}
+
+.bookings {
+  list-style: none;
+  margin: 0;
+
+  > li {
+    background: $light-gray;
+  }
+}
+
+.bookingHeader {
+  padding: $base-padding;
+  cursor: pointer;
+  display: flex;
+
+  &:hover {
+    background: $gray;
+  }
+
+  > svg {
+    transform: scaleY(1);
+    transition: transform 0.3s ease;
+    margin-left: auto;
+
+    &.flip {
+      transform: scaleY(-1);
+    }
+  }
+}
+
+.bookingBody {
+  padding: $base-padding;
+
+  textarea,
+  input {
+    padding: $base-padding/2;
+  }
+
+  .datePicker {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  textarea {
+    display: block;
+    width: 100%;
+    resize: vertical;
+  }
+}
+
+.bookingButtons {
+  display: flex;
+
+  > * {
+    flex-basis: 0;
+    flex-grow: 1;
+    padding: $base-padding/2 $base-padding;
+  }
+}

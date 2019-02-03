@@ -27,11 +27,11 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: space-between;
+}
 
-  &,
-  * {
-    z-index: 10;
-  }
+.contentWrapper {
+  flex-grow: 1;
+  position: relative;
 }
 
 .container {
@@ -39,6 +39,16 @@
   flex-grow: 1;
   flex-direction: column;
   align-items: stretch;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  &,
+  * {
+    z-index: 10;
+  }
 
   .above {
     order: 0;
@@ -51,8 +61,8 @@
     background-color: rgba(255, 255, 255, 0.95);
     padding: 2rem;
 
-    p {
-      max-width: 20rem;
+    > p {
+      max-width: 24rem;
     }
   }
 

@@ -1,11 +1,16 @@
 import React from 'react'
 import { LoadingContext } from '../components/layout'
 import Vote from '../components/vote/'
+import Content from '../components/content'
 
-const PreferencesPage = () => (
+const VotePage = () => (
   <LoadingContext.Consumer>
-    {loading => <Vote setLoading={loading.set} />}
+    {loading => (
+      <Content>
+        <Vote setLoading={loading.set} />
+      </Content>
+    )}
   </LoadingContext.Consumer>
 )
 
-export default PreferencesPage
+export default VotePage

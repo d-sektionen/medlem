@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { put } from './request/'
+import { put, patch } from './request/'
 
 import style from '../scss/preferences.module.scss'
 
@@ -32,7 +32,7 @@ class Preferences extends Component {
     this.setState({ error: undefined, success: undefined, errors: {} })
 
     setLoading(true)
-    put('/account/user/me/', {
+    patch('/account/user/me/', {
       first_name: this.state.firstName,
       last_name: this.state.lastName,
       profile: {

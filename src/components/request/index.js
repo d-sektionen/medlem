@@ -50,9 +50,17 @@ class Get extends Component {
     }
   }
 
-  componentDidMount() {
-    const { endpoint, onError, setLoading } = this.props
+  componentDidUpdate(prevProps) {
+    if (this.props.endpoint !== prevProps.endpoint) {
+      this.fetchData(this.props)
+    }
+  }
 
+  componentDidMount() {
+    this.fetchData(this.props)
+  }
+
+  fetchData = ({ endpoint, onError, setLoading }) => {
     get(endpoint)
       .then(res => {
         setLoading(false)

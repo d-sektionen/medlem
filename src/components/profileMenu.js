@@ -5,6 +5,7 @@ import posed, { PoseGroup } from 'react-pose'
 import { FiLogOut, FiUser, FiSettings } from 'react-icons/fi'
 
 import style from '../scss/profileMenu.module.scss'
+import { BASE_URL } from '../js/config'
 
 const Menu = posed.div({
   enter: { height: 'auto' },
@@ -64,7 +65,7 @@ class ProfileMenu extends Component {
             </Link>
           </li>
           <li>
-            <a onClick={logout}>
+            <a href={`${BASE_URL}/account/logout`} onClick={logout}>
               <FiLogOut />
               Logga ut
             </a>

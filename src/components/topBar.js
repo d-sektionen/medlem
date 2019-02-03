@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import style from '../scss/layout.module.scss'
-import { FiLogOut, FiUser, FiMenu } from 'react-icons/fi'
+import { FiMenu } from 'react-icons/fi'
 import ProfileMenu from './profileMenu'
 
 class TopBar extends Component {

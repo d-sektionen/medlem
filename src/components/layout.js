@@ -70,22 +70,21 @@ class Layout extends Component {
     }
 
     if (this.state.success) {
-      return <Content>{this.props.children}</Content>
+      return this.props.children
     }
 
     return (
       <Content>
+        <p>Inloggningen misslyckades, testa igen.</p>
         <a href="#" className="button" onClick={Layout.logout}>
           Logga ut
         </a>
-        <p>Inloggningen misslyckades, testa igen.</p>
       </Content>
     )
   }
 
   static logout() {
     Cookies.remove('token')
-    window.location.reload()
   }
 
   render() {
@@ -120,9 +119,6 @@ class Layout extends Component {
             <LoadingContext.Provider value={this.state.loading}>
               <UserContext.Provider value={this.state.user}>
                 <div className={style.app}>
-                  <div className={style.pixels}>
-                    <Pixels loading={this.state.loading.status} />
-                  </div>
                   <div className={style.containerWrapper}>
                     <SideMenu
                       open={this.state.sideMenuOpen}
@@ -133,7 +129,7 @@ class Layout extends Component {
                       logout={Layout.logout}
                       openMenu={() => this.setState({ sideMenuOpen: true })}
                     />
-                    <div className={style.container}>
+                    <div className={style.contentWrapper}>
                       {token !== undefined ? (
                         content
                       ) : (

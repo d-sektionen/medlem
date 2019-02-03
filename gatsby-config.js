@@ -1,4 +1,4 @@
-const pathPrefix = '/medlem'
+const pathPrefix = '/'
 
 module.exports = {
   pathPrefix,
