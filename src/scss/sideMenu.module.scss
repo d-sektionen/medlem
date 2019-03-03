@@ -19,14 +19,13 @@
   left: 0;
   background: $dark-gray;
   z-index: 30;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
 
   > div {
     height: 100%;
     overflow-y: auto;
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
 }
 
