@@ -4,19 +4,6 @@ import { Get } from '../request/'
 import style from '../../scss/booking.module.scss'
 import BookingInstance from './bookingInstance'
 
-const getDisplayName = user => {
-  const fullName = [user.first_name, user.last_name].join(' ')
-  return fullName === ' ' ? user.username : fullName
-}
-
-const formatDate = date =>
-  date.toLocaleDateString('sv-SE', {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-  })
-
 class Booking extends Component {
   constructor(props) {
     super(props)
@@ -37,9 +24,11 @@ class Booking extends Component {
               <select
                 className={style.items}
                 onChange={e => {
-                  this.setState({ item: e.target.value })
+                  this.setState({
+                    item: items.filter(i => i.id == e.target.value)[0],
+                  })
                 }}
-                value={item}
+                value={item ? item.id : ''}
               >
                 <option value="">Alla</option>
                 {items.map(i => (
@@ -64,12 +53,13 @@ class Booking extends Component {
           </label>
         </p>
         <Get
-          endpoint={`/booking/bookings/?item=${item}&future${
+          endpoint={`/booking/bookings/?item=${item ? item.id : ''}&future${
             onlyMine ? '&user=me' : ''
           }`}
         >
           {bookings => (
             <ul className={style.bookings}>
+              <BookingInstance item={item} />
               {bookings
                 .map(b => ({
                   ...b,
@@ -80,7 +70,7 @@ class Booking extends Component {
                 .map(booking => (
                   <BookingInstance
                     booking={booking}
-                    showItem={item === ''}
+                    showItem={item === undefined}
                     key={booking.id}
                   />
                 ))}

@@ -51,7 +51,10 @@ class Get extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.endpoint !== prevProps.endpoint) {
+    if (
+      this.props.endpoint !== prevProps.endpoint ||
+      this.props.url !== prevProps.url
+    ) {
       this.fetchData(this.props)
     }
   }
@@ -60,8 +63,9 @@ class Get extends Component {
     this.fetchData(this.props)
   }
 
-  fetchData = ({ endpoint, onError, setLoading }) => {
-    get(endpoint)
+  fetchData = ({ endpoint, url, onError, setLoading }) => {
+    const config = endpoint ? { endpoint } : { url }
+    request({ ...config, method: 'get' })
       .then(res => {
         setLoading(false)
         this.setState({ data: res.data })

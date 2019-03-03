@@ -19,12 +19,21 @@
   left: 0;
   background: $dark-gray;
   z-index: 30;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+  > div {
+    height: 100%;
+    overflow-y: scroll;
+    position: relative;
+  }
 }
 
 .imgWrapper {
   border-radius: 50%;
   display: block;
-  margin: $base-padding * 2;
+  padding: $base-padding * 2;
   img {
     border-radius: 50%;
     margin: 0;
@@ -67,5 +76,25 @@
   cursor: pointer;
   &:hover {
     color: $dsek-cerise;
+  }
+}
+
+.footer {
+  text-align: center;
+  margin-top: auto;
+  padding: $base-padding;
+
+  > div {
+    margin-top: $base-padding;
+    > a {
+      color: $black;
+      &:hover {
+        color: $dsek-blue;
+      }
+      svg {
+        height: 3 * $base-padding;
+        width: 3 * $base-padding;
+      }
+    }
   }
 }

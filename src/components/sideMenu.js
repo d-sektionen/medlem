@@ -6,7 +6,7 @@ import { MENU_ITEMS } from '../js/config'
 
 import logo from '../images/round.svg'
 import style from '../scss/sideMenu.module.scss'
-import { FiX } from 'react-icons/fi'
+import { FiX, FiGithub } from 'react-icons/fi'
 
 const Menu = posed.div({
   enter: {
@@ -60,27 +60,40 @@ class SideMenu extends Component {
             key="overlay"
           />,
           <Menu className={style.menu} key="menu">
-            <FiX onClick={close} className={style.x} />
-            <a className={style.imgWrapper} href="https://d-sektionen.se">
-              <img src={logo} useMap="circle" />
-              <map name="circle">
-                <area shape="circle" coords="0,100%,100%,100%" />
-              </map>
-            </a>
+            <div>
+              <div>
+                <FiX onClick={close} className={style.x} />
+                <a className={style.imgWrapper} href="https://d-sektionen.se">
+                  <img src={logo} useMap="circle" />
+                  <map name="circle">
+                    <area shape="circle" coords="0,100%,100%,100%" />
+                  </map>
+                </a>
+              </div>
 
-            <ul className={style.pageList}>
-              {Object.keys(MENU_ITEMS).map(key => (
-                <li key={`menuitem-${key}`}>
-                  <Link
-                    to={MENU_ITEMS[key]}
-                    onClick={close}
-                    activeClassName={style.thisPage}
-                  >
-                    {key}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+              <ul className={style.pageList}>
+                {Object.keys(MENU_ITEMS).map(key => (
+                  <li key={`menuitem-${key}`}>
+                    <Link
+                      to={MENU_ITEMS[key]}
+                      onClick={close}
+                      activeClassName={style.thisPage}
+                    >
+                      {key}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <div className={style.footer}>
+                Sidan är utvecklad av Webb-/infoutkottet
+                <div>
+                  <a href="https://github.com/d-sektionen/medlem">
+                    <FiGithub />
+                  </a>
+                </div>
+              </div>
+            </div>
           </Menu>,
         ]}
       </PoseGroup>

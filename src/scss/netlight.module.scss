@@ -4,6 +4,14 @@
   width: 400px;
 }
 
+.success {
+  color: $dsek-green;
+}
+
+.error {
+  color: $red;
+}
+
 .buttons {
   display: flex;
   justify-content: center;
