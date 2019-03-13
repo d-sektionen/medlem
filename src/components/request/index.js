@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useContext, useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { BASE_URL } from '../../js/config'
@@ -21,7 +21,6 @@ const request = config => {
 }
 
 // Aliases for the different request methods
-
 export const get = (endpoint, config = {}) =>
   request({ ...config, method: 'get', endpoint })
 export const del = (endpoint, config = {}) =>
@@ -92,6 +91,33 @@ const GetWrapper = props => (
     {loading => <Get {...props} setLoading={loading.set} />}
   </LoadingContext.Consumer>
 )
+
+export const useEndpoint = config => {
+  const { endpoint, url } = config
+  const { set: setLoading } = useContext(LoadingContext)
+  const [data, setData] = useState(null)
+  const [error, setError] = useState(null)
+
+  useEffect(
+    () => {
+      request({ ...config, method: 'get' })
+        .then(res => {
+          setError(null)
+          setData(res.data)
+          setLoading(false)
+        })
+        .catch(error => {
+          setData(null)
+          setError(error)
+          setLoading(false)
+        })
+      setLoading(true)
+    },
+    [endpoint, url]
+  )
+
+  return [data, error]
+}
 
 export { GetWrapper as Get }
 
