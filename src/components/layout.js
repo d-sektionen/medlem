@@ -4,11 +4,10 @@ import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
 import Cookies from 'js-cookie'
 
-import { get } from './request/'
+import { get } from './request'
 import '../scss/general.scss'
 import style from '../scss/layout.module.scss'
 
-import Pixels from './pixels'
 import SideMenu from './sideMenu'
 
 import TopBar from './topBar'
@@ -41,8 +40,9 @@ class Layout extends Component {
   componentDidMount() {
     // this needs to be state, otherwise the build version will use the undefined href from SSR.
     this.setState({
-      loginUrl:
-        BASE_URL + '/account/token?redirect=' + this.props.location.href,
+      loginUrl: `${BASE_URL}/account/token?redirect=${
+        this.props.location.href
+      }`,
     })
 
     get('/account/user/me/')
@@ -88,7 +88,7 @@ class Layout extends Component {
   }
 
   render() {
-    let content = this.getContent()
+    const content = this.getContent()
 
     const { loginUrl } = this.state
 

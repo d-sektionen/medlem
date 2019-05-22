@@ -1,25 +1,21 @@
-import React, { Component } from 'react'
+import React, { useContext } from 'react'
 import style from '../scss/layout.module.scss'
 import { LoadingContext } from './layout'
 import Pixels from './pixels'
 
-class Content extends Component {
-  render() {
-    return (
-      <LoadingContext.Consumer>
-        {loading => (
-          <>
-            <div className={style.pixels}>
-              <Pixels loading={loading.status} />
-            </div>
-            <div className={style.container}>
-              <div className={style.content}>{this.props.children}</div>
-            </div>
-          </>
-        )}
-      </LoadingContext.Consumer>
-    )
-  }
+const Content = ({ children }) => {
+  const loading = useContext(LoadingContext)
+
+  return (
+    <>
+      <div className={style.pixels}>
+        <Pixels loading={loading.status} />
+      </div>
+      <div className={style.container}>
+        <div className={style.content}>{children}</div>
+      </div>
+    </>
+  )
 }
 
 export default Content

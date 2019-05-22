@@ -6,7 +6,7 @@ import 'moment/locale/sv'
 
 import 'react-datepicker/dist/react-datepicker.css'
 import style from '../../scss/booking.module.scss'
-import { put, del, Get, post } from '../request/'
+import { put, del, post } from '../request'
 
 moment.locale('sv')
 
@@ -24,7 +24,7 @@ const formatDate = date =>
   })
 
 const BookingInstance = ({ booking, showItem, item }) => {
-  const newBooking = booking == undefined
+  const newBooking = booking === undefined
 
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState(newBooking)
@@ -58,7 +58,7 @@ const BookingInstance = ({ booking, showItem, item }) => {
       })
   }
   const deleteBooking = () => {
-    //if (confirm('Är du säker på att du vill ta bort den?'))
+    // if (confirm('Är du säker på att du vill ta bort den?'))
     del(`/booking/bookings/${booking.id}/`)
       .then(res => {
         console.log(res.data)
@@ -70,7 +70,11 @@ const BookingInstance = ({ booking, showItem, item }) => {
 
   return (
     <li>
-      <div className={style.bookingHeader} onClick={() => setOpen(!open)}>
+      <div
+        className={style.bookingHeader}
+        onClick={() => setOpen(!open)}
+        role="button"
+      >
         {newBooking ? (
           'Ny bokning'
         ) : (

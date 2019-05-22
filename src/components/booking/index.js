@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Get } from '../request/'
+import { Get } from '../request'
 
 import style from '../../scss/booking.module.scss'
 import BookingInstance from './bookingInstance'
@@ -12,8 +12,8 @@ class Booking extends Component {
       onlyMine: false,
     }
   }
+
   render() {
-    const { setLoading } = this.props
     const { item, onlyMine } = this.state
 
     return (
@@ -48,8 +48,8 @@ class Booking extends Component {
                 this.setState({ onlyMine: e.target.checked })
               }}
               value={onlyMine}
-            />{' '}
-            Visa endast mina bokningar.
+            />
+            {' Visa endast mina bokningar.'}
           </label>
         </p>
         <Get

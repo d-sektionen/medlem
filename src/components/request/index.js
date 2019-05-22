@@ -15,7 +15,7 @@ const request = config => {
 
   const token = Cookies.get('token')
   const oldHeaders = config.headers ? config.headers : {}
-  const headers = { ...oldHeaders, Authorization: 'JWT ' + token }
+  const headers = { ...oldHeaders, Authorization: `JWT ${token}` }
 
   return axios({ ...config, headers, url })
 }
@@ -49,17 +49,15 @@ class Get extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.endpoint !== prevProps.endpoint ||
-      this.props.url !== prevProps.url
-    ) {
-      this.fetchData(this.props)
-    }
-  }
-
   componentDidMount() {
     this.fetchData(this.props)
+  }
+
+  componentDidUpdate(prevProps) {
+    const { endpoint, url } = this.props
+    if (endpoint !== prevProps.endpoint || url !== prevProps.url) {
+      this.fetchData(this.props)
+    }
   }
 
   fetchData = ({ endpoint, url, onError, setLoading }) => {
@@ -80,7 +78,7 @@ class Get extends Component {
     const { children, placeholder } = this.props
     const { data } = this.state
 
-    const whileLoading = placeholder ? placeholder : null
+    const whileLoading = placeholder || null
 
     return data ? children(data) : whileLoading
   }
@@ -106,9 +104,9 @@ export const useEndpoint = config => {
           setData(res.data)
           setLoading(false)
         })
-        .catch(error => {
+        .catch(err => {
           setData(null)
-          setError(error)
+          setError(err)
           setLoading(false)
         })
       setLoading(true)

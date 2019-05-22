@@ -47,7 +47,7 @@ class ProfileMenu extends Component {
           <>
             <div>
               <FiUser />
-              {user.first_name + ' ' + user.last_name}
+              {`${user.first_name} ${user.last_name}`}
             </div>
             {open && <div>{user.username}</div>}
           </>

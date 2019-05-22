@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { post } from '../request/'
+import { post } from '../request'
 
 class VoteForm extends Component {
   constructor(props) {
@@ -9,9 +9,11 @@ class VoteForm extends Component {
       checkedId: -1,
     }
 
+    const { onMessage } = this.props
+
     this.onAlternativeChecked = this.onAlternativeChecked.bind(this)
     this.placeVote = this.placeVote.bind(this)
-    this.showMessage = this.props.onMessage
+    this.showMessage = onMessage
   }
 
   onAlternativeChecked(alternativeId) {
@@ -22,16 +24,17 @@ class VoteForm extends Component {
 
   placeVote() {
     const { setLoading, vote } = this.props
+    const { checkedId } = this.state
 
-    const showMessage = this.showMessage
+    const { showMessage } = this
     const voteData = {
       vote_id: vote.id,
-      alternative_id: this.state.checkedId,
+      alternative_id: checkedId,
     }
 
     setLoading(true)
     post('/voting/made_votes/', voteData)
-      .then(res => {
+      .then(() => {
         setLoading(false)
         showMessage('Tack!', 'Din röst har registrerats')
       })
@@ -59,8 +62,8 @@ class VoteForm extends Component {
                   type="radio"
                   checked={checkedId === id}
                   onChange={() => this.onAlternativeChecked(id)}
-                />{' '}
-                {text}
+                />
+                {` ${text}`}
               </label>
             </li>
           ))}

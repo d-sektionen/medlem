@@ -1,6 +1,6 @@
 import React from 'react'
 import { LoadingContext } from '../components/layout'
-import Vote from '../components/vote/'
+import Vote from '../components/vote'
 import Content from '../components/content'
 
 const VotePage = () => (

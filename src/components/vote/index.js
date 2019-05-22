@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import ActiveVote from './activeVote'
-import { Get } from '../request/'
+import { Get } from '../request'
 
 // import style from '../../scss/vote.module.scss'
+
+// TODO: prettify this file
 
 class Vote extends Component {
   constructor(props) {
@@ -18,20 +20,6 @@ class Vote extends Component {
     this.onRequestFailed = this.onRequestFailed.bind(this)
   }
 
-  showMessage(title, content, displayReloadCloseText) {
-    this.setState({
-      displayReloadCloseText: displayReloadCloseText,
-      message: {
-        title: title,
-        content: content,
-      },
-    })
-  }
-
-  closeMessage() {
-    this.setState({ message: null })
-  }
-
   onRequestFailed() {
     this.showMessage(
       'Något gick fel',
@@ -40,11 +28,26 @@ class Vote extends Component {
     )
   }
 
+  closeMessage() {
+    this.setState({ message: null })
+  }
+
+  showMessage(title, content, displayReloadCloseText) {
+    this.setState({
+      displayReloadCloseText,
+      message: {
+        title,
+        content,
+      },
+    })
+  }
+
   render() {
     const { setLoading } = this.props
+    const { message } = this.state
 
-    if (this.state.message !== null) {
-      const { displayReloadCloseText, message } = this.state
+    if (message !== null) {
+      const { displayReloadCloseText } = this.state
       const { title, content } = message
       return (
         <>

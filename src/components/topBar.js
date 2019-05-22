@@ -1,18 +1,13 @@
-import React, { Component } from 'react'
-import style from '../scss/layout.module.scss'
+import React from 'react'
 import { FiMenu } from 'react-icons/fi'
 import ProfileMenu from './profileMenu'
+import style from '../scss/layout.module.scss'
 
-class TopBar extends Component {
-  render() {
-    const { logout, user } = this.props
-    return (
-      <div className={style.topBar}>
-        {user && <FiMenu onClick={this.props.openMenu} />}
-        {user && <ProfileMenu user={user} logout={logout} />}
-      </div>
-    )
-  }
-}
+const TopBar = ({ logout, user, openMenu }) => (
+  <div className={style.topBar}>
+    {user && <FiMenu onClick={openMenu} />}
+    {user && <ProfileMenu user={user} logout={logout} />}
+  </div>
+)
 
 export default TopBar

@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import posed, { PoseGroup } from 'react-pose'
 
+import { FiX, FiGithub } from 'react-icons/fi'
 import { MENU_ITEMS } from '../js/config'
 
 import logo from '../images/round.svg'
 import style from '../scss/sideMenu.module.scss'
-import { FiX, FiGithub } from 'react-icons/fi'
 
 const Menu = posed.div({
   enter: {
@@ -64,9 +64,9 @@ class SideMenu extends Component {
               <div>
                 <FiX onClick={close} className={style.x} />
                 <a className={style.imgWrapper} href="https://d-sektionen.se">
-                  <img src={logo} useMap="circle" />
+                  <img src={logo} alt="" useMap="circle" />
                   <map name="circle">
-                    <area shape="circle" coords="0,100%,100%,100%" />
+                    <area shape="circle" alt="" coords="0,100%,100%,100%" />
                   </map>
                 </a>
               </div>

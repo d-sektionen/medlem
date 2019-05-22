@@ -1,15 +1,10 @@
 import React, { useState } from 'react'
-import { LoadingContext } from '../components/layout'
 import { FiLock, FiUnlock } from 'react-icons/fi'
 import netlight from '../images/netlight.svg'
 
 import style from '../scss/netlight.module.scss'
 import { post } from '../components/request'
 import Content from '../components/content'
-
-const request = mode => {
-  post(`/tools/netlight?mode=${mode}`)
-}
 
 const NetlightPage = () => {
   const [text, setText] = useState(
