@@ -11,8 +11,8 @@ const Cookies = require('js-cookie')
 // Removes token from url if it exists.
 export const onClientEntry = () => {
   const parsedQueryString = qs.parse(window.location.search.slice(1))
-  if (parsedQueryString.token !== undefined) {
-    Cookies.set('token', parsedQueryString.token)
+  if (parsedQueryString.access !== undefined) {
+    Cookies.set('token', parsedQueryString.access)
     // update url in the address bar without refreshing the page.
     window.history.replaceState(
       window.history.state,

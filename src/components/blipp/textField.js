@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import qs from 'querystring'
 import { useEndpoint, post, del } from '../request'
-import useKeyPress from './useKeyPress'
+import useKeyPress from '../useKeyPress'
 
 import style from '../../scss/blipp.module.scss'
 
@@ -28,25 +28,24 @@ const useTextField = onEnter => {
   }
 
   // Add event listeners
-  useEffect(() => {
-    window.addEventListener('keydown', downHandler)
-    // Remove event listeners on cleanup
-    return () => {
-      window.removeEventListener('keydown', downHandler)
-    }
-  }, []) // Empty array ensures that effect is only run on mount and unmount
+  useEffect(
+    () => {
+      window.addEventListener('keydown', downHandler)
+      // Remove event listeners on cleanup
+      return () => {
+        window.removeEventListener('keydown', downHandler)
+      }
+    },
+    [onEnter]
+  ) // Empty array ensures that effect is only run on mount and unmount
 
   return text
 }
 
-const TextField = ({ shiftDown, onSubmit }) => {
+const TextField = ({ onSubmit }) => {
   const text = useTextField(onSubmit)
 
-  return (
-    <p className={`${style.textField} ${shiftDown ? style.shiftDown : ''}`}>
-      {text}
-    </p>
-  )
+  return <div className={style.textField}>{text}</div>
 }
 
 export default TextField

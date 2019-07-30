@@ -1,14 +1,14 @@
 import React from 'react'
 import Blipp from '../components/blipp'
-import useKeyPress from '../components/blipp/useKeyPress'
+import useKeyPress from '../components/useKeyPress'
 import { useEndpoint } from '../components/request'
 
 const BlippPage = () => {
-  const [scanners] = useEndpoint({ endpoint: '/voting/scanners/' })
+  const [events] = useEndpoint({ endpoint: '/checkin/events/' })
   const shiftDown = useKeyPress('Shift')
 
-  return scanners ? (
-    <Blipp scanners={scanners.reverse()} shiftDown={shiftDown} />
+  return events ? (
+    <Blipp events={events.reverse()} shiftDown={shiftDown} />
   ) : null
 }
 

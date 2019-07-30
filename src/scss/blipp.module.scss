@@ -8,12 +8,21 @@
   select {
     background: $very-light-gray;
     border: 3px solid $gray;
-    border-bottom: none;
-    border-radius: 12px 12px 0px 0px;
     padding: $base-padding;
     outline: none;
-    min-width: 50%;
+    min-width: 45%;
     max-width: 90%;
+
+    &:first-of-type {
+      border-bottom: none;
+      border-radius: 12px 12px 0px 0px;
+    }
+    &:last-of-type:not(:first-of-type) {
+      min-width: 30%;
+      float: right;
+      border-top: none;
+      border-radius: 0px 0px 12px 12px;
+    }
   }
 }
 

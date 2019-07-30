@@ -13,6 +13,7 @@ import SideMenu from './sideMenu'
 import TopBar from './topBar'
 import Content from './content'
 import { BASE_URL } from '../js/config'
+import ModalHandler from './modal/modalHandler'
 
 export const LoadingContext = React.createContext({
   status: false,
@@ -21,6 +22,10 @@ export const LoadingContext = React.createContext({
 export const UserContext = React.createContext({})
 
 class Layout extends Component {
+  static logout() {
+    Cookies.remove('token')
+  }
+
   constructor(props) {
     super(props)
 
@@ -38,11 +43,11 @@ class Layout extends Component {
   }
 
   componentDidMount() {
+    const { location } = this.props
+
     // this needs to be state, otherwise the build version will use the undefined href from SSR.
     this.setState({
-      loginUrl: `${BASE_URL}/account/token?redirect=${
-        this.props.location.href
-      }`,
+      loginUrl: `${BASE_URL}/account/token?redirect=${location.href}`,
     })
 
     get('/account/user/me/')
@@ -53,24 +58,16 @@ class Layout extends Component {
     this.setLoading(true)
   }
 
-  success(data) {
-    this.setLoading(false)
-    this.setUser(data)
-    this.setState({ success: true })
-  }
-
-  failure() {
-    this.setLoading(false)
-    this.setState({ success: false })
-  }
-
   getContent() {
-    if (this.state.loading.status && !this.state.success) {
+    const { loading, success } = this.state
+    const { children } = this.props
+
+    if (loading.status && !success) {
       return <></>
     }
 
-    if (this.state.success) {
-      return this.props.children
+    if (success) {
+      return children
     }
 
     return (
@@ -83,8 +80,15 @@ class Layout extends Component {
     )
   }
 
-  static logout() {
-    Cookies.remove('token')
+  success(data) {
+    this.setLoading(false)
+    this.setUser(data)
+    this.setState({ success: true })
+  }
+
+  failure() {
+    this.setLoading(false)
+    this.setState({ success: false })
   }
 
   render() {
@@ -110,50 +114,58 @@ class Layout extends Component {
             <Helmet
               title={data.site.siteMetadata.title}
               meta={[
-                { name: 'description', content: 'Sample' },
-                { name: 'keywords', content: 'sample, something' },
+                {
+                  name: 'description',
+                  content: 'Datateknologsektionens medlemsportal',
+                },
+                {
+                  name: 'keywords',
+                  content: 'medlem, d-sektionen, datateknologsektionen',
+                },
               ]}
             >
-              <html lang="en" />
+              <html lang="sv" />
             </Helmet>
             <LoadingContext.Provider value={this.state.loading}>
               <UserContext.Provider value={this.state.user}>
                 <div className={style.app}>
-                  <div className={style.containerWrapper}>
-                    <SideMenu
-                      open={this.state.sideMenuOpen}
-                      close={() => this.setState({ sideMenuOpen: false })}
-                    />
-                    <TopBar
-                      user={this.state.user.user}
-                      logout={Layout.logout}
-                      openMenu={() => this.setState({ sideMenuOpen: true })}
-                    />
-                    <div className={style.contentWrapper}>
-                      {token !== undefined ? (
-                        content
-                      ) : (
-                        <Content>
-                          <p>
-                            Genom att logga in här kan du komma åt
-                            D&#8209;sektionens medlemstjänster, inloggningen
-                            sker via LiUs centrala inloggningssystem.
-                          </p>
-                          <p>
-                            Genom att logga in godkänner du att dina
-                            personuppgifter hanteras i enlighet med{' '}
-                            <a href="https://d-sektionen.se/wp-content/uploads/2018/05/Policy-datahantering-D-sektionen.pdf">
-                              D&#8209;sektionens datahanteringspolicy
+                  <ModalHandler>
+                    <div className={style.containerWrapper}>
+                      <SideMenu
+                        open={this.state.sideMenuOpen}
+                        close={() => this.setState({ sideMenuOpen: false })}
+                      />
+                      <TopBar
+                        user={this.state.user.user}
+                        logout={Layout.logout}
+                        openMenu={() => this.setState({ sideMenuOpen: true })}
+                      />
+                      <div className={style.contentWrapper}>
+                        {token !== undefined ? (
+                          content
+                        ) : (
+                          <Content>
+                            <p>
+                              Genom att logga in här kan du komma åt
+                              D&#8209;sektionens medlemstjänster, inloggningen
+                              sker via LiUs centrala inloggningssystem.
+                            </p>
+                            <p>
+                              Genom att logga in godkänner du att dina
+                              personuppgifter hanteras i enlighet med{' '}
+                              <a href="https://d-sektionen.se/wp-content/uploads/2018/05/Policy-datahantering-D-sektionen.pdf">
+                                D&#8209;sektionens datahanteringspolicy
+                              </a>
+                              .
+                            </p>
+                            <a href={loginUrl} className="button">
+                              Logga in
                             </a>
-                            .
-                          </p>
-                          <a href={loginUrl} className="button">
-                            Logga in
-                          </a>
-                        </Content>
-                      )}
+                          </Content>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  </ModalHandler>
                 </div>
               </UserContext.Provider>
             </LoadingContext.Provider>

@@ -15,7 +15,7 @@ const request = config => {
 
   const token = Cookies.get('token')
   const oldHeaders = config.headers ? config.headers : {}
-  const headers = { ...oldHeaders, Authorization: `JWT ${token}` }
+  const headers = { ...oldHeaders, Authorization: `Bearer ${token}` }
 
   return axios({ ...config, headers, url })
 }
@@ -37,6 +37,7 @@ export const patch = (endpoint, data = {}, config = {}) =>
   request({ ...config, data, method: 'patch', endpoint })
 
 /**
+ * Note: It's probably better to use the useEndpoint hook.
  * A nice helper component for making get requests to internal endpoints.
  * Will automatically set the layout to the loading state using LoadingContext.
  */

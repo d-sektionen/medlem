@@ -25,7 +25,7 @@ const IndexPage = () => {
       <ul>
         {data &&
           data.map(post => (
-            <li>
+            <li key={post.id}>
               <a href={post.link}>{post.title.rendered}</a>
             </li>
           ))}

@@ -70,8 +70,8 @@ class Preferences extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
-          {user.sections.length !== 0
-            ? `Du är medlem i ${user.sections.map(s => s.name).join(', ')}.`
+          {user.membership
+            ? `Du är sektionsmedlem.`
             : 'Du saknar sektionsmedlemsskap.'}
         </div>
         <div>

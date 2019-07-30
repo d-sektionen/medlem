@@ -1,60 +1,25 @@
 import React, { useState } from 'react'
-import qs from 'querystring'
-import { post, del } from '../request'
-import useKeyPress from './useKeyPress'
+
 import TextField from './textField'
 import style from '../../scss/blipp.module.scss'
 import useFeedback from './useFeedback'
-import { FiCheck, FiX, FiUserCheck, FiUserX } from 'react-icons/fi'
+import registerUser from './registerUser'
 
-const regex = RegExp('^[0-9]+$')
-
-const Blipp = ({ scanners, shiftDown }) => {
-  const [currentMeeting, setCurrentMeeting] = useState(scanners[0])
+const Blipp = ({ events, shiftDown }) => {
+  const [currentEvent, setCurrentEvent] = useState(events[0])
+  const [currentAction, setCurrentAction] = useState(0)
   const [feedback, setFeedback] = useFeedback()
 
-  const registerUser = (identifier, unregister = false) => {
-    const identifierType = regex.test(identifier) ? 'card_id' : 'username'
+  const action = shiftDown
+    ? (currentAction + 1) % currentEvent.actions.length
+    : currentAction
 
-    const request = unregister
-      ? del(
-          `/voting/attendants/?${qs.stringify({
-            meeting: currentMeeting.meeting.id,
-            [identifierType]: identifier,
-          })}`
-        )
-      : post('/voting/attendants/', {
-          meeting: currentMeeting.meeting.id,
-          [identifierType]: identifier,
-        })
-
-    request
-      .then(res => {
-        let feedback = {}
-        if (res.status === 200)
-          feedback = { icon: <FiUserX />, text: `Användare borttagen.` }
-        if (res.status === 201)
-          feedback = {
-            icon: <FiUserCheck />,
-            text: `Användare ${res.data.user.username} tillagd.`,
-          }
-
-        feedback = { icon: <FiCheck />, class: style.success, ...feedback }
-        setFeedback(feedback)
-      })
-      .catch(err => {
-        let feedback = {}
-        if (err.response && err.response.data && err.response.data.error)
-          feedback = { text: err.response.data.error }
-        else feedback = { text: 'Okänt fel.' }
-
-        feedback = { icon: <FiX />, class: style.fail, ...feedback }
-        setFeedback(feedback)
-      })
+  const textFieldOnSubmit = ({ text }) => {
+    registerUser(setFeedback, currentEvent.id, text, action)
   }
 
-  const textFieldOnSubmit = ({ text, shift }) => {
-    registerUser(text, shift)
+  if (!currentEvent) {
+    return 'Du är inte dörrvakt på något evenemang.'
   }
 
   return (
@@ -63,23 +28,39 @@ const Blipp = ({ scanners, shiftDown }) => {
       <div className={style.controlContainer}>
         <select
           onChange={e => {
-            setCurrentMeeting(
-              scanners.filter(
-                scanner => scanner.meeting.id == e.target.value
-              )[0]
+            setCurrentEvent(
+              events.filter(event => `${event.id}` === e.target.value)[0]
             )
           }}
-          value={currentMeeting.meeting.id}
+          value={currentEvent.id}
         >
-          {scanners.map(scanner => (
-            <option key={scanner.meeting.id} value={scanner.meeting.id}>
-              {scanner.meeting.name}
+          {events.map(event => (
+            <option key={event.id} value={event.id}>
+              {event.name}
             </option>
           ))}
         </select>
-        <TextField onSubmit={textFieldOnSubmit} shiftDown={shiftDown} />
+        <TextField onSubmit={textFieldOnSubmit} />
+        {currentEvent.actions.length > 0 && (
+          <select
+            onChange={e => {
+              setCurrentAction(e.target.value)
+            }}
+            value={action}
+            disabled={currentEvent.actions.length < 2}
+          >
+            {currentEvent.actions.map((a, i) => (
+              <option key={a} value={i}>
+                {a}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
-      <p>Håll ner shift för att ta bort en medlem</p>
+
+      {currentEvent.actions.length > 1 && (
+        <p>Håll ner shift för att temporärt byta funktion.</p>
+      )}
 
       <div className={style.feedback}>
         {feedback.icon}
