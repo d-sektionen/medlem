@@ -3,7 +3,7 @@ import qs from 'querystring'
 import { useEndpoint, post, del } from '../request'
 import useKeyPress from '../useKeyPress'
 
-import style from '../../scss/blipp.module.scss'
+import style from '../../scss/checkin.module.scss'
 
 const useTextField = onEnter => {
   // State for keeping track of whether key is pressed

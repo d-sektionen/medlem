@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import MeetingPanel from './meetingPanel'
 
-import style from '../../scss/blipp.module.scss'
+import style from '../../scss/checkin.module.scss'
 import { useEndpoint } from '../request'
-import DoorkeeperPanel from './doorkeeperPanel'
+import DoorkeeperPanel from '../checkin/doorkeeperPanel'
 import VotePanel from './votePanel'
 import AttendantPanel from './attendantPanel'
 
@@ -18,7 +18,7 @@ const VotingAdmin = () => {
       />
       <VotePanel currentMeeting={currentMeeting} />
       <AttendantPanel currentMeeting={currentMeeting} />
-      <DoorkeeperPanel currentMeeting={currentMeeting} />
+      <DoorkeeperPanel event={currentMeeting} />
     </div>
   )
 }

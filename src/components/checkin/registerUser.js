@@ -1,7 +1,7 @@
 import React from 'react'
 import { FiCheck, FiX } from 'react-icons/fi'
 import { post } from '../request'
-import style from '../../scss/blipp.module.scss'
+import style from '../../scss/checkin.module.scss'
 import iconMap from '../iconMap'
 
 export default (setFeedback, eventId, identifier, action) => {

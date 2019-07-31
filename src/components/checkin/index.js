@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
 import TextField from './textField'
-import style from '../../scss/blipp.module.scss'
+import style from '../../scss/checkin.module.scss'
 import useFeedback from './useFeedback'
 import registerUser from './registerUser'
 
-const Blipp = ({ events, shiftDown }) => {
+const Checkin = ({ events, shiftDown }) => {
   const [currentEvent, setCurrentEvent] = useState(events[0])
   const [currentAction, setCurrentAction] = useState(0)
   const [feedback, setFeedback] = useFeedback()
@@ -70,4 +70,4 @@ const Blipp = ({ events, shiftDown }) => {
   )
 }
 
-export default Blipp
+export default Checkin

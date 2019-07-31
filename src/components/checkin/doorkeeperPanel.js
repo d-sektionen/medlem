@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import useRestEndpoint from '../request/useRestEndpoint'
 
-const DoorkeeperPanel = ({ currentMeeting }) => {
+const DoorkeeperPanel = ({ event }) => {
   const [input, setInput] = useState('')
 
   const [{ list, destroy, create }, doorkeepers] = useRestEndpoint({
@@ -12,10 +12,10 @@ const DoorkeeperPanel = ({ currentMeeting }) => {
 
   useEffect(
     () => {
-      if (currentMeeting) list({ event_id: currentMeeting.id })
+      if (event) list({ event_id: event.id })
       // TODO: handle errors
     },
-    [currentMeeting]
+    [event]
   )
 
   if (doorkeepers === null) return <></>
@@ -30,7 +30,7 @@ const DoorkeeperPanel = ({ currentMeeting }) => {
 
           create({
             user_id: input,
-            event_id: currentMeeting.id,
+            event_id: event.id,
           })
         }}
       >
