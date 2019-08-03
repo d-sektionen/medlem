@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import { FiVideo } from 'react-icons/fi'
 
 import TextField from './textField'
 import style from '../../scss/checkin.module.scss'
 import useFeedback from './useFeedback'
 import registerUser from './registerUser'
+import useModal from '../modal/useModal'
+import QrScanner from './qrScanner'
+import { IconButton } from '../ui/buttons'
 
 const Checkin = ({ events, shiftDown }) => {
   const [currentEvent, setCurrentEvent] = useState(events[0])
@@ -18,6 +22,8 @@ const Checkin = ({ events, shiftDown }) => {
     registerUser(setFeedback, currentEvent.id, text, action)
   }
 
+  const [openModal] = useModal(QrScanner)
+
   if (!currentEvent) {
     return 'Du är inte dörrvakt på något evenemang.'
   }
@@ -25,6 +31,13 @@ const Checkin = ({ events, shiftDown }) => {
   return (
     <div className={`${style.container} ${feedback && feedback.class}`}>
       <h1>Bleep Bloop</h1>
+      <IconButton
+        iconComponent={FiVideo}
+        text="QR"
+        onClick={() =>
+          openModal('QR-registrering', { onSubmit: textFieldOnSubmit })
+        }
+      />
       <div className={style.controlContainer}>
         <select
           onChange={e => {
@@ -63,8 +76,8 @@ const Checkin = ({ events, shiftDown }) => {
       )}
 
       <div className={style.feedback}>
-        {feedback.icon}
-        <p>{feedback.text}</p>
+        {feedback && feedback.icon}
+        <p>{feedback && feedback.text}</p>
       </div>
     </div>
   )

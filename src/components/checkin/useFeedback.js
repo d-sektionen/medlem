@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 export default function useFeedback() {
   // State for keeping track of whether key is pressed
-  const [feedback, setFeedback] = useState({})
+  const [feedback, setFeedback] = useState(null)
 
   let timeout = null
 
@@ -20,7 +20,7 @@ export default function useFeedback() {
     f => {
       clearTimeout(timeout)
       timeout = setTimeout(() => {
-        setFeedback({})
+        setFeedback(null)
       }, 1500)
       setFeedback(f)
     },

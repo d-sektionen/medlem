@@ -15,28 +15,4 @@
 .buttons {
   display: flex;
   justify-content: center;
-
-  > div {
-    height: 8 * $base-padding;
-    width: 8 * $base-padding;
-    background-color: $dark-gray;
-    color: $white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    cursor: pointer;
-    margin: 0 $base-padding / 2;
-
-    > svg {
-      height: 3 * $base-padding;
-      width: 3 * $base-padding;
-      margin-bottom: $base-padding / 2;
-    }
-
-    &:hover {
-      background-color: $dsek-blue;
-    }
-  }
 }
