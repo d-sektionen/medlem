@@ -3,7 +3,7 @@ import style from '../scss/layout.module.scss'
 import { LoadingContext } from './layout'
 import Pixels from './pixels'
 
-const Content = ({ children }) => {
+const BigPixels = ({ children }) => {
   const loading = useContext(LoadingContext)
 
   return (
@@ -11,11 +11,12 @@ const Content = ({ children }) => {
       <div className={style.pixels}>
         <Pixels loading={loading.status} />
       </div>
-      <div className={style.container}>
+      {children}
+      {/* <div className={style.container}>
         <div className={style.content}>{children}</div>
-      </div>
+      </div> */}
     </>
   )
 }
 
-export default Content
+export default BigPixels

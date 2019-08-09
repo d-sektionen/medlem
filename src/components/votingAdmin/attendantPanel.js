@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { FiTrash2 } from 'react-icons/fi'
 import useRestEndpoint from '../request/useRestEndpoint'
+import { List, ListButton, ListItem } from '../ui/list'
 
 const AttendantPanel = ({ currentMeeting }) => {
   const [input, setInput] = useState('')
@@ -29,7 +30,7 @@ const AttendantPanel = ({ currentMeeting }) => {
           setInput('')
 
           create({
-            user_id: input,
+            user_username: input,
             meeting_id: currentMeeting.id,
           })
         }}
@@ -37,18 +38,24 @@ const AttendantPanel = ({ currentMeeting }) => {
         <input value={input} onChange={e => setInput(e.target.value)} />
       </form>
       <p>Röstlängd: {attendants.length}</p>
-      <ul>
+      <List>
         {attendants.map(attendant => (
-          <li key={attendant.id}>
-            {attendant.user.username}
-            <FiTrash2
-              onClick={() =>
-                destroy(attendant.id, { meeting_id: currentMeeting.id })
-              }
-            />
-          </li>
+          <ListItem
+            title={attendant.user.pretty_name}
+            key={attendant.id}
+            buttons={[
+              <ListButton
+                onClick={() =>
+                  destroy(attendant.id, { meeting_id: currentMeeting.id })
+                }
+                iconComponent={FiTrash2}
+                text="Ta bort deltagare"
+                key="remove"
+              />,
+            ]}
+          />
         ))}
-      </ul>
+      </List>
     </div>
   )
 }

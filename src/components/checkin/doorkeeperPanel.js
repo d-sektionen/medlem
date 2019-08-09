@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { FiTrash2 } from 'react-icons/fi'
 import useRestEndpoint from '../request/useRestEndpoint'
+import { List, ListItem, ListButton } from '../ui/list'
 
 const DoorkeeperPanel = ({ event }) => {
   const [input, setInput] = useState('')
@@ -29,21 +30,29 @@ const DoorkeeperPanel = ({ event }) => {
           setInput('')
 
           create({
-            user_id: input,
+            user_username: input,
             event_id: event.id,
           })
         }}
       >
         <input value={input} onChange={e => setInput(e.target.value)} />
       </form>
-      <ul>
+      <List>
         {doorkeepers.map(doorkeeper => (
-          <li key={doorkeeper.id}>
-            {doorkeeper.user.username}
-            <FiTrash2 onClick={() => destroy(doorkeeper.id)} />
-          </li>
+          <ListItem
+            title={doorkeeper.user.pretty_name}
+            key={doorkeeper.id}
+            buttons={[
+              <ListButton
+                onClick={() => destroy(doorkeeper.id)}
+                iconComponent={FiTrash2}
+                text="Ta bort dörrvakt"
+                key="remove"
+              />,
+            ]}
+          />
         ))}
-      </ul>
+      </List>
     </div>
   )
 }

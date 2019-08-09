@@ -11,7 +11,7 @@ import style from '../scss/layout.module.scss'
 import SideMenu from './sideMenu'
 
 import TopBar from './topBar'
-import Content from './content'
+import BigPixels from './bigPixels'
 import { BASE_URL } from '../js/config'
 import ModalHandler from './modal/modalHandler'
 
@@ -71,12 +71,12 @@ class Layout extends Component {
     }
 
     return (
-      <Content>
+      <BigPixels>
         <p>Inloggningen misslyckades, testa igen.</p>
         <a href="#" className="button" onClick={Layout.logout}>
           Logga ut
         </a>
-      </Content>
+      </BigPixels>
     )
   }
 
@@ -144,7 +144,7 @@ class Layout extends Component {
                         {token !== undefined ? (
                           content
                         ) : (
-                          <Content>
+                          <BigPixels>
                             <p>
                               Genom att logga in här kan du komma åt
                               D&#8209;sektionens medlemstjänster, inloggningen
@@ -161,7 +161,7 @@ class Layout extends Component {
                             <a href={loginUrl} className="button">
                               Logga in
                             </a>
-                          </Content>
+                          </BigPixels>
                         )}
                       </div>
                     </div>

@@ -6,20 +6,29 @@ import { useEndpoint } from '../request'
 import DoorkeeperPanel from '../checkin/doorkeeperPanel'
 import VotePanel from './votePanel'
 import AttendantPanel from './attendantPanel'
+import { GridContainer, GridItem } from '../ui/grid'
 
 const VotingAdmin = () => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
 
   return (
-    <div>
-      <MeetingPanel
-        currentMeeting={currentMeeting}
-        setCurrentMeeting={setCurrentMeeting}
-      />
-      <VotePanel currentMeeting={currentMeeting} />
-      <AttendantPanel currentMeeting={currentMeeting} />
-      <DoorkeeperPanel event={currentMeeting} />
-    </div>
+    <GridContainer>
+      <GridItem>
+        <MeetingPanel
+          currentMeeting={currentMeeting}
+          setCurrentMeeting={setCurrentMeeting}
+        />
+      </GridItem>
+      <GridItem>
+        <VotePanel currentMeeting={currentMeeting} />
+      </GridItem>
+      <GridItem>
+        <AttendantPanel currentMeeting={currentMeeting} />
+      </GridItem>
+      <GridItem>
+        <DoorkeeperPanel event={currentMeeting} />
+      </GridItem>
+    </GridContainer>
   )
 }
 

@@ -4,8 +4,9 @@ import netlight from '../images/netlight.svg'
 
 import style from '../scss/netlight.module.scss'
 import { post } from '../components/request'
-import Content from '../components/content'
+import BigPixels from '../components/bigPixels'
 import { IconButton } from '../components/ui/buttons'
+import { GridContainer, GridItem } from '../components/ui/grid'
 
 const NetlightPage = () => {
   const [text, setText] = useState(
@@ -30,22 +31,26 @@ const NetlightPage = () => {
   }
 
   return (
-    <Content>
-      <img className={style.logo} src={netlight} alt="Netlight logo" />
-      <p className={textClass}>{text}</p>
-      <div className={style.buttons}>
-        <IconButton
-          iconComponent={FiLock}
-          text="Lås"
-          onClick={() => request('lock')}
-        />
-        <IconButton
-          iconComponent={FiUnlock}
-          text="Lås upp"
-          onClick={() => request('unlock')}
-        />
-      </div>
-    </Content>
+    <BigPixels>
+      <GridContainer>
+        <GridItem>
+          <img className={style.logo} src={netlight} alt="Netlight logo" />
+          <p className={textClass}>{text}</p>
+          <div className={style.buttons}>
+            <IconButton
+              iconComponent={FiLock}
+              text="Lås"
+              onClick={() => request('lock')}
+            />
+            <IconButton
+              iconComponent={FiUnlock}
+              text="Lås upp"
+              onClick={() => request('unlock')}
+            />
+          </div>
+        </GridItem>
+      </GridContainer>
+    </BigPixels>
   )
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import Content from '../components/content'
+import BigPixels from '../components/bigPixels'
 
-const NotFoundPage = () => <Content>fyra noll fyra</Content>
+const NotFoundPage = () => <BigPixels>fyra noll fyra</BigPixels>
 
 export default NotFoundPage
