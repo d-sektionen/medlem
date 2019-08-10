@@ -4,15 +4,14 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 import React from 'react'
+import qs from 'querystring'
 import Layout from './src/components/layout'
-const qs = require('querystring')
-const Cookies = require('js-cookie')
-
 // Removes token from url if it exists.
 export const onClientEntry = () => {
   const parsedQueryString = qs.parse(window.location.search.slice(1))
+
   if (parsedQueryString.access !== undefined) {
-    Cookies.set('token', parsedQueryString.access)
+    window.localStorage.setItem('token', parsedQueryString.access)
     // update url in the address bar without refreshing the page.
     window.history.replaceState(
       window.history.state,

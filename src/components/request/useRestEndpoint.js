@@ -17,7 +17,7 @@ const appendPK = (config, pk) => {
 }
 
 export default config => {
-  const { set: setLoading } = useContext(LoadingContext)
+  const setLoading = useContext(LoadingContext)[1]
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
 

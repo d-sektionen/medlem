@@ -1,5 +1,4 @@
 import React, { Component, useContext, useState, useEffect } from 'react'
-import Cookies from 'js-cookie'
 import axios from 'axios'
 import { BASE_URL } from '../../js/config'
 import { LoadingContext } from '../layout'
@@ -13,7 +12,7 @@ import { LoadingContext } from '../layout'
 const request = config => {
   const url = config.endpoint ? BASE_URL + config.endpoint : config.url
 
-  const token = Cookies.get('token')
+  const token = window.localStorage.getItem('token')
   const oldHeaders = config.headers ? config.headers : {}
   const headers = { ...oldHeaders, Authorization: `Bearer ${token}` }
 
@@ -93,7 +92,7 @@ const GetWrapper = props => (
 
 export const useEndpoint = config => {
   const { endpoint, url } = config
-  const { set: setLoading } = useContext(LoadingContext)
+  const setLoading = useContext(LoadingContext)[1]
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
 

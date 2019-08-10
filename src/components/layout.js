@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Helmet from 'react-helmet'
-import { StaticQuery, graphql } from 'gatsby'
-import Cookies from 'js-cookie'
+import { Helmet } from 'react-helmet'
+import { graphql, useStaticQuery } from 'gatsby'
 
 import { get } from './request'
 import '../scss/general.scss'
@@ -11,181 +10,141 @@ import style from '../scss/layout.module.scss'
 import SideMenu from './sideMenu'
 
 import TopBar from './topBar'
-import BigPixels from './bigPixels'
 import { BASE_URL } from '../js/config'
 import ModalHandler from './modal/modalHandler'
+import LayoutContent from './layoutContent'
+import { Button } from './ui/buttons'
 
 export const LoadingContext = React.createContext({
   status: false,
   set: () => {},
 })
-export const UserContext = React.createContext({})
+export const UserContext = React.createContext({ user: null, set: () => {} })
 
-class Layout extends Component {
-  static logout() {
-    Cookies.remove('token')
-  }
+const Layout = ({ children, location }) => {
+  const [loginUrl, setLoginUrl] = useState('')
+  const [sideMenuOpen, setSideMenuOpen] = useState(false)
+  const [error, setError] = useState(null)
 
-  constructor(props) {
-    super(props)
+  const loadingContextValue = useState(false)
+  const [loading, setLoading] = loadingContextValue
+  const userContextValue = useState(null)
+  const [user, setUser] = userContextValue
 
-    this.setUser = this.setUser.bind(this)
-    this.setLoading = this.setLoading.bind(this)
-    this.success = this.success.bind(this)
-    this.failure = this.failure.bind(this)
-
-    this.state = {
-      loginUrl: undefined,
-      sideMenuOpen: false,
-      loading: { status: false, set: this.setLoading },
-      user: { user: undefined, set: this.setUser },
+  const { site } = useStaticQuery(graphql`
+    query SiteTitleQuery {
+      site {
+        siteMetadata {
+          title
+        }
+      }
     }
-  }
+  `)
 
-  componentDidMount() {
-    const { location } = this.props
+  useEffect(
+    () => {
+      // this needs to be state, otherwise the build version will use the undefined href from SSR.
+      const { origin, pathname } = location
+      setLoginUrl(`${BASE_URL}/account/token?redirect=${origin}${pathname}`)
 
-    // this needs to be state, otherwise the build version will use the undefined href from SSR.
-    this.setState({
-      loginUrl: `${BASE_URL}/account/token?redirect=${location.href}`,
-    })
+      // Delete the foo parameter.
+    },
+    [location]
+  )
+
+  useEffect(() => {
+    if (!window.localStorage.getItem('token')) return
 
     get('/account/user/me/')
       .then(res => {
-        this.success(res.data)
+        setLoading(false)
+        setUser(res.data)
+        setError(null)
       })
-      .catch(this.failure)
-    this.setLoading(true)
-  }
+      .catch(err => {
+        setLoading(false)
+        setUser(null)
 
-  getContent() {
-    const { loading, success } = this.state
-    const { children } = this.props
+        if (!err.response)
+          setError(
+            <>
+              <p>Kommunikation med servern kunde inte etableras.</p>
+              <Button
+                onClick={() => {
+                  window.location.reload()
+                }}
+              >
+                Ladda om sidan
+              </Button>
+            </>
+          )
+        else if (err.response.status === 401) {
+          setError(
+            <>
+              <p>Inloggningssessionen är ogiltig. Testa att logga in igen.</p>
+              <Button
+                onClick={() => {
+                  window.localStorage.removeItem('token')
+                  setError(null)
+                }}
+              >
+                Logga ut
+              </Button>
+            </>
+          )
+        }
+      })
+    setLoading(true)
+  }, [])
 
-    if (loading.status && !success) {
-      return <></>
-    }
-
-    if (success) {
-      return children
-    }
-
-    return (
-      <BigPixels>
-        <p>Inloggningen misslyckades, testa igen.</p>
-        <a href="#" className="button" onClick={Layout.logout}>
-          Logga ut
-        </a>
-      </BigPixels>
-    )
-  }
-
-  success(data) {
-    this.setLoading(false)
-    this.setUser(data)
-    this.setState({ success: true })
-  }
-
-  failure() {
-    this.setLoading(false)
-    this.setState({ success: false })
-  }
-
-  render() {
-    const content = this.getContent()
-
-    const { loginUrl } = this.state
-
-    const token = Cookies.get('token')
-
-    return (
-      <StaticQuery
-        query={graphql`
-          query SiteTitleQuery {
-            site {
-              siteMetadata {
-                title
-              }
-            }
-          }
-        `}
-        render={data => (
-          <>
-            <Helmet
-              title={data.site.siteMetadata.title}
-              meta={[
-                {
-                  name: 'description',
-                  content: 'Datateknologsektionens medlemsportal',
-                },
-                {
-                  name: 'keywords',
-                  content: 'medlem, d-sektionen, datateknologsektionen',
-                },
-              ]}
-            >
-              <html lang="sv" />
-            </Helmet>
-            <LoadingContext.Provider value={this.state.loading}>
-              <UserContext.Provider value={this.state.user}>
-                <div className={style.app}>
-                  <ModalHandler>
-                    <div className={style.containerWrapper}>
-                      <SideMenu
-                        open={this.state.sideMenuOpen}
-                        close={() => this.setState({ sideMenuOpen: false })}
-                      />
-                      <TopBar
-                        user={this.state.user.user}
-                        logout={Layout.logout}
-                        openMenu={() => this.setState({ sideMenuOpen: true })}
-                      />
-                      <div className={style.contentWrapper}>
-                        {token !== undefined ? (
-                          content
-                        ) : (
-                          <BigPixels>
-                            <p>
-                              Genom att logga in här kan du komma åt
-                              D&#8209;sektionens medlemstjänster, inloggningen
-                              sker via LiUs centrala inloggningssystem.
-                            </p>
-                            <p>
-                              Genom att logga in godkänner du att dina
-                              personuppgifter hanteras i enlighet med{' '}
-                              <a href="https://d-sektionen.se/wp-content/uploads/2018/05/Policy-datahantering-D-sektionen.pdf">
-                                D&#8209;sektionens datahanteringspolicy
-                              </a>
-                              .
-                            </p>
-                            <a href={loginUrl} className="button">
-                              Logga in
-                            </a>
-                          </BigPixels>
-                        )}
-                      </div>
-                    </div>
-                  </ModalHandler>
-                </div>
-              </UserContext.Provider>
-            </LoadingContext.Provider>
-          </>
-        )}
-      />
-    )
-  }
-
-  setLoading(bool) {
-    this.setState({ loading: { status: bool, set: this.setLoading } })
-  }
-
-  setUser(user) {
-    this.setState({ user: { user, set: this.setUser } })
-  }
+  return (
+    <LoadingContext.Provider value={loadingContextValue}>
+      <UserContext.Provider value={userContextValue}>
+        <Helmet
+          title={site.siteMetadata.title}
+          meta={[
+            {
+              name: 'description',
+              content: 'Datateknologsektionens medlemsportal',
+            },
+            {
+              name: 'keywords',
+              content: 'medlem, d-sektionen, datateknologsektionen',
+            },
+          ]}
+        >
+          <html lang="sv" />
+        </Helmet>
+        <div className={style.app}>
+          <ModalHandler>
+            <div className={style.containerWrapper}>
+              <SideMenu
+                open={sideMenuOpen}
+                close={() => setSideMenuOpen(false)}
+              />
+              <TopBar user={user} openMenu={() => setSideMenuOpen(true)} />
+              <LayoutContent
+                loginUrl={loginUrl}
+                error={error}
+                loading={loading}
+                loggedIn={user !== null}
+              >
+                {children}
+              </LayoutContent>
+            </div>
+          </ModalHandler>
+        </div>
+      </UserContext.Provider>
+    </LoadingContext.Provider>
+  )
 }
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  location: PropTypes.shape({
+    origin: PropTypes.string,
+    pathname: PropTypes.string,
+  }).isRequired,
 }
 
 export default Layout

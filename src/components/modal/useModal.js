@@ -2,9 +2,12 @@ import React, { useEffect, useState, useContext } from 'react'
 import ModalContext from './modalContext'
 
 export default function useModal(Component) {
-  const { isOpen, setOpen, setContent, setTitle } = useContext(ModalContext)
+  const { isOpen, setOpen, setContent, setTitle, setOptions } = useContext(
+    ModalContext
+  )
 
-  const open = (title, props = {}) => {
+  const open = (title, props = {}, options = {}) => {
+    setOptions(options)
     setContent(<Component {...props} />)
     setTitle(title)
     setOpen(true)

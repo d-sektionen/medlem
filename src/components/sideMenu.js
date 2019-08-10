@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import posed, { PoseGroup } from 'react-pose'
 
@@ -99,6 +100,11 @@ class SideMenu extends Component {
       </PoseGroup>
     )
   }
+}
+
+SideMenu.propTypes = {
+  close: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
 }
 
 export default SideMenu

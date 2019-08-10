@@ -63,7 +63,10 @@
 
   > div {
     height: 100%;
-    padding: $base-padding;
     overflow-y: auto;
+
+    &:not(.noPadding) {
+      padding: $base-padding;
+    }
   }
 }

@@ -18,8 +18,8 @@ const QR = () => {
   useEffect(
     () => {
       if (data && data.token) {
-        QRCode.toCanvas(canvasRef.current, data.token, { scale: 8 }, error => {
-          if (error) setError(error)
+        QRCode.toCanvas(canvasRef.current, data.token, { scale: 8 }, err => {
+          if (err) setError(err)
         })
       }
     },
@@ -41,10 +41,10 @@ const QR = () => {
         </div>
       )}
       <p>
-        Detta är din QR-kod som kan användas för att identifiera dig vid
+        {`Detta är din QR-kod som kan användas för att identifiera dig vid
         evenemang. Om du inte vill identifiera dig med QR-koden kan du även
         använda dig av ditt LiU-kort. För att göra det kan du lägga till ditt
-        kortnummer i{' '}
+        kortnummer i `}
         <Link to="/preferences" onClick={closeModal}>
           din profil
         </Link>

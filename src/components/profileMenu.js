@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'gatsby'
 import posed, { PoseGroup } from 'react-pose'
 
@@ -9,6 +9,7 @@ import style from '../scss/profileMenu.module.scss'
 import { BASE_URL } from '../js/config'
 import useModal from './modal/useModal'
 import QR from './qr'
+import { UserContext } from './layout'
 
 const Menu = posed.div({
   enter: { height: 'auto' },
@@ -20,9 +21,36 @@ const Top = posed.div({
   expanded: { height: '200%' },
 })
 
-const ProfileMenu = ({ user, logout }) => {
+const LogoutModal = () => {
+  const setUser = useContext(UserContext)[1]
+
+  useEffect(() => {
+    window.localStorage.removeItem('token')
+    setUser(null)
+  }, [])
+
+  return (
+    <iframe
+      title="Log out"
+      src={`${BASE_URL}/account/logout/`}
+      sandbox="allow-scripts"
+      style={{
+        width: '50rem',
+        maxWidth: '100%',
+        height: '30rem',
+        maxHeight: '100%',
+        border: 'none',
+        display: 'block',
+        marginBottom: 0,
+      }}
+    />
+  )
+}
+
+const ProfileMenu = ({ user }) => {
   const [open, setOpen] = useState(false)
   const [openModal] = useModal(QR)
+  const [openLogoutModal] = useModal(LogoutModal)
 
   const toggle = () => {
     setOpen(prevState => !prevState)
@@ -63,7 +91,11 @@ const ProfileMenu = ({ user, logout }) => {
           </Link>
         </li>
         <li>
-          <a href={`${BASE_URL}/account/logout`} onClick={logout}>
+          <a
+            onClick={() =>
+              openLogoutModal('Loggar ut', {}, { noPadding: true })
+            }
+          >
             <FiLogOut />
             Logga ut
           </a>

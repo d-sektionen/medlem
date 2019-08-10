@@ -8,7 +8,7 @@ const IndexPage = () => {
   const [data] = useEndpoint({
     url: 'https://d-sektionen.se/wp-json/wp/v2/posts',
   })
-  const { user } = useContext(UserContext)
+  const [user] = useContext(UserContext)
 
   const greeting = user.first_name ? `Hej ${user.first_name}!` : 'Hej!'
 

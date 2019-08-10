@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
-import style from '../scss/layout.module.scss'
+import PropTypes from 'prop-types'
 import { LoadingContext } from './layout'
 import Pixels from './pixels'
+import style from '../scss/layout.module.scss'
 
 const BigPixels = ({ children }) => {
-  const loading = useContext(LoadingContext)
+  const [loading] = useContext(LoadingContext)
 
   return (
     <>
@@ -17,6 +18,14 @@ const BigPixels = ({ children }) => {
       </div> */}
     </>
   )
+}
+
+BigPixels.defaultProps = {
+  children: undefined,
+}
+
+BigPixels.propTypes = {
+  children: PropTypes.node,
 }
 
 export default BigPixels

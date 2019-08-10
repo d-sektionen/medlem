@@ -21,8 +21,10 @@ const ModalWrapper = posed.div({
   exit: { transition: { duration: 100 }, scale: 0 },
 })
 
-const Modal = ({ children, title, isOpen, setOpen }) => {
+const Modal = ({ children, title, isOpen, options, setOpen }) => {
   const close = () => setOpen(false)
+
+  const { noPadding } = options
 
   useEffect(
     () => {
@@ -63,7 +65,7 @@ const Modal = ({ children, title, isOpen, setOpen }) => {
               <h2>{title}</h2>
               <FiX onClick={close} />
             </header>
-            <div>{children}</div>
+            <div className={noPadding && style.noPadding}>{children}</div>
           </div>
         </ModalWrapper>
       )}
