@@ -1,15 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import '../scss/general.scss'
-import style from '../scss/layout.module.scss'
+import style from '../../scss/layout.module.scss'
 
 import BigPixels from './bigPixels'
-import { GridContainer, GridItem } from './ui/grid'
+import { GridContainer, GridItem } from '../ui/grid'
+import { Button } from '../ui/buttons'
 
-const LayoutContent = ({ children, loggedIn, loading, error, loginUrl }) => (
+const LayoutContent = ({
+  children,
+  loggedIn,
+  loading,
+  error,
+  loginUrl,
+  hasPrivileges,
+}) => (
   <div className={style.contentWrapper}>
-    {loggedIn && children}
+    {loggedIn && hasPrivileges && children}
+    {loggedIn && !hasPrivileges && (
+      <BigPixels>
+        <GridContainer>
+          <GridItem>
+            <p>
+              Ditt konto saknar privilegierna att se denna sida. Kontakta
+              webmaster om du anser att detta är fel.
+            </p>
+          </GridItem>
+        </GridContainer>
+      </BigPixels>
+    )}
     {!loggedIn && loading && <BigPixels />}
     {!loggedIn && !loading && (
       <BigPixels>
@@ -31,9 +50,9 @@ const LayoutContent = ({ children, loggedIn, loading, error, loginUrl }) => (
                   </a>
                   .
                 </p>
-                <a href={loginUrl} className="button">
-                  Logga in
-                </a>
+                <p>
+                  <Button href={loginUrl}>Logga in med LiU-id</Button>
+                </p>
               </>
             )}
           </GridItem>
@@ -45,6 +64,7 @@ const LayoutContent = ({ children, loggedIn, loading, error, loginUrl }) => (
 
 LayoutContent.defaultProps = {
   error: undefined,
+  hasPrivileges: true,
 }
 
 LayoutContent.propTypes = {
@@ -53,6 +73,7 @@ LayoutContent.propTypes = {
   loading: PropTypes.bool.isRequired,
   error: PropTypes.node,
   loginUrl: PropTypes.string.isRequired,
+  hasPrivileges: PropTypes.bool,
 }
 
 export default LayoutContent

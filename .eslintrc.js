@@ -4,7 +4,7 @@ module.exports = {
   parser: 'babel-eslint',
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'react/forbid-prop-types': 0,
+    //'react/forbid-prop-types': 0,
     'no-bitwise': 0,
   },
   env: {

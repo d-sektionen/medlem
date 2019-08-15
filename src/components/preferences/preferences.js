@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import { put, patch } from './request/'
+import { put, patch } from '../request'
 
-import style from '../scss/preferences.module.scss'
+import style from '../../scss/preferences.module.scss'
 
 class Preferences extends Component {
   constructor(props) {

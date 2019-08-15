@@ -1,5 +1,5 @@
 import React from 'react'
-import Attendance from '../components/attendance'
+import Attendance from '.'
 
 const AttendancePage = () => <Attendance />
 

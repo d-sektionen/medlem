@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { GridContainer, GridItem } from '../ui/grid'
-import BigPixels from '../bigPixels'
+import BigPixels from '../layout/bigPixels'
 import ItemPanel from './itemPanel'
 import BookingPanel from './bookingPanel'
 import useRestEndpoint from '../request/useRestEndpoint'

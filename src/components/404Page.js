@@ -1,6 +1,6 @@
 import React from 'react'
-import BigPixels from '../components/bigPixels'
-import { GridContainer, GridItem } from '../components/ui/grid'
+import BigPixels from './layout/bigPixels'
+import { GridContainer, GridItem } from './ui/grid'
 
 const NotFoundPage = () => (
   <BigPixels>

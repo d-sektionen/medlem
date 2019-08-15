@@ -6,6 +6,7 @@
   "dependencies": {
     "@zxing/library": "^0.15.1",
     "axios": "^0.19.0",
+    "dotenv": "^8.0.0",
     "frappe-charts": "^1.2.4",
     "gatsby": "^2.1.33",
     "gatsby-image": "^2.0.20",

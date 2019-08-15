@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import { UserContext, LoadingContext } from '../components/layout'
-import Preferences from '../components/preferences'
-import BigPixels from '../components/bigPixels'
-import { GridContainer, GridItem } from '../components/ui/grid'
+import { UserContext, LoadingContext } from '../layout/layout'
+import Preferences from './preferences'
+import BigPixels from '../layout/bigPixels'
+import { GridContainer, GridItem } from '../ui/grid'
 
 const PreferencesPage = () => {
   const setLoading = useContext(LoadingContext)[1]

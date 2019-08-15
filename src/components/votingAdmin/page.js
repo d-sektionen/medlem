@@ -1,5 +1,5 @@
 import React from 'react'
-import VotingAdmin from '../components/votingAdmin/'
+import VotingAdmin from '.'
 
 const VotingAdminPage = () => <VotingAdmin />
 

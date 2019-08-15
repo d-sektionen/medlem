@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import moment from 'moment'
 import 'moment/locale/sv'
 
@@ -8,6 +8,7 @@ import { FiTrash2, FiInfo, FiEdit } from 'react-icons/fi'
 import EditBooking from './editBooking'
 import useModal from '../modal/useModal'
 import ViewBooking from './viewBooking'
+import { UserContext } from '../layout/layout'
 
 moment.locale('sv')
 
@@ -18,6 +19,8 @@ const BookingPanel = ({
   updateBooking,
   destroyBooking,
 }) => {
+  const [user] = useContext(UserContext)
+
   const [onlyMine, setOnlyMine] = useState(false)
 
   const [openEditBooking] = useModal(EditBooking)
@@ -68,6 +71,10 @@ const BookingPanel = ({
                 ).calendar()}`}
                 buttons={[
                   <ListButton
+                    shown={
+                      booking.user.username === user.username ||
+                      user.privileges.booking_admin
+                    }
                     iconComponent={FiTrash2}
                     text="Ta bort bokning"
                     onClick={() => {
@@ -76,14 +83,10 @@ const BookingPanel = ({
                     key="delete"
                   />,
                   <ListButton
-                    iconComponent={FiInfo}
-                    text="Mer information"
-                    onClick={() => {
-                      openViewBooking('Bokningsinformation', { booking })
-                    }}
-                    key="info"
-                  />,
-                  <ListButton
+                    shown={
+                      booking.user.username === user.username ||
+                      user.privileges.booking_admin
+                    }
                     iconComponent={FiEdit}
                     text="Redigera"
                     onClick={() => {
@@ -93,6 +96,14 @@ const BookingPanel = ({
                       )
                     }}
                     key="edit"
+                  />,
+                  <ListButton
+                    iconComponent={FiInfo}
+                    text="Mer information"
+                    onClick={() => {
+                      openViewBooking('Bokningsinformation', { booking })
+                    }}
+                    key="info"
                   />,
                 ]}
                 key={booking.id}

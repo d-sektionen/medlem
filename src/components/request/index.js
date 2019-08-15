@@ -1,7 +1,7 @@
 import React, { Component, useContext, useState, useEffect } from 'react'
 import axios from 'axios'
-import { BASE_URL } from '../../js/config'
-import { LoadingContext } from '../layout'
+import { BASE_URL } from '../../config'
+import { LoadingContext } from '../layout/layout'
 
 /**
  * A wrapper of axios which automatically handles JWT and base url

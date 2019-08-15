@@ -1,5 +1,5 @@
 import React from 'react'
-import Booking from '../components/booking'
+import Booking from '.'
 
 const BookingPage = () => <Booking />
 

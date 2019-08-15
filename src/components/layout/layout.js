@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
-import { graphql, useStaticQuery } from 'gatsby'
 
-import { get } from './request'
-import '../scss/general.scss'
-import style from '../scss/layout.module.scss'
+import { get } from '../request'
+import '../../scss/general.scss'
+import style from '../../scss/layout.module.scss'
 
 import SideMenu from './sideMenu'
 
 import TopBar from './topBar'
-import { BASE_URL } from '../js/config'
-import ModalHandler from './modal/modalHandler'
+import { BASE_URL, TITLE } from '../../config'
+import ModalHandler from '../modal/modalHandler'
 import LayoutContent from './layoutContent'
-import { Button } from './ui/buttons'
+import { Button } from '../ui/buttons'
 
 export const LoadingContext = React.createContext({
   status: false,
@@ -21,7 +20,7 @@ export const LoadingContext = React.createContext({
 })
 export const UserContext = React.createContext({ user: null, set: () => {} })
 
-const Layout = ({ children, location }) => {
+const Layout = ({ children, location, pageContext }) => {
   const [loginUrl, setLoginUrl] = useState('')
   const [sideMenuOpen, setSideMenuOpen] = useState(false)
   const [error, setError] = useState(null)
@@ -30,16 +29,6 @@ const Layout = ({ children, location }) => {
   const [loading, setLoading] = loadingContextValue
   const userContextValue = useState(null)
   const [user, setUser] = userContextValue
-
-  const { site } = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
 
   useEffect(
     () => {
@@ -101,15 +90,19 @@ const Layout = ({ children, location }) => {
     <LoadingContext.Provider value={loadingContextValue}>
       <UserContext.Provider value={userContextValue}>
         <Helmet
-          title={site.siteMetadata.title}
+          title={`${pageContext.title} – ${TITLE}`}
           meta={[
             {
               name: 'description',
-              content: 'Datateknologsektionens medlemsportal',
+              content: `${
+                pageContext.title
+              } på Datateknologsektionens medlemsportal`,
             },
             {
               name: 'keywords',
-              content: 'medlem, d-sektionen, datateknologsektionen',
+              content: `${
+                pageContext.title
+              }, medlem, d-sektionen, datateknologsektionen`,
             },
           ]}
         >
@@ -118,16 +111,25 @@ const Layout = ({ children, location }) => {
         <div className={style.app}>
           <ModalHandler>
             <div className={style.containerWrapper}>
-              <SideMenu
-                open={sideMenuOpen}
-                close={() => setSideMenuOpen(false)}
-              />
-              <TopBar user={user} openMenu={() => setSideMenuOpen(true)} />
+              {user && (
+                <SideMenu
+                  open={sideMenuOpen}
+                  close={() => setSideMenuOpen(false)}
+                />
+              )}
+              {user && (
+                <TopBar user={user} openMenu={() => setSideMenuOpen(true)} />
+              )}
               <LayoutContent
                 loginUrl={loginUrl}
                 error={error}
                 loading={loading}
                 loggedIn={user !== null}
+                hasPrivileges={
+                  pageContext.requiredPrivileges &&
+                  user &&
+                  user.privileges[pageContext.requiredPrivileges]
+                }
               >
                 {children}
               </LayoutContent>
@@ -144,6 +146,10 @@ Layout.propTypes = {
   location: PropTypes.shape({
     origin: PropTypes.string,
     pathname: PropTypes.string,
+  }).isRequired,
+  pageContext: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    requiredPrivileges: PropTypes.string,
   }).isRequired,
 }
 

@@ -2,9 +2,6 @@ const pathPrefix = '/'
 
 module.exports = {
   pathPrefix,
-  siteMetadata: {
-    title: 'Medlem D-sektionen',
-  },
   plugins: [
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sass',

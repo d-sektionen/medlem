@@ -14,10 +14,17 @@ const ListItem = ({ title, subtitle, buttons }) => (
   </li>
 )
 
-const ListButton = ({ onClick, iconComponent: Icon, text }) => (
-  <button type="button" onClick={onClick} title={text}>
-    <Icon />
-  </button>
-)
+const ListButton = ({ onClick, iconComponent: Icon, text, shown }) =>
+  shown ? (
+    <button type="button" onClick={onClick} title={text}>
+      <Icon />
+    </button>
+  ) : (
+    <></>
+  )
+
+ListButton.defaultProps = {
+  shown: true,
+}
 
 export { List, ListItem, ListButton }

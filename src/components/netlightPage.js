@@ -3,10 +3,10 @@ import { FiLock, FiUnlock } from 'react-icons/fi'
 import netlight from '../images/netlight.svg'
 
 import style from '../scss/netlight.module.scss'
-import { post } from '../components/request'
-import BigPixels from '../components/bigPixels'
-import { IconButton } from '../components/ui/buttons'
-import { GridContainer, GridItem } from '../components/ui/grid'
+import { post } from './request'
+import BigPixels from './layout/bigPixels'
+import { IconButton } from './ui/buttons'
+import { GridContainer, GridItem } from './ui/grid'
 
 const NetlightPage = () => {
   const [text, setText] = useState(

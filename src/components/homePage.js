@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import { UserContext } from '../components/layout'
-import { useEndpoint } from '../components/request'
-import BigPixels from '../components/bigPixels'
-import { GridContainer, GridItem } from '../components/ui/grid'
+import { UserContext } from './layout/layout'
+import { useEndpoint } from './request'
+import BigPixels from './layout/bigPixels'
+import { GridContainer, GridItem } from './ui/grid'
 
 const IndexPage = () => {
   const [data] = useEndpoint({

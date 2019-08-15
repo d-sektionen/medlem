@@ -5,9 +5,9 @@ import posed, { PoseGroup } from 'react-pose'
 import { FiLogOut, FiUser, FiSettings } from 'react-icons/fi'
 import { IoMdQrScanner } from 'react-icons/io'
 
-import style from '../scss/profileMenu.module.scss'
-import { BASE_URL } from '../js/config'
-import useModal from './modal/useModal'
+import style from '../../scss/profileMenu.module.scss'
+import { BASE_URL } from '../../config'
+import useModal from '../modal/useModal'
 import QR from './qr'
 import { UserContext } from './layout'
 

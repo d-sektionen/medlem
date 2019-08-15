@@ -4,7 +4,7 @@ import AttendantPanel from './attendantPanel'
 
 import DoorkeeperPanel from '../checkin/doorkeeperPanel'
 import { GridContainer, GridItem } from '../ui/grid'
-import BigPixels from '../bigPixels'
+import BigPixels from '../layout/bigPixels'
 
 const Attendance = () => {
   const [currentOccurrence, setCurrentOccurrence] = useState(null)

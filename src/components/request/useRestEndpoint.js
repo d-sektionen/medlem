@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react'
 
-import { LoadingContext } from '../layout'
+import { LoadingContext } from '../layout/layout'
 import request from '.'
 
 const objHasProperty = (...args) =>
@@ -38,7 +38,6 @@ export default config => {
         return Promise.resolve(res)
       })
       .catch(err => {
-        setData(null)
         setError(err)
         setLoading(false)
         return Promise.reject(err)
@@ -55,7 +54,6 @@ export default config => {
         return Promise.resolve(res)
       })
       .catch(err => {
-        setData(null)
         setError(err)
         setLoading(false)
         return Promise.reject(err)
@@ -75,7 +73,6 @@ export default config => {
         return Promise.resolve(res)
       })
       .catch(err => {
-        setData(null)
         setError(err)
         setLoading(false)
         return Promise.reject(err)
@@ -102,7 +99,6 @@ export default config => {
         return Promise.resolve(res)
       })
       .catch(err => {
-        setData(null)
         setError(err)
         setLoading(false)
         return Promise.reject(err)
@@ -120,7 +116,6 @@ export default config => {
         return Promise.resolve(res)
       })
       .catch(err => {
-        setData(null)
         setError(err)
         setLoading(false)
         return Promise.reject(err)

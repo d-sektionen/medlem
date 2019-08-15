@@ -2,9 +2,9 @@ import React, { useRef, useEffect, useState } from 'react'
 import QRCode from 'qrcode'
 import { Link } from 'gatsby'
 
-import { useEndpoint } from './request'
-import style from '../scss/qr.module.scss'
-import { useCloseModal } from './modal/useModal'
+import { useEndpoint } from '../request'
+import style from '../../scss/qr.module.scss'
+import { useCloseModal } from '../modal/useModal'
 
 const QR = () => {
   const [data] = useEndpoint({

@@ -5,7 +5,8 @@
  */
 import React from 'react'
 import qs from 'querystring'
-import Layout from './src/components/layout'
+import Layout from './src/components/layout/layout'
+
 // Removes token from url if it exists.
 export const onClientEntry = () => {
   const parsedQueryString = qs.parse(window.location.search.slice(1))

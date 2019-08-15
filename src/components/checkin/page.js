@@ -1,7 +1,7 @@
 import React from 'react'
-import Checkin from '../components/checkin'
-import useKeyPress from '../components/useKeyPress'
-import { useEndpoint } from '../components/request'
+import Checkin from '.'
+import useKeyPress from '../useKeyPress'
+import { useEndpoint } from '../request'
 
 const CheckinPage = () => {
   const [events] = useEndpoint({ endpoint: '/checkin/events/' })
