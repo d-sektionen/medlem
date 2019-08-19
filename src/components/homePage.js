@@ -3,6 +3,7 @@ import { UserContext } from './layout/layout'
 import { useEndpoint } from './request'
 import BigPixels from './layout/bigPixels'
 import { GridContainer, GridItem } from './ui/grid'
+import MembershipPanel from './membershipPanel'
 
 const IndexPage = () => {
   const [data] = useEndpoint({
@@ -15,6 +16,11 @@ const IndexPage = () => {
   return (
     <BigPixels>
       <GridContainer>
+        {!user.membership && (
+          <GridItem>
+            <MembershipPanel />
+          </GridItem>
+        )}
         <GridItem>
           <h1>{greeting}</h1>
           <p>

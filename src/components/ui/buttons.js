@@ -12,7 +12,7 @@ const IconButton = ({ onClick, iconComponent: Icon, text }) => {
   )
 }
 
-const Button = ({ onClick, href, children }) => {
+const Button = ({ onClick, href, children, type }) => {
   if (href)
     return (
       <a className={style.button} href={href} onClick={onClick}>
@@ -21,10 +21,14 @@ const Button = ({ onClick, href, children }) => {
     )
 
   return (
-    <button className={style.button} type="button" onClick={onClick}>
+    <button className={style.button} type={type} onClick={onClick}>
       {children}
     </button>
   )
+}
+
+Button.defaultProps = {
+  type: 'button',
 }
 
 export { IconButton, Button }

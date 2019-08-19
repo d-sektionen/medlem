@@ -17,6 +17,7 @@ module.exports.BASE_URL = process.env.BASE_URL || 'https://api.d-sektionen.se'
 module.exports.TITLE = 'Medlem D-sektionen'
 
 module.exports.PAGES = [
+  // TODO: Add alternative paths (redirects)
   {
     path: '/404',
     title: 'Sidan kunde inte hittas',
@@ -38,12 +39,14 @@ module.exports.PAGES = [
   {
     path: '/vote',
     title: 'Rösta',
+    requiredPrivileges: 'member',
     menu: true,
     component: './src/components/vote/page.js',
   },
   {
     path: '/netlight',
     title: 'Netlight',
+    requiredPrivileges: 'member',
     menu: true,
     component: './src/components/netlightPage.js',
   },

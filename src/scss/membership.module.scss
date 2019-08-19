@@ -1,0 +1,15 @@
+@import 'vars';
+
+.inputLabel {
+  margin: 1rem 0;
+  display: block;
+
+  input,
+  textarea,
+  select {
+    display: block;
+    border: 1px #ddd solid;
+    padding: 0.5rem;
+    width: 100%;
+  }
+}
