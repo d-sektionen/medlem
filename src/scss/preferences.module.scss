@@ -1,12 +1,19 @@
+@import 'vars';
+
 .inputLabel {
   margin: 1rem 0;
   display: block;
 
   input {
-    display: block;
-    border: 1px #DDD solid;
-    padding: .5rem;
-    width: 100%;
+    border: 1px #ddd solid;
+    padding: 0.5rem;
+    &:not([type='checkbox']) {
+      display: block;
+      width: 100%;
+    }
+    &[type='checkbox'] {
+      margin-left: $base-padding;
+    }
   }
 }
 
@@ -16,12 +23,12 @@
 
 .error {
   color: red;
-  font-size: .8em;
+  font-size: 0.8em;
   margin: 1rem 0;
 }
 
 .success {
   color: green;
-  font-size: .8em;
+  font-size: 0.8em;
   margin: 1rem 0;
 }

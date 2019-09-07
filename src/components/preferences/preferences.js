@@ -11,6 +11,7 @@ class Preferences extends Component {
     if (!props.user.profile) props.user.profile = {}
 
     this.state = {
+      infomailSubscriber: props.user.profile.infomail_subscriber,
       liuCardId: props.user.profile.liu_card_id,
       firstName: props.user.first_name,
       lastName: props.user.last_name,
@@ -21,8 +22,9 @@ class Preferences extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleChange(field, event) {
-    this.setState({ [field]: event.target.value })
+  handleChange(field, event, checkbox = false) {
+    if (checkbox) this.setState({ [field]: event.target.checked })
+    else this.setState({ [field]: event.target.value })
   }
 
   handleSubmit(event) {
@@ -37,6 +39,7 @@ class Preferences extends Component {
       last_name: this.state.lastName,
       profile: {
         liu_card_id: this.state.liuCardId,
+        infomail_subscriber: this.state.infomailSubscriber,
       },
     })
       .then(res => {
@@ -63,6 +66,7 @@ class Preferences extends Component {
       firstName,
       lastName,
       liuCardId,
+      infomailSubscriber,
       errors,
       error,
       success,
@@ -108,6 +112,21 @@ class Preferences extends Component {
           </label>
           {errors.profile && errors.profile.liu_card_id && (
             <div className={style.error}>{errors.profile.liu_card_id}</div>
+          )}
+        </div>
+        <div>
+          <label className={style.inputLabel}>
+            Prenumerera på veckomailet:
+            <input
+              type="checkbox"
+              checked={infomailSubscriber}
+              onChange={e => this.handleChange('infomailSubscriber', e, true)}
+            />
+          </label>
+          {errors.profile && errors.profile.infomail_subscriber && (
+            <div className={style.error}>
+              {errors.profile.infomail_subscriber}
+            </div>
           )}
         </div>
         <div>
