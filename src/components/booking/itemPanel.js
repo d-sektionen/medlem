@@ -5,6 +5,7 @@ import style from '../../scss/booking.module.scss'
 import { Button } from '../ui/buttons'
 import useModal from '../modal/useModal'
 import EditBooking from './editBooking'
+import BookingCalendar from './bookingCalendar'
 
 const ItemPanel = ({ item, setItem, createBooking }) => {
   const [items] = useEndpoint({ endpoint: '/booking/items/' })
@@ -30,7 +31,12 @@ const ItemPanel = ({ item, setItem, createBooking }) => {
           ))}
       </select>
 
-      {item && <p>{item.description}</p>}
+      {item && (
+        <div>
+          <p>{item.description}</p>
+          <BookingCalendar itemId={item.id} />
+        </div>
+      )}
 
       {item ? (
         <Button
