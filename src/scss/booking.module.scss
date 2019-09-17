@@ -20,3 +20,9 @@
     background: $very-light-gray;
   }
 }
+
+.description {
+  width: 100%;
+  resize: vertical;
+  min-height: 4rem;
+}

@@ -1,8 +1,13 @@
-import React, { useState } from 'react'
-import DatePicker from 'react-datepicker'
+import React, { useState, useContext } from 'react'
 
-import 'react-datepicker/dist/react-datepicker.css'
+import moment from 'moment'
+import 'moment/locale/sv'
+
 import { Button } from '../ui/buttons'
+import DateTimePicker from '../form/dateTimePicker'
+import { UserContext } from '../layout/layout'
+
+import style from '../../scss/booking.module.scss'
 
 function newNiceDate(hourOffset = 0) {
   const date = new Date()
@@ -17,11 +22,15 @@ function newNiceDate(hourOffset = 0) {
 const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
   const newBooking = booking === undefined
 
+  const [user] = useContext(UserContext)
+
   const [description, setDescription] = useState(
     booking ? booking.description : ''
   )
   const [start, setStart] = useState(booking ? booking.start : newNiceDate())
   const [end, setEnd] = useState(booking ? booking.end : newNiceDate(2))
+
+  const name = booking ? booking.user.pretty_name : user.pretty_name
 
   const saveBooking = () => {
     const request = newBooking
@@ -49,40 +58,18 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
 
   return (
     <>
-      <p>Bokning av {item.name}.</p>
+      <p>{`Bokning av ${item.name} för ${name}.`}</p>
       <div>
-        <DatePicker
-          selectsStart
-          selected={start}
-          startDate={start}
-          endDate={end}
-          onChange={date => setStart(date)}
-          minDate={new Date()}
-          maxDate={end}
-          showTimeSelect
-          timeFormat="HH:mm"
-          timeIntervals={15}
-          dateFormat="MMMM d, yyyy h:mm aa"
-          timeCaption="time"
-        />
-        <DatePicker
-          selectsEnd
-          selected={end}
-          startDate={start}
-          endDate={end}
-          onChange={date => setEnd(date)}
-          minDate={start}
-          showTimeSelect
-          timeFormat="HH:mm"
-          timeIntervals={15}
-          dateFormat="MMMM d, yyyy h:mm aa"
-          timeCaption="time"
+        <DateTimePicker value={moment(start)} onChange={setStart} />
+        <DateTimePicker value={moment(end)} onChange={setEnd} />
+      </div>
+      <div>
+        <textarea
+          className={style.description}
+          value={description}
+          onChange={e => setDescription(e.target.value)}
         />
       </div>
-      <textarea
-        value={description}
-        onChange={e => setDescription(e.target.value)}
-      />
       <Button onClick={saveBooking}>Save</Button>
     </>
   )

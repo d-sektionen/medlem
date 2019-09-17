@@ -14,7 +14,9 @@ const formatDate = date =>
 
 const ViewBooking = ({ booking }) => (
   <>
-    <p>Bokning av {booking.item.name}.</p>
+    <p>
+      Bokning av {booking.item.name} för {booking.user.pretty_name}.
+    </p>
     <p>
       {moment(booking.start).to(booking.end, true)}
       {', '}
