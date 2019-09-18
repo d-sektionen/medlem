@@ -26,7 +26,7 @@ const DateTimePicker = ({ value, onChange }) => {
           const timeString = e.target.value
           const hour = parseInt(timeString.slice(0, 2), 10)
           const minute = parseInt(timeString.slice(3, 5), 10)
-          if (hour && minute) {
+          if (!Number.isNaN(hour) && !Number.isNaN(minute)) {
             const newValue = moment(value).set({ hour, minute })
             onChange(newValue)
           }

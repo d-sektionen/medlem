@@ -30,6 +30,8 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
   const [start, setStart] = useState(booking ? booking.start : newNiceDate())
   const [end, setEnd] = useState(booking ? booking.end : newNiceDate(2))
 
+  const [errors, setErrors] = useState({})
+
   const name = booking ? booking.user.pretty_name : user.pretty_name
 
   const saveBooking = () => {
@@ -52,7 +54,8 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
         console.log(res.data)
       })
       .catch(err => {
-        console.log(err.response.data)
+        setErrors(err.response.data)
+        // console.log(err.response.data)
       })
   }
 
@@ -60,16 +63,20 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
     <>
       <p>{`Bokning av ${item.name} för ${name}.`}</p>
       <div>
+        <div>{errors.start}</div>
         <DateTimePicker value={moment(start)} onChange={setStart} />
+        <div>{errors.end}</div>
         <DateTimePicker value={moment(end)} onChange={setEnd} />
       </div>
       <div>
+        <div>{errors.description}</div>
         <textarea
           className={style.description}
           value={description}
           onChange={e => setDescription(e.target.value)}
         />
       </div>
+      <div>{errors.non_field_errors}</div>
       <Button onClick={saveBooking}>Save</Button>
     </>
   )
