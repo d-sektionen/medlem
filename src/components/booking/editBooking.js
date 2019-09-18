@@ -8,6 +8,7 @@ import DateTimePicker from '../form/dateTimePicker'
 import { UserContext } from '../layout/layout'
 
 import style from '../../scss/booking.module.scss'
+import { useCloseModal } from '../modal/useModal'
 
 function newNiceDate(hourOffset = 0) {
   const date = new Date()
@@ -23,6 +24,7 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
   const newBooking = booking === undefined
 
   const [user] = useContext(UserContext)
+  const close = useCloseModal()
 
   const [description, setDescription] = useState(
     booking ? booking.description : ''
@@ -50,8 +52,8 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
         })
 
     request
-      .then(res => {
-        console.log(res.data)
+      .then(() => {
+        close()
       })
       .catch(err => {
         setErrors(err.response.data)
