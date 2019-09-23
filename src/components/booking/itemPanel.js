@@ -31,21 +31,30 @@ const ItemPanel = ({ item, setItem, createBooking }) => {
           ))}
       </select>
 
-      {item && (
-        <div>
-          <p>{item.description}</p>
-          <BookingCalendar itemId={item.id} />
-        </div>
-      )}
-
       {item ? (
-        <Button
-          onClick={() =>
-            openModal(`Boka ${item.name}`, { item, createBooking })
-          }
-        >
-          Boka {item.name}
-        </Button>
+        <div>
+          <h2>Beskrivning</h2>
+          <p className={style.itemDescription}>{item.description}</p>
+          <h2>Tillgänglighet</h2>
+          <BookingCalendar itemId={item.id} />
+          <h2>Boka</h2>
+          {item.terms && (
+            <p>
+              {`Genom att boka ${item.name} godkänner du `}
+              <a href={item.terms} target="_blank" rel="noopener noreferrer">
+                bokningsavtalet
+              </a>
+              {'.'}
+            </p>
+          )}
+          <Button
+            onClick={() =>
+              openModal(`Boka ${item.name}`, { item, createBooking })
+            }
+          >
+            {`Boka ${item.name}`}
+          </Button>
+        </div>
       ) : (
         <p>Välj ett objekt för att kunna boka.</p>
       )}
