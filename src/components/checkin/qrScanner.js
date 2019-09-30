@@ -19,7 +19,7 @@ const QrScanner = ({ onSubmit }) => {
 
     return () => codeReader.reset()
   }, [])
-  return <video ref={videoElement} muted />
+  return <video ref={videoElement} muted style={{ display: 'block' }} />
 }
 
 export default QrScanner
