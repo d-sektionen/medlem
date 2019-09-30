@@ -6,6 +6,7 @@
 import React from 'react'
 import qs from 'querystring'
 import Layout from './src/components/layout/layout'
+import adapter from 'webrtc-adapter' // for camera api compatability
 
 // Removes token from url if it exists.
 export const onClientEntry = () => {

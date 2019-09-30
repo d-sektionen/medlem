@@ -35,7 +35,11 @@ const Checkin = ({ events, shiftDown }) => {
         iconComponent={FiVideo}
         text="QR"
         onClick={() =>
-          openModal('QR-registrering', { onSubmit: textFieldOnSubmit })
+          openModal(
+            'QR-registrering',
+            { onSubmit: textFieldOnSubmit },
+            { noPadding: true }
+          )
         }
       />
       <div className={style.controlContainer}>
