@@ -64,13 +64,16 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
   return (
     <>
       <p>{`Bokning av ${item.name} för ${name}.`}</p>
-      <div>
+      <div className={style.editForm}>
+        <h3>Startdatum</h3>
         <div>{errors.start}</div>
         <DateTimePicker value={moment(start)} onChange={setStart} />
+
+        <h3>Slutdatum</h3>
         <div>{errors.end}</div>
         <DateTimePicker value={moment(end)} onChange={setEnd} />
-      </div>
-      <div>
+
+        <h3>Ändamål</h3>
         <div>{errors.description}</div>
         <textarea
           className={style.description}
