@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import qs from 'querystring'
 import { useEndpoint, post, del } from '../request'
 import useKeyPress from '../useKeyPress'
 
 import style from '../../scss/checkin.module.scss'
 
-const useTextField = onEnter => {
+const useTextField = (onEnter, elem) => {
   // State for keeping track of whether key is pressed
   const [text, setText] = useState('')
   const regex = RegExp('^[A-Za-z0-9]+$')
@@ -30,22 +30,52 @@ const useTextField = onEnter => {
   // Add event listeners
   useEffect(
     () => {
-      window.addEventListener('keydown', downHandler)
-      // Remove event listeners on cleanup
-      return () => {
-        window.removeEventListener('keydown', downHandler)
+      if (elem) {
+        elem.current.addEventListener('keydown', downHandler)
+        // Remove event listeners on cleanup
+        return () => {
+          elem.current.removeEventListener('keydown', downHandler)
+        }
       }
+      return () => {}
     },
-    [onEnter]
+    [onEnter, elem]
   ) // Empty array ensures that effect is only run on mount and unmount
 
   return text
 }
 
 const TextField = ({ onSubmit }) => {
-  const text = useTextField(onSubmit)
+  const elem = useRef(null)
+  const text = useTextField(onSubmit, elem)
 
-  return <div className={style.textField}>{text}</div>
+  return (
+    <div ref={elem} tabIndex={0} className={style.textField}>
+      {text}
+    </div>
+  )
 }
 
-export default TextField
+const CompatibilityTextField = ({ onSubmit }) => {
+  const [value, setValue] = useState('')
+
+  return (
+    <input
+      className={style.textField}
+      onChange={e => {
+        setValue(e.target.value)
+      }}
+      onKeyDown={e => {
+        if (e.key === 'Enter') {
+          setValue(prev => {
+            if (prev !== '') onSubmit({ text: prev })
+            return ''
+          })
+        }
+      }}
+      value={value}
+    />
+  )
+}
+
+export { TextField, CompatibilityTextField }

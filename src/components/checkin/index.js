@@ -1,18 +1,28 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { FiVideo } from 'react-icons/fi'
 
-import TextField from './textField'
+import { TextField, CompatibilityTextField } from './textField'
 import style from '../../scss/checkin.module.scss'
 import useFeedback from './useFeedback'
 import registerUser from './registerUser'
 import useModal from '../modal/useModal'
 import QrScanner from './qrScanner'
 import { IconButton } from '../ui/buttons'
+import useLocalStorage from '../useLocalStorage'
+import useKeyPress from '../useKeyPress'
 
-const Checkin = ({ events, shiftDown }) => {
+const Checkin = ({ events }) => {
   const [currentEvent, setCurrentEvent] = useState(events[0])
   const [currentAction, setCurrentAction] = useState(0)
   const [feedback, setFeedback] = useFeedback()
+  const [compatibilityMode, setCompatibilityMode] = useLocalStorage(
+    'checkin-compatibility-mode',
+    false
+  )
+  const shift = useKeyPress('Shift')
+
+  // shift feature only available in non compatibility mode.
+  const shiftDown = compatibilityMode ? false : shift
 
   const action = shiftDown
     ? (currentAction + 1) % currentEvent.actions.length
@@ -31,6 +41,14 @@ const Checkin = ({ events, shiftDown }) => {
   return (
     <div className={`${style.container} ${feedback && feedback.class}`}>
       <h1>Bleep Bloop</h1>
+      <label>
+        <input
+          type="checkbox"
+          checked={compatibilityMode}
+          onChange={() => setCompatibilityMode(prev => !prev)}
+        />
+        Kompatibilitetsläge
+      </label>
       <IconButton
         iconComponent={FiVideo}
         text="QR"
@@ -57,11 +75,15 @@ const Checkin = ({ events, shiftDown }) => {
             </option>
           ))}
         </select>
-        <TextField onSubmit={textFieldOnSubmit} />
+        {compatibilityMode ? (
+          <CompatibilityTextField onSubmit={textFieldOnSubmit} />
+        ) : (
+          <TextField onSubmit={textFieldOnSubmit} />
+        )}
         {currentEvent.actions.length > 0 && (
           <select
             onChange={e => {
-              setCurrentAction(e.target.value)
+              setCurrentAction(parseInt(e.target.value, 10))
             }}
             value={action}
             disabled={currentEvent.actions.length < 2}
@@ -75,7 +97,7 @@ const Checkin = ({ events, shiftDown }) => {
         )}
       </div>
 
-      {currentEvent.actions.length > 1 && (
+      {currentEvent.actions.length > 1 && !compatibilityMode && (
         <p>Håll ner shift för att temporärt byta funktion.</p>
       )}
 

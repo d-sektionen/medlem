@@ -24,6 +24,12 @@
       border-radius: 0px 0px 12px 12px;
     }
   }
+  > * {
+    &:focus {
+      outline-width: 0;
+      box-shadow: 0 0 2px 1px $dsek-blue;
+    }
+  }
 }
 
 .fail {
@@ -43,6 +49,10 @@
   line-height: 6rem;
   border-radius: 0px 12px;
   border: 3px solid $gray;
+
+  &:not(:focus) {
+    background: lightpink;
+  }
 }
 
 .shiftDown {
@@ -57,6 +67,14 @@
   flex-grow: 1;
 
   transition: background-color 0.3s ease;
+
+  h1 {
+    margin: 0;
+  }
+
+  > label {
+    margin-bottom: $base-padding;
+  }
 }
 
 .feedback {
