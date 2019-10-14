@@ -23,7 +23,7 @@ const useTextField = (onEnter, elem) => {
       setText(prev => prev.slice(0, -1))
     } else if (regex.test(keyChar)) {
       // console.log(keyCode + ' - ' + key + ' - ' + String.fromCharCode(keyCode))
-      setText(prev => (prev.length > 16 ? prev : `${prev}${keyChar}`))
+      setText(prev => (prev.length > 20 ? prev : `${prev}${keyChar}`))
     }
   }
 
