@@ -43,23 +43,34 @@ const BookingCalendar = ({ itemId }) => {
     endpoint: `/booking/bookings/?item=${itemId}`,
   })
   const [openViewBooking] = useModal(ViewBooking)
-  const [week, setWeek] = useState(moment().week()) // TODO: fix new year
+  const [page, setPage] = useState(moment()) // TODO: fix new year
 
   const now = moment()
 
+  const yearString = page.year() === now.year() ? '' : `, ${page.year()}`
+
   return (
     <div>
-      <div>
-        Vecka {week}
-        <button type="button" onClick={() => setWeek(oldWeek => oldWeek - 1)}>
-          -
-        </button>
-        <button type="button" onClick={() => setWeek(moment().week())}>
-          nu
-        </button>
-        <button type="button" onClick={() => setWeek(oldWeek => oldWeek + 1)}>
-          +
-        </button>
+      <div className={style.controls}>
+        <div>{`Vecka ${page.week()}${yearString}`}</div>
+
+        <div>
+          <button
+            type="button"
+            onClick={() => setPage(oldPage => moment(oldPage.subtract(1, 'w')))}
+          >
+            -
+          </button>
+          <button type="button" onClick={() => setPage(moment())}>
+            nu
+          </button>
+          <button
+            type="button"
+            onClick={() => setPage(oldPage => moment(oldPage.add(1, 'w')))}
+          >
+            +
+          </button>
+        </div>
       </div>
       <svg
         version="1.1"
@@ -71,7 +82,7 @@ const BookingCalendar = ({ itemId }) => {
             .filter(({ start, end }) => {
               const startWeek = moment(start).week()
               const endWeek = moment(end).week()
-              return startWeek === week || endWeek === week
+              return startWeek === page.week() || endWeek === page.week()
             })
             .map(booking => {
               const start = moment(booking.start)
@@ -82,11 +93,11 @@ const BookingCalendar = ({ itemId }) => {
               return (
                 <g className={style.booking} key={booking.id}>
                   {dayParts
-                    .filter(([s]) => {
-                      const startWeek = moment(s).week()
-                      // TODO: fix bookings that belong to multiple weeks.
-                      return startWeek === week
-                    })
+                    .filter(
+                      ([s]) =>
+                        moment(s).week() === page.week() &&
+                        moment(s).year() === page.year()
+                    )
                     .map(([s, e]) => (
                       <rect
                         key={`${booking.id}, ${s.day()}`}
@@ -120,7 +131,7 @@ const BookingCalendar = ({ itemId }) => {
             </g>
           ))}
         </g>
-        {now.week() === week && (
+        {now.week() === page.week() && now.year() === page.year() && (
           <line
             x1={calculateX(now)}
             x2={calculateX(now) + 50}
