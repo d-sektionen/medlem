@@ -26,6 +26,7 @@ Must know:
 - React
   - Hooks
 - Javascript using modern ECMAScript features.
+  - Promises
 - How a REST api works (specifically our backend api)
 
 Good to know:
