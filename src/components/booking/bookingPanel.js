@@ -9,6 +9,7 @@ import EditBooking from './editBooking'
 import useModal from '../modal/useModal'
 import ViewBooking from './viewBooking'
 import { UserContext } from '../layout/layout'
+import useConfirmModal from '../modal/useConfirmModal'
 
 moment.locale('sv')
 
@@ -25,6 +26,8 @@ const BookingPanel = ({
 
   const [openEditBooking] = useModal(EditBooking)
   const [openViewBooking] = useModal(ViewBooking)
+
+  const [openConfirmation] = useConfirmModal()
 
   useEffect(
     () => {
@@ -78,7 +81,10 @@ const BookingPanel = ({
                     iconComponent={FiTrash2}
                     text="Ta bort bokning"
                     onClick={() => {
-                      destroyBooking(booking.id)
+                      openConfirmation(
+                        'Är du säker på att du vill ta bort bokningen?',
+                        () => destroyBooking(booking.id)
+                      )
                     }}
                     key="delete"
                   />,
