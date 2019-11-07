@@ -33,7 +33,18 @@ const VoteStats = ({ currentMeeting, voteId }) => {
     })
   })
 
-  return <div ref={chartContainer} />
+  return (
+    <div>
+      <div ref={chartContainer} />
+      <p>
+        {'Summa: '}
+        {(data ? data.alternatives.map(alt => alt.num_votes) : []).reduce(
+          (a, b) => a + b,
+          0
+        )}
+      </p>
+    </div>
+  )
 }
 
 export default VoteStats
