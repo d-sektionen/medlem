@@ -68,19 +68,7 @@ const Layout = ({ children, location, pageContext }) => {
             </>
           )
         else if (err.response.status === 401) {
-          setError(
-            <>
-              <p>Inloggningssessionen är ogiltig. Testa att logga in igen.</p>
-              <Button
-                onClick={() => {
-                  window.localStorage.removeItem('token')
-                  setError(null)
-                }}
-              >
-                Logga ut
-              </Button>
-            </>
-          )
+          window.localStorage.removeItem('token')
         }
       })
     setLoading(true)
