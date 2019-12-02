@@ -11,6 +11,8 @@ import ViewBooking from './viewBooking'
 import { UserContext } from '../layout/layout'
 import useConfirmModal from '../modal/useConfirmModal'
 
+import { Checkbox, Switch } from '../ui/checkbox'
+
 moment.locale('sv')
 
 const BookingPanel = ({
@@ -42,18 +44,12 @@ const BookingPanel = ({
 
   return (
     <>
-      <p>
-        <label>
-          <input
-            type="checkbox"
-            onClick={e => {
-              setOnlyMine(e.target.checked)
-            }}
-            value={onlyMine}
-          />
-          {' Visa endast mina bokningar.'}
-        </label>
-      </p>
+      <Checkbox
+        text=" Visa endast mina bokningar."
+        value="Only Mine"
+        click={e => setOnlyMine(e.target.checked)}
+      />
+
       <List>
         {bookings &&
           bookings
