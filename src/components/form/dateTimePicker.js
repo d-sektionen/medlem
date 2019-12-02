@@ -11,10 +11,10 @@ const DateTimePicker = ({ value, onChange }) => {
         onChange={e => {
           const timeString = e.target.value
           const year = parseInt(timeString.slice(0, 4), 10)
-          const month = parseInt(timeString.slice(5, 7), 10) - 1
+          const month = parseInt(timeString.slice(5, 7), 10)
           const date = parseInt(timeString.slice(8, 10), 10)
           if (date && month && year) {
-            const newValue = moment(value).set({ year, month, date })
+            const newValue = moment(value).set({ year, month: month - 1, date })
             onChange(newValue)
           }
         }}
