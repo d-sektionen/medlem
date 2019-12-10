@@ -1,1 +1,1 @@
-{"componentChunkName":"component---src-pages-attendance-js","path":"/attendance/","webpackCompilationHash":"","result":{"pageContext":{"isCreatedByStatefulCreatePages":true}}}
+{"componentChunkName":"component---src-components-attendance-page-js","path":"/attendance","webpackCompilationHash":"12e41317c66fd5b5abd4","result":{"pageContext":{"isCreatedByStatefulCreatePages":false,"title":"Närvarosystemet","requiredPrivileges":"attendance_admin","menu":true}}}

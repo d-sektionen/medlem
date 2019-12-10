@@ -1,1 +1,1 @@
-{"componentChunkName":"component---src-pages-checkin-js","path":"/checkin/","webpackCompilationHash":"","result":{"pageContext":{"isCreatedByStatefulCreatePages":true}}}
+{"componentChunkName":"component---src-components-checkin-page-js","path":"/checkin","webpackCompilationHash":"12e41317c66fd5b5abd4","result":{"pageContext":{"isCreatedByStatefulCreatePages":false,"title":"Blippsystemet","requiredPrivileges":"doorkeeper","menu":true}}}

@@ -1,1 +1,1 @@
-{"componentChunkName":"component---src-pages-voting-admin-js","path":"/voting-admin/","webpackCompilationHash":"","result":{"pageContext":{"isCreatedByStatefulCreatePages":true}}}
+{"componentChunkName":"component---src-components-voting-admin-page-js","path":"/voting-admin","webpackCompilationHash":"12e41317c66fd5b5abd4","result":{"pageContext":{"isCreatedByStatefulCreatePages":false,"title":"Röstningssystemet","requiredPrivileges":"voting_admin","menu":true}}}
