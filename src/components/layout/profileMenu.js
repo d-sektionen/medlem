@@ -17,7 +17,7 @@ const Menu = posed.div({
 })
 
 const Top = posed.div({
-  compact: { height: '100%' },
+  compact: { height: '100%', delay: '250' },
   expanded: { height: '200%' },
 })
 
