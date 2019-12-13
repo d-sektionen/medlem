@@ -4,6 +4,7 @@ import style from '../../scss/checkin.module.scss'
 import { useEndpoint, del, get } from '../request'
 import { FiTrash2 } from 'react-icons/fi'
 import useRestEndpoint from '../request/useRestEndpoint'
+import AutoForm from '../form/form'
 
 const OccurrencePanel = ({ setCurrentOccurrence, currentOccurrence }) => {
   const [newOccurrenceName, setNewOccurrenceName] = useState('')
@@ -53,15 +54,14 @@ const OccurrencePanel = ({ setCurrentOccurrence, currentOccurrence }) => {
           ))}
         </select>
       )}
+      {/* <AutoForm endpoint="/attendance/occurrences/" /> */}
       <form
         onSubmit={e => {
           e.preventDefault()
           setNewOccurrenceName('')
           // setCurrentOccurrence(null)
 
-          create({
-            name: newOccurrenceName,
-          }).then(res => {
+          create({ name: newOccurrenceName }).then(res => {
             setCurrentOccurrence(res.data)
           })
         }}

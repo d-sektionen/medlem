@@ -7,7 +7,7 @@ const DateTimePicker = ({ value, onChange }) => {
     <div>
       <input
         type="date"
-        value={value.format('YYYY-MM-DD')}
+        value={value ? value.format('YYYY-MM-DD') : ''}
         onChange={e => {
           const timeString = e.target.value
           const year = parseInt(timeString.slice(0, 4), 10)
@@ -21,7 +21,7 @@ const DateTimePicker = ({ value, onChange }) => {
       />
       <input
         type="time"
-        value={value.format('HH:mm')}
+        value={value ? value.format('HH:mm') : ''}
         onChange={e => {
           const timeString = e.target.value
           const hour = parseInt(timeString.slice(0, 2), 10)
