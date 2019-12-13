@@ -72,6 +72,7 @@ module.exports.PAGES = [
   },
   {
     path: '/checkin',
+    alternativePaths: ['/blipp'],
     title: 'Blippsystemet',
     requiredPrivileges: 'doorkeeper',
     menu: true,
