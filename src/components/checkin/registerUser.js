@@ -4,7 +4,7 @@ import { post } from '../request'
 import style from '../../scss/checkin.module.scss'
 import iconMap from '../iconMap'
 
-export default (setFeedback, eventId, identifier, action) => {
+export default (setFeedback, setStatusMessage, eventId, identifier, action) => {
   const setFeedbackExtended = (text, icon, error) => {
     const defaultIcon = error ? <FiX /> : <FiCheck />
     const defaultText = error
@@ -28,18 +28,22 @@ export default (setFeedback, eventId, identifier, action) => {
     .then(res => {
       let detail
       let icon
+      let statusMessage
 
-      if (res.data) ({ detail, icon } = res.data)
+      if (res.data) ({ detail, icon, status_message: statusMessage } = res.data)
 
       setFeedbackExtended(detail, icon, false)
+      if (statusMessage) setStatusMessage(statusMessage)
     })
     .catch(err => {
       let detail
       let icon
+      let statusMessage
 
       if (err.response && err.response.data)
-        ({ detail, icon } = err.response.data)
+        ({ detail, icon, status_message: statusMessage } = err.response.data)
 
       setFeedbackExtended(detail, icon, true)
+      if (statusMessage) setStatusMessage(statusMessage)
     })
 }

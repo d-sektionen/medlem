@@ -15,11 +15,21 @@ const Checkin = ({ events }) => {
   const [currentEvent, setCurrentEvent] = useState(events[0])
   const [currentAction, setCurrentAction] = useState(0)
   const [feedback, setFeedback] = useFeedback()
+  const [statusMessage, setStatusMessage] = useState('')
   const [compatibilityMode, setCompatibilityMode] = useLocalStorage(
     'checkin-compatibility-mode',
     false
   )
   const shift = useKeyPress('Shift')
+
+  // TODO: event contains outdated data when switching back and forth between events
+  useEffect(
+    () => {
+      if (currentEvent.status_message)
+        setStatusMessage(currentEvent.status_message)
+    },
+    [currentEvent]
+  )
 
   // shift feature only available in non compatibility mode.
   const shiftDown = compatibilityMode ? false : shift
@@ -29,7 +39,7 @@ const Checkin = ({ events }) => {
     : currentAction
 
   const textFieldOnSubmit = ({ text }) => {
-    registerUser(setFeedback, currentEvent.id, text, action)
+    registerUser(setFeedback, setStatusMessage, currentEvent.id, text, action)
   }
 
   const [openModal] = useModal(QrScanner)
@@ -104,6 +114,10 @@ const Checkin = ({ events }) => {
       <div className={style.feedback}>
         {feedback && feedback.icon}
         <p>{feedback && feedback.text}</p>
+      </div>
+
+      <div className={style.statusMessage}>
+        <p>{statusMessage}</p>
       </div>
     </div>
   )

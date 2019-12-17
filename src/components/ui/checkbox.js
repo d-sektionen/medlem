@@ -6,9 +6,8 @@ import style from '../../scss/ui.module.scss'
 
 const Checkbox = ({ text, value, click, defaultChecked }) => (
   <div className={style.checkbox}>
-    <label htmlFor={value}>
+    <label>
       <input
-        id={value}
         type="checkbox"
         onClick={e => click(e)}
         value={value}
