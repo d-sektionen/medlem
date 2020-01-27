@@ -69,7 +69,7 @@ const ProfileMenu = ({ user }) => {
             <FiUser />
             {`${user.first_name} ${user.last_name}`}
           </div>
-          {open && <div>{user.username}</div>}
+          <div>{user.username}</div>
         </>
       )}
     </Top>
