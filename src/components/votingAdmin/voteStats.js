@@ -1,7 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import { Chart } from 'frappe-charts/dist/frappe-charts.esm'
 import { useEndpoint } from '../request'
-import 'frappe-charts/dist/frappe-charts.min.css'
 
 const VoteStats = ({ currentMeeting, voteId }) => {
   const [data] = useEndpoint({
