@@ -31,7 +31,9 @@ const OccurrencePanel = ({ setCurrentOccurrence, currentOccurrence }) => {
   return (
     <div>
       <h2>Händelser</h2>
-      {occurrences && occurrences.length && (
+
+      <h3>Nuvarande</h3>
+      {occurrences && occurrences.length !== 0 && (
         <select
           value={currentOccurrence ? currentOccurrence.id : undefined}
           onChange={e =>
@@ -49,6 +51,8 @@ const OccurrencePanel = ({ setCurrentOccurrence, currentOccurrence }) => {
           ))}
         </select>
       )}
+
+      <h3>Skapa ny</h3>
       <AutoForm endpoint="/attendance/occurrences/" customFetcher={create} />
     </div>
   )
