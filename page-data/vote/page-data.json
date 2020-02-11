@@ -1,1 +1,1 @@
-{"componentChunkName":"component---src-components-vote-page-js","path":"/vote","webpackCompilationHash":"0c8b63e007aedbc4b8c0","result":{"pageContext":{"isCreatedByStatefulCreatePages":false,"title":"Rösta","requiredPrivileges":"member","menu":true}}}
+{"componentChunkName":"component---src-components-vote-page-js","path":"/vote","result":{"pageContext":{"title":"Rösta","requiredPrivileges":"member","menu":true}}}
