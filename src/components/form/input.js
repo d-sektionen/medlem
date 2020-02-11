@@ -3,7 +3,9 @@ import DateTimePicker from './dateTimePicker'
 
 import style from '../../scss/form.module.scss'
 
-const Input = ({
+const AutoInput = ({
+  value,
+  onChange,
   type,
   label,
   required,
@@ -12,17 +14,42 @@ const Input = ({
   min_length,
   max_length,
 }) => {
+  const change = e => {
+    onChange(e.target.value)
+  }
+
   const map = {
-    datetime: <DateTimePicker />,
-    date: <input type="date" />,
-    boolean: <input type="checkbox" />,
-    integer: <input type="number" max={max_value} min={min_value} />,
+    datetime: <DateTimePicker value={value} onChange={onChange} />,
+    date: <input type="date" value={value} onChange={change} />,
+    boolean: (
+      <input
+        type="checkbox"
+        value={value}
+        onChange={e => {
+          onChange(e.target.checked)
+        }}
+      />
+    ),
+    integer: (
+      <input
+        type="number"
+        value={value}
+        onChange={change}
+        max={max_value}
+        min={min_value}
+      />
+    ),
   }
 
   const component = Object.prototype.hasOwnProperty.call(map, type) ? (
     map[type]
   ) : (
-    <input maxLength={max_length} minLength={min_length} />
+    <input
+      value={value}
+      onChange={change}
+      maxLength={max_length}
+      minLength={min_length}
+    />
   )
 
   return (
@@ -33,4 +60,4 @@ const Input = ({
     </label>
   )
 }
-export default Input
+export default AutoInput

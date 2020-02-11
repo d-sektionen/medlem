@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import useRestEndpoint from '../request/useRestEndpoint'
 import { List, ListButton, ListItem } from '../ui/list'
+import { Button } from '../ui/buttons'
+import { del } from '../request'
 
 const AttendantPanel = ({ currentMeeting }) => {
   const [input, setInput] = useState('')
@@ -37,7 +39,23 @@ const AttendantPanel = ({ currentMeeting }) => {
       >
         <input value={input} onChange={e => setInput(e.target.value)} />
       </form>
-      <p>Röstlängd: {attendants.length}</p>
+      <p>
+        {`Röstlängd: ${attendants.length} `}
+        <Button
+          onClick={() => {
+            // TODO: fix this ugly solution
+            del(`/voting/attendants/clear/?meeting_id=${currentMeeting.id}`)
+              .then(() => {
+                window.location.reload()
+              })
+              .catch(() => {
+                window.location.reload()
+              })
+          }}
+        >
+          Återställ deltagarlista
+        </Button>
+      </p>
       <List>
         {attendants.map(attendant => (
           <ListItem

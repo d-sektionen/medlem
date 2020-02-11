@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
-import style from '../../scss/checkin.module.scss'
-import { useEndpoint, del, get } from '../request'
-import { FiTrash2 } from 'react-icons/fi'
 import useRestEndpoint from '../request/useRestEndpoint'
 import AutoForm from '../form/form'
 
 const OccurrencePanel = ({ setCurrentOccurrence, currentOccurrence }) => {
-  const [newOccurrenceName, setNewOccurrenceName] = useState('')
-
   const [{ list, create }, unorderedOccurrences] = useRestEndpoint({
     endpoint: '/attendance/occurrences/',
   })
@@ -54,25 +49,7 @@ const OccurrencePanel = ({ setCurrentOccurrence, currentOccurrence }) => {
           ))}
         </select>
       )}
-      {/* <AutoForm endpoint="/attendance/occurrences/" /> */}
-      <form
-        onSubmit={e => {
-          e.preventDefault()
-          setNewOccurrenceName('')
-          // setCurrentOccurrence(null)
-
-          create({ name: newOccurrenceName }).then(res => {
-            setCurrentOccurrence(res.data)
-          })
-        }}
-      >
-        <input
-          value={newOccurrenceName}
-          onChange={e => {
-            setNewOccurrenceName(e.target.value)
-          }}
-        />
-      </form>
+      <AutoForm endpoint="/attendance/occurrences/" customFetcher={create} />
     </div>
   )
 }

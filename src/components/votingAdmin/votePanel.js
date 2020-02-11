@@ -6,6 +6,7 @@ import useRestEndpoint from '../request/useRestEndpoint'
 import useModal, { useCloseModal } from '../modal/useModal'
 import AddVote from './addVote'
 import VoteStats from './voteStats'
+import { List, ListItem, ListButton } from '../ui/list'
 
 const VotePanel = ({ currentMeeting }) => {
   const [{ list, update, create }, votes] = useRestEndpoint({
@@ -34,29 +35,35 @@ const VotePanel = ({ currentMeeting }) => {
       <h2>Omröstningar</h2>
       <button
         onClick={() =>
-          openCreateModal('Ny omröstning', { currentMeeting, create })
+          openCreateModal('Ny omröstning', {
+            currentMeeting,
+            create,
+          })
         }
         type="button"
       >
         Ny omröstning
       </button>
-      <ul>
+      <List>
         {votes
           .filter(vote => vote.meeting === currentMeeting.id)
           .map(vote => (
-            <li key={vote.id}>
-              {vote.question}
-              {
-                <FiBarChart2
+            <ListItem
+              title={vote.question}
+              subtitle={vote.open ? 'Active' : undefined}
+              key={vote.id}
+              buttons={[
+                <ListButton
                   onClick={() =>
                     openChartModal(`Resultat av "${vote.question}"`, {
                       voteId: vote.id,
                     })
                   }
-                />
-              }
-              {
-                <FiEdit2
+                  iconComponent={FiBarChart2}
+                  text="Resultat"
+                  key="results"
+                />,
+                <ListButton
                   onClick={() =>
                     openCreateModal(`Uppdatera "${vote.question}"`, {
                       currentMeeting,
@@ -64,12 +71,14 @@ const VotePanel = ({ currentMeeting }) => {
                       updateData: vote,
                     })
                   }
-                />
-              }
-              {vote.open && <FiCheck />}
-            </li>
+                  iconComponent={FiEdit2}
+                  text="Uppdatera omröstning"
+                  key="update"
+                />,
+              ]}
+            />
           ))}
-      </ul>
+      </List>
     </div>
   )
 }

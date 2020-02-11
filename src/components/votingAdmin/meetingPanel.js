@@ -4,10 +4,9 @@ import style from '../../scss/checkin.module.scss'
 import { useEndpoint, del, get } from '../request'
 import { FiTrash2 } from 'react-icons/fi'
 import useRestEndpoint from '../request/useRestEndpoint'
+import AutoForm from '../form/form'
 
 const MeetingPanel = ({ setCurrentMeeting, currentMeeting }) => {
-  const [newMeetingName, setNewMeetingName] = useState('')
-
   const [{ list, create }, unorderedMeetings] = useRestEndpoint({
     endpoint: '/voting/meetings/',
   })
@@ -32,7 +31,8 @@ const MeetingPanel = ({ setCurrentMeeting, currentMeeting }) => {
   return (
     <div>
       <h2>Möten</h2>
-      {meetings && meetings.length && (
+      <h3>Nuvarande</h3>
+      {meetings && meetings.length !== 0 && (
         <select
           value={currentMeeting ? currentMeeting.id : undefined}
           onChange={e =>
@@ -48,26 +48,13 @@ const MeetingPanel = ({ setCurrentMeeting, currentMeeting }) => {
           ))}
         </select>
       )}
-      <form
-        onSubmit={e => {
-          e.preventDefault()
-          setNewMeetingName('')
-          // setCurrentMeeting(null)
-
-          create({
-            name: newMeetingName,
-          }).then(res => {
-            setCurrentMeeting(res.data)
-          })
-        }}
-      >
-        <input
-          value={newMeetingName}
-          onChange={e => {
-            setNewMeetingName(e.target.value)
-          }}
-        />
-      </form>
+      <h3>Skapa nytt</h3>
+      <AutoForm
+        endpoint="/voting/meetings/" // onSubmit={() => {
+        //   setNewMeetingName('')
+        // }}
+        customFetcher={create}
+      />
     </div>
   )
 }
