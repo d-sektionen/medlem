@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useEndpoint } from '../request'
+import React from 'react'
+import useSWR from 'swr'
 
 import style from '../../scss/booking.module.scss'
 import { Button } from '../ui/buttons'
@@ -8,7 +8,7 @@ import EditBooking from './editBooking'
 import BookingCalendar from './bookingCalendar'
 
 const ItemPanel = ({ item, setItem, createBooking }) => {
-  const [items] = useEndpoint({ endpoint: '/booking/items/' })
+  const { data: items } = useSWR('/booking/items/')
   const [openModal] = useModal(EditBooking)
 
   return (

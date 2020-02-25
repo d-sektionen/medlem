@@ -1,7 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import qs from 'querystring'
-import { useEndpoint, post, del } from '../request'
-import useKeyPress from '../useKeyPress'
 
 import style from '../../scss/checkin.module.scss'
 

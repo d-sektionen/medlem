@@ -1,10 +1,8 @@
 import React, { useRef, useEffect } from 'react'
-import { useEndpoint } from '../request'
+import useSWR from 'swr'
 
 const VoteStats = ({ currentMeeting, voteId }) => {
-  const [data] = useEndpoint({
-    endpoint: `/voting/votes/${voteId}/`,
-  })
+  const { data } = useSWR(() => voteId && `/voting/votes/${voteId}/`)
 
   const voteSum = (data
     ? data.alternatives.map(alt => alt.num_votes)

@@ -1,11 +1,9 @@
 import React from 'react'
+import useSWR from 'swr'
 import VoteForm from './voteForm'
-import { useEndpoint } from '../request'
 
 const ActiveVote = ({ showMessage, setLoading }) => {
-  const [votes, error] = useEndpoint({
-    endpoint: '/voting/votes/?current=true',
-  })
+  const { data: votes, error } = useSWR('/voting/votes/?current=true')
 
   if (error) {
     showMessage('Något gick fel', 'Logga ut eller refresha eller nåt.', true)

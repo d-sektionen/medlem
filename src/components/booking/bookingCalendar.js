@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import moment from 'moment'
 import 'moment/locale/sv'
+import useSWR from 'swr'
 
-import { useEndpoint } from '../request'
 import ViewBooking from './viewBooking'
 import useModal from '../modal/useModal'
 
@@ -39,9 +39,9 @@ const calculateHeight = (start, end) =>
   moment.duration(end.diff(start)).asHours() * 10
 
 const BookingCalendar = ({ itemId }) => {
-  const [bookings] = useEndpoint({
-    endpoint: `/booking/bookings/?item=${itemId}`,
-  })
+  const { data: bookings } = useSWR(
+    () => itemId && `/booking/bookings/?item=${itemId}`
+  )
   const [openViewBooking] = useModal(ViewBooking)
   const [page, setPage] = useState(moment()) // TODO: fix new year
 
@@ -80,9 +80,15 @@ const BookingCalendar = ({ itemId }) => {
         {bookings &&
           bookings
             .filter(({ start, end }) => {
+              // TODO: Does not handle booking over new years
               const startWeek = moment(start).week()
               const endWeek = moment(end).week()
-              return startWeek === page.week() || endWeek === page.week()
+
+              // console.log(startWeek, page.week(), endWeek)
+              return (
+                startWeek === page.week() || endWeek === page.week()
+                // || (startWeek < page.week() && page.week() < endWeek)
+              )
             })
             .map(booking => {
               const start = moment(booking.start)
@@ -93,6 +99,7 @@ const BookingCalendar = ({ itemId }) => {
               return (
                 <g className={style.booking} key={booking.id}>
                   {dayParts
+                    // Remove dayParts that are not in the visible week for the visible year.
                     .filter(
                       ([s]) =>
                         moment(s).week() === page.week() &&

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
+import { SWRConfig } from 'swr'
 
 import { get } from '../request'
 import '../../scss/general.scss'
@@ -77,53 +78,60 @@ const Layout = ({ children, location, pageContext }) => {
   return (
     <LoadingContext.Provider value={loadingContextValue}>
       <UserContext.Provider value={userContextValue}>
-        <Helmet
-          title={`${pageContext.title} – ${TITLE}`}
-          meta={[
-            {
-              name: 'description',
-              content: `${
-                pageContext.title
-              } på Datateknologsektionens medlemsportal`,
-            },
-            {
-              name: 'keywords',
-              content: `${
-                pageContext.title
-              }, medlem, d-sektionen, datateknologsektionen`,
-            },
-          ]}
+        <SWRConfig
+          value={{
+            refreshInterval: 5000,
+            fetcher: url => get(url).then(res => res.data),
+          }}
         >
-          <html lang="sv" />
-        </Helmet>
-        <div className={style.app}>
-          <ModalHandler>
-            <div className={style.containerWrapper}>
-              {user && (
-                <SideMenu
-                  open={sideMenuOpen}
-                  close={() => setSideMenuOpen(false)}
-                />
-              )}
-              {user && (
-                <TopBar user={user} openMenu={() => setSideMenuOpen(true)} />
-              )}
-              <LayoutContent
-                loginUrl={loginUrl}
-                error={error}
-                loading={loading}
-                loggedIn={user !== null}
-                hasPrivileges={
-                  pageContext.requiredPrivileges &&
-                  user &&
-                  user.privileges[pageContext.requiredPrivileges]
-                }
-              >
-                {children}
-              </LayoutContent>
-            </div>
-          </ModalHandler>
-        </div>
+          <Helmet
+            title={`${pageContext.title} – ${TITLE}`}
+            meta={[
+              {
+                name: 'description',
+                content: `${
+                  pageContext.title
+                } på Datateknologsektionens medlemsportal`,
+              },
+              {
+                name: 'keywords',
+                content: `${
+                  pageContext.title
+                }, medlem, d-sektionen, datateknologsektionen`,
+              },
+            ]}
+          >
+            <html lang="sv" />
+          </Helmet>
+          <div className={style.app}>
+            <ModalHandler>
+              <div className={style.containerWrapper}>
+                {user && (
+                  <SideMenu
+                    open={sideMenuOpen}
+                    close={() => setSideMenuOpen(false)}
+                  />
+                )}
+                {user && (
+                  <TopBar user={user} openMenu={() => setSideMenuOpen(true)} />
+                )}
+                <LayoutContent
+                  loginUrl={loginUrl}
+                  error={error}
+                  loading={loading}
+                  loggedIn={user !== null}
+                  hasPrivileges={
+                    pageContext.requiredPrivileges &&
+                    user &&
+                    user.privileges[pageContext.requiredPrivileges]
+                  }
+                >
+                  {children}
+                </LayoutContent>
+              </div>
+            </ModalHandler>
+          </div>
+        </SWRConfig>
       </UserContext.Provider>
     </LoadingContext.Provider>
   )

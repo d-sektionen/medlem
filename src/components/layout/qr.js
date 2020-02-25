@@ -1,16 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react'
 import QRCode from 'qrcode'
 import { Link } from 'gatsby'
+import useSWR from 'swr'
 
-import { useEndpoint } from '../request'
 import style from '../../scss/qr.module.scss'
 import { useCloseModal } from '../modal/useModal'
 
 const QR = () => {
-  const [data] = useEndpoint({
-    endpoint: '/account/user/identification_token/',
-  })
-
+  const { data } = useSWR('/account/user/identification_token/')
   const [error, setError] = useState(null)
   const canvasRef = useRef(null)
   const closeModal = useCloseModal()

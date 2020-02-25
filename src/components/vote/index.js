@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import ActiveVote from './activeVote'
-import { Get, useEndpoint } from '../request'
 import { LoadingContext } from '../layout/layout'
 
 // import style from '../../scss/vote.module.scss'

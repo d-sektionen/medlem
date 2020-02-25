@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
 
-import style from '../../scss/checkin.module.scss'
-import { useEndpoint, del, get } from '../request'
-import { FiTrash2 } from 'react-icons/fi'
 import useRestEndpoint from '../request/useRestEndpoint'
 import AutoForm from '../form/form'
 

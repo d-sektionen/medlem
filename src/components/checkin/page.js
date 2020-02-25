@@ -1,9 +1,9 @@
 import React from 'react'
+import useSWR from 'swr'
 import Checkin from '.'
-import { useEndpoint } from '../request'
 
 const CheckinPage = () => {
-  const [events] = useEndpoint({ endpoint: '/checkin/events/' })
+  const { data: events } = useSWR('/checkin/events/')
 
   return events ? <Checkin events={events.reverse()} /> : null
 }
