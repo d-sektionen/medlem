@@ -31,7 +31,7 @@ const Vote = () => {
   }
   return (
     <>
-      <h1>D-cide</h1>
+      <h2>Rösta</h2>
       <ActiveVote showMessage={showMessage} setLoading={setLoading} />
     </>
   )

@@ -5,7 +5,7 @@ import AutoForm from '../form/form'
 
 const MeetingPanel = ({ setCurrentMeeting, currentMeeting }) => {
   const [{ list, create }, unorderedMeetings] = useRestEndpoint({
-    endpoint: '/voting/meetings/',
+    endpoint: '/voting/admin-meetings/',
   })
 
   const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null
@@ -47,7 +47,7 @@ const MeetingPanel = ({ setCurrentMeeting, currentMeeting }) => {
       )}
       <h3>Skapa nytt</h3>
       <AutoForm
-        endpoint="/voting/meetings/" // onSubmit={() => {
+        endpoint="/voting/admin-meetings/" // onSubmit={() => {
         //   setNewMeetingName('')
         // }}
         customFetcher={create}

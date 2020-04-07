@@ -64,6 +64,10 @@
   backdrop-filter: blur(5px);
 }
 
+.gridFullWidth {
+  grid-column: 1 / -1;
+}
+
 .list {
   margin: 0;
   li {
@@ -139,5 +143,31 @@
 
   p {
     margin-left: 1%;
+  }
+}
+
+.titleChooser {
+  display: flex;
+  justify-content: space-between;
+  h1 {
+    margin: 0;
+  }
+
+  select {
+    // padding: 0 0.5 * $base-padding;
+    background: $very-light-gray;
+    min-width: 200px;
+    outline: none;
+    border: 1px solid $light-gray;
+    font-size: 1.25em;
+
+    &:focus {
+      border: 1px solid $dsek-blue;
+    }
+
+    > option {
+      padding: $base-padding;
+      background: $very-light-gray;
+    }
   }
 }

@@ -6,8 +6,14 @@ const GridContainer = ({ children }) => (
   <div className={style.gridContainer}>{children}</div>
 )
 
-const GridItem = ({ children }) => (
-  <div className={style.gridItem}>{children}</div>
+const GridItem = ({ children, fullWidth }) => (
+  <div className={`${style.gridItem} ${fullWidth ? style.gridFullWidth : ''}`}>
+    {children}
+  </div>
 )
+
+GridItem.defaultProps = {
+  fullWidth: false,
+}
 
 export { GridContainer, GridItem }

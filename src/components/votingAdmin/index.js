@@ -11,6 +11,9 @@ const VotingAdmin = () => {
 
   return (
     <GridContainer>
+      <GridItem fullWidth>
+        <h1 style={{ margin: 0 }}>Mötesadministration</h1>
+      </GridItem>
       <GridItem>
         <MeetingPanel
           currentMeeting={currentMeeting}
