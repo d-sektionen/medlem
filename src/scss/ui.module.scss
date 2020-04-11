@@ -148,9 +148,10 @@
 
 .titleChooser {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   h1 {
     margin: 0;
+    flex-grow: 1;
   }
 
   select {

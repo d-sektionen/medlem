@@ -1,8 +1,17 @@
 import React from 'react'
 
 import style from '../../scss/ui.module.scss'
+import { Button } from './buttons'
 
-const TitleChooser = ({ title, choices, choice, setChoice, label }) => {
+const TitleChooser = ({
+  title,
+  choices,
+  choice,
+  setChoice,
+  label,
+  action,
+  actionLabel,
+}) => {
   return (
     <div className={style.titleChooser}>
       <h1>{title}</h1>
@@ -27,6 +36,7 @@ const TitleChooser = ({ title, choices, choice, setChoice, label }) => {
           ))}
         </select>
       )}
+      {action && <Button onClick={action}>{actionLabel}</Button>}
     </div>
   )
 }

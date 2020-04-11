@@ -1,59 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
-import useRestEndpoint from '../request/useRestEndpoint'
-import AutoForm from '../form/form'
-
-const MeetingPanel = ({ setCurrentMeeting, currentMeeting }) => {
-  const [{ list, create }, unorderedMeetings] = useRestEndpoint({
-    endpoint: '/voting/admin-meetings/',
-  })
-
-  const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null
-
-  useEffect(() => {
-    list()
-    // TODO: handle errors
-  }, [])
-
-  useEffect(
-    () => {
-      if (!meetings || !meetings.length) setCurrentMeeting(null)
-      else if (currentMeeting === null) setCurrentMeeting({ ...meetings[0] })
-    },
-    [meetings]
-  )
-
-  if (meetings === null) return <></>
-
-  return (
-    <div>
-      <h2>Möten</h2>
-      <h3>Nuvarande</h3>
-      {meetings && meetings.length !== 0 && (
-        <select
-          value={currentMeeting ? currentMeeting.id : undefined}
-          onChange={e =>
-            setCurrentMeeting(
-              meetings.find(meeting => `${meeting.id}` === e.target.value)
-            )
-          }
-        >
-          {meetings.map(meeting => (
-            <option value={meeting.id} key={meeting.id}>
-              {meeting.name}
-            </option>
-          ))}
-        </select>
-      )}
-      <h3>Skapa nytt</h3>
-      <AutoForm
-        endpoint="/voting/admin-meetings/" // onSubmit={() => {
-        //   setNewMeetingName('')
-        // }}
-        customFetcher={create}
-      />
-    </div>
-  )
-}
+const MeetingPanel = ({ currentMeeting }) => (
+  <div>
+    <h2>Mötesinfo</h2>
+    <h3>{currentMeeting.name}</h3>
+    {currentMeeting.description && (
+      <p style={{ whiteSpace: 'pre-line' }}>{currentMeeting.description}</p>
+    )}
+    <ul>
+      <li>
+        {currentMeeting.enable_speaker_requests
+          ? 'Talarlista aktiverad'
+          : 'Talarlista inaktiverad'}
+      </li>
+      <li>
+        {currentMeeting.open_attendance
+          ? 'Öppen incheckning'
+          : 'Stängd incheckning'}
+      </li>
+      <li>{`Mötesdata rensas: ${currentMeeting.clear_data}`}</li>
+    </ul>
+  </div>
+)
 
 export default MeetingPanel

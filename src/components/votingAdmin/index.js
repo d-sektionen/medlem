@@ -1,34 +1,69 @@
 import React, { useState } from 'react'
-import MeetingPanel from './meetingPanel'
+import useSWR from 'swr'
 
+import MeetingPanel from './meetingPanel'
 import DoorkeeperPanel from '../checkin/doorkeeperPanel'
 import VotePanel from './votePanel'
 import AttendantPanel from './attendantPanel'
 import { GridContainer, GridItem } from '../ui/grid'
+import SpeakerPanel from './speakerPanel'
+import TitleChooser from '../ui/titleChooser'
+import AddMeeting from './addMeeting'
+import useModal, { useCloseModal } from '../modal/useModal'
+import { post } from '../request'
 
 const VotingAdmin = () => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
+  const { data: unorderedMeetings, mutate } = useSWR('/voting/admin-meetings/')
+  const [openCreateModal] = useModal(AddMeeting)
+  const closeModal = useCloseModal()
+
+  const create = async data => {
+    const { data: newMeeting } = await post('/voting/admin-meetings/', data)
+    mutate([...unorderedMeetings, newMeeting])
+  }
+
+  const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null
 
   return (
     <GridContainer>
       <GridItem fullWidth>
-        <h1 style={{ margin: 0 }}>Mötesadministration</h1>
-      </GridItem>
-      <GridItem>
-        <MeetingPanel
-          currentMeeting={currentMeeting}
-          setCurrentMeeting={setCurrentMeeting}
+        <TitleChooser
+          title="D-cide admin"
+          choice={currentMeeting}
+          setChoice={setCurrentMeeting}
+          choices={meetings}
+          label="name"
+          action={() => {
+            openCreateModal('Nytt möte', {
+              create: async data => {
+                await create(data)
+                closeModal()
+              },
+            })
+          }}
+          actionLabel={'Nytt möte'}
         />
       </GridItem>
-      <GridItem>
-        <VotePanel currentMeeting={currentMeeting} />
-      </GridItem>
-      <GridItem>
-        <AttendantPanel currentMeeting={currentMeeting} />
-      </GridItem>
-      <GridItem>
-        <DoorkeeperPanel event={currentMeeting} />
-      </GridItem>
+      {currentMeeting && (
+        <>
+          <GridItem>
+            <MeetingPanel currentMeeting={currentMeeting} create={create} />
+          </GridItem>
+          <GridItem>
+            <VotePanel currentMeeting={currentMeeting} />
+          </GridItem>
+          <GridItem>
+            <DoorkeeperPanel event={currentMeeting} />
+          </GridItem>
+          <GridItem>
+            <AttendantPanel currentMeeting={currentMeeting} />
+          </GridItem>
+          <GridItem>
+            <SpeakerPanel meeting={currentMeeting} />
+          </GridItem>
+        </>
+      )}
     </GridContainer>
   )
 }
