@@ -14,11 +14,29 @@ const ListItem = ({ title, subtitle, buttons }) => (
   </li>
 )
 
-const ListButton = ({ onClick, iconComponent: Icon, text, shown }) =>
+const ListButton = ({ href, onClick, iconComponent: Icon, text, shown }) =>
   shown ? (
-    <button type="button" onClick={onClick} title={text}>
-      <Icon />
-    </button>
+    <>
+      {href ? (
+        <a
+          className={style.listButton}
+          href={href}
+          onClick={onClick}
+          title={text}
+        >
+          <Icon />
+        </a>
+      ) : (
+        <button
+          className={style.listButton}
+          type="button"
+          onClick={onClick}
+          title={text}
+        >
+          <Icon />
+        </button>
+      )}
+    </>
   ) : (
     <></>
   )

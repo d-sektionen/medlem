@@ -21,19 +21,19 @@
 }
 
 .containerWrapper {
-  z-index: 10;
+  // z-index: 10;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-between;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: stretch;
+  // justify-content: space-between;
 }
 
 .contentWrapper {
-  flex-grow: 1;
+  // flex-grow: 1;
   position: relative;
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
 }
 
 .topBar {

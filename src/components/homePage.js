@@ -1,13 +1,15 @@
 import React, { useContext } from 'react'
+import { FiLink, FiExternalLink } from 'react-icons/fi'
 import { UserContext } from './layout/layout'
 import { useEndpoint } from './request'
 import BigPixels from './layout/bigPixels'
 import { GridContainer, GridItem } from './ui/grid'
 import MembershipPanel from './membershipPanel'
+import { List, ListButton, ListItem } from './ui/list'
 
 const IndexPage = () => {
   const [data] = useEndpoint({
-    url: 'https://d-sektionen.se/wp-json/wp/v2/posts',
+    url: 'https://d-sektionen.se/wp-json/wp/v2/posts?per_page=6',
   })
   const [user] = useContext(UserContext)
 
@@ -31,14 +33,24 @@ const IndexPage = () => {
             {'Senaste nytt från '}
             <a href="https://d-sektionen.se">d-sektionen.se</a>
           </h2>
-          <ul>
+          <List>
             {data &&
               data.map(post => (
-                <li key={post.id}>
-                  <a href={post.link}>{post.title.rendered}</a>
-                </li>
+                <ListItem
+                  key={post.id}
+                  title={post.title.rendered}
+                  subtitle={new Date(post.date).toLocaleDateString()}
+                  buttons={[
+                    <ListButton
+                      key="link"
+                      text="Läs mer"
+                      iconComponent={FiExternalLink}
+                      href={post.link}
+                    />,
+                  ]}
+                />
               ))}
-          </ul>
+          </List>
         </GridItem>
       </GridContainer>
     </BigPixels>

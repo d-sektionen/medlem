@@ -2,6 +2,8 @@
 
 .profileMenu {
   height: 4 * $base-padding;
+  z-index: 20;
+  position: relative;
 }
 
 .top {

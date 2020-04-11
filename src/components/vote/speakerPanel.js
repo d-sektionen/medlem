@@ -33,23 +33,18 @@ const SpeakerPanel = ({ meeting }) => {
             <ListItem
               title={s.user.pretty_name}
               key={s.id}
-              buttons={
-                user.id === s.user.id
-                  ? [
-                      <ListButton
-                        onClick={async () => {
-                          await del(
-                            `/voting/speakers/?meeting_id=${meeting.id}`
-                          )
-                          mutate(speakers.filter(x => x.id !== s.id))
-                        }}
-                        iconComponent={FiTrash2}
-                        text="Lämna talarlista"
-                        key="remove"
-                      />,
-                    ]
-                  : []
-              }
+              buttons={[
+                <ListButton
+                  shown={user.id === s.user.id}
+                  onClick={async () => {
+                    await del(`/voting/speakers/?meeting_id=${meeting.id}`)
+                    mutate(speakers.filter(x => x.id !== s.id))
+                  }}
+                  iconComponent={FiTrash2}
+                  text="Lämna talarlista"
+                  key="remove"
+                />,
+              ]}
             />
           ))}
       </List>
