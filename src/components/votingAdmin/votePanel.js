@@ -7,6 +7,7 @@ import useModal, { useCloseModal } from '../modal/useModal'
 import AddVote from './addVote'
 import VoteStats from './voteStats'
 import { List, ListItem, ListButton } from '../ui/list'
+import { Button } from '../ui/buttons'
 
 const VotePanel = ({ currentMeeting }) => {
   const [{ list, update, create }, votes] = useRestEndpoint({
@@ -33,17 +34,16 @@ const VotePanel = ({ currentMeeting }) => {
   return (
     <div>
       <h2>Omröstningar</h2>
-      <button
+      <Button
         onClick={() =>
           openCreateModal('Ny omröstning', {
             currentMeeting,
             create,
           })
         }
-        type="button"
       >
         Ny omröstning
-      </button>
+      </Button>
       <List>
         {votes
           .filter(vote => vote.meeting === currentMeeting.id)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useSWR from 'swr'
 
 import MeetingPanel from './meetingPanel'
@@ -24,6 +24,15 @@ const VotingAdmin = () => {
   }
 
   const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null
+
+  // sync currentMeeting with updated meetings
+  useEffect(
+    () => {
+      if (currentMeeting)
+        setCurrentMeeting(meetings.find(m => m.id === currentMeeting.id))
+    },
+    [meetings]
+  )
 
   return (
     <GridContainer>
