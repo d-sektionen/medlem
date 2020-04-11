@@ -83,6 +83,12 @@
   margin-top: auto;
   padding: $base-padding;
 
+  > p {
+    a {
+      color: $gray;
+    }
+  }
+
   > div {
     margin-top: $base-padding;
     > a {

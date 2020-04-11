@@ -4,7 +4,7 @@ import { Link } from 'gatsby'
 import posed, { PoseGroup } from 'react-pose'
 
 import { FiX, FiGithub } from 'react-icons/fi'
-import { PAGES } from '../../config'
+import { PAGES, BASE_URL } from '../../config'
 
 import logo from '../../images/round.svg'
 import style from '../../scss/sideMenu.module.scss'
@@ -88,7 +88,12 @@ const SideMenu = ({ close, open }) => {
             </ul>
 
             <div className={style.footer}>
-              Sidan är utvecklad av Webbgruppen
+              {user.privileges['staff'] && (
+                <p>
+                  <a href={`${BASE_URL}/admin`}>Adminpanelen</a>
+                </p>
+              )}
+              <p>Sidan är utvecklad av Webbgruppen</p>
               <div>
                 <a href="https://github.com/d-sektionen/medlem">
                   <FiGithub />
