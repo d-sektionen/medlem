@@ -80,7 +80,7 @@ const Layout = ({ children, location, pageContext }) => {
       <UserContext.Provider value={userContextValue}>
         <SWRConfig
           value={{
-            refreshInterval: 5000,
+            refreshInterval: 20000,
             fetcher: url => get(url).then(res => res.data),
           }}
         >
