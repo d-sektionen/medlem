@@ -44,11 +44,11 @@ const VotePage = () => {
             <GridItem>
               <Vote />
             </GridItem>
-            {currentMeeting.enable_speaker_requests && (
-              <GridItem>
-                <SpeakerPanel meeting={currentMeeting} />
-              </GridItem>
-            )}
+            {/* {currentMeeting.enable_speaker_requests && ( */}
+            <GridItem>
+              <SpeakerPanel meeting={currentMeeting} />
+            </GridItem>
+            {/* )} */}
           </>
         )}
       </GridContainer>
