@@ -12,7 +12,8 @@ The value in there will be prefered.
 .env.development will affect `npm start`
 .env.production will affect `npm run build` and `npm run deploy`
 */
-module.exports.BASE_URL = process.env.BASE_URL || 'https://api.d-sektionen.se'
+module.exports.BASE_URL =
+  process.env.BASE_URL || 'https://backend.d-sektionen.se'
 
 module.exports.TITLE = 'Medlem D-sektionen'
 
