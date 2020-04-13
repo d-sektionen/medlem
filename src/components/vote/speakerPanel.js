@@ -27,17 +27,32 @@ const SpeakerPanel = ({ meeting }) => {
       >
         Jag vill tala!
       </Button>
+      <Button
+        onClick={async () => {
+          const { data: newSpeaker } = await post('/voting/speakers/', {
+            meeting_id: meeting.id,
+            prioritized: true,
+          })
+          mutate([...speakers, newSpeaker])
+        }}
+      >
+        Replik!
+      </Button>
       <List>
         {speakers &&
           speakers.map(s => (
             <ListItem
               title={s.user.pretty_name}
+              subtitle={s.prioritized ? 'Replik' : null}
               key={s.id}
               buttons={[
                 <ListButton
                   shown={user.id === s.user.id}
                   onClick={async () => {
-                    await del(`/voting/speakers/?meeting_id=${meeting.id}`)
+                    const prioQS = s.prioritized ? '&prioritized' : ''
+                    await del(
+                      `/voting/speakers/?meeting_id=${meeting.id}${prioQS}`
+                    )
                     mutate(speakers.filter(x => x.id !== s.id))
                   }}
                   iconComponent={FiTrash2}
