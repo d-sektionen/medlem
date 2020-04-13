@@ -20,6 +20,7 @@ const SpeakerPanel = ({ meeting }) => {
           speakers.map(s => (
             <ListItem
               title={s.user.pretty_name}
+              subtitle={s.prioritized ? 'Replik' : null}
               key={s.id}
               buttons={[
                 <ListButton
