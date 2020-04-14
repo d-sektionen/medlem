@@ -1,83 +1,53 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { post } from '../request'
 
-class VoteForm extends Component {
-  constructor(props) {
-    super(props)
+const VoteForm = ({ vote }) => {
+  const [checkedId, setCheckedId] = useState(-1)
+  const [successfullyVoted, setSuccessfullyVoted] = useState(false)
 
-    this.state = {
-      checkedId: -1,
-    }
-
-    const { onMessage } = this.props
-
-    this.onAlternativeChecked = this.onAlternativeChecked.bind(this)
-    this.placeVote = this.placeVote.bind(this)
-    this.showMessage = onMessage
-  }
-
-  onAlternativeChecked(alternativeId) {
-    this.setState({
-      checkedId: alternativeId,
-    })
-  }
-
-  placeVote() {
-    const { setLoading, vote } = this.props
-    const { checkedId } = this.state
-
-    const { showMessage } = this
+  const placeVote = async () => {
     const voteData = {
       vote_id: vote.id,
       alternative_id: checkedId,
     }
 
-    setLoading(true)
-    post('/voting/made_votes/', voteData)
-      .then(() => {
-        setLoading(false)
-        showMessage('Tack!', 'Din röst har registrerats')
-      })
-      .catch(error => {
-        setLoading(false)
-        showMessage('Ett fel uppstod', error)
-      })
+    await post('/voting/made_votes/', voteData)
+    setSuccessfullyVoted(true)
   }
+  const votingDisabled = checkedId === -1
+  const buttonText = votingDisabled ? 'Välj ett alternativ' : 'Rösta'
+  const alreadyVotedText = successfullyVoted
+    ? 'Tack för din röst!'
+    : 'Du har röstat i omröstningen.'
 
-  render() {
-    const { vote } = this.props
-    const { checkedId } = this.state
-
-    const votingDisabled = checkedId === -1
-    const buttonText = votingDisabled ? 'Välj ett alternativ' : 'Rösta'
-
-    return (
-      <div>
-        <strong>{vote.question}</strong>
-        <ul>
-          {vote.alternatives.map(({ text, id }) => (
-            <li key={id}>
-              <label>
-                <input
-                  type="radio"
-                  checked={checkedId === id}
-                  onChange={() => this.onAlternativeChecked(id)}
-                />
-                {` ${text}`}
-              </label>
-            </li>
-          ))}
-        </ul>
-        <button
-          type="button"
-          disabled={votingDisabled}
-          onClick={this.placeVote}
-        >
-          {buttonText}
-        </button>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <strong>{vote.question}</strong>
+      {vote.has_voted || successfullyVoted ? (
+        <p>{alreadyVotedText}</p>
+      ) : (
+        <>
+          <ul>
+            {vote.alternatives.map(({ text, id }) => (
+              <li key={id}>
+                <label>
+                  <input
+                    type="radio"
+                    checked={checkedId === id}
+                    onChange={() => setCheckedId(id)}
+                  />
+                  {` ${text}`}
+                </label>
+              </li>
+            ))}
+          </ul>
+          <button type="button" disabled={votingDisabled} onClick={placeVote}>
+            {buttonText}
+          </button>
+        </>
+      )}
+    </div>
+  )
 }
 
 export default VoteForm

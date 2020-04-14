@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
 import useSWR from 'swr'
 
-import Vote from '.'
 import BigPixels from '../layout/bigPixels'
 import { GridContainer, GridItem } from '../ui/grid'
 import TitleChooser from '../ui/titleChooser'
 import SpeakerPanel from './speakerPanel'
 import MeetingInfoPanel from './meetingInfoPanel'
+import VotePanel from './votePanel'
 
 const VotePage = () => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
@@ -42,7 +42,7 @@ const VotePage = () => {
               />
             </GridItem>
             <GridItem>
-              <Vote />
+              <VotePanel meeting={currentMeeting} />
             </GridItem>
             {/* {currentMeeting.enable_speaker_requests && ( */}
             <GridItem>

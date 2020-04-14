@@ -17,6 +17,12 @@
     box-shadow: 0 0 2px 2px $dsek-blue;
   }
 }
+
+.buttonGroup {
+  display: grid;
+  gap: $base-padding;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
 .iconButton {
   border: none;
   height: 8 * $base-padding;

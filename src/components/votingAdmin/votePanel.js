@@ -11,7 +11,7 @@ import { Button } from '../ui/buttons'
 
 const VotePanel = ({ currentMeeting }) => {
   const [{ list, update, create }, votes] = useRestEndpoint({
-    endpoint: '/voting/votes/',
+    endpoint: '/voting/admin-votes/',
   })
 
   const [openCreateModal] = useModal(AddVote)

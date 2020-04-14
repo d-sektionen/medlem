@@ -27,8 +27,12 @@ const Button = ({ onClick, href, children, type }) => {
   )
 }
 
+const ButtonGroup = ({ children }) => (
+  <div className={style.buttonGroup}>{children}</div>
+)
+
 Button.defaultProps = {
   type: 'button',
 }
 
-export { IconButton, Button }
+export { IconButton, Button, ButtonGroup }

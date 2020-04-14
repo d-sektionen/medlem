@@ -3,7 +3,7 @@ import useSWR from 'swr'
 
 import { FiTrash2 } from 'react-icons/fi'
 import { List, ListButton, ListItem } from '../ui/list'
-import { Button } from '../ui/buttons'
+import { Button, ButtonGroup } from '../ui/buttons'
 import { UserContext } from '../layout/layout'
 import { post, del } from '../request'
 
@@ -17,27 +17,36 @@ const SpeakerPanel = ({ meeting }) => {
   return (
     <div>
       <h2>Talarlista</h2>
-      <Button
-        onClick={async () => {
-          const { data: newSpeaker } = await post('/voting/speakers/', {
-            meeting_id: meeting.id,
-          })
-          mutate([...speakers, newSpeaker])
-        }}
-      >
-        Jag vill tala!
-      </Button>
-      <Button
-        onClick={async () => {
-          const { data: newSpeaker } = await post('/voting/speakers/', {
-            meeting_id: meeting.id,
-            prioritized: true,
-          })
-          mutate([...speakers, newSpeaker])
-        }}
-      >
-        Replik!
-      </Button>
+      {meeting.attending ? (
+        <ButtonGroup>
+          <Button
+            onClick={async () => {
+              const { data: newSpeaker } = await post('/voting/speakers/', {
+                meeting_id: meeting.id,
+              })
+              mutate([...speakers, newSpeaker])
+            }}
+          >
+            Jag vill tala!
+          </Button>
+          <Button
+            onClick={async () => {
+              const { data: newSpeaker } = await post('/voting/speakers/', {
+                meeting_id: meeting.id,
+                prioritized: true,
+              })
+              mutate([...speakers, newSpeaker])
+            }}
+          >
+            Replik!
+          </Button>
+        </ButtonGroup>
+      ) : (
+        <p>
+          Du måste vara registrerad på mötet för att kunna skriva upp dig på
+          talarlistan.
+        </p>
+      )}
       <List>
         {speakers &&
           speakers.map(s => (
