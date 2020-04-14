@@ -41,6 +41,8 @@
   justify-content: space-between;
   align-items: center;
   background: rgba(black, 0.7);
+  // background: linear-gradient(45deg, $dsek-blue, $dsek-green);
+  box-shadow: $box-shadow-default;
   color: white;
   z-index: 20;
 

@@ -18,6 +18,8 @@
   width: 90%;
   left: 0;
   background: $dark-gray;
+  background: linear-gradient(45deg, $dsek-blue, $dsek-green);
+  box-shadow: $box-shadow-raised;
   z-index: 30;
 
   > div {
@@ -54,11 +56,11 @@
       color: $very-light-gray;
 
       &:hover {
-        background: $black;
+        background: rgba($black, 0.5);
       }
     }
     .thisPage {
-      background: $dsek-blue;
+      background: rgba($black, 0.3);
     }
   }
 }
@@ -94,7 +96,7 @@
     > a {
       color: $black;
       &:hover {
-        color: $dsek-blue;
+        color: $dsek-cerise;
       }
       svg {
         height: 3 * $base-padding;
