@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import useRestEndpoint from '../request/useRestEndpoint'
 import { List, ListButton, ListItem } from '../ui/list'
-import { Button } from '../ui/buttons'
+import { Button, ButtonGroup } from '../ui/buttons'
 import { del, post } from '../request'
 import useSWR from 'swr'
 
@@ -11,7 +11,8 @@ const AttendantPanel = ({ currentMeeting }) => {
   const [input, setInput] = useState('')
 
   const { data: attendants, mutate } = useSWR(
-    () => `/voting/attendants/?meeting_id=${currentMeeting.id}`
+    () => `/voting/attendants/?meeting_id=${currentMeeting.id}`,
+    { refreshInterval: 4000 }
   )
 
   if (attendants === null) return <></>
@@ -33,19 +34,21 @@ const AttendantPanel = ({ currentMeeting }) => {
         <input value={input} onChange={e => setInput(e.target.value)} />
       </form>
       <p>
-        {`Röstlängd: ${attendants ? attendants.length : 0} `}
-        <Button
-          onClick={async () => {
-            // TODO: fix this ugly solution
-            await del(
-              `/voting/attendants/clear/?meeting_id=${currentMeeting.id}`
-            )
+        <ButtonGroup>
+          <p>{`Röstlängd: ${attendants ? attendants.length : 0}`}</p>
+          <Button
+            onClick={async () => {
+              // TODO: fix this ugly solution
+              await del(
+                `/voting/attendants/clear/?meeting_id=${currentMeeting.id}`
+              )
 
-            mutate([])
-          }}
-        >
-          Återställ deltagarlista
-        </Button>
+              mutate([])
+            }}
+          >
+            Återställ deltagarlista
+          </Button>
+        </ButtonGroup>
       </p>
       <List>
         {attendants &&

@@ -9,7 +9,8 @@ import { post, del } from '../request'
 
 const SpeakerPanel = ({ meeting }) => {
   const { data: speakers, mutate } = useSWR(
-    () => meeting && `/voting/speakers/?meeting_id=${meeting.id}`
+    () => meeting && `/voting/speakers/?meeting_id=${meeting.id}`,
+    { refreshInterval: 4000 }
   )
 
   return (
