@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import useSWR from 'swr'
 
 const VoteStats = ({ currentMeeting, voteId }) => {
-  const { data } = useSWR(() => voteId && `/voting/votes/${voteId}/`)
+  const { data } = useSWR(() => voteId && `/voting/admin-votes/${voteId}/`)
 
   const voteSum = (data
     ? data.alternatives.map(alt => alt.num_votes)
