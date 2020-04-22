@@ -33,7 +33,7 @@ const MeetingPanel = ({ currentMeeting, updatePatch }) => (
       >
         {currentMeeting.enable_speaker_requests
           ? 'Inaktivera talarlista'
-          : 'Aktivera talarlistas'}
+          : 'Aktivera talarlista'}
       </Button>
       <Button
         onClick={() =>

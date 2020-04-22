@@ -14,10 +14,14 @@ const SpeakerPanel = ({ meeting }) => {
 
   const [user] = useContext(UserContext)
 
+  const errorMessage = meeting.attending
+    ? 'Talarlista är inaktiverad för mötet.'
+    : 'Du måste vara registrerad på mötet för att kunna skriva upp dig på talarlistan.'
+
   return (
     <div>
       <h2>Talarlista</h2>
-      {meeting.attending ? (
+      {meeting.attending && meeting.enable_speaker_requests ? (
         <ButtonGroup>
           <Button
             onClick={async () => {
@@ -42,10 +46,7 @@ const SpeakerPanel = ({ meeting }) => {
           </Button>
         </ButtonGroup>
       ) : (
-        <p>
-          Du måste vara registrerad på mötet för att kunna skriva upp dig på
-          talarlistan.
-        </p>
+        <p>{errorMessage}</p>
       )}
       <List>
         {speakers &&
