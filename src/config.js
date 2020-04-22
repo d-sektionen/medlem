@@ -39,10 +39,17 @@ module.exports.PAGES = [
   },
   {
     path: '/vote',
-    title: 'Rösta',
+    title: 'D-cide',
     requiredPrivileges: 'member',
     menu: true,
     component: './src/components/vote/page.js',
+  },
+  {
+    path: '/voting-admin',
+    title: 'D-cide Admin',
+    requiredPrivileges: 'voting_admin',
+    menu: true,
+    component: './src/components/votingAdmin/page.js',
   },
   {
     path: '/netlight',
@@ -53,7 +60,7 @@ module.exports.PAGES = [
   },
   {
     path: '/booking',
-    title: 'Bokningssystemet',
+    title: 'Bokning',
     menu: true,
     component: './src/components/booking/page.js',
   },
@@ -63,13 +70,6 @@ module.exports.PAGES = [
     requiredPrivileges: 'attendance_admin',
     menu: true,
     component: './src/components/attendance/page.js',
-  },
-  {
-    path: '/voting-admin',
-    title: 'Röstningssystemet',
-    requiredPrivileges: 'voting_admin',
-    menu: true,
-    component: './src/components/votingAdmin/page.js',
   },
   {
     path: '/checkin',

@@ -8,7 +8,7 @@ import SpeakerPanel from './speakerPanel'
 import MeetingInfoPanel from './meetingInfoPanel'
 import VotePanel from './votePanel'
 
-const VotePage = () => {
+const VotePage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
   const { data: meetings, revalidate } = useSWR('/voting/meetings/')
 
@@ -26,7 +26,7 @@ const VotePage = () => {
       <GridContainer>
         <GridItem fullWidth>
           <TitleChooser
-            title="D-cide"
+            title={title}
             choice={currentMeeting}
             setChoice={setCurrentMeeting}
             choices={meetings}
