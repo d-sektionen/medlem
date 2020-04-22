@@ -61,7 +61,7 @@ class Preferences extends Component {
   }
 
   render() {
-    const { user } = this.props
+    const { user, title } = this.props
     const {
       firstName,
       lastName,
@@ -73,11 +73,14 @@ class Preferences extends Component {
     } = this.state
     return (
       <form onSubmit={this.handleSubmit}>
-        <div>
-          {user.membership
-            ? `Du är sektionsmedlem.`
-            : 'Du saknar sektionsmedlemsskap.'}
-        </div>
+        <h1>{title}</h1>
+        <p>
+          <strong>
+            {user.membership
+              ? `Du är sektionsmedlem.`
+              : 'Du saknar sektionsmedlemsskap.'}
+          </strong>
+        </p>
         <div>
           <label className={style.inputLabel}>
             Förnamn:

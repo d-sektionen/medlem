@@ -16,7 +16,9 @@ const LayoutContent = ({
   hasPrivileges,
 }) => (
   <div className={style.contentWrapper}>
+    {/* Display page */}
     {loggedIn && hasPrivileges && children}
+    {/* Missing privileges */}
     {loggedIn && !hasPrivileges && (
       <BigPixels>
         <GridContainer>
@@ -29,7 +31,9 @@ const LayoutContent = ({
         </GridContainer>
       </BigPixels>
     )}
+    {/* Page is loading */}
     {!loggedIn && loading && <BigPixels />}
+    {/* Not logged in */}
     {!loggedIn && !loading && (
       <BigPixels>
         <GridContainer>

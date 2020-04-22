@@ -16,7 +16,7 @@ import LayoutContent from './layoutContent'
 import { Button } from '../ui/buttons'
 
 export const LoadingContext = React.createContext({
-  status: false,
+  status: true,
   set: () => {},
 })
 export const UserContext = React.createContext({ user: null, set: () => {} })
@@ -26,7 +26,7 @@ const Layout = ({ children, location, pageContext }) => {
   const [sideMenuOpen, setSideMenuOpen] = useState(false)
   const [error, setError] = useState(null)
 
-  const loadingContextValue = useState(false)
+  const loadingContextValue = useState(true)
   const [loading, setLoading] = loadingContextValue
   const userContextValue = useState(null)
   const [user, setUser] = userContextValue
@@ -43,15 +43,19 @@ const Layout = ({ children, location, pageContext }) => {
   )
 
   useEffect(() => {
-    if (!window.localStorage.getItem('token')) return
-
-    get('/account/user/me/')
-      .then(res => {
+    ;(async () => {
+      if (!window.localStorage.getItem('token')) {
         setLoading(false)
-        setUser(res.data)
+        return
+      }
+      setLoading(true)
+
+      try {
+        const { data } = await get('/account/user/me/')
+        setLoading(false)
+        setUser(data)
         setError(null)
-      })
-      .catch(err => {
+      } catch (err) {
         setLoading(false)
         setUser(null)
 
@@ -59,11 +63,7 @@ const Layout = ({ children, location, pageContext }) => {
           setError(
             <>
               <p>Kommunikation med servern kunde inte etableras.</p>
-              <Button
-                onClick={() => {
-                  window.location.reload()
-                }}
-              >
+              <Button onClick={() => window.location.reload()}>
                 Ladda om sidan
               </Button>
             </>
@@ -71,8 +71,8 @@ const Layout = ({ children, location, pageContext }) => {
         else if (err.response.status === 401) {
           window.localStorage.removeItem('token')
         }
-      })
-    setLoading(true)
+      }
+    })()
   }, [])
 
   return (
