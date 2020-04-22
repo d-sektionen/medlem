@@ -43,8 +43,8 @@ const MeetingPanel = ({ currentMeeting, updatePatch }) => (
         }
       >
         {currentMeeting.open_attendance
-          ? 'Stäng självincheckling'
-          : 'Öppna självincheckling'}
+          ? 'Stäng självincheckning'
+          : 'Öppna självincheckning'}
       </Button>
     </ButtonGroup>
   </div>
