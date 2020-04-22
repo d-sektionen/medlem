@@ -10,7 +10,7 @@ import SpeakerPanel from './speakerPanel'
 import TitleChooser from '../ui/titleChooser'
 import AddMeeting from './addMeeting'
 import useModal, { useCloseModal } from '../modal/useModal'
-import { post } from '../request'
+import { post, patch } from '../request'
 import BigPixels from '../layout/bigPixels'
 
 const VotingAdmin = () => {
@@ -22,6 +22,17 @@ const VotingAdmin = () => {
   const create = async data => {
     const { data: newMeeting } = await post('/voting/admin-meetings/', data)
     mutate([...unorderedMeetings, newMeeting])
+  }
+
+  const updatePatch = async data => {
+    const { data: updatedMeeting } = await patch(
+      `/voting/admin-meetings/${currentMeeting.id}/`,
+      data
+    )
+    mutate([
+      ...unorderedMeetings.filter(meeting => meeting.id !== currentMeeting.id),
+      updatedMeeting,
+    ])
   }
 
   const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null
@@ -53,13 +64,16 @@ const VotingAdmin = () => {
                 },
               })
             }}
-            actionLabel={'Nytt möte'}
+            actionLabel="Nytt möte"
           />
         </GridItem>
         {currentMeeting && (
           <>
             <GridItem>
-              <MeetingPanel currentMeeting={currentMeeting} create={create} />
+              <MeetingPanel
+                currentMeeting={currentMeeting}
+                updatePatch={updatePatch}
+              />
             </GridItem>
             <GridItem>
               <VotePanel currentMeeting={currentMeeting} />
