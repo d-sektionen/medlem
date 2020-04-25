@@ -1,0 +1,7 @@
+@import 'vars';
+
+@mixin small-mobile-only {
+  @media screen and (max-width: $small-mobile-breakpoint) {
+    @content;
+  }
+}
