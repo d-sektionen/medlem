@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import useRestEndpoint from '../request/useRestEndpoint'
 
 let currentKey = 0
 // creates an alternative with an unique key, do not manually create alternative objects

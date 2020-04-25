@@ -1,18 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import useSWR from 'swr'
+import { FiBarChart2, FiEdit2 } from 'react-icons/fi'
 
-import { FiTrash2, FiCheck, FiBarChart2, FiEdit2 } from 'react-icons/fi'
-
-import useRestEndpoint from '../request/useRestEndpoint'
 import useModal, { useCloseModal } from '../modal/useModal'
 import AddVote from './addVote'
 import VoteStats from './voteStats'
 import { List, ListItem, ListButton } from '../ui/list'
 import { Button } from '../ui/buttons'
+import { post, put } from '../request'
 
 const VotePanel = ({ currentMeeting }) => {
-  const [{ list, update, create }, votes] = useRestEndpoint({
-    endpoint: '/voting/admin-votes/',
-  })
+  const { data: votes, mutate } = useSWR(
+    `/voting/admin-votes/?event_id=${currentMeeting.id}`
+  )
+
+  const create = async data => {
+    const { data: newVote } = await post('/voting/admin-votes/', data)
+    mutate([...votes, newVote])
+    return newVote
+  }
+
+  const update = async (id, data) => {
+    const { data: updatedVote } = await put(`/voting/admin-votes/${id}/`, data)
+    mutate([...votes.filter(v => v.id !== id), updatedVote])
+    return updatedVote
+  }
 
   const [openCreateModal] = useModal(AddVote)
   const [openChartModal] = useModal(VoteStats)
@@ -21,15 +33,7 @@ const VotePanel = ({ currentMeeting }) => {
   // Close modal when a vote is created
   useEffect(closeModal, [votes])
 
-  useEffect(
-    () => {
-      if (currentMeeting) list({ event_id: currentMeeting.id })
-      // TODO: handle errors
-    },
-    [currentMeeting]
-  )
-
-  if (votes === null) return <></>
+  // if (votes === null) return <></>
 
   return (
     <div>
@@ -45,39 +49,40 @@ const VotePanel = ({ currentMeeting }) => {
         Ny omröstning
       </Button>
       <List>
-        {votes
-          .filter(vote => vote.meeting === currentMeeting.id)
-          .map(vote => (
-            <ListItem
-              title={vote.question}
-              subtitle={vote.open ? 'Active' : undefined}
-              key={vote.id}
-              buttons={[
-                <ListButton
-                  onClick={() =>
-                    openChartModal(`Resultat av "${vote.question}"`, {
-                      voteId: vote.id,
-                    })
-                  }
-                  iconComponent={FiBarChart2}
-                  text="Resultat"
-                  key="results"
-                />,
-                <ListButton
-                  onClick={() =>
-                    openCreateModal(`Uppdatera "${vote.question}"`, {
-                      currentMeeting,
-                      update,
-                      updateData: vote,
-                    })
-                  }
-                  iconComponent={FiEdit2}
-                  text="Uppdatera omröstning"
-                  key="update"
-                />,
-              ]}
-            />
-          ))}
+        {votes &&
+          votes
+            .filter(vote => vote.meeting === currentMeeting.id)
+            .map(vote => (
+              <ListItem
+                title={vote.question}
+                subtitle={vote.open ? 'Active' : undefined}
+                key={vote.id}
+                buttons={[
+                  <ListButton
+                    onClick={() =>
+                      openChartModal(`Resultat av "${vote.question}"`, {
+                        voteId: vote.id,
+                      })
+                    }
+                    iconComponent={FiBarChart2}
+                    text="Resultat"
+                    key="results"
+                  />,
+                  <ListButton
+                    onClick={() =>
+                      openCreateModal(`Uppdatera "${vote.question}"`, {
+                        currentMeeting,
+                        update,
+                        updateData: vote,
+                      })
+                    }
+                    iconComponent={FiEdit2}
+                    text="Uppdatera omröstning"
+                    key="update"
+                  />,
+                ]}
+              />
+            ))}
       </List>
     </div>
   )

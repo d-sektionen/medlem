@@ -17,8 +17,20 @@
   max-width: 250px;
   width: 90%;
   left: 0;
-  background: $dark-gray;
-  background: linear-gradient(45deg, $dsek-blue, $dsek-green);
+
+  // for browsers that don't support backdrop filter
+  background: $very-dark-gray
+    linear-gradient(45deg, rgba($dsek-blue, 0.5), rgba($dsek-green, 0.5));
+  // for the most modern browsers
+  @supports (backdrop-filter: blur(20px)) {
+    background: linear-gradient(
+      45deg,
+      rgba($dsek-blue, 0.5),
+      rgba($dsek-green, 0.5)
+    );
+    backdrop-filter: blur(20px);
+  }
+
   box-shadow: $box-shadow-raised;
   z-index: 30;
 

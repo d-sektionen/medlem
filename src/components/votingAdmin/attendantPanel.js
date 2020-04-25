@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-
 import { FiTrash2 } from 'react-icons/fi'
-import useRestEndpoint from '../request/useRestEndpoint'
+
 import { List, ListButton, ListItem } from '../ui/list'
 import { Button, ButtonGroup } from '../ui/buttons'
 import { del, post } from '../request'
@@ -33,7 +32,7 @@ const AttendantPanel = ({ currentMeeting }) => {
       >
         <input value={input} onChange={e => setInput(e.target.value)} />
       </form>
-      <p>
+      <div>
         <ButtonGroup>
           <p>{`Röstlängd: ${attendants ? attendants.length : 0}`}</p>
           <Button
@@ -49,7 +48,7 @@ const AttendantPanel = ({ currentMeeting }) => {
             Återställ deltagarlista
           </Button>
         </ButtonGroup>
-      </p>
+      </div>
       <List>
         {attendants &&
           attendants.map(attendant => (

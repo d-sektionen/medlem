@@ -38,10 +38,7 @@ const calculateY = date => {
 const calculateHeight = (start, end) =>
   moment.duration(end.diff(start)).asHours() * 10
 
-const BookingCalendar = ({ itemId }) => {
-  const { data: bookings } = useSWR(
-    () => itemId && `/booking/bookings/?item=${itemId}`
-  )
+const BookingCalendar = ({ bookings }) => {
   const [openViewBooking] = useModal(ViewBooking)
   const [page, setPage] = useState(moment()) // TODO: fix new year
 

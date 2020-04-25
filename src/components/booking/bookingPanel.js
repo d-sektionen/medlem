@@ -15,32 +15,13 @@ import { Checkbox, Switch } from '../ui/checkbox'
 
 moment.locale('sv')
 
-const BookingPanel = ({
-  item,
-  bookings,
-  listBookings,
-  updateBooking,
-  destroyBooking,
-}) => {
+const BookingPanel = ({ bookings, updateBooking, destroyBooking }) => {
   const [user] = useContext(UserContext)
-
   const [onlyMine, setOnlyMine] = useState(false)
 
   const [openEditBooking] = useModal(EditBooking)
   const [openViewBooking] = useModal(ViewBooking)
-
   const [openConfirmation] = useConfirmModal()
-
-  useEffect(
-    () => {
-      listBookings({
-        item: item ? item.id : undefined,
-        future: true,
-        user: onlyMine ? 'me' : undefined,
-      })
-    },
-    [item, onlyMine]
-  )
 
   return (
     <>
@@ -59,15 +40,20 @@ const BookingPanel = ({
               start: new Date(b.start),
               end: new Date(b.end),
             }))
+            // apply only mine filter
+            .filter(b => {
+              if (onlyMine) return user.id === b.user.id
+              return true
+            })
+            // only future bookings
+            .filter(b => b.end > new Date())
             // sort properly
             .sort((a, b) => a.start - b.start)
 
             .map(booking => (
               <ListItem
                 title={booking.user.pretty_name}
-                subtitle={`${item ? '' : `${booking.item.name}, `}${moment(
-                  booking.start
-                ).calendar()}`}
+                subtitle={moment(booking.start).calendar()}
                 buttons={[
                   <ListButton
                     shown={
