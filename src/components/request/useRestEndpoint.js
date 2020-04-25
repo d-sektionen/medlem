@@ -1,3 +1,6 @@
+/*
+This hook is obsolete, use SWR instead.
+*/
 import { useContext, useState } from 'react'
 
 import { LoadingContext } from '../layout/layout'

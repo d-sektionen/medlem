@@ -1,16 +1,17 @@
 import React, { useContext } from 'react'
+import useSWR from 'swr'
 import { FiLink, FiExternalLink } from 'react-icons/fi'
+
 import { UserContext } from './layout/layout'
-import { useEndpoint } from './request'
 import BigPixels from './layout/bigPixels'
 import { GridContainer, GridItem } from './ui/grid'
 import MembershipPanel from './membershipPanel'
 import { List, ListButton, ListItem } from './ui/list'
 
 const IndexPage = () => {
-  const [data] = useEndpoint({
-    url: 'https://d-sektionen.se/wp-json/wp/v2/posts?per_page=6',
-  })
+  const { data } = useSWR(
+    'https://d-sektionen.se/wp-json/wp/v2/posts?per_page=6'
+  )
   const [user] = useContext(UserContext)
 
   const greeting = user.first_name ? `Hej ${user.first_name}!` : 'Hej!'
