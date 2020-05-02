@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Link } from 'gatsby'
-import posed, { PoseGroup } from 'react-pose'
+import React, { useEffect, useContext } from 'react'
 
-import { FiLogOut, FiUser, FiSettings } from 'react-icons/fi'
+import { FiLogOut, FiSettings } from 'react-icons/fi'
 import { IoMdQrScanner } from 'react-icons/io'
 
-import style from '../../scss/profileMenu.module.scss'
 import { BASE_URL } from '../../config'
 import useModal, { useCloseModal } from '../modal/useModal'
 import QR from './qr'
@@ -44,7 +41,7 @@ const ProfileMenu = ({ user }) => {
   const closeModal = useCloseModal()
 
   return (
-    <div className={style.profileMenu}>
+    <div>
       <p>{`${user.pretty_name} (${user.username})`}</p>
       <ButtonGroup>
         <Button onClick={() => openModal('QR-kod')}>
