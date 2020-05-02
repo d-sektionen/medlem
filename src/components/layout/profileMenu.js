@@ -7,19 +7,10 @@ import { IoMdQrScanner } from 'react-icons/io'
 
 import style from '../../scss/profileMenu.module.scss'
 import { BASE_URL } from '../../config'
-import useModal from '../modal/useModal'
+import useModal, { useCloseModal } from '../modal/useModal'
 import QR from './qr'
 import { UserContext } from './layout'
-
-const Menu = posed.div({
-  enter: { height: 'auto' },
-  exit: { height: '0' },
-})
-
-const Top = posed.div({
-  compact: { height: '100%', delay: '250' },
-  expanded: { height: '200%' },
-})
+import { Button, ButtonGroup } from '../ui/buttons'
 
 const LogoutModal = () => {
   const setUser = useContext(UserContext)[1]
@@ -48,65 +39,29 @@ const LogoutModal = () => {
 }
 
 const ProfileMenu = ({ user }) => {
-  const [open, setOpen] = useState(false)
   const [openModal] = useModal(QR)
   const [openLogoutModal] = useModal(LogoutModal)
-
-  const toggle = () => {
-    setOpen(prevState => !prevState)
-  }
-
-  const top = (
-    <Top
-      onClick={toggle}
-      key="top"
-      className={style.top}
-      pose={open ? 'expanded' : 'compact'}
-    >
-      {user && (
-        <>
-          <div>
-            <FiUser />
-            {`${user.first_name} ${user.last_name}`}
-          </div>
-          <div>{user.username}</div>
-        </>
-      )}
-    </Top>
-  )
-
-  const menu = (
-    <Menu key="menu" className={style.menu}>
-      <ul>
-        <li>
-          <a onClick={() => openModal('QR-kod')}>
-            <IoMdQrScanner />
-            QR-kod
-          </a>
-        </li>
-        <li>
-          <Link to="/preferences">
-            <FiSettings />
-            Kontoinställningar
-          </Link>
-        </li>
-        <li>
-          <a
-            onClick={() =>
-              openLogoutModal('Loggar ut', {}, { noPadding: true })
-            }
-          >
-            <FiLogOut />
-            Logga ut
-          </a>
-        </li>
-      </ul>
-    </Menu>
-  )
+  const closeModal = useCloseModal()
 
   return (
     <div className={style.profileMenu}>
-      <PoseGroup>{open ? [top, menu] : [top]}</PoseGroup>
+      <p>{`${user.pretty_name} (${user.username})`}</p>
+      <ButtonGroup>
+        <Button onClick={() => openModal('QR-kod')}>
+          <IoMdQrScanner />
+          QR-kod
+        </Button>
+        <Button to="/preferences" onClick={closeModal}>
+          <FiSettings />
+          Kontoinställningar
+        </Button>
+        <Button
+          onClick={() => openLogoutModal('Loggar ut', {}, { noPadding: true })}
+        >
+          <FiLogOut />
+          Logga ut
+        </Button>
+      </ButtonGroup>
     </div>
   )
 }

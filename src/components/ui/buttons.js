@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'gatsby'
 
 import style from '../../scss/ui.module.scss'
 
@@ -12,7 +13,14 @@ const IconButton = ({ onClick, iconComponent: Icon, text }) => {
   )
 }
 
-const Button = ({ onClick, href, children, type }) => {
+const Button = ({ onClick, to, href, children, type }) => {
+  if (to)
+    return (
+      <Link className={style.button} to={to} onClick={onClick}>
+        {children}
+      </Link>
+    )
+
   if (href)
     return (
       <a className={style.button} href={href} onClick={onClick}>

@@ -23,7 +23,7 @@
 }
 
 .modal {
-  background-color: $light-gray;
+  background-color: rgba($white, 0.7);
   margin: auto;
 
   max-width: 800px;
@@ -31,12 +31,14 @@
   max-height: 100%;
   min-height: 250px;
 
+  backdrop-filter: blur(10px);
+
   display: grid;
   grid-template-rows: auto 1fr;
   pointer-events: initial;
 
   > header {
-    background: $dark-gray;
+    background: rgba($black, 0.5);
     color: $white;
     display: flex;
     justify-content: space-between;

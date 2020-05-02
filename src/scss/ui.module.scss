@@ -9,6 +9,12 @@
   cursor: pointer;
   padding: $base-padding $base-padding * 2;
 
+  align-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $base-padding / 2;
+
   &:hover {
     background-color: $dsek-blue;
   }
@@ -60,8 +66,8 @@
   grid-gap: $base-padding;
   padding: $base-padding;
   justify-content: center;
-  align-content: center;
-  min-height: 100%;
+  z-index: 10;
+  position: relative;
 
   @include small-mobile-only {
     grid-gap: $base-padding/4;
@@ -74,7 +80,7 @@
 .gridItem {
   background-color: rgba(255, 255, 255, 0.95);
   padding: $base-padding;
-  z-index: 10;
+  // z-index: 10;
   backdrop-filter: blur(5px);
 }
 
@@ -174,8 +180,12 @@
     flex-grow: 1;
   }
 
+  .selectContainer {
+    position: relative;
+  }
   select {
     // padding: 0 0.5 * $base-padding;
+    height: 100%;
     background: $very-light-gray;
     min-width: 200px;
     outline: none;
@@ -190,5 +200,70 @@
       padding: $base-padding;
       background: $very-light-gray;
     }
+  }
+  .hint {
+    user-select: none;
+    color: $white;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: $base-padding * 1.5;
+    padding: $base-padding 2 * $base-padding;
+    background-color: $dsek-blue;
+    box-shadow: $box-shadow-default;
+
+    &::after {
+      position: absolute;
+      top: -1.5 * $base-padding;
+      right: 2 * $base-padding;
+      content: '';
+      border-left: $base-padding solid transparent;
+      border-right: $base-padding solid transparent;
+      border-bottom: 1.5 * $base-padding solid $dsek-blue;
+    }
+  }
+}
+
+.pattern {
+  height: 100%;
+  display: block;
+  width: 100%;
+}
+
+.imageHeader {
+  margin: -$base-padding;
+  margin-bottom: $base-padding;
+  position: relative;
+  height: 12rem;
+
+  h2 {
+    position: absolute;
+    bottom: 0;
+    margin: $base-padding;
+    color: $white;
+  }
+
+  .image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .gradient {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 30%);
   }
 }
