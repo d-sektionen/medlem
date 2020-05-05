@@ -79,4 +79,10 @@ module.exports.PAGES = [
     menu: true,
     component: './src/components/checkin/page.js',
   },
+  {
+    path: '/event',
+    title: 'Eventsystemet',
+    menu: true,
+    component: './src/components/event/page.js',
+  },
 ]
