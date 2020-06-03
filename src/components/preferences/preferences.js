@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { put, patch } from '../request'
 
 import style from '../../scss/preferences.module.scss'
+import { Button } from '../ui/buttons'
 
 class Preferences extends Component {
   constructor(props) {
@@ -133,11 +134,7 @@ class Preferences extends Component {
           )}
         </div>
         <div>
-          <input
-            type="submit"
-            value="Spara"
-            className={`${style.submit} button`}
-          />
+          <Button type="submit">Spara</Button>
         </div>
         <div>
           {error && <div className={style.error}>{error}</div>}

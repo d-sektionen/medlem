@@ -110,6 +110,7 @@
   }
   p {
     font-size: 0.9rem;
+    margin: 0;
   }
 }
 
@@ -171,26 +172,40 @@
 }
 
 .titleChooser {
-  display: flex;
-  justify-content: flex-end;
+  width: 100%;
+  justify-content: space-between;
   flex-wrap: wrap;
+  display: flex;
+  gap: $base-padding;
+
+  > * {
+    max-width: 30rem;
+  }
 
   h1 {
     margin: 0;
-    flex-grow: 1;
   }
-
+  .actions {
+    display: flex;
+    width: 100%;
+  }
   .selectContainer {
     position: relative;
+    flex-grow: 1;
+    &:nth-last-child(2) {
+      margin-right: $base-padding;
+    }
   }
   select {
     // padding: 0 0.5 * $base-padding;
     height: 100%;
+    width: 100%;
     background: $very-light-gray;
     min-width: 200px;
     outline: none;
     border: 1px solid $light-gray;
     font-size: 1.25em;
+    min-height: 3 * $base-padding;
 
     &:focus {
       border: 1px solid $dsek-blue;

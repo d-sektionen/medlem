@@ -41,6 +41,7 @@ const LayoutContent = ({
             {error}
             {!error && (
               <>
+                <h1>Logga in</h1>
                 <p>
                   Genom att logga in här kan du komma åt D&#8209;sektionens
                   medlemstjänster, inloggningen sker via LiUs centrala

@@ -7,14 +7,35 @@ body {
   background: #eee;
 }
 
-.button {
-  text-decoration: none;
-  color: #fff;
-  background-color: $dsek-blue;
-  text-align: center;
-  padding: 1rem;
-  display: block;
-  border: none;
-  outline: none;
-  cursor: pointer;
+p {
+  line-height: 1.4;
+  color: $dark-gray;
+  margin: $base-padding 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $black;
+  font-weight: normal;
+  margin-bottom: $base-padding;
+  margin-top: 3 * $base-padding;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  &:nth-child(1) {
+    margin-top: 0;
+  }
+  &:nth-last-child(1) {
+    margin-bottom: 0;
+  }
 }
