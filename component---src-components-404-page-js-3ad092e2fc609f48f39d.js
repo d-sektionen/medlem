@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{SKRq:function(e,a,n){"use strict";n.r(a);var l=n("q1tI"),t=n.n(l),r=n("r90U"),c=n("zw+i");a.default=()=>t.a.createElement(r.a,null,t.a.createElement(c.a,null,t.a.createElement(c.b,null,"fyra noll fyra")))}}]);
+//# sourceMappingURL=component---src-components-404-page-js-3ad092e2fc609f48f39d.js.map
