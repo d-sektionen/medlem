@@ -7,6 +7,7 @@ import ViewBooking from './viewBooking'
 import useModal from '../modal/useModal'
 
 import style from '../../scss/bookingCalendar.module.scss'
+import { Button } from '../ui/buttons'
 
 const getDateRangeDayCount = (start, end) => {
   const startOfStartDay = moment(start).startOf('day')
@@ -51,23 +52,21 @@ const BookingCalendar = ({ bookings }) => {
       <div className={style.controls}>
         <div>{`Vecka ${page.week()}${yearString}`}</div>
 
-        <div>
-          <button
-            type="button"
-            onClick={() => setPage(oldPage => moment(oldPage.subtract(1, 'w')))}
-          >
-            -
-          </button>
-          <button type="button" onClick={() => setPage(moment())}>
-            nu
-          </button>
-          <button
-            type="button"
-            onClick={() => setPage(oldPage => moment(oldPage.add(1, 'w')))}
-          >
-            +
-          </button>
-        </div>
+        <Button
+          type="button"
+          onClick={() => setPage(oldPage => moment(oldPage.subtract(1, 'w')))}
+        >
+          -
+        </Button>
+        <Button type="button" onClick={() => setPage(moment())}>
+          nu
+        </Button>
+        <Button
+          type="button"
+          onClick={() => setPage(oldPage => moment(oldPage.add(1, 'w')))}
+        >
+          +
+        </Button>
       </div>
       <svg
         version="1.1"
@@ -109,7 +108,6 @@ const BookingCalendar = ({ bookings }) => {
                         y={calculateY(s)}
                         width="50"
                         height={calculateHeight(s, e)}
-                        stroke="white"
                         onClick={() =>
                           openViewBooking('Bokningsinformation', {
                             booking: {

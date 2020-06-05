@@ -3,6 +3,11 @@
 .controls {
   display: flex;
   justify-content: space-between;
+
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: $base-padding;
+  align-items: baseline;
 }
 
 .booking {
@@ -13,14 +18,17 @@
   &:hover {
     fill: $dsek-green;
   }
+  rect {
+    stroke: $background-color-2;
+  }
 }
 
 .timeIndicators {
   text {
-    fill: rgba($black, 0.5);
+    fill: rgba($foreground-color-1, 0.5);
   }
   line {
-    stroke: rgba($black, 0.2);
+    stroke: rgba($foreground-color-1, 0.2);
     pointer-events: none;
   }
 }

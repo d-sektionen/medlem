@@ -1,26 +1,27 @@
 @import 'vars';
 
-.items {
-  padding: $base-padding;
-  background: $very-light-gray;
-  width: 100%;
-  min-width: 200px;
-  outline: none;
-  appearance: none;
-  border: 1px solid $light-gray;
-  font-size: 1.25em;
-  margin-bottom: $base-padding;
+// .items {
+//   padding: $base-padding;
+//   background: $very-light-gray;
+//   width: 100%;
+//   min-width: 200px;
+//   outline: none;
+//   appearance: none;
+//   border: 1px solid $light-gray;
+//   font-size: 1.25em;
+//   margin-bottom: $base-padding;
 
-  &:focus {
-    border: 1px solid $dsek-blue;
-  }
+//   &:focus {
+//     border: 1px solid $dsek-blue;
+//   }
 
-  > option {
-    padding: $base-padding;
-    background: $very-light-gray;
-  }
-}
+//   > option {
+//     padding: $base-padding;
+//     background: $very-light-gray;
+//   }
+// }
 
+// from create booking form.
 .description {
   width: 100%;
   resize: vertical;

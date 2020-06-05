@@ -4,12 +4,21 @@
 
 body {
   font-family: $dsek-font-order;
-  background: #eee;
+  background: $background-color-1;
+  color: $foreground-color-2;
+}
+
+a {
+  color: $link-color;
+
+  &:visited {
+    color: $link-color-visited;
+  }
 }
 
 p {
   line-height: 1.4;
-  color: $dark-gray;
+  color: $foreground-color-2;
   margin: $base-padding 0;
 }
 
@@ -19,7 +28,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: $black;
+  color: $foreground-color-3;
   font-weight: normal;
   margin-bottom: $base-padding;
   margin-top: 3 * $base-padding;
@@ -38,4 +47,12 @@ p {
   &:nth-last-child(1) {
     margin-bottom: 0;
   }
+}
+
+input,
+textarea {
+  border: none;
+  background-color: $background-color-3;
+  color: $foreground-color-1;
+  padding: $base-padding;
 }

@@ -5,7 +5,7 @@
   display: block;
 
   input {
-    border: 1px #ddd solid;
+    border: 1px $background-color-3 solid;
     padding: 0.5rem;
     &:not([type='checkbox']) {
       display: block;

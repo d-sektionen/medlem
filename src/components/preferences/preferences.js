@@ -35,19 +35,27 @@ class Preferences extends Component {
     this.setState({ error: undefined, success: undefined, errors: {} })
 
     setLoading(true)
-    patch('/account/user/me/', {
+    put('/account/profile/', {
       first_name: this.state.firstName,
       last_name: this.state.lastName,
-      profile: {
-        liu_card_id: this.state.liuCardId,
-        infomail_subscriber: this.state.infomailSubscriber,
-      },
+      liu_card_id: this.state.liuCardId,
+      infomail_subscriber: this.state.infomailSubscriber,
     })
       .then(res => {
         setLoading(false)
         if (res.status < 300) {
           this.setState({ success: 'Ändringarna har sparats.' })
-          setUser(res.data)
+
+          setUser(prev => ({
+            ...prev,
+            first_name: res.data.firstName,
+            last_name: res.data.lastName,
+            profile: {
+              ...prev.profile,
+              liu_card_id: res.data.liu_card_id,
+              infomail_subscriber: res.data.infomail_subscriber,
+            },
+          }))
         }
       })
       .catch(err => {

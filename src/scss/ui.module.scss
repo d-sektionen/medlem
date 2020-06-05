@@ -4,8 +4,8 @@
 .button {
   text-decoration: none;
   border: none;
-  background-color: $dark-gray;
-  color: $white;
+  background-color: $background-color-3;
+  color: $foreground-color-3;
   cursor: pointer;
   padding: $base-padding $base-padding * 2;
 
@@ -23,6 +23,9 @@
     outline-width: 0;
     box-shadow: 0 0 2px 2px $dsek-blue;
   }
+  &:visited {
+    color: $foreground-color-3;
+  }
 }
 
 .buttonGroup {
@@ -34,8 +37,8 @@
   border: none;
   height: 8 * $base-padding;
   width: 8 * $base-padding;
-  background-color: $dark-gray;
-  color: $white;
+  background-color: $background-color-3;
+  color: $foreground-color-3;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -72,13 +75,13 @@
   @include small-mobile-only {
     grid-gap: $base-padding/4;
     padding: 0;
-    background: $dark-gray;
-    border-bottom: $dark-gray $base-padding/4 solid;
+    background: $background-color-2;
+    border-bottom: $background-color-3 $base-padding/4 solid;
   }
 }
 
 .gridItem {
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba($background-color-2, 0.95);
   padding: $base-padding;
   // z-index: 10;
   backdrop-filter: blur(5px);
@@ -93,7 +96,7 @@
   li {
     display: flex;
     list-style: none;
-    background-color: $very-light-gray;
+    background-color: $background-color-3;
   }
 }
 
@@ -126,7 +129,7 @@
     background: none;
     padding: $base-padding;
     height: 4 * $base-padding;
-    color: $black;
+    color: $foreground-color-3;
     svg {
       width: 2 * $base-padding;
       height: 2 * $base-padding;
@@ -143,6 +146,7 @@
   }
 }
 
+// TODO: use our variables
 .switch {
   display: flex;
   flex-direction: row;
@@ -200,12 +204,14 @@
     // padding: 0 0.5 * $base-padding;
     height: 100%;
     width: 100%;
-    background: $very-light-gray;
+    background: $background-color-3;
     min-width: 200px;
     outline: none;
-    border: 1px solid $light-gray;
+    border: 1px solid $background-color-4;
     font-size: 1.25em;
     min-height: 3 * $base-padding;
+    color: $foreground-color-3;
+    padding-left: $base-padding;
 
     &:focus {
       border: 1px solid $dsek-blue;
@@ -213,12 +219,13 @@
 
     > option {
       padding: $base-padding;
-      background: $very-light-gray;
+      background: $background-color-3;
+      color: $foreground-color-3;
     }
   }
   .hint {
     user-select: none;
-    color: $white;
+    color: $foreground-color-4;
     position: absolute;
     top: 100%;
     right: 0;
@@ -255,7 +262,7 @@
     position: absolute;
     bottom: 0;
     margin: $base-padding;
-    color: $white;
+    color: $foreground-color-4;
   }
 
   .image {

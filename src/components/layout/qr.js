@@ -7,7 +7,7 @@ import style from '../../scss/qr.module.scss'
 import { useCloseModal } from '../modal/useModal'
 
 const QR = () => {
-  const { data } = useSWR('/account/user/identification_token/')
+  const { data } = useSWR('/account/identification-token/')
   const [error, setError] = useState(null)
   const canvasRef = useRef(null)
   const closeModal = useCloseModal()

@@ -51,7 +51,7 @@ const Layout = ({ children, location, pageContext }) => {
       setLoading(true)
 
       try {
-        const { data } = await get('/account/user/me/')
+        const { data } = await get('/account/me/')
         setLoading(false)
         setUser(data)
         setError(null)

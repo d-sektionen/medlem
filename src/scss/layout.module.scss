@@ -17,7 +17,7 @@
   bottom: 10vw;
   left: 10vw;
   right: 10vw;
-  opacity: 0.2;
+  opacity: 0.05;
 
   svg {
     height: 100%;
@@ -48,11 +48,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(black, 0.7);
+  background: $background-color-2;
   // background: linear-gradient(45deg, $dsek-blue, $dsek-green);
   box-shadow: $box-shadow-default;
   backdrop-filter: blur(10px);
-  color: white;
+  color: $foreground-color-2;
   // z-index: 20;
 
   > svg {

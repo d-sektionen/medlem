@@ -6,12 +6,19 @@
   max-width: 60rem;
 
   select {
-    background: $very-light-gray;
-    border: 3px solid $gray;
+    color: $foreground-color-2;
+    background: $background-color-2;
+    border: 3px solid $background-color-3;
     padding: $base-padding;
     outline: none;
     min-width: 45%;
     max-width: 90%;
+
+    > option {
+      padding: $base-padding;
+      background: $background-color-3;
+      color: $foreground-color-3;
+    }
 
     &:first-of-type {
       border-bottom: none;
@@ -33,11 +40,11 @@
 }
 
 .fail {
-  background: lighten($red, 20);
+  background: rgba($red, 0.3);
 }
 
 .success {
-  background: lighten($dsek-green, 20);
+  background: rgba($dsek-green, 0.3);
 }
 
 .textField {
@@ -45,13 +52,13 @@
   height: 6rem;
   font-size: 2rem;
   text-align: center;
-  background: $very-light-gray;
+  background: $background-color-2;
   line-height: 6rem;
   border-radius: 0px 12px;
-  border: 3px solid $gray;
+  border: 3px solid $background-color-3;
 
   &:not(:focus) {
-    background: lightpink;
+    background: rgba($red, 0.3);
   }
 }
 
@@ -66,6 +73,7 @@
   justify-content: center;
   flex-grow: 1;
 
+  padding: $base-padding * 2;
   transition: background-color 0.3s ease;
 
   h1 {
@@ -78,7 +86,7 @@
 }
 
 .feedback {
-  height: 6rem;
+  height: 10rem;
   text-align: center;
   svg {
     height: 4rem;
