@@ -70,7 +70,7 @@ class Preferences extends Component {
   }
 
   render() {
-    const { user, title } = this.props
+    const { user } = this.props
     const {
       firstName,
       lastName,
@@ -82,7 +82,7 @@ class Preferences extends Component {
     } = this.state
     return (
       <form onSubmit={this.handleSubmit}>
-        <h1>{title}</h1>
+        <h2>Profil</h2>
         <p>
           <strong>
             {user.membership
