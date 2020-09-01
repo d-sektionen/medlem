@@ -28,3 +28,18 @@
   font-size: 0.8em;
   margin: 1rem 0;
 }
+
+.calendarSubNotice {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  // width: 40rem;
+  // max-width: 100%;
+
+  input {
+    width: 100%;
+    padding: 1rem;
+  }
+  input:focus {
+    outline: none;
+  }
+}

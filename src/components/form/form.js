@@ -4,9 +4,9 @@ import request, { options } from '../request'
 import AutoInput from './input'
 import { Button } from '../ui/buttons'
 
-const AutoForm = ({ endpoint, method, customFetcher, onSubmit }) => {
+const AutoForm = ({ endpoint, method, customFetcher, onSubmit, defaults }) => {
   const [fields, setFields] = useState()
-  const [values, setValues] = useState({})
+  const [values, setValues] = useState(defaults)
   const [errors, setErrors] = useState({})
 
   const setValue = (field, value) => {
@@ -77,6 +77,7 @@ AutoForm.defaultProps = {
   method: 'POST',
   customFetcher: null,
   onSubmit: () => {},
+  defaults: {},
 }
 
 AutoForm.propTypes = {
@@ -84,6 +85,7 @@ AutoForm.propTypes = {
   endpoint: PropTypes.string.isRequired,
   customFetcher: PropTypes.func,
   onSubmit: PropTypes.func,
+  defaults: PropTypes.object,
 }
 
 export default AutoForm

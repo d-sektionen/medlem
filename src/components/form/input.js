@@ -24,7 +24,7 @@ const AutoInput = ({
     boolean: (
       <input
         type="checkbox"
-        value={value}
+        checked={value}
         onChange={e => {
           onChange(e.target.checked)
         }}

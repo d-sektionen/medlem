@@ -7,6 +7,7 @@ import { del, post } from '../request'
 import AddCalendarSubscription from './addCalendarSubscription'
 import useModal, { useCloseModal } from '../modal/useModal'
 import { Button } from '../ui/buttons'
+import CalendarLink from './calendarLink'
 
 const getTitle = sub => {
   const parts = []
@@ -20,6 +21,7 @@ const getTitle = sub => {
 
 const CalendarSubscriptions = () => {
   const [openCreateModal] = useModal(AddCalendarSubscription)
+  const [openLinkModal] = useModal(CalendarLink)
   const [openConfirmation] = useConfirmModal()
   const closeModal = useCloseModal()
   const { data: subs, mutate } = useSWR('/account/calendar-subscriptions/')
@@ -37,7 +39,11 @@ const CalendarSubscriptions = () => {
                 <ListButton
                   iconComponent={FiLink}
                   text="Visa länk"
-                  onClick={() => {}}
+                  onClick={() => {
+                    openLinkModal('Prenumerationslänk', {
+                      url: sub.url,
+                    })
+                  }}
                   key="view"
                 />,
                 <ListButton
