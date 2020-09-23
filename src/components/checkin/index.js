@@ -39,7 +39,13 @@ const Checkin = ({ events }) => {
     : currentAction
 
   const textFieldOnSubmit = ({ text }) => {
-    registerUser(setFeedback, setStatusMessage, currentEvent.id, text, action)
+    registerUser(
+      setFeedback,
+      setStatusMessage,
+      currentEvent.id,
+      `auto:${text}`,
+      action
+    )
   }
 
   const [openModal] = useModal(QrScanner)

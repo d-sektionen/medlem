@@ -22,7 +22,7 @@ export default (setFeedback, setStatusMessage, eventId, identifier, action) => {
 
   post('/checkin/register/', {
     event: eventId,
-    identifier,
+    user: identifier,
     action,
   })
     .then(res => {
