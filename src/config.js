@@ -79,4 +79,11 @@ module.exports.PAGES = [
     menu: true,
     component: './src/components/checkin/page.js',
   },
+  {
+    path: '/keylog',
+    title: 'Nyckelloggbok',
+    requiredPrivileges: 'member',
+    menu: false,
+    component: './src/components/keylogPage.js',
+  },
 ]
