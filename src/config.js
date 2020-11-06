@@ -82,8 +82,8 @@ module.exports.PAGES = [
   {
     path: '/keylog',
     title: 'Nyckelloggbok',
-    requiredPrivileges: 'member',
-    menu: false,
+    requiredPrivileges: 'staff',
+    menu: true,
     component: './src/components/keylogPage.js',
   },
 ]
