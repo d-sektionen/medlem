@@ -223,7 +223,8 @@
       border: 1px solid $dsek-blue;
     }
 
-    > option {
+    > option,
+    > optgroup {
       padding: $base-padding;
       background: $background-color-3;
       color: $foreground-color-3;
