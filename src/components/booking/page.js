@@ -16,6 +16,18 @@ const BookingPage = ({ pageContext: { title } }) => {
   const { data: bookings, mutate } = useSWR(
     () => item && `/booking/bookings/?item=${item.id}`
   )
+  const categorizedItems = items
+    ? items.reduce((accumulator, itm) => {
+        const cat = itm.category || 'Okategoriserat'
+        if (Object.prototype.hasOwnProperty.call(accumulator, cat)) {
+          return {
+            ...accumulator,
+            [cat]: [...accumulator[cat], itm],
+          }
+        }
+        return { ...accumulator, [cat]: [itm] }
+      }, {})
+    : {}
 
   const create = async data => {
     const { data: newBooking } = await post('/booking/bookings/', data)
@@ -55,7 +67,7 @@ const BookingPage = ({ pageContext: { title } }) => {
             title={title}
             choice={item}
             setChoice={setItem}
-            choices={items}
+            categorizedChoices={categorizedItems}
             label="name"
           />
         </GridItem>

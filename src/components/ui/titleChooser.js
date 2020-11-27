@@ -6,12 +6,24 @@ import { Button } from './buttons'
 const TitleChooser = ({
   title,
   choices,
+  categorizedChoices,
   choice,
   setChoice,
   label,
   action,
   actionLabel,
 }) => {
+  const allChoices = [
+    ...choices,
+    // merge all categorized choices to single array.
+    ...Object.keys(categorizedChoices).reduce(
+      (accumulator, category) => [
+        ...accumulator,
+        ...categorizedChoices[category],
+      ],
+      []
+    ),
+  ]
   return (
     <div className={style.titleChooser}>
       <h1>{title}</h1>
@@ -24,7 +36,7 @@ const TitleChooser = ({
                 const c =
                   selectedValue === ''
                     ? null
-                    : choices.filter(i => `${i.id}` === selectedValue)[0]
+                    : allChoices.filter(i => `${i.id}` === selectedValue)[0]
                 setChoice(c)
               }}
               value={choice ? choice.id : ''}
@@ -35,6 +47,17 @@ const TitleChooser = ({
                   {c[label]}
                 </option>
               ))}
+              {Object.keys(categorizedChoices)
+                .sort()
+                .map(key => (
+                  <optgroup label={key} key={key}>
+                    {categorizedChoices[key].map(c => (
+                      <option value={c.id} key={c.id}>
+                        {c[label]}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
             </select>
             {choice === null && (
               <div className={style.hint}>Välj ett objekt</div>
@@ -45,6 +68,10 @@ const TitleChooser = ({
       </div>
     </div>
   )
+}
+TitleChooser.defaultProps = {
+  categorizedChoices: {},
+  choices: [],
 }
 
 export default TitleChooser
