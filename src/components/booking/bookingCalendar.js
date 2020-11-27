@@ -1,7 +1,20 @@
 import React, { useState } from 'react'
-import moment from 'moment'
-import 'moment/locale/sv'
-import useSWR from 'swr'
+
+import {
+  differenceInCalendarDays,
+  startOfDay,
+  addDays,
+  endOfDay,
+  getISODay,
+  differenceInMinutes,
+  startOfISOWeek,
+  getISOWeekYear,
+  getISOWeek,
+  subWeeks,
+  addWeeks,
+  endOfISOWeek,
+  isSameISOWeek,
+} from 'date-fns'
 
 import ViewBooking from './viewBooking'
 import useModal from '../modal/useModal'
@@ -9,61 +22,57 @@ import useModal from '../modal/useModal'
 import style from '../../scss/bookingCalendar.module.scss'
 import { Button } from '../ui/buttons'
 
-const getDateRangeDayCount = (start, end) => {
-  const startOfStartDay = moment(start).startOf('day')
-  const startDayOffset = moment.duration(start.diff(startOfStartDay))
-  const rangeDuration = moment.duration(end.diff(start))
-  return startDayOffset.add(rangeDuration).days()
-}
 const splitDateRangeByDay = (start, end) => {
-  const dayCount = getDateRangeDayCount(start, end)
+  const dayCount = differenceInCalendarDays(end, start)
   const array = [[start, end]]
+  // When multiple days, split it up.
   for (let i = 1; i <= dayCount; i += 1) {
-    array[i] = [
-      moment(array[i - 1][0])
-        .add(1, 'd')
-        .startOf('day'),
-      array[i - 1][1],
-    ]
-    array[i - 1][1] = moment(array[i - 1][0]).endOf('day')
+    const [prevStart, prevEnd] = array[i - 1]
+    array[i] = [startOfDay(addDays(prevStart, 1)), prevEnd]
+    // update the end of the previous day.
+    array[i - 1][1] = endOfDay(prevStart)
   }
 
   return array
 }
 
-const calculateX = date => date.weekday() * 50 + 50
-const calculateY = date => {
-  const startOfDay = moment(date).startOf('day')
-  return moment.duration(date.diff(startOfDay)).asHours() * 10
-}
-const calculateHeight = (start, end) =>
-  moment.duration(end.diff(start)).asHours() * 10
+// the y axis uses one pixel per six minutes (hence division by 6) this is 10 px per hour.
+const calculateX = date => getISODay(date) * 50
+const calculateY = date => differenceInMinutes(date, startOfDay(date)) / 6
+
+const calculateHeight = (start, end) => differenceInMinutes(end, start) / 6
 
 const BookingCalendar = ({ bookings }) => {
   const [openViewBooking] = useModal(ViewBooking)
-  const [page, setPage] = useState(moment()) // TODO: fix new year
+  const [page, setPage] = useState(startOfISOWeek(new Date())) // TODO: fix new year
 
-  const now = moment()
+  const now = new Date()
 
-  const yearString = page.year() === now.year() ? '' : `, ${page.year()}`
+  const yearString =
+    getISOWeekYear(page) === getISOWeekYear(now)
+      ? ''
+      : `, ${getISOWeekYear(page)}`
 
   return (
     <div>
       <div className={style.controls}>
-        <div>{`Vecka ${page.week()}${yearString}`}</div>
+        <div>{`Vecka ${getISOWeek(page)}${yearString}`}</div>
 
         <Button
           type="button"
-          onClick={() => setPage(oldPage => moment(oldPage.subtract(1, 'w')))}
+          onClick={() => setPage(oldPage => subWeeks(oldPage, 1))}
         >
           -
         </Button>
-        <Button type="button" onClick={() => setPage(moment())}>
+        <Button
+          type="button"
+          onClick={() => setPage(startOfISOWeek(new Date()))}
+        >
           nu
         </Button>
         <Button
           type="button"
-          onClick={() => setPage(oldPage => moment(oldPage.add(1, 'w')))}
+          onClick={() => setPage(oldPage => addWeeks(oldPage, 1))}
         >
           +
         </Button>
@@ -75,46 +84,41 @@ const BookingCalendar = ({ bookings }) => {
       >
         {bookings &&
           bookings
-            .filter(({ start, end }) => {
-              // TODO: Does not handle booking over new years
-              const startWeek = moment(start).week()
-              const endWeek = moment(end).week()
-
-              // console.log(startWeek, page.week(), endWeek)
-              return (
-                startWeek === page.week() || endWeek === page.week()
-                // || (startWeek < page.week() && page.week() < endWeek)
-              )
-            })
+            // convert dates from string to date types.
+            .map(({ start, end, ...booking }) => ({
+              ...booking,
+              start: new Date(start),
+              end: new Date(end),
+            }))
+            // show only those in this week
+            .filter(
+              ({ start, end }) =>
+                start <= endOfISOWeek(page) && end >= startOfISOWeek(page)
+            )
+            .sort((a, b) => b.restricted_timeslot - a.restricted_timeslot)
             .map(booking => {
-              const start = moment(booking.start)
-              const end = moment(booking.end)
-
-              const dayParts = splitDateRangeByDay(start, end)
+              const dayParts = splitDateRangeByDay(booking.start, booking.end)
 
               return (
-                <g className={style.booking} key={booking.id}>
+                <g
+                  className={`${style.booking} ${
+                    booking.restricted_timeslot ? style.restrictedTimeslot : ''
+                  }`}
+                  key={booking.id}
+                >
                   {dayParts
-                    // Remove dayParts that are not in the visible week for the visible year.
-                    .filter(
-                      ([s]) =>
-                        moment(s).week() === page.week() &&
-                        moment(s).year() === page.year()
-                    )
+                    // Remove dayParts that are not in the visible week.
+                    .filter(([s]) => isSameISOWeek(s, page))
                     .map(([s, e]) => (
                       <rect
-                        key={`${booking.id}, ${s.day()}`}
+                        key={`${booking.id}, ${getISODay(s)}`}
                         x={calculateX(s)}
                         y={calculateY(s)}
                         width="50"
                         height={calculateHeight(s, e)}
                         onClick={() =>
                           openViewBooking('Bokningsinformation', {
-                            booking: {
-                              ...booking,
-                              start: new Date(booking.start),
-                              end: new Date(booking.end),
-                            },
+                            booking,
                           })
                         }
                       />
@@ -133,7 +137,8 @@ const BookingCalendar = ({ bookings }) => {
             </g>
           ))}
         </g>
-        {now.week() === page.week() && now.year() === page.year() && (
+        {/* If current week show a current time marker. */}
+        {isSameISOWeek(now, page) && (
           <line
             x1={calculateX(now)}
             x2={calculateX(now) + 50}

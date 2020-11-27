@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import moment from 'moment'
-import 'moment/locale/sv'
+import { setYear, setMonth, setDate, setMinutes, setHours } from 'date-fns'
 
 const DateTimePicker = ({ value, onChange }) => {
   return (
@@ -14,7 +13,10 @@ const DateTimePicker = ({ value, onChange }) => {
           const month = parseInt(timeString.slice(5, 7), 10)
           const date = parseInt(timeString.slice(8, 10), 10)
           if (date && month && year) {
-            const newValue = moment(value).set({ year, month: month - 1, date })
+            const newValue = setYear(
+              setMonth(setDate(value, date), month - 1),
+              year
+            )
             onChange(newValue)
           }
         }}
@@ -27,7 +29,7 @@ const DateTimePicker = ({ value, onChange }) => {
           const hour = parseInt(timeString.slice(0, 2), 10)
           const minute = parseInt(timeString.slice(3, 5), 10)
           if (!Number.isNaN(hour) && !Number.isNaN(minute)) {
-            const newValue = moment(value).set({ hour, minute })
+            const newValue = setHours(setMinutes(value, minute), hour)
             onChange(newValue)
           }
         }}

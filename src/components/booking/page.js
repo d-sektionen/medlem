@@ -37,6 +37,16 @@ const BookingPage = ({ pageContext: { title } }) => {
     mutate(bookings.filter(b => b.id !== bookingId))
   }
 
+  const confirm = async bookingId => {
+    await put(`/booking/bookings/${bookingId}/confirm/`)
+    mutate(
+      bookings.map(b => {
+        if (bookingId !== b.id) return b
+        return { ...b, confirmed: true }
+      })
+    )
+  }
+
   return (
     <BigPixels>
       <GridContainer>
@@ -63,6 +73,7 @@ const BookingPage = ({ pageContext: { title } }) => {
                 bookings={bookings}
                 updateBooking={update}
                 destroyBooking={destroy}
+                confirmBooking={confirm}
               />
             </GridItem>
           </>

@@ -1,8 +1,5 @@
 import React, { useState, useContext } from 'react'
 
-import moment from 'moment'
-import 'moment/locale/sv'
-
 import { Button } from '../ui/buttons'
 import DateTimePicker from '../form/dateTimePicker'
 import { UserContext } from '../layout/layout'
@@ -32,6 +29,10 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
   const [start, setStart] = useState(booking ? booking.start : newNiceDate())
   const [end, setEnd] = useState(booking ? booking.end : newNiceDate(2))
 
+  const [restrictedTimeslot, setRestrictedTimeslot] = useState(
+    booking ? booking.restricted_timeslot : false
+  )
+
   const [errors, setErrors] = useState({})
 
   const name = booking ? booking.user.pretty_name : user.pretty_name
@@ -43,12 +44,14 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
           description,
           start,
           end,
+          restricted_timeslot: restrictedTimeslot,
         })
       : updateBooking(booking.id, {
           item_id: booking.item.id,
           description,
           start,
           end,
+          restricted_timeslot: restrictedTimeslot,
         })
 
     request
@@ -67,21 +70,36 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
       <div className={style.editForm}>
         <h3>Startdatum</h3>
         <div>{errors.start}</div>
-        <DateTimePicker value={moment(start)} onChange={setStart} />
+        <DateTimePicker value={start} onChange={setStart} />
 
         <h3>Slutdatum</h3>
         <div>{errors.end}</div>
-        <DateTimePicker value={moment(end)} onChange={setEnd} />
+        <DateTimePicker value={end} onChange={setEnd} />
 
         <h3>Ändamål</h3>
         <div>{errors.description}</div>
+
         <textarea
           className={style.description}
           value={description}
           onChange={e => setDescription(e.target.value)}
         />
+        <h3>
+          {'Begränsad tidsperiod '}
+          <input
+            type="checkbox"
+            checked={restrictedTimeslot}
+            onChange={e => setRestrictedTimeslot(e.target.checked)}
+          />
+        </h3>
+        <p>
+          En begränsad tidsperiod låter dig skapa en tidsperiod där du har
+          prioritet att skapa bokningar. En begränsad tidsperiod måste bekräftas
+          av en administratör.
+        </p>
+        <div>{errors.restricted_timeslot}</div>
       </div>
-      <div>{errors.non_field_errors}</div>
+      <p>{errors.non_field_errors}</p>
       <Button onClick={saveBooking}>Save</Button>
     </>
   )

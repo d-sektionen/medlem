@@ -1,8 +1,6 @@
 import React from 'react'
-import moment from 'moment'
-import 'moment/locale/sv'
-
-moment.locale('sv')
+import { formatDistance } from 'date-fns'
+import { sv } from 'date-fns/locale'
 
 const formatDate = date =>
   date.toLocaleDateString('sv-SE', {
@@ -12,18 +10,35 @@ const formatDate = date =>
     minute: 'numeric',
   })
 
-const ViewBooking = ({ booking }) => (
-  <>
-    <p>
-      Bokning av {booking.item.name} för {booking.user.pretty_name}.
-    </p>
-    <p>
-      {moment(booking.start).to(booking.end, true)}
-      {', '}
-      {`${formatDate(booking.start)} - ${formatDate(booking.end)}`}
-    </p>
-    <p>{booking.description}</p>
-  </>
-)
+const ViewBooking = ({ booking }) => {
+  const {
+    item: { name: item },
+    user: { pretty_name: user },
+    start,
+    end,
+    description,
+    confirmed,
+  } = booking
+
+  const bookingInfoText = booking.restricted_timeslot
+    ? `Begränsad tidsperiod för bokningar av ${item} utfärdad av ${user}.
+    Under en begränsad tidsperiod måste alla bokningar godkännas manuellt.`
+    : `Bokning av ${item} för ${user}.`
+  return (
+    <>
+      <p>{bookingInfoText}</p>
+      <p>
+        {confirmed
+          ? 'Bokningen är bekräftad.'
+          : 'Bokningen är inte bekräftad ännu.'}
+      </p>
+      <p>
+        {`${formatDate(start)} - ${formatDate(end)}`}
+        {` (${formatDistance(end, start, { locale: sv })})`}
+      </p>
+      <p>{description}</p>
+    </>
+  )
+}
 
 export default ViewBooking

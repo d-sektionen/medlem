@@ -50,9 +50,15 @@ p {
 }
 
 input,
-textarea {
+textarea,
+select {
   border: none;
   background-color: $background-color-3;
   color: $foreground-color-1;
   padding: $base-padding;
+}
+
+input[type='checkbox'] {
+  width: 0.8em;
+  height: 0.8em;
 }

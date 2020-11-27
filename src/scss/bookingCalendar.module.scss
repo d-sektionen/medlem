@@ -23,6 +23,10 @@
   }
 }
 
+.restrictedTimeslot {
+  opacity: 0.25;
+}
+
 .timeIndicators {
   text {
     fill: rgba($foreground-color-1, 0.5);
