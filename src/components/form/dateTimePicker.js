@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
-import { setYear, setMonth, setDate, setMinutes, setHours } from 'date-fns'
+import {
+  setYear,
+  setMonth,
+  setDate,
+  setMinutes,
+  setHours,
+  format,
+} from 'date-fns'
 
 const DateTimePicker = ({ value, onChange }) => {
   return (
     <div>
       <input
         type="date"
-        value={value ? value.format('YYYY-MM-DD') : ''}
+        value={value ? format(value, 'yyyy-MM-dd') : ''}
         onChange={e => {
           const timeString = e.target.value
           const year = parseInt(timeString.slice(0, 4), 10)
@@ -23,7 +30,7 @@ const DateTimePicker = ({ value, onChange }) => {
       />
       <input
         type="time"
-        value={value ? value.format('HH:mm') : ''}
+        value={value ? format(value, 'HH:mm') : ''}
         onChange={e => {
           const timeString = e.target.value
           const hour = parseInt(timeString.slice(0, 2), 10)

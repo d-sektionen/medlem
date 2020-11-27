@@ -26,8 +26,12 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
   const [description, setDescription] = useState(
     booking ? booking.description : ''
   )
-  const [start, setStart] = useState(booking ? booking.start : newNiceDate())
-  const [end, setEnd] = useState(booking ? booking.end : newNiceDate(2))
+  const [start, setStart] = useState(
+    booking ? new Date(booking.start) : newNiceDate()
+  )
+  const [end, setEnd] = useState(
+    booking ? new Date(booking.end) : newNiceDate(2)
+  )
 
   const [restrictedTimeslot, setRestrictedTimeslot] = useState(
     booking ? booking.restricted_timeslot : false
