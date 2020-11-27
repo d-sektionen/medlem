@@ -42,7 +42,7 @@ const TitleChooser = ({
               value={choice ? choice.id : ''}
             >
               <option value="" />
-              {choices.map(c => (
+              {choices.sort().map(c => (
                 <option value={c.id} key={c.id}>
                   {c[label]}
                 </option>
@@ -51,7 +51,7 @@ const TitleChooser = ({
                 .sort()
                 .map(key => (
                   <optgroup label={key} key={key}>
-                    {categorizedChoices[key].map(c => (
+                    {categorizedChoices[key].sort().map(c => (
                       <option value={c.id} key={c.id}>
                         {c[label]}
                       </option>
