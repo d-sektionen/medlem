@@ -14,7 +14,7 @@ const TitleChooser = ({
   actionLabel,
 }) => {
   const allChoices = [
-    ...choices,
+    ...(choices || []),
     // merge all categorized choices to single array.
     ...Object.keys(categorizedChoices).reduce(
       (accumulator, category) => [
