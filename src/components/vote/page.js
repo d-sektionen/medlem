@@ -31,6 +31,7 @@ const VotePage = ({ pageContext: { title } }) => {
             setChoice={setCurrentMeeting}
             choices={meetings}
             label="name"
+            noChoicesLabel="Det finns inga möten just nu."
           />
         </GridItem>
         {currentMeeting && (

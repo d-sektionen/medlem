@@ -198,13 +198,12 @@
   .actions {
     display: flex;
     width: 100%;
+    align-items: center;
+    gap: $base-padding;
   }
   .selectContainer {
     position: relative;
     flex-grow: 1;
-    &:nth-last-child(2) {
-      margin-right: $base-padding;
-    }
   }
   select {
     // padding: 0 0.5 * $base-padding;

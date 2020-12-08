@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 import style from '../../scss/ui.module.scss'
 import { Button } from './buttons'
 
@@ -12,6 +12,7 @@ const TitleChooser = ({
   label,
   action,
   actionLabel,
+  noChoicesLabel,
 }) => {
   const allChoices = [
     ...(choices || []),
@@ -28,7 +29,7 @@ const TitleChooser = ({
     <div className={style.titleChooser}>
       <h1>{title}</h1>
       <div className={style.actions}>
-        {choices && (
+        {allChoices.length ? (
           <div className={style.selectContainer}>
             <select
               onChange={e => {
@@ -63,7 +64,10 @@ const TitleChooser = ({
               <div className={style.hint}>Välj ett objekt</div>
             )}
           </div>
+        ) : (
+          <span>{noChoicesLabel}</span>
         )}
+
         {action && <Button onClick={action}>{actionLabel}</Button>}
       </div>
     </div>
@@ -72,6 +76,24 @@ const TitleChooser = ({
 TitleChooser.defaultProps = {
   categorizedChoices: {},
   choices: [],
+  action: null,
+  actionLabel: '',
+  choice: null,
+  noChoicesLabel: '',
+  setChoice: () => {},
+  label: '',
+}
+
+TitleChooser.propTypes = {
+  title: PropTypes.string.isRequired,
+  choices: PropTypes.array,
+  categorizedChoices: PropTypes.object,
+  choice: PropTypes.object,
+  setChoice: PropTypes.func,
+  label: PropTypes.string,
+  action: PropTypes.func,
+  actionLabel: PropTypes.string,
+  noChoicesLabel: PropTypes.string,
 }
 
 export default TitleChooser

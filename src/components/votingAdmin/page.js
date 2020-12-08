@@ -65,6 +65,7 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
               })
             }}
             actionLabel="Nytt möte"
+            noChoicesLabel="Det finns inga möten just nu."
           />
         </GridItem>
         {currentMeeting && (

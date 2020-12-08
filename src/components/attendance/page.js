@@ -57,6 +57,7 @@ const AttendancePage = ({ pageContext: { title } }) => {
               })
             }}
             actionLabel="Ny händelse"
+            noChoicesLabel="Det finns inga händelser just nu."
           />
         </GridItem>
         {currentOccurrence && (
