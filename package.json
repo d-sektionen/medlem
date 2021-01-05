@@ -5,7 +5,7 @@
   "author": "Emil Nilsson <webmaster@d-sektionen.se>",
   "dependencies": {
     "@zxing/library": "^0.15.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "dotenv": "^8.0.0",
     "gatsby": "^2.25.1",
