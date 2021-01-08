@@ -52,6 +52,13 @@ module.exports.PAGES = [
     component: './src/components/votingAdmin/page.js',
   },
   {
+    path: '/voting-counter',
+    title: 'D-cide Rösträknare',
+    requiredPrivileges: 'voting_counter',
+    menu: true,
+    component: './src/components/votingCounter/page.js',
+  },
+  {
     path: '/netlight',
     title: 'Netlight',
     requiredPrivileges: 'member',
