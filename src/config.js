@@ -45,6 +45,13 @@ module.exports.PAGES = [
     component: './src/components/vote/page.js',
   },
   {
+    path: '/voting-guest',
+    title: 'D-cide Gäst',
+    requiredPrivileges: 'voting_guest',
+    menu: true,
+    component: './src/components/votingGuest/page.js',
+  },
+  {
     path: '/voting-admin',
     title: 'D-cide Admin',
     requiredPrivileges: 'voting_admin',
