@@ -5,10 +5,11 @@
   "author": "Emil Nilsson <webmaster@d-sektionen.se>",
   "dependencies": {
     "@zxing/library": "^0.15.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "dotenv": "^8.0.0",
-    "gatsby": "^2.25.1",
+    "extend": "^3.0.2",
+    "gatsby": "^2.31.0",
     "gatsby-plugin-manifest": "^2.4.10",
     "gatsby-plugin-offline": "^2.2.10",
     "gatsby-plugin-react-helmet": "^3.3.3",
