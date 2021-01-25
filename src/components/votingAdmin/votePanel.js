@@ -3,6 +3,7 @@ import useSWR from 'swr'
 import { FiBarChart2, FiEdit2 } from 'react-icons/fi'
 
 import useModal, { useCloseModal } from '../modal/useModal'
+import useConfirmModal from '../modal/useConfirmModal'
 import AddVote from './addVote'
 import VoteStats from './voteStats'
 import { List, ListItem, ListButton } from '../ui/list'
@@ -26,9 +27,17 @@ const VotePanel = ({ currentMeeting }) => {
     return updatedVote
   }
 
+  const open = async vote => {
+    await closeModal()
+    openChartModal(`Resultat av "${vote.question}"`, {
+      voteId: vote.id,
+    })
+  }
+
   const [openCreateModal] = useModal(AddVote)
   const [openChartModal] = useModal(VoteStats)
   const closeModal = useCloseModal()
+  const [confirmModal] = useConfirmModal()
 
   // Close modal when a vote is created
   useEffect(closeModal, [votes])
@@ -60,9 +69,13 @@ const VotePanel = ({ currentMeeting }) => {
                 buttons={[
                   <ListButton
                     onClick={() =>
-                      openChartModal(`Resultat av "${vote.question}"`, {
-                        voteId: vote.id,
-                      })
+                      confirmModal(
+                        `Vill du se resultatet?`,
+                        function() {
+                          open(vote)
+                        },
+                        closeModal
+                      )
                     }
                     iconComponent={FiBarChart2}
                     text="Resultat"

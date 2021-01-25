@@ -8,6 +8,7 @@
   color: $foreground-color-3;
   cursor: pointer;
   padding: $base-padding $base-padding * 2;
+  margin-bottom: $base-padding;
 
   align-content: center;
   display: flex;
@@ -32,7 +33,12 @@
   display: grid;
   gap: $base-padding;
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  padding: $base-padding 0;
+  .button {
+    margin-bottom: 0;
+  }
 }
+
 .iconButton {
   border: none;
   height: 8 * $base-padding;
