@@ -42,7 +42,7 @@ const TitleChooser = ({
               }}
               value={choice ? choice.id : ''}
             >
-              <option value="" />
+              <option hidden value="" />
               {choices.sort().map(c => (
                 <option value={c.id} key={c.id}>
                   {c[label]}
