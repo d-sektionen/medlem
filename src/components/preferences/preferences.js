@@ -13,6 +13,7 @@ class Preferences extends Component {
 
     this.state = {
       infomailSubscriber: props.user.profile.infomail_subscriber,
+      announcementSubscriber: props.user.profile.announcement_subscriber,
       liuCardId: props.user.profile.liu_card_id,
       firstName: props.user.first_name,
       lastName: props.user.last_name,
@@ -40,13 +41,14 @@ class Preferences extends Component {
       last_name: this.state.lastName,
       liu_card_id: this.state.liuCardId,
       infomail_subscriber: this.state.infomailSubscriber,
+      announcement_subscriber: this.state.announcement_subscriber,
     })
-      .then(res => {
+      .then((res) => {
         setLoading(false)
         if (res.status < 300) {
           this.setState({ success: 'Ändringarna har sparats.' })
 
-          setUser(prev => ({
+          setUser((prev) => ({
             ...prev,
             first_name: res.data.firstName,
             last_name: res.data.lastName,
@@ -54,11 +56,12 @@ class Preferences extends Component {
               ...prev.profile,
               liu_card_id: res.data.liu_card_id,
               infomail_subscriber: res.data.infomail_subscriber,
+              announcement_subscriber: res.data.announcement_subscriber,
             },
           }))
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err)
         setLoading(false)
         if (!err.response) this.setState({ error: 'Nätverksfel.' })
@@ -76,6 +79,7 @@ class Preferences extends Component {
       lastName,
       liuCardId,
       infomailSubscriber,
+      announcementSubscriber,
       errors,
       error,
       success,
@@ -95,7 +99,7 @@ class Preferences extends Component {
             Förnamn:
             <input
               value={firstName}
-              onChange={e => this.handleChange('firstName', e)}
+              onChange={(e) => this.handleChange('firstName', e)}
             />
           </label>
           {errors.first_name && (
@@ -107,7 +111,7 @@ class Preferences extends Component {
             Efternamn:
             <input
               value={lastName}
-              onChange={e => this.handleChange('lastName', e)}
+              onChange={(e) => this.handleChange('lastName', e)}
             />
           </label>
           {errors.last_name && (
@@ -119,7 +123,7 @@ class Preferences extends Component {
             LiU-kortnummer:
             <input
               value={liuCardId}
-              onChange={e => this.handleChange('liuCardId', e)}
+              onChange={(e) => this.handleChange('liuCardId', e)}
             />
           </label>
           {errors.profile && errors.profile.liu_card_id && (
@@ -132,12 +136,27 @@ class Preferences extends Component {
             <input
               type="checkbox"
               checked={infomailSubscriber}
-              onChange={e => this.handleChange('infomailSubscriber', e, true)}
+              onChange={(e) => this.handleChange('infomailSubscriber', e, true)}
             />
           </label>
           {errors.profile && errors.profile.infomail_subscriber && (
             <div className={style.error}>
               {errors.profile.infomail_subscriber}
+            </div>
+          )}
+        </div>
+        <div>
+          <label className={style.inputLabel}>
+            Prenumerera på viktiga utskick (t.ex. )
+            <input
+              type="checkbox"
+              checked={announcementSubscriber}
+              onChange={(e) => this.handleChange('announcementSubscriber', e, true)}
+            />
+          </label>
+          {errors.profile && errors.profile.announcement_subscriber && (
+            <div className={style.error}>
+              {errors.profile.announcement_subscriber}
             </div>
           )}
         </div>
