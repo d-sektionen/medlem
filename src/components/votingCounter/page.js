@@ -8,7 +8,6 @@ import AttendantPanel from './attendantPanel'
 import { GridContainer, GridItem } from '../ui/grid'
 import SpeakerPanel from './speakerPanel'
 import TitleChooser from '../ui/titleChooser'
-import AddMeeting from './addMeeting'
 import useModal, { useCloseModal } from '../modal/useModal'
 import { post, patch } from '../request'
 import BigPixels from '../layout/bigPixels'
@@ -16,7 +15,6 @@ import BigPixels from '../layout/bigPixels'
 const VotingAdminPage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
   const { data: unorderedMeetings, mutate } = useSWR('/voting/admin-meetings/')
-  const [openCreateModal] = useModal(AddMeeting)
   const closeModal = useCloseModal()
 
   const create = async data => {

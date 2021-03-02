@@ -6,6 +6,13 @@ import { Button, ButtonGroup } from '../ui/buttons'
 import { del, post } from '../request'
 import useSWR from 'swr'
 
+const getMemberAttendants = attendants => {
+  const memberAttendants = attendants.filter(
+    attendant => attendant.has_voting_rights
+  )
+  return memberAttendants
+}
+
 const AttendantPanel = ({ currentMeeting }) => {
   const [input, setInput] = useState('')
 
@@ -21,9 +28,9 @@ const AttendantPanel = ({ currentMeeting }) => {
       <h2>Deltagare</h2>
 
       <div>
-        <ButtonGroup>
-          <p>{`Röstlängd: ${attendants ? attendants.length : 0}`}</p>
-        </ButtonGroup>
+        <p>{`Röstlängd: ${
+          attendants ? getMemberAttendants(attendants).length : 0
+        }`}</p>
       </div>
     </div>
   )

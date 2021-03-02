@@ -12,6 +12,7 @@ import AddMeeting from './addMeeting'
 import useModal, { useCloseModal } from '../modal/useModal'
 import { post, patch } from '../request'
 import BigPixels from '../layout/bigPixels'
+import GuestPanel from './guestPanel'
 
 const VotingAdminPage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
@@ -84,6 +85,9 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
             </GridItem>
             <GridItem>
               <AttendantPanel currentMeeting={currentMeeting} />
+            </GridItem>
+            <GridItem>
+              <GuestPanel currentMeeting={currentMeeting} />
             </GridItem>
             <GridItem>
               <SpeakerPanel meeting={currentMeeting} />

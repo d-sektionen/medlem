@@ -6,14 +6,14 @@ import { Button, ButtonGroup } from '../ui/buttons'
 import { del, post } from '../request'
 import useSWR from 'swr'
 
-const getMemberAttendants = attendants => {
-  const memberAttendants = attendants.filter(
-    attendant => attendant.has_voting_rights
+const getGuestAttendants = attendants => {
+  const guestAttendants = attendants.filter(
+    attendant => !attendant.has_voting_rights
   )
-  return memberAttendants
+  return guestAttendants
 }
 
-const AttendantPanel = ({ currentMeeting }) => {
+const GuestPanel = ({ currentMeeting }) => {
   const [input, setInput] = useState('')
 
   const { data: attendants, mutate } = useSWR(
@@ -25,7 +25,7 @@ const AttendantPanel = ({ currentMeeting }) => {
 
   return (
     <div>
-      <h2>Deltagare</h2>
+      <h2>Gäster/adjungerade</h2>
       <form
         onSubmit={async e => {
           e.preventDefault()
@@ -33,7 +33,7 @@ const AttendantPanel = ({ currentMeeting }) => {
           const { data: newAttendant } = await post('/voting/attendants/', {
             user_username: input,
             meeting_id: currentMeeting.id,
-            has_voting_rights: true,
+            has_voting_rights: false,
           })
           mutate([...attendants, newAttendant])
         }}
@@ -42,26 +42,14 @@ const AttendantPanel = ({ currentMeeting }) => {
       </form>
       <div>
         <ButtonGroup>
-          <p>{`Röstlängd: ${
-            attendants ? getMemberAttendants(attendants).length : 0
+          <p>{`Antal gäster/adjungerade: ${
+            attendants ? getGuestAttendants(attendants).length : 0
           }`}</p>
-          <Button
-            onClick={async () => {
-              // TODO: fix this ugly solution
-              await del(
-                `/voting/attendants/clear/?meeting_id=${currentMeeting.id}`
-              )
-
-              mutate([])
-            }}
-          >
-            Återställ deltagarlista
-          </Button>
         </ButtonGroup>
       </div>
       <List>
         {attendants &&
-          getMemberAttendants(attendants).map(attendant => (
+          getGuestAttendants(attendants).map(attendant => (
             <ListItem
               title={attendant.user.pretty_name}
               key={attendant.id}
@@ -74,7 +62,7 @@ const AttendantPanel = ({ currentMeeting }) => {
                     mutate(attendants.filter(x => x.id !== attendant.id))
                   }}
                   iconComponent={FiTrash2}
-                  text="Ta bort deltagare"
+                  text="Ta bort gäst"
                   key="remove"
                 />,
               ]}
@@ -85,4 +73,4 @@ const AttendantPanel = ({ currentMeeting }) => {
   )
 }
 
-export default AttendantPanel
+export default GuestPanel

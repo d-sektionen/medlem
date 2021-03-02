@@ -3,7 +3,6 @@ import useSWR from 'swr'
 import { FiBarChart2, FiEdit2 } from 'react-icons/fi'
 
 import useModal, { useCloseModal } from '../modal/useModal'
-import AddVote from './addVote'
 import VoteStats from './voteStats'
 import { List, ListItem, ListButton } from '../ui/list'
 import { Button } from '../ui/buttons'
@@ -26,7 +25,6 @@ const VotePanel = ({ currentMeeting }) => {
     return updatedVote
   }
 
-  const [openCreateModal] = useModal(AddVote)
   const [openChartModal] = useModal(VoteStats)
   const closeModal = useCloseModal()
 

@@ -6,13 +6,12 @@ import { GridContainer, GridItem } from '../ui/grid'
 import TitleChooser from '../ui/titleChooser'
 import SpeakerPanel from './speakerPanel'
 import MeetingInfoPanel from './meetingInfoPanel'
-import VotePanel from './votePanel'
 
 //import { get } from '../request'
 
 const VotePage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
-  const { data: meetings, revalidate } = useSWR('/voting/meetings/')
+  const { data: meetings, revalidate } = useSWR('/voting/guest-meetings/')
 
   // sync currentMeeting with updated meetings
   useEffect(
@@ -22,42 +21,6 @@ const VotePage = ({ pageContext: { title } }) => {
     },
     [meetings]
   )
-
-  /*
-  const checkMembership = () => {
-    ;(async () => {
-      try {
-        const { data } = await get('/account/me/');
-        const user = data;
-        console.log("SUCCESS");
-        console.log(user.privileges.member);
-        console.log(user.privileges.voting_guest);
-
-      } catch (err) {
-        console.log("FAIL")
-        
-        if (!err.response)
-        {
-          //setError(
-          //  <>
-          //    <p>Kommunikation med servern kunde inte etableras.</p>
-          //    <Button onClick={() => window.location.reload()}>
-          //      Ladda om sidan
-          //    </Button>
-          //  </>
-          //)
-        }
-        else if (err.response.status === 401) {
-          window.localStorage.removeItem('token')
-        }
-        
-      }
-    })()
-  }
-
-  checkMembership();
-
-  */
 
   return (
     <BigPixels>
@@ -69,7 +32,7 @@ const VotePage = ({ pageContext: { title } }) => {
             setChoice={setCurrentMeeting}
             choices={meetings}
             label="name"
-            noChoicesLabel="Det finns inga möten just nu."
+            noChoicesLabel="Det finns inga möten tillgängliga just nu. Du kan bara se möten du blivit inbjuden till."
           />
         </GridItem>
         {currentMeeting && (

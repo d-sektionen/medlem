@@ -47,7 +47,7 @@ module.exports.PAGES = [
   {
     path: '/voting-guest',
     title: 'D-cide Gäst',
-    requiredPrivileges: 'voting_guest',
+    requiredPrivileges: 'not_member',
     menu: true,
     component: './src/components/votingGuest/page.js',
   },
