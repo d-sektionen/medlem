@@ -9,6 +9,8 @@ const VotePanel = ({ meeting }) => {
     () => `/voting/votes/?meeting_id=${meeting.id}`
   )
 
+  console.log(votes)
+
   useEffect(
     () => {
       revalidate()

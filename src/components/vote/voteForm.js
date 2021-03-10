@@ -2,18 +2,25 @@ import React, { Component, useState } from 'react'
 import { post } from '../request'
 
 const VoteForm = ({ vote }) => {
-  const [checkedId, setCheckedId] = useState(-1)
+  vote.number_of_selectable_alternatives = 2
+  const multipleChoice = vote.number_of_selectable_alternatives > 1
+  const [checkedId, setCheckedId] = useState(multipleChoice ? undefined : -1)
   const [successfullyVoted, setSuccessfullyVoted] = useState(false)
+  const [checkedIds, setCheckedIds] = useState(multipleChoice ? [] : undefined)
 
   const placeVote = async () => {
     const voteData = {
       vote_id: vote.id,
       alternative_id: checkedId,
+      alternative_ids: checkedIds,
     }
+
+    console.log(voteData)
 
     await post('/voting/made_votes/', voteData)
     setSuccessfullyVoted(true)
   }
+  console.log(checkedIds)
   const votingDisabled = checkedId === -1
   const buttonText = votingDisabled ? 'Välj ett alternativ' : 'Rösta'
   const alreadyVotedText = successfullyVoted
@@ -31,11 +38,23 @@ const VoteForm = ({ vote }) => {
             {vote.alternatives.map(({ text, id }) => (
               <li key={id}>
                 <label>
-                  <input
-                    type="radio"
-                    checked={checkedId === id}
-                    onChange={() => setCheckedId(id)}
-                  />
+                  {multipleChoice ? (
+                    <input
+                      type="checkbox"
+                      onChange={() =>
+                        setCheckedIds(prevState => {
+                          checkedIds: [...prevState.checkedIds, id]
+                        })
+                      }
+                    />
+                  ) : (
+                    <input
+                      type="radio"
+                      checked={checkedId === id}
+                      onChange={() => setCheckedId(id)}
+                    />
+                  )}
+
                   {` ${text}`}
                 </label>
               </li>

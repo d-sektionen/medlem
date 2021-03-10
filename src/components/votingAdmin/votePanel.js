@@ -16,6 +16,7 @@ const VotePanel = ({ currentMeeting }) => {
   )
 
   const create = async data => {
+    console.log(data)
     const { data: newVote } = await post('/voting/admin-votes/', data)
     mutate([...votes, newVote])
     return newVote

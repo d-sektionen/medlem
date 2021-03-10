@@ -21,6 +21,10 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
     updateData ? updateData.open : true
   )
 
+  const [userOptionAmount, setUserOptionAmount] = useState(
+    updateData ? updateData.number_of_selectable_alternatives : 1
+  )
+
   return (
     <div>
       <label>
@@ -79,6 +83,19 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
         Nuvarande frågan
       </label>
       <hr />
+      <label>Antal svar:</label>
+      <select
+        name="svar"
+        id="svar"
+        onChange={e => setUserOptionAmount(e.target.value)}
+      >
+        {alternatives.map((alt, i) => (
+          <option key={i + 1} value={i + 1}>
+            {i + 1}
+          </option>
+        ))}
+      </select>
+      <hr />
       <button
         type="button"
         onClick={() => {
@@ -95,6 +112,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
               open: currentQuestion,
               alternatives,
               meeting: currentMeeting.id,
+              number_of_selectable_alternatives: userOptionAmount,
             })
           }
         }}
