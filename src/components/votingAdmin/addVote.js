@@ -83,7 +83,12 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
         Nuvarande frågan
       </label>
       <hr />
-      <label>Antal svar:</label>
+      <label>
+        Antal alternativ som
+        <br />
+        ska väljas av deltagarna:
+        <br />
+      </label>
       <select
         name="svar"
         id="svar"

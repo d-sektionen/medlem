@@ -2,8 +2,8 @@ import React, { Component, useState } from 'react'
 import { post } from '../request'
 
 const VoteForm = ({ vote }) => {
-  //vote.number_of_selectable_alternatives = 2
-  //const [checkedId, setCheckedId] = useState(multipleChoice ? undefined : -1)
+  // vote.number_of_selectable_alternatives = 2
+  // const [checkedId, setCheckedId] = useState(multipleChoice ? undefined : -1)
   const [successfullyVoted, setSuccessfullyVoted] = useState(false)
   const [checkedIds, setCheckedIds] = useState([])
 
@@ -11,30 +11,28 @@ const VoteForm = ({ vote }) => {
     const voteData = {
       vote_id: vote.id,
       alternative_id: checkedIds,
-      //alternative_ids: checkedIds,
+      // alternative_ids: checkedIds,
     }
-
-    console.log(voteData)
 
     await post('/voting/made_votes/', voteData)
     setSuccessfullyVoted(true)
   }
 
-  function handleCheckboxClick(e, id) {
-    if (e.target.checked) {
-      setCheckedIds(prevState => {
-        checkedIds: [...prevState.checkedIds, id]
-      })
-    } else {
-      setCheckedIds(checkedIds.splice(id))
-    }
+  const multipleChoice = vote.number_of_selectable_alternatives > 1
+  const votingDisabled =
+    checkedIds.length === 0 ||
+    checkedIds.length !== vote.number_of_selectable_alternatives
+
+  let buttonText
+  if (votingDisabled) {
+    buttonText =
+      vote.number_of_selectable_alternatives > 1
+        ? `Välj ${vote.number_of_selectable_alternatives} alternativ`
+        : 'Välj ett alternativ'
+  } else {
+    buttonText = 'Rösta'
   }
 
-  const multipleChoice = vote.number_of_selectable_alternatives > 1
-  const votingDisabled = checkedIds.length == 0
-  const buttonText = votingDisabled
-    ? `Välj ett (eller flera) alternativ`
-    : 'Rösta'
   const alreadyVotedText = successfullyVoted
     ? 'Tack för din röst!'
     : 'Du har röstat i omröstningen.'
@@ -53,22 +51,24 @@ const VoteForm = ({ vote }) => {
                   {multipleChoice ? (
                     <input
                       type="checkbox"
-                      /*onClick={() =>
-                        setCheckedIds(prevState => {
-                          checkedIds: [...prevState.checkedIds, id]
-                        })
-                      }*/
-                      onClick={e => handleCheckboxClick(e, id)}
+                      onClick={() =>
+                        checkedIds.includes(id)
+                          ? setCheckedIds(
+                              currentCheckedIds =>
+                                currentCheckedIds.filter(theId => theId !== id) // filter out all that don't match id
+                            )
+                          : setCheckedIds(
+                              [...checkedIds, id] // append id
+                            )
+                      }
                     />
                   ) : (
                     <input
                       type="radio"
-                      checked={checkedId === id}
-                      onChange={() =>
-                        setCheckedIds(prevState => {
-                          checkedIds: [...prevState.checkedIds, id]
-                        })
-                      }
+                      checked={checkedIds[0] === id}
+                      onChange={() => {
+                        setCheckedIds([id])
+                      }}
                     />
                   )}
 
@@ -77,6 +77,19 @@ const VoteForm = ({ vote }) => {
               </li>
             ))}
           </ul>
+
+          {/*
+            (vote.number_of_selectable_alternatives > 1 && votingDisabled)
+            &&
+            (
+              <p>
+                Välj&nbsp;
+                {vote.number_of_selectable_alternatives}
+                &nbsp;alternativ
+              </p>
+            )
+          */}
+
           <button type="button" disabled={votingDisabled} onClick={placeVote}>
             {buttonText}
           </button>
