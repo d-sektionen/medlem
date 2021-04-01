@@ -16,7 +16,6 @@ const VotePanel = ({ currentMeeting }) => {
   )
 
   const create = async data => {
-    console.log(data)
     const { data: newVote } = await post('/voting/admin-votes/', data)
     mutate([...votes, newVote])
     return newVote
@@ -72,7 +71,7 @@ const VotePanel = ({ currentMeeting }) => {
                     onClick={() =>
                       confirmModal(
                         `Vill du se resultatet?`,
-                        function() {
+                        () => {
                           open(vote)
                         },
                         closeModal

@@ -11,7 +11,6 @@ const VoteForm = ({ vote }) => {
     const voteData = {
       vote_id: vote.id,
       alternative_id: checkedIds,
-      // alternative_ids: checkedIds,
     }
 
     await post('/voting/made_votes/', voteData)
@@ -24,7 +23,7 @@ const VoteForm = ({ vote }) => {
     checkedIds.length < vote.min_number_of_selectable_alternatives ||
     checkedIds.length > vote.max_number_of_selectable_alternatives
 
-  let buttonText
+  let buttonText = ''
   if (votingDisabled) {
     if (
       vote.min_number_of_selectable_alternatives ===

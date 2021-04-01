@@ -23,6 +23,10 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
 
   const [multiChoiceQuestion, setMultiChoiceQuestion] = useState(false)
 
+  const [exactAmountOfAlternatives, setExactAmountOfAlternatives] = useState(
+    false
+  )
+
   const [userOptionMinAmount, setUserOptionMinAmount] = useState(
     updateData ? updateData.min_number_of_selectable_alternatives : 1
   )
@@ -94,7 +98,11 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
         <input
           type="checkbox"
           checked={multiChoiceQuestion}
-          onChange={() => setMultiChoiceQuestion(prev => !prev)}
+          onChange={() => {
+            setMultiChoiceQuestion(prev => !prev)
+            setUserOptionMinAmount(1)
+            setUserOptionMaxAmount(1)
+          }}
         />
         Flervalsfråga
       </label>
@@ -102,6 +110,52 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
       <hr />
 
       {multiChoiceQuestion && (
+        <>
+          <label>
+            <input
+              type="checkbox"
+              checked={exactAmountOfAlternatives}
+              onChange={() => {
+                setExactAmountOfAlternatives(prev => !prev)
+                setUserOptionMinAmount(1)
+                setUserOptionMaxAmount(1)
+              }}
+            />
+            Ett exakt antal valbara alternativ
+          </label>
+
+          <hr />
+        </>
+      )}
+
+      {multiChoiceQuestion && exactAmountOfAlternatives && (
+        <>
+          <label>
+            Antal alternativ som
+            <br />
+            ska väljas av deltagarna:
+            <br />
+          </label>
+          <select
+            name="min-svar"
+            id="min-svar"
+            onChange={e => {
+              setUserOptionMinAmount(e.target.value)
+              setUserOptionMaxAmount(e.target.value)
+            }}
+          >
+            {alternatives.map((alt, i) => (
+              <option key={i + 1} value={i + 1}>
+                {i + 1}
+              </option>
+            ))}
+          </select>
+
+          <br />
+        </>
+      )}
+
+      {multiChoiceQuestion && !exactAmountOfAlternatives && (
         <>
           <label>
             Minsta antal alternativ som
@@ -143,17 +197,19 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
 
       <br />
 
-      {multiChoiceQuestion && userOptionMinAmount > userOptionMaxAmount && (
-        <p>
-          Du måste välja ett
-          <br />
-          &#39;högsta antal&#39; större än
-          <br />
-          eller lika med
-          <br />
-          &#39;minsta antal&#39;
-        </p>
-      )}
+      {multiChoiceQuestion &&
+        !exactAmountOfAlternatives &&
+        userOptionMinAmount > userOptionMaxAmount && (
+          <p>
+            Du måste välja ett
+            <br />
+            &#39;högsta antal&#39; större än
+            <br />
+            eller lika med
+            <br />
+            &#39;minsta antal&#39;
+          </p>
+        )}
 
       <button
         type="button"
