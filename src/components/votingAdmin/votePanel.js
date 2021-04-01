@@ -71,7 +71,7 @@ const VotePanel = ({ currentMeeting }) => {
                     onClick={() =>
                       confirmModal(
                         `Vill du se resultatet?`,
-                        function() {
+                        () => {
                           open(vote)
                         },
                         closeModal

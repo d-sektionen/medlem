@@ -93,7 +93,11 @@ const SideMenu = ({ close, open }) => {
                   <a href={`${BASE_URL}/admin`}>Adminpanelen</a>
                 </p>
               )}
-              <p>Sidan är utvecklad av Webbgruppen</p>
+              <p>
+                Sidan är utvecklad av
+                <a href="https://d-sektionen.se/webbgruppen/"> Webbgruppen </a>
+              </p>
+
               <div>
                 <a href="https://github.com/d-sektionen/medlem">
                   <FiGithub />
