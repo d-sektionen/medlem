@@ -18,17 +18,27 @@ const VoteForm = ({ vote }) => {
     setSuccessfullyVoted(true)
   }
 
-  const multipleChoice = vote.number_of_selectable_alternatives > 1
+  const multipleChoice = vote.max_number_of_selectable_alternatives > 1
   const votingDisabled =
     checkedIds.length === 0 ||
-    checkedIds.length !== vote.number_of_selectable_alternatives
+    checkedIds.length < vote.min_number_of_selectable_alternatives ||
+    checkedIds.length > vote.max_number_of_selectable_alternatives
 
   let buttonText
   if (votingDisabled) {
-    buttonText =
-      vote.number_of_selectable_alternatives > 1
-        ? `Välj ${vote.number_of_selectable_alternatives} alternativ`
-        : 'Välj ett alternativ'
+    if (
+      vote.min_number_of_selectable_alternatives ===
+      vote.max_number_of_selectable_alternatives
+    ) {
+      buttonText =
+        vote.min_number_of_selectable_alternatives > 1
+          ? `Välj ${vote.min_number_of_selectable_alternatives} alternativ`
+          : 'Välj ett alternativ'
+    } else {
+      buttonText = `Välj mellan ${
+        vote.min_number_of_selectable_alternatives
+      } och ${vote.max_number_of_selectable_alternatives} alternativ`
+    }
   } else {
     buttonText = 'Rösta'
   }
@@ -77,18 +87,6 @@ const VoteForm = ({ vote }) => {
               </li>
             ))}
           </ul>
-
-          {/*
-            (vote.number_of_selectable_alternatives > 1 && votingDisabled)
-            &&
-            (
-              <p>
-                Välj&nbsp;
-                {vote.number_of_selectable_alternatives}
-                &nbsp;alternativ
-              </p>
-            )
-          */}
 
           <button type="button" disabled={votingDisabled} onClick={placeVote}>
             {buttonText}
