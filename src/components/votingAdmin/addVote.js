@@ -166,7 +166,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
           <select
             name="min-svar"
             id="min-svar"
-            onChange={e => setUserOptionMinAmount(e.target.value)}
+            onChange={e => setUserOptionMinAmount(Number(e.target.value))}
           >
             {alternatives.map((alt, i) => (
               <option key={i + 1} value={i + 1}>
@@ -184,7 +184,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
           <select
             name="max-svar"
             id="max-svar"
-            onChange={e => setUserOptionMaxAmount(e.target.value)}
+            onChange={e => setUserOptionMaxAmount(Number(e.target.value))}
           >
             {alternatives.map((alt, i) => (
               <option key={i + 1} value={i + 1}>
