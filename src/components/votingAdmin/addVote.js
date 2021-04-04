@@ -140,8 +140,8 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
             name="min-svar"
             id="min-svar"
             onChange={e => {
-              setUserOptionMinAmount(e.target.value)
-              setUserOptionMaxAmount(e.target.value)
+              setUserOptionMinAmount(Number(e.target.value))
+              setUserOptionMaxAmount(Number(e.target.value))
             }}
           >
             {alternatives.map((alt, i) => (
