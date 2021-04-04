@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import useSWR from 'swr'
 
 import { GridContainer, GridItem } from '../ui/grid'
@@ -7,8 +7,10 @@ import ItemPanel from './itemPanel'
 import BookingPanel from './bookingPanel'
 import TitleChooser from '../ui/titleChooser'
 import { post, put, del } from '../request'
+import { UserContext } from '../layout/layout'
 
 const BookingPage = ({ pageContext: { title } }) => {
+  const [user] = useContext(UserContext)
   const [item, setItem] = useState(null)
   const { data: items } = useSWR('/booking/items/')
 
@@ -29,8 +31,32 @@ const BookingPage = ({ pageContext: { title } }) => {
       }, {})
     : {}
 
+  const { data: myBookings } = useSWR(
+    () => `/booking/bookings/?user=${user.id}`
+  )
+
+  const threeDaysAgo = new Date().setDate(new Date().getDate() - 3)
+  let activeBookings = []
+
+  if (myBookings) {
+    activeBookings = myBookings
+      // convert strings to date objects
+      .map(b => ({
+        ...b,
+        start: new Date(b.start),
+        end: new Date(b.end),
+      }))
+      // apply only mine filter
+      .filter(b => user.id === b.user.id)
+      // only future bookings
+      .filter(b => b.start > threeDaysAgo /* && !b.paid */)
+      // sort properly
+      .sort((a, b) => a.start - b.start)
+  }
+
   const create = async data => {
     const { data: newBooking } = await post('/booking/bookings/', data)
+    console.log(newBooking)
     mutate([...bookings, newBooking])
     return newBooking
   }
@@ -62,6 +88,12 @@ const BookingPage = ({ pageContext: { title } }) => {
   return (
     <BigPixels>
       <GridContainer>
+        {activeBookings.map(booking => (
+          <GridItem fullWidth backgroundTest="red">
+            {` ${booking.start}`}
+          </GridItem>
+        ))}
+
         <GridItem fullWidth>
           <TitleChooser
             title={title}
