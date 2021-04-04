@@ -9,7 +9,7 @@ import MeetingInfoPanel from './meetingInfoPanel'
 
 //import { get } from '../request'
 
-const VotePage = ({ pageContext: { title } }) => {
+const VotingGuestPage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
   const { data: meetings, revalidate } = useSWR('/voting/guest-meetings/')
 
@@ -55,4 +55,4 @@ const VotePage = ({ pageContext: { title } }) => {
     </BigPixels>
   )
 }
-export default VotePage
+export default VotingGuestPage

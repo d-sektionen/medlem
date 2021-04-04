@@ -12,7 +12,7 @@ import useModal, { useCloseModal } from '../modal/useModal'
 import { post, patch } from '../request'
 import BigPixels from '../layout/bigPixels'
 
-const VotingAdminPage = ({ pageContext: { title } }) => {
+const VotingGuestPage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
   const { data: unorderedMeetings, mutate } = useSWR('/voting/admin-meetings/')
   const closeModal = useCloseModal()
@@ -78,4 +78,4 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
   )
 }
 
-export default VotingAdminPage
+export default VotingGuestPage
