@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { FiTrash2 } from 'react-icons/fi'
+import React from 'react'
 
-import { List, ListButton, ListItem } from '../ui/list'
-import { Button, ButtonGroup } from '../ui/buttons'
-import { del, post } from '../request'
 import useSWR from 'swr'
 
 const getMemberAttendants = attendants => {
@@ -14,9 +10,7 @@ const getMemberAttendants = attendants => {
 }
 
 const AttendantPanel = ({ currentMeeting }) => {
-  const [input, setInput] = useState('')
-
-  const { data: attendants, mutate } = useSWR(
+  const { data: attendants } = useSWR(
     () => `/voting/attendants/?meeting_id=${currentMeeting.id}`,
     { refreshInterval: 4000 }
   )

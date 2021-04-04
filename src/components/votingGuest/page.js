@@ -7,8 +7,6 @@ import TitleChooser from '../ui/titleChooser'
 import SpeakerPanel from './speakerPanel'
 import MeetingInfoPanel from './meetingInfoPanel'
 
-//import { get } from '../request'
-
 const VotingGuestPage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
   const { data: meetings, revalidate } = useSWR('/voting/guest-meetings/')
