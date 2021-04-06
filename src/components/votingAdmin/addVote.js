@@ -21,16 +21,18 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
     updateData ? updateData.open : true
   )
 
-  const [multiChoiceQuestion, setMultiChoiceQuestion] = useState(false)
-
-  const [exactAmountOfAlternatives, setExactAmountOfAlternatives] = useState(
-    false
+  const [multiChoiceQuestion, setMultiChoiceQuestion] = useState(
+    updateData ? updateData.max_number_of_selectable_alternatives > 1 : false
   )
-
+  const [exactAmountOfAlternatives, setExactAmountOfAlternatives] = useState(
+    updateData
+      ? updateData.min_number_of_selectable_alternatives ===
+          updateData.max_number_of_selectable_alternatives
+      : false
+  )
   const [userOptionMinAmount, setUserOptionMinAmount] = useState(
     updateData ? updateData.min_number_of_selectable_alternatives : 1
   )
-
   const [userOptionMaxAmount, setUserOptionMaxAmount] = useState(
     updateData ? updateData.max_number_of_selectable_alternatives : 1
   )
@@ -143,6 +145,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
               setUserOptionMinAmount(Number(e.target.value))
               setUserOptionMaxAmount(Number(e.target.value))
             }}
+            defaultValue={userOptionMaxAmount}
           >
             {alternatives.map((alt, i) => (
               <option key={i + 1} value={i + 1}>
@@ -167,6 +170,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
             name="min-svar"
             id="min-svar"
             onChange={e => setUserOptionMinAmount(Number(e.target.value))}
+            defaultValue={userOptionMinAmount}
           >
             {alternatives.map((alt, i) => (
               <option key={i + 1} value={i + 1}>
@@ -185,6 +189,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
             name="max-svar"
             id="max-svar"
             onChange={e => setUserOptionMaxAmount(Number(e.target.value))}
+            defaultValue={userOptionMaxAmount}
           >
             {alternatives.map((alt, i) => (
               <option key={i + 1} value={i + 1}>
@@ -223,6 +228,12 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
               open: currentQuestion,
               alternatives,
               meeting: currentMeeting.id,
+              min_number_of_selectable_alternatives: multiChoiceQuestion
+                ? userOptionMinAmount
+                : 1,
+              max_number_of_selectable_alternatives: multiChoiceQuestion
+                ? userOptionMaxAmount
+                : 1,
             })
           } else {
             create({
