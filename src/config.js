@@ -79,6 +79,12 @@ module.exports.PAGES = [
     component: './src/components/booking/page.js',
   },
   {
+    path: '/car-logging',
+    title: 'Billoggning',
+    menu: true,
+    component: './src/components/carLogging/page.js',
+  },
+  {
     path: '/attendance',
     title: 'Närvarosystemet',
     requiredPrivileges: 'attendance_admin',
