@@ -9,33 +9,48 @@ import { Button } from '../ui/buttons'
 
 const CarLoggingPage = ({ pageContext: { title } }) => {
   const [driverLiuId, setDriverLiuId] = useState('')
-
   const [startStop, setStartStop] = useState('start')
-
   const [cleanCar, setCleanCar] = useState(false)
-
   const [distance, setDistance] = useState()
-
   const [purpose, setPurpose] = useState('department')
-
   const [message, setMessage] = useState('')
-
-  const [carDays, setCarDays] = useState(0)
+  const [carDays, setCarDays] = useState(1)
   const [usedTrailer, setUsedTrailer] = useState(false)
-  const [trailerDays, setTrailerDays] = useState(0)
+  const [trailerDays, setTrailerDays] = useState(1)
+  const [activeMember, setActiveMember] = useState(true)
 
-  const sendData = async () => {
-    const voteData = {
-      start_km: 0,
-      end_km: distance,
-      trailer: false,
-      trailer_days: null,
-      car_days: null,
-      active_member: false,
+  const sendStartData = async () => {
+    if (driverLiuId == '' || distance == undefined) {
+      // argh
+    } else {
+      const logStartData = {
+        start_km: null,
+        start_message: '',
+        booking_liu_id: '',
+        start_car_cleaned: false,
+      }
     }
 
-    await post('/voting/made_votes/', voteData)
-    setSuccessfullyVoted(true)
+    res = await post('/voting/made_votes/', logStartData)
+  }
+
+  const sendStopData = async () => {
+    if (driverLiuId == '' || distance == undefined) {
+      // :(
+    } else {
+      const logData = {
+        end_km: distance,
+        end_message: message,
+        end_car_cleaned: cleanCar,
+        booking_liu_id: driverLiuId,
+        trailer: usedTrailer,
+        trailer_days: trailerDays,
+        car_days: carDays,
+        active_member: activeMember,
+      }
+      res = await post('/voting/made_votes/', logData)
+      // If
+    }
   }
 
   const { data: userData } = useSWR(() => '/account/me/')
@@ -57,33 +72,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
             avslutar din bilkörning. Du kan göra det åt någon annan.
           </p>
           <hr />
-          {/*
 
-          TODO: spara även loggarens LiU-ID
-          
-          liu-id
-          start/stopp
-          om start: städad vid ankomst?
-          om stopp: lämnas städad?
-          mätarställning
-          kört för:
-            - sig själv
-            - något utskotts räkning
-            - annan sektion/förening
-          om sig själv:
-              ska kostnaden räknas ut och presenteras för användaren, tillsammans med vårt Swish-nr.
-          om annan sektion/förening:
-              ska man presenteras med ett formulär där man fyller i de fakturauppgfiter som behövs. 
-              Möjligvis kan man ha Swish alternativ här också, men faktura som standard.
-          
-          (om inte utskott) baserat på angivet LiU-ID, om sektionsmedlem:
-            sektionsaktiv eller inte?
-          
-          Valfri kommentar
-          
-          Generera PDF med: LiU-id, namn, starttid av bokningen, sluttid av bokningen, mätarställningen, hur många km som körts, vilken "prisklass" (Utskott, Sektionsaktiv, Sektionsmedlem, övriga) det gäller, kostnad per km och totalkostnad.
-          Kan (ska?!) skickas som mail till kassören, mail inkl valfri kommentar.
-          */}
           <label className={style.inputGroup}>
             <span>LiU-ID på den som bokat</span>
             <input
@@ -117,12 +106,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
               Stopp
             </label>
           </div>
-          {/* Är bilen städad?
-          <Switch
-            off="Nej :("
-            on="Ja!"
-            click={e => console.log(e)}
-          ></Switch> */}
+
           <Checkbox
             text={
               startStop === 'start'
@@ -154,6 +138,13 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                 <select
                   onChange={e => {
                     setPurpose(e.target.value)
+                    if (e.target.value == 'department') {
+                      setActiveMember(true)
+                    } else if (e.target.value == 'other') {
+                      setActiveMember(false)
+                    } else if (e.target.value == 'personal') {
+                      setActiveMember(false)
+                    }
                   }}
                 >
                   <option value="department">Utksott</option>
@@ -162,10 +153,24 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                 </select>
               </label>
 
+              {purpose == 'personal' && (
+                <label className={style.inputGroup}>
+                  <Checkbox
+                    text={`Är ${driverLiuId} sektionsaktiv?`}
+                    value=""
+                    click={e => setActiveMember(e.target.checked)}
+                  />
+                </label>
+              )}
+
               <label className={style.inputGroup}>
                 <span>Antal dagar som bilen använts:</span>
 
-                <select
+                <input
+                  type="number"
+                  value={carDays}
+                  min="1"
+                  step="1"
                   onChange={e => {
                     setCarDays(e.target.value)
                   }}
@@ -174,6 +179,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
 
               <Checkbox
                 text={'Har släpet använts?'}
+                value={'false'}
                 click={e => setUsedTrailer(e.target.checked)}
               />
 
@@ -181,9 +187,11 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                 <>
                   <label className={style.inputGroup}>
                     <span>Antal dagar som släpet använts:</span>
-
-                    {/* Bör vara input type number? */}
-                    <select
+                    <input
+                      type="number"
+                      value={trailerDays}
+                      min="1"
+                      step="1"
                       onChange={e => {
                         setTrailerDays(e.target.value)
                       }}
@@ -193,19 +201,18 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
               )}
             </>
           )}
-          {/* Har släpet använts?
 
-          Hur många dagar har släpet använts? */}
-          <br />
           <label className={style.inputGroup}>
             <span>Valfritt meddelande</span>
-            <input
-              type="text"
+
+            <textarea
               onChange={e => {
                 setMessage(e.target.value)
               }}
             />
           </label>
+
+          <br />
           <br />
           <Button onClick={() => console.log('submitted')}>
             {startStop === 'start'
@@ -213,9 +220,11 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
               : 'Avsluta bilkörning'}
           </Button>
           <br />
+          {/*
           <br />
           {driverLiuId} | {startStop} | {cleanCar + ''} | {distance} | {purpose}{' '}
-          | {message} | {usedTrailer + ''}
+          | {message} | {usedTrailer + ''} | {carDays} | {trailerDays} | {"activemember: " + activeMember}
+          */}
         </GridItem>
 
         <GridItem>
