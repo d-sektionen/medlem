@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import useSWR from 'swr'
+import { post } from '../request'
 
 import BigPixels from '../layout/bigPixels'
 import { GridContainer, GridItem } from '../ui/grid'
@@ -20,22 +21,48 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   const [activeMember, setActiveMember] = useState(true)
 
   const sendStartData = async () => {
-    if (driverLiuId == '' || distance == undefined) {
-      // argh
+    if (driverLiuId === '' || distance === undefined) {
+      console.log('hej')
     } else {
       const logStartData = {
-        start_km: null,
-        start_message: '',
-        booking_liu_id: '',
-        start_car_cleaned: false,
+        start_km: distance,
+        start_message: message,
+        booking_liu_id: driverLiuId,
+        start_car_cleaned: cleanCar,
       }
-    }
 
-    res = await post('/voting/made_votes/', logStartData)
+      post('/carlogging/starts/', logStartData)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          const errorMessage = error.response.data.error
+          console.log(errorMessage)
+        })
+
+      /*
+      await post('/carlogging/starts/', logStartData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      */
+
+      /*
+      try {
+        const { data: logResponse } = await post('/carlogging/starts/', logStartData)
+        console.log(logResponse);  
+      } catch (error) {
+        console.log(error)
+      }
+      */
+    }
   }
 
   const sendStopData = async () => {
-    if (driverLiuId == '' || distance == undefined) {
+    if (driverLiuId === '' || distance === undefined) {
       // :(
     } else {
       const logData = {
@@ -48,8 +75,9 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
         car_days: carDays,
         active_member: activeMember,
       }
-      res = await post('/voting/made_votes/', logData)
-      // If
+      const { data: logResponse } = await post('/carlogging/entries/', logData)
+
+      console.log(logResponse)
     }
   }
 
@@ -214,7 +242,9 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
 
           <br />
           <br />
-          <Button onClick={() => console.log('submitted')}>
+          <Button
+            onClick={startStop === 'start' ? sendStartData : sendStopData}
+          >
             {startStop === 'start'
               ? 'Påbörja bilkörning'
               : 'Avsluta bilkörning'}
