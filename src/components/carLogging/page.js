@@ -19,13 +19,19 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   const [usedTrailer, setUsedTrailer] = useState(false)
   const [trailerDays, setTrailerDays] = useState(1)
   const [activeMember, setActiveMember] = useState(true)
+  const [statusMessage, setStatusMessage] = useState('')
+  const [statusMessageStyle, setStatusMessageStyle] = useState(style.success)
 
   const sendStartData = async () => {
-    if (driverLiuId === '' || distance === undefined) {
-      console.log('hej')
+    if (driverLiuId === '') {
+      setStatusMessage('LiU-ID:t får inte vara tomt')
+      setStatusMessageStyle(style.error)
+    } else if (distance === undefined || distance === '') {
+      setStatusMessage('Miltalet får inte vara tomt')
+      setStatusMessageStyle(style.error)
     } else {
       const logStartData = {
-        start_km: distance,
+        start_km: parseInt(distance),
         start_message: message,
         booking_liu_id: driverLiuId,
         start_car_cleaned: cleanCar,
@@ -33,51 +39,56 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
 
       post('/carlogging/starts/', logStartData)
         .then(response => {
-          console.log(response)
+          updateStatus(response)
         })
         .catch(error => {
-          const errorMessage = error.response.data.error
-          console.log(errorMessage)
+          updateStatus(error.response)
         })
-
-      /*
-      await post('/carlogging/starts/', logStartData)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      */
-
-      /*
-      try {
-        const { data: logResponse } = await post('/carlogging/starts/', logStartData)
-        console.log(logResponse);  
-      } catch (error) {
-        console.log(error)
-      }
-      */
     }
   }
 
   const sendStopData = async () => {
-    if (driverLiuId === '' || distance === undefined) {
-      // :(
+    if (driverLiuId === '') {
+      setStatusMessage('LiU-ID:t får inte vara tomt')
+      setStatusMessageStyle(style.error)
+    } else if (distance === undefined || distance === '') {
+      setStatusMessage('Miltalet får inte vara tomt')
+      setStatusMessageStyle(style.error)
     } else {
       const logData = {
-        end_km: distance,
+        end_km: parseInt(distance),
         end_message: message,
         end_car_cleaned: cleanCar,
         booking_liu_id: driverLiuId,
         trailer: usedTrailer,
-        trailer_days: trailerDays,
-        car_days: carDays,
+        trailer_days: parseInt(trailerDays),
+        car_days: parseInt(carDays),
         active_member: activeMember,
       }
-      const { data: logResponse } = await post('/carlogging/entries/', logData)
 
-      console.log(logResponse)
+      post('/carlogging/entries/', logData)
+        .then(response => {
+          updateStatus(response)
+        })
+        .catch(error => {
+          const errorMessage = error.response.data.error
+
+          updateStatus(error.response)
+        })
+    }
+  }
+
+  const updateStatus = response => {
+    if (response.status !== 200) {
+      setStatusMessageStyle(style.error)
+    } else {
+      setStatusMessageStyle(style.success)
+    }
+    // show response.data.status_text
+    if (response.data.hasOwnProperty('status_text')) {
+      setStatusMessage(response.data.status_text)
+    } else {
+      console.log("the response didn't have status_text")
     }
   }
 
@@ -121,7 +132,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                 defaultChecked
                 onChange={e => setStartStop(e.target.value)}
               />
-              Start
+              Påbörja
             </label>
 
             <label>
@@ -131,7 +142,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                 value="stop"
                 onChange={e => setStartStop(e.target.value)}
               />
-              Stopp
+              Avsluta
             </label>
           </div>
 
@@ -145,8 +156,8 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
             click={e => setCleanCar(e.target.checked)}
           />
           <label className={style.inputGroup}>
-            <span>Miltal</span>
-            {/* TODO: Lägg till senaste miltalet?*/}
+            <span>Miltal (mätarställning i km)</span>
+            {/* TODO: Lägg till senaste miltalet? Hämta personens senaste logstart's startKm */}
             <input
               type="number"
               name="mileage"
@@ -241,15 +252,23 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
           </label>
 
           <br />
-          <br />
+
+          <div className={statusMessageStyle}>{statusMessage}</div>
           <Button
-            onClick={startStop === 'start' ? sendStartData : sendStopData}
+            onClick={() => {
+              if (startStop === 'start') {
+                sendStartData()
+              } else {
+                sendStopData()
+              }
+            }}
           >
             {startStop === 'start'
               ? 'Påbörja bilkörning'
               : 'Avsluta bilkörning'}
           </Button>
           <br />
+
           {/*
           <br />
           {driverLiuId} | {startStop} | {cleanCar + ''} | {distance} | {purpose}{' '}
