@@ -1,10 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import useSWR from 'swr'
 import { post } from '../request'
 
 import BigPixels from '../layout/bigPixels'
 import { GridContainer, GridItem } from '../ui/grid'
-import { Checkbox, Switch } from '../ui/checkbox'
+import { Checkbox } from '../ui/checkbox'
 import style from '../../scss/carlogging.module.scss'
 import { Button } from '../ui/buttons'
 
@@ -25,7 +25,21 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   const [statusMessageStyle, setStatusMessageStyle] = useState(style.success)
   const DECIMAL_RADIX = 10
 
-  const sendStartData = async () => {
+  const updateStatus = response => {
+    if (response.status !== 200) {
+      setStatusMessageStyle(style.error)
+    } else {
+      setStatusMessageStyle(style.success)
+    }
+    // show response.data.status_text
+    if (response.data.hasOwnProperty('status_text')) {
+      setStatusMessage(response.data.status_text)
+    } else {
+      console.log("the response didn't have status_text")
+    }
+  }
+
+  const submitStartData = async () => {
     if (driverLiuId === '') {
       setStatusMessage('LiU-ID:t får inte vara tomt')
       setStatusMessageStyle(style.error)
@@ -50,7 +64,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
     }
   }
 
-  const sendStopData = async () => {
+  const submitStopData = async () => {
     if (driverLiuId === '') {
       setStatusMessage('LiU-ID:t får inte vara tomt')
       setStatusMessageStyle(style.error)
@@ -79,22 +93,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
     }
   }
 
-  const updateStatus = response => {
-    if (response.status !== 200) {
-      setStatusMessageStyle(style.error)
-    } else {
-      setStatusMessageStyle(style.success)
-    }
-    // show response.data.status_text
-    if (response.data.hasOwnProperty('status_text')) {
-      setStatusMessage(response.data.status_text)
-    } else {
-      console.log("the response didn't have status_text")
-    }
-  }
-
   const { data: userData } = useSWR(() => '/account/me/')
-
   useEffect(
     () => {
       if (userData) setDriverLiuId(userData.username)
@@ -159,11 +158,10 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
             value="cleancar"
             click={e => setCleanCar(e.target.checked)}
           />
-          <label className={style.inputGroup} htmlFor="mileage-input">
+          <div className={style.inputGroup}>
             <span>Miltal (mätarställning i km)</span>
             {/* TODO: Lägg till senaste miltalet? Hämta personens senaste logstart's startKm */}
             <input
-              id="mileage-input"
               type="number"
               name="mileage"
               placeholder="t.ex. 79472"
@@ -173,7 +171,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                 setDistance(e.target.value)
               }}
             />
-          </label>
+          </div>
           {startStop === 'stop' && (
             <>
               <div className={style.inputGroup}>
@@ -262,9 +260,9 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
           <Button
             onClick={() => {
               if (startStop === 'start') {
-                sendStartData()
+                submitStartData()
               } else {
-                sendStopData()
+                submitStopData()
               }
             }}
           >

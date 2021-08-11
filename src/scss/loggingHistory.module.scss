@@ -8,7 +8,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: $dsek-blue;
+    background-color: $background-color-3;
   }
 }
 
@@ -28,4 +28,37 @@
 .date {
   color: $foreground-color-1;
   float: right;
+}
+
+.table {
+  background: $background-color-3;
+
+  div {
+    background-color: $background-color-3;
+    padding: 2px;
+    display: flex;
+
+    span {
+      display: inline-block;
+      background-color: $background-color-4;
+      padding: 4px;
+    }
+
+    span:nth-child(1) {
+      // text-align: right;
+      float: top;
+      width: 40%;
+      margin-right: 3px;
+      // padding-right: 5px;
+      // color: $foreground-color-1;
+    }
+
+    span:nth-child(2) {
+      width: 90%;
+    }
+  }
+
+  div:nth-child(1) {
+    padding-top: 3px;
+  }
 }
