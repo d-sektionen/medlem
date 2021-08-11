@@ -1,0 +1,31 @@
+@import 'vars';
+
+.logInfo {
+  padding: $base-padding;
+  // margin: $base-padding;
+  margin-top: $base-padding;
+  background-color: $background-color-4;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $dsek-blue;
+  }
+}
+
+.logDetails {
+  padding: $base-padding;
+  // margin: $base-padding;
+  margin-top: 0;
+  background: $background-color-3;
+
+  color: $foreground-color-2;
+
+  div {
+    margin-bottom: $base-padding;
+  }
+}
+
+.date {
+  color: $foreground-color-1;
+  float: right;
+}

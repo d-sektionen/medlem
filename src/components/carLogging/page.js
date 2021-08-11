@@ -8,6 +8,8 @@ import { Checkbox, Switch } from '../ui/checkbox'
 import style from '../../scss/carlogging.module.scss'
 import { Button } from '../ui/buttons'
 
+import LoggingHistory from './loggingHistory'
+
 const CarLoggingPage = ({ pageContext: { title } }) => {
   const [driverLiuId, setDriverLiuId] = useState('')
   const [startStop, setStartStop] = useState('start')
@@ -21,6 +23,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   const [activeMember, setActiveMember] = useState(true)
   const [statusMessage, setStatusMessage] = useState('')
   const [statusMessageStyle, setStatusMessageStyle] = useState(style.success)
+  const DECIMAL_RADIX = 10
 
   const sendStartData = async () => {
     if (driverLiuId === '') {
@@ -31,7 +34,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
       setStatusMessageStyle(style.error)
     } else {
       const logStartData = {
-        start_km: parseInt(distance),
+        start_km: parseInt(distance, DECIMAL_RADIX),
         start_message: message,
         booking_liu_id: driverLiuId,
         start_car_cleaned: cleanCar,
@@ -56,13 +59,13 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
       setStatusMessageStyle(style.error)
     } else {
       const logData = {
-        end_km: parseInt(distance),
+        end_km: parseInt(distance, DECIMAL_RADIX),
         end_message: message,
         end_car_cleaned: cleanCar,
         booking_liu_id: driverLiuId,
         trailer: usedTrailer,
-        trailer_days: parseInt(trailerDays),
-        car_days: parseInt(carDays),
+        trailer_days: parseInt(trailerDays, DECIMAL_RADIX),
+        car_days: parseInt(carDays, DECIMAL_RADIX),
         active_member: activeMember,
       }
 
@@ -71,8 +74,6 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
           updateStatus(response)
         })
         .catch(error => {
-          const errorMessage = error.response.data.error
-
           updateStatus(error.response)
         })
     }
@@ -112,20 +113,22 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
           </p>
           <hr />
 
-          <label className={style.inputGroup}>
-            <span>LiU-ID på den som bokat</span>
+          <div className={style.inputGroup}>
+            <span>LiU-ID på den som bokat bilen</span>
             <input
               value={driverLiuId}
               onChange={e => {
                 setDriverLiuId(e.target.value)
               }}
             />
-          </label>
+          </div>
+
           <div className={style.inputGroup}>
             <span>Ska du påbörja eller avsluta bilkörningen?</span>
 
-            <label>
+            <label htmlFor="start-input">
               <input
+                id="start-input"
                 type="radio"
                 name="logtype"
                 value="start"
@@ -135,8 +138,9 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
               Påbörja
             </label>
 
-            <label>
+            <label htmlFor="stop-input">
               <input
+                id="stop-input"
                 type="radio"
                 name="logtype"
                 value="stop"
@@ -155,10 +159,11 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
             value="cleancar"
             click={e => setCleanCar(e.target.checked)}
           />
-          <label className={style.inputGroup}>
+          <label className={style.inputGroup} htmlFor="mileage-input">
             <span>Miltal (mätarställning i km)</span>
             {/* TODO: Lägg till senaste miltalet? Hämta personens senaste logstart's startKm */}
             <input
+              id="mileage-input"
               type="number"
               name="mileage"
               placeholder="t.ex. 79472"
@@ -171,17 +176,17 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
           </label>
           {startStop === 'stop' && (
             <>
-              <label className={style.inputGroup}>
+              <div className={style.inputGroup}>
                 <span>Bilkörningens syfte</span>
 
                 <select
                   onChange={e => {
                     setPurpose(e.target.value)
-                    if (e.target.value == 'department') {
+                    if (e.target.value === 'department') {
                       setActiveMember(true)
-                    } else if (e.target.value == 'other') {
+                    } else if (e.target.value === 'other') {
                       setActiveMember(false)
-                    } else if (e.target.value == 'personal') {
+                    } else if (e.target.value === 'personal') {
                       setActiveMember(false)
                     }
                   }}
@@ -190,19 +195,19 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                   <option value="personal">Personligt</option>
                   <option value="other">Annan sektion/förening</option>
                 </select>
-              </label>
+              </div>
 
-              {purpose == 'personal' && (
-                <label className={style.inputGroup}>
+              {purpose === 'personal' && (
+                <div className={style.inputGroup}>
                   <Checkbox
                     text={`Är ${driverLiuId} sektionsaktiv?`}
                     value=""
                     click={e => setActiveMember(e.target.checked)}
                   />
-                </label>
+                </div>
               )}
 
-              <label className={style.inputGroup}>
+              <div className={style.inputGroup}>
                 <span>Antal dagar som bilen använts:</span>
 
                 <input
@@ -214,7 +219,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                     setCarDays(e.target.value)
                   }}
                 />
-              </label>
+              </div>
 
               <Checkbox
                 text={'Har släpet använts?'}
@@ -224,7 +229,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
 
               {usedTrailer && (
                 <>
-                  <label className={style.inputGroup}>
+                  <div className={style.inputGroup}>
                     <span>Antal dagar som släpet använts:</span>
                     <input
                       type="number"
@@ -235,13 +240,13 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                         setTrailerDays(e.target.value)
                       }}
                     />
-                  </label>
+                  </div>
                 </>
               )}
             </>
           )}
 
-          <label className={style.inputGroup}>
+          <div className={style.inputGroup}>
             <span>Valfritt meddelande</span>
 
             <textarea
@@ -249,7 +254,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                 setMessage(e.target.value)
               }}
             />
-          </label>
+          </div>
 
           <br />
 
@@ -277,8 +282,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
         </GridItem>
 
         <GridItem>
-          <h2>Historik</h2>
-          <hr />
+          <LoggingHistory />
         </GridItem>
       </GridContainer>
     </BigPixels>
