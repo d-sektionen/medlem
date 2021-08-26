@@ -3,9 +3,18 @@
 
 import React, { useState } from 'react'
 import useSWR from 'swr'
+import PropTypes from 'prop-types'
 import { List } from '../ui/list'
 // import { get } from '../request'
 import style from '../../scss/loggingHistory.module.scss'
+
+const Row = ({ children }) => <div className={style.tableRow}>{children}</div>
+Row.defaultProps = {
+  children: undefined,
+}
+Row.propTypes = {
+  children: PropTypes.node,
+}
 
 const LoggingHistory = () => {
   // get all logs logged by user or for booking by user
@@ -57,17 +66,17 @@ const LoggingHistory = () => {
                   <div>
                     {openHistoryItem === index && (
                       <div className={style.table}>
-                        <div>
+                        <Row>
                           <span>Bilen bokad av</span>
                           <span>{` ${logStart.booking_user.pretty_name}`}</span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Loggad av</span>
                           <span>{` ${logStart.logging_user.pretty_name}`}</span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Loggning gjord</span>
                           <span>
                             {` ${logStart.logging_date.split('T')[0]}, kl
@@ -77,24 +86,24 @@ const LoggingHistory = () => {
                                   .split('.')[0]
                               }`}
                           </span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Mätarställning</span>
                           <span>{` ${logStart.start_km} km`}</span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Lämnat meddelande</span>
                           <span>{` ${logStart.start_message}`}</span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Bilen var städad</span>
                           <span>
                             {` ${logStart.start_car_cleaned ? 'Ja' : 'Nej'}`}
                           </span>
-                        </div>
+                        </Row>
                       </div>
                     )}
                   </div>
@@ -136,12 +145,12 @@ const LoggingHistory = () => {
                   <div>
                     {openHistoryItem === index && (
                       <div className={style.table}>
-                        <div>
+                        <Row>
                           <span>Kostnad</span>
                           <span>{` ${logEnd.cost} kr`}</span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Betald</span>
                           <span
                             style={
@@ -150,27 +159,40 @@ const LoggingHistory = () => {
                           >
                             {logEnd.paid ? 'Ja' : 'Nej'}
                           </span>
-                        </div>
+                        </Row>
 
                         {!logEnd.paid && (
                           <div className={style.withPadding}>
                             {`Betala genom att swisha ${
                               logEnd.cost
-                            } kr till 123 585 58 53.`}
+                            } kr till 123 585 58 53. Märk betalningen med LiU-ID på den som bokat bilen, och antal körda km.`}
                           </div>
                         )}
 
-                        <div className={style.withPadding}>
-                          Kostnaden beräknas genom:
-                          <br />
-                          Sektionsaktiv: 3kr/km + 30kr/påbörjat dygn utöver det
-                          första
-                          <br />
-                          Sektionsmedlem: 4kr/km + 30kr/påbörjat dygn utöver det
-                          första
-                          <br />
-                          Övriga: 6kr/km + 30kr/påbörjat dygn utöver det första
-                          <br />
+                        <div
+                          className={style.withPadding}
+                          style={{ display: 'block', paddingBottom: '10px' }}
+                        >
+                          Kostnaden beräknas genom följande. Det översta som
+                          stämmer på den som bokat bilen används:
+                          <div>
+                            <ul>
+                              <li>
+                                Sektionsaktiv (i utskott inom D-sektionen):
+                                3kr/km + 30kr/påbörjat dygn utöver det första
+                              </li>
+
+                              <li>
+                                Sektionsmedlem: 4kr/km + 30kr/påbörjat dygn
+                                utöver det första
+                              </li>
+
+                              <li>
+                                Annan sektion/förening: 6kr/km + 30kr/påbörjat
+                                dygn utöver det första
+                              </li>
+                            </ul>
+                          </div>
                           Släpet kostar 100kr/dygn
                         </div>
 
@@ -178,43 +200,48 @@ const LoggingHistory = () => {
                           Statistik om körningen:
                         </div>
 
-                        <div>
+                        <Row>
                           <span>Sträcka som körts:</span>
                           <span>
                             {` ${logEnd.end_km - logEnd.log_start.start_km} km`}
                           </span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Föraren är sektionsaktiv:</span>
                           <span>{logEnd.active_member ? 'Ja' : 'Nej'}</span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
+                          <span>Föraren är sektionsmedlem:</span>
+                          <span>{logEnd.member ? 'Ja' : 'Nej'}</span>
+                        </Row>
+
+                        <Row>
                           <span>Antal dagar som bilen använts:</span>
                           <span>{` ${logEnd.car_days}`}</span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Antal dagar som släpet använts:</span>
                           <span>{` ${logEnd.trailer_days}`}</span>
-                        </div>
+                        </Row>
 
                         <div className={style.withPadding}>
                           Allmän information om loggningen:
                         </div>
 
-                        <div>
+                        <Row>
                           <span>Bilen bokad av</span>
                           <span>{` ${logEnd.booking_user.pretty_name}`}</span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Loggad av</span>
                           <span>{` ${logEnd.logging_user.pretty_name}`}</span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Loggning gjord</span>
                           <span>
                             {` ${logEnd.logging_date.split('T')[0]}, kl
@@ -222,30 +249,30 @@ const LoggingHistory = () => {
                                 logEnd.logging_date.split('T')[1].split('.')[0]
                               }`}
                           </span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Mätarställning</span>
                           <span>{` ${logEnd.end_km} km`}</span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Lämnat meddelande</span>
                           <span>{` ${logEnd.end_message}`}</span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Bilen städades</span>
                           <span>
                             {` ${logEnd.end_car_cleaned ? 'Ja' : 'Nej'}`}
                           </span>
-                        </div>
+                        </Row>
 
                         <div className={style.withPadding}>
                           Information om tillhörande start-loggning:
                         </div>
 
-                        <div>
+                        <Row>
                           <span>Start-loggning gjord</span>
                           <span>
                             {` ${
@@ -257,27 +284,27 @@ const LoggingHistory = () => {
                                   .split('.')[0]
                               }`}
                           </span>
-                        </div>
+                        </Row>
 
-                        <div>
+                        <Row>
                           <span>Mätarställning vid start-loggning</span>
                           <span>{` ${logEnd.log_start.start_km} km`}</span>
-                        </div>
+                        </Row>
 
                         {logEnd.log_start.logging_user && (
-                          <div>
+                          <Row>
                             <span>Start-loggningen gjordes av</span>
                             <span>
                               {` ${logEnd.log_start.logging_user.pretty_name}`}
                             </span>
-                          </div>
+                          </Row>
                         )}
 
                         {logEnd.log_start.logging_user && (
-                          <div>
+                          <Row>
                             <span>Meddelande vid start-loggning</span>
                             <span>{` ${logEnd.log_start.start_message}`}</span>
-                          </div>
+                          </Row>
                         )}
                       </div>
                     )}

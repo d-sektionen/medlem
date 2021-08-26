@@ -33,7 +33,7 @@
 .table {
   background: $background-color-3;
 
-  div {
+  .tableRow {
     background-color: $background-color-3;
     padding: 2px;
     display: flex;
@@ -61,9 +61,20 @@
   div:nth-child(1) {
     padding-top: 3px;
   }
+
+  ul {
+    margin-bottom: 0px;
+
+    li {
+      display: list-item;
+      list-style-type: disc;
+      margin-top: $base-padding / 4;
+      margin-bottom: $base-padding / 4;
+    }
+  }
 }
 
 .withPadding {
   padding: 5px;
-  padding-top: 15px;
+  padding-top: 10px;
 }
