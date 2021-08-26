@@ -151,9 +151,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
 
           <Checkbox
             text={
-              startStop === 'start'
-                ? 'Är bilen städad? '
-                : 'Har du städat bilen?'
+              startStop === 'start' ? 'Bilen är städad ' : 'Bilen har städats'
             }
             value="cleancar"
             click={e => setCleanCar(e.target.checked)}
@@ -189,7 +187,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                     }
                   }}
                 >
-                  <option value="department">Utksott</option>
+                  <option value="department">Utskott</option>
                   <option value="personal">Personligt</option>
                   <option value="other">Annan sektion/förening</option>
                 </select>
@@ -198,7 +196,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
               {purpose === 'personal' && (
                 <div className={style.inputGroup}>
                   <Checkbox
-                    text={`Är ${driverLiuId} sektionsaktiv?`}
+                    text={`${driverLiuId} är sektionsaktiv (medlem i något av sektionens utskott)`}
                     value=""
                     click={e => setActiveMember(e.target.checked)}
                   />
@@ -220,7 +218,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
               </div>
 
               <Checkbox
-                text={'Har släpet använts?'}
+                text={'Släpet har använts'}
                 value={'false'}
                 click={e => setUsedTrailer(e.target.checked)}
               />
@@ -254,7 +252,11 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
             />
           </div>
 
-          <br />
+          <p>
+            Se till att du klickat i alla rutor som stämmer för loggningen.
+            Observera att den du loggar åt (om du loggar åt någon annan) kommer
+            att kunna se det du skrivit, och att det är just du som gjort det.
+          </p>
 
           <div className={statusMessageStyle}>{statusMessage}</div>
           <Button
@@ -271,12 +273,6 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
               : 'Avsluta bilkörning'}
           </Button>
           <br />
-
-          {/*
-          <br />
-          {driverLiuId} | {startStop} | {cleanCar + ''} | {distance} | {purpose}{' '}
-          | {message} | {usedTrailer + ''} | {carDays} | {trailerDays} | {"activemember: " + activeMember}
-          */}
         </GridItem>
 
         <GridItem>

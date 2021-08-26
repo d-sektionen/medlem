@@ -18,7 +18,7 @@ const LoggingHistory = () => {
 
   return (
     <>
-      <h2>Historik</h2>
+      <h2>Loggningar</h2>
       <p>
         Här ser du gjorda billoggningar som är relevanta för dig. Du ser
         billoggningar som andra gjort åt dig när du har bokat bilen,
@@ -124,6 +124,9 @@ const LoggingHistory = () => {
                       {`Avslutad körning för ${
                         logEnd.booking_user.pretty_name
                       }`}
+                      {!logEnd.paid && (
+                        <span style={{ color: 'red' }}> (obetald)</span>
+                      )}
                     </span>
                     <span className={style.date}>
                       {logEnd.logging_date.split('T')[0]}
@@ -133,6 +136,74 @@ const LoggingHistory = () => {
                   <div>
                     {openHistoryItem === index && (
                       <div className={style.table}>
+                        <div>
+                          <span>Kostnad</span>
+                          <span>{` ${logEnd.cost} kr`}</span>
+                        </div>
+
+                        <div>
+                          <span>Betald</span>
+                          <span
+                            style={
+                              logEnd.paid ? { color: 'lime' } : { color: 'red' }
+                            }
+                          >
+                            {logEnd.paid ? 'Ja' : 'Nej'}
+                          </span>
+                        </div>
+
+                        {!logEnd.paid && (
+                          <div className={style.withPadding}>
+                            {`Betala genom att swisha ${
+                              logEnd.cost
+                            } kr till 123 585 58 53.`}
+                          </div>
+                        )}
+
+                        <div className={style.withPadding}>
+                          Kostnaden beräknas genom:
+                          <br />
+                          Sektionsaktiv: 3kr/km + 30kr/påbörjat dygn utöver det
+                          första
+                          <br />
+                          Sektionsmedlem: 4kr/km + 30kr/påbörjat dygn utöver det
+                          första
+                          <br />
+                          Övriga: 6kr/km + 30kr/påbörjat dygn utöver det första
+                          <br />
+                          Släpet kostar 100kr/dygn
+                        </div>
+
+                        <div className={style.withPadding}>
+                          Statistik om körningen:
+                        </div>
+
+                        <div>
+                          <span>Sträcka som körts:</span>
+                          <span>
+                            {` ${logEnd.end_km - logEnd.log_start.start_km} km`}
+                          </span>
+                        </div>
+
+                        <div>
+                          <span>Föraren är sektionsaktiv:</span>
+                          <span>{logEnd.active_member ? 'Ja' : 'Nej'}</span>
+                        </div>
+
+                        <div>
+                          <span>Antal dagar som bilen använts:</span>
+                          <span>{` ${logEnd.car_days}`}</span>
+                        </div>
+
+                        <div>
+                          <span>Antal dagar som släpet använts:</span>
+                          <span>{` ${logEnd.trailer_days}`}</span>
+                        </div>
+
+                        <div className={style.withPadding}>
+                          Allmän information om loggningen:
+                        </div>
+
                         <div>
                           <span>Bilen bokad av</span>
                           <span>{` ${logEnd.booking_user.pretty_name}`}</span>
@@ -170,7 +241,7 @@ const LoggingHistory = () => {
                           </span>
                         </div>
 
-                        <div style={{ padding: '5px' }}>
+                        <div className={style.withPadding}>
                           Information om tillhörande start-loggning:
                         </div>
 

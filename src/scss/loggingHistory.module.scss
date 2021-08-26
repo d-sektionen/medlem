@@ -8,7 +8,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: $background-color-3;
+    background-color: $dsek-blue;
   }
 }
 
@@ -61,4 +61,9 @@
   div:nth-child(1) {
     padding-top: 3px;
   }
+}
+
+.withPadding {
+  padding: 5px;
+  padding-top: 15px;
 }
