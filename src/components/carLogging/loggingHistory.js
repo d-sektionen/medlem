@@ -134,7 +134,7 @@ const LoggingHistory = () => {
                         logEnd.booking_user.pretty_name
                       }`}
                       {!logEnd.paid && (
-                        <span style={{ color: 'red' }}> (obetald)</span>
+                        <span style={{ color: '#ff4949' }}> (obetald)</span>
                       )}
                     </span>
                     <span className={style.date}>
@@ -154,7 +154,9 @@ const LoggingHistory = () => {
                           <span>Betald</span>
                           <span
                             style={
-                              logEnd.paid ? { color: 'lime' } : { color: 'red' }
+                              logEnd.paid
+                                ? { color: 'lime' }
+                                : { color: '#ff4949' }
                             }
                           >
                             {logEnd.paid ? 'Ja' : 'Nej'}

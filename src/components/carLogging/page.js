@@ -15,12 +15,11 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   const [startStop, setStartStop] = useState('start')
   const [cleanCar, setCleanCar] = useState(false)
   const [distance, setDistance] = useState()
-  const [purpose, setPurpose] = useState('department')
   const [message, setMessage] = useState('')
   const [carDays, setCarDays] = useState(1)
   const [usedTrailer, setUsedTrailer] = useState(false)
   const [trailerDays, setTrailerDays] = useState(1)
-  const [activeMember, setActiveMember] = useState(true)
+  const [activeMember, setActiveMember] = useState(false)
   const [statusMessage, setStatusMessage] = useState('')
   const [statusMessageStyle, setStatusMessageStyle] = useState(style.success)
   const DECIMAL_RADIX = 10
@@ -132,7 +131,12 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                 name="logtype"
                 value="start"
                 defaultChecked
-                onChange={e => setStartStop(e.target.value)}
+                onChange={e => {
+                  setStartStop(e.target.value)
+                  setActiveMember(false)
+                  setUsedTrailer(false)
+                  setTrailerDays(0)
+                }}
               />
               Påbörja
             </label>
@@ -173,35 +177,12 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
           {startStop === 'stop' && (
             <>
               <div className={style.inputGroup}>
-                <span>Bilkörningens syfte</span>
-
-                <select
-                  onChange={e => {
-                    setPurpose(e.target.value)
-                    if (e.target.value === 'department') {
-                      setActiveMember(true)
-                    } else if (e.target.value === 'other') {
-                      setActiveMember(false)
-                    } else if (e.target.value === 'personal') {
-                      setActiveMember(false)
-                    }
-                  }}
-                >
-                  <option value="department">Utskott</option>
-                  <option value="personal">Personligt</option>
-                  <option value="other">Annan sektion/förening</option>
-                </select>
+                <Checkbox
+                  text={`${driverLiuId} är sektionsaktiv (medlem i något av D-sektionens utskott)`}
+                  click={e => setActiveMember(e.target.checked)}
+                  checked={activeMember}
+                />
               </div>
-
-              {purpose === 'personal' && (
-                <div className={style.inputGroup}>
-                  <Checkbox
-                    text={`${driverLiuId} är sektionsaktiv (medlem i något av sektionens utskott)`}
-                    value=""
-                    click={e => setActiveMember(e.target.checked)}
-                  />
-                </div>
-              )}
 
               <div className={style.inputGroup}>
                 <span>Antal dagar som bilen använts:</span>
@@ -218,8 +199,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
               </div>
 
               <Checkbox
-                text={'Släpet har använts'}
-                value={'false'}
+                text="Släpet har använts"
                 click={e => setUsedTrailer(e.target.checked)}
               />
 
