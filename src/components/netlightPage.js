@@ -38,14 +38,6 @@ const NetlightPage = () => {
         <GridItem>
           <img className={style.logo} src={netlight} alt="Netlight logo" />
 
-          <p className={textClass}>
-            Tyvärr behöver vi pga nya restriktioner med anledning av COVID-19
-            hålla sektionsrummet Netlight stängt. Därför går det inte för
-            medlemmar att låsa upp det, tills vidare.
-          </p>
-
-          {/*
-
           <p className={textClass}>{text}</p>
           <div className={style.buttons}>
             <IconButton
@@ -64,8 +56,7 @@ const NetlightPage = () => {
               style={{ margin: 0, marginTop: '1rem' }}
             >{`Batterinivå: ${Math.round(lockStatus.battery_percentage)}%`}</p>
           )}
-
-          */}
+          
         </GridItem>
       </GridContainer>
     </BigPixels>
