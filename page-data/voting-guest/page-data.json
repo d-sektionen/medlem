@@ -1,1 +1,1 @@
-{"componentChunkName":"component---src-components-voting-guest-page-js","path":"/voting-guest","result":{"pageContext":{"title":"D-cide Gäst","requiredPrivileges":"voting_guest","menu":true}},"staticQueryHashes":[]}
+{"componentChunkName":"component---src-components-voting-guest-page-js","path":"/voting-guest","result":{"pageContext":{"title":"D-cide Gäst","requiredPrivileges":"not_member","menu":true}},"staticQueryHashes":[]}
