@@ -3,13 +3,27 @@ import useSWR from 'swr'
 import { FiBarChart2, FiEdit2 } from 'react-icons/fi'
 
 import useModal, { useCloseModal } from '../modal/useModal'
-import VoteStats from '../votingAdmin/voteStats'
+import VoteStats from './voteStats'
 import { List, ListItem, ListButton } from '../ui/list'
+import { Button } from '../ui/buttons'
+import { post, put } from '../request'
 
 const VotePanel = ({ currentMeeting }) => {
-  const { data: votes } = useSWR(
+  const { data: votes, mutate } = useSWR(
     `/voting/admin-votes/?event_id=${currentMeeting.id}`
   )
+
+  const create = async data => {
+    const { data: newVote } = await post('/voting/admin-votes/', data)
+    mutate([...votes, newVote])
+    return newVote
+  }
+
+  const update = async (id, data) => {
+    const { data: updatedVote } = await put(`/voting/admin-votes/${id}/`, data)
+    mutate([...votes.filter(v => v.id !== id), updatedVote])
+    return updatedVote
+  }
 
   const [openChartModal] = useModal(VoteStats)
   const closeModal = useCloseModal()
@@ -35,7 +49,6 @@ const VotePanel = ({ currentMeeting }) => {
                   <ListButton
                     onClick={() =>
                       openChartModal(`Resultat av "${vote.question}"`, {
-                        currentMeeting,
                         voteId: vote.id,
                       })
                     }

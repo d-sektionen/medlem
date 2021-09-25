@@ -2,16 +2,25 @@ import React, { useState, useEffect } from 'react'
 import useSWR from 'swr'
 
 import MeetingPanel from './meetingPanel'
+import DoorkeeperPanel from '../checkin/doorkeeperPanel'
 import VotePanel from './votePanel'
 import AttendantPanel from './attendantPanel'
 import { GridContainer, GridItem } from '../ui/grid'
+import SpeakerPanel from './speakerPanel'
 import TitleChooser from '../ui/titleChooser'
-import { patch } from '../request'
+import useModal, { useCloseModal } from '../modal/useModal'
+import { post, patch } from '../request'
 import BigPixels from '../layout/bigPixels'
 
-const VotingGuestPage = ({ pageContext: { title } }) => {
+const VotingAdminPage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
   const { data: unorderedMeetings, mutate } = useSWR('/voting/admin-meetings/')
+  const closeModal = useCloseModal()
+
+  const create = async data => {
+    const { data: newMeeting } = await post('/voting/admin-meetings/', data)
+    mutate([...unorderedMeetings, newMeeting])
+  }
 
   const updatePatch = async data => {
     const { data: updatedMeeting } = await patch(
@@ -69,4 +78,4 @@ const VotingGuestPage = ({ pageContext: { title } }) => {
   )
 }
 
-export default VotingGuestPage
+export default VotingAdminPage

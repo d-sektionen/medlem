@@ -7,7 +7,9 @@ import TitleChooser from '../ui/titleChooser'
 import SpeakerPanel from './speakerPanel'
 import MeetingInfoPanel from './meetingInfoPanel'
 
-const VotingGuestPage = ({ pageContext: { title } }) => {
+//import { get } from '../request'
+
+const VotePage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
   const { data: meetings, revalidate } = useSWR('/voting/guest-meetings/')
 
@@ -53,4 +55,4 @@ const VotingGuestPage = ({ pageContext: { title } }) => {
     </BigPixels>
   )
 }
-export default VotingGuestPage
+export default VotePage

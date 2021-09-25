@@ -30,7 +30,6 @@ const VotePanel = ({ currentMeeting }) => {
   const open = async vote => {
     await closeModal()
     openChartModal(`Resultat av "${vote.question}"`, {
-      currentMeeting,
       voteId: vote.id,
     })
   }
@@ -72,7 +71,7 @@ const VotePanel = ({ currentMeeting }) => {
                     onClick={() =>
                       confirmModal(
                         `Vill du se resultatet?`,
-                        () => {
+                        function() {
                           open(vote)
                         },
                         closeModal

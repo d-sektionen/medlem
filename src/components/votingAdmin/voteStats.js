@@ -9,32 +9,8 @@ const VoteStats = ({ currentMeeting, voteId }) => {
     : []
   ).reduce((a, b) => a + b, 0)
 
-  const attendantsVoted = data ? data.attendants_voted : ''
-
-  const { data: allVotes } = useSWR(
-    `/voting/admin-votes/?event_id=${currentMeeting.id}`
-  )
-
-  const thisVote = allVotes.filter(vote => vote.id === voteId)[0]
-  const maxSelectable = thisVote.max_number_of_selectable_alternatives
-  const minSelectable = thisVote.min_number_of_selectable_alternatives
-
   return (
     <div>
-      {minSelectable < maxSelectable && (
-        <p>
-          {minSelectable}-{maxSelectable}
-          &nbsp;alternativ väljs av deltagarna
-        </p>
-      )}
-
-      {minSelectable === maxSelectable && (
-        <p>
-          {maxSelectable}
-          &nbsp;alternativ väljs av deltagarna
-        </p>
-      )}
-
       <ul>
         {data &&
           data.alternatives.map(alt => (
@@ -51,12 +27,8 @@ const VoteStats = ({ currentMeeting, voteId }) => {
           ))}
       </ul>
       <p>
-        {'Summa av alla röster: '}
+        {'Summa: '}
         {voteSum}
-      </p>
-      <p>
-        {'Antal personer som röstat: '}
-        {attendantsVoted}
       </p>
     </div>
   )

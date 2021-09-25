@@ -43,7 +43,7 @@ const NetlightPage = () => {
             hålla sektionsrummet Netlight stängt. Därför går det inte för
             medlemmar att låsa upp det, tills vidare.
           </p>
-          
+
           {/*
 
           <p className={textClass}>{text}</p>
