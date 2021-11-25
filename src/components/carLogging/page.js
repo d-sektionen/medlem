@@ -16,10 +16,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   const [cleanCar, setCleanCar] = useState(false)
   const [distance, setDistance] = useState()
   const [message, setMessage] = useState('')
-  const [carDays, setCarDays] = useState(1)
   const [usedTrailer, setUsedTrailer] = useState(false)
-  const [trailerDays, setTrailerDays] = useState(1)
-  const [activeMember, setActiveMember] = useState(false)
   const [statusMessage, setStatusMessage] = useState('')
   const [statusMessageStyle, setStatusMessageStyle] = useState(style.success)
   const DECIMAL_RADIX = 10
@@ -77,9 +74,6 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
         end_car_cleaned: cleanCar,
         booking_liu_id: driverLiuId,
         trailer: usedTrailer,
-        trailer_days: parseInt(trailerDays, DECIMAL_RADIX),
-        car_days: parseInt(carDays, DECIMAL_RADIX),
-        active_member: activeMember,
       }
 
       post('/carlogging/entries/', logData)
@@ -133,9 +127,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
                 defaultChecked
                 onChange={e => {
                   setStartStop(e.target.value)
-                  setActiveMember(false)
                   setUsedTrailer(false)
-                  setTrailerDays(0)
                 }}
               />
               Påbörja
@@ -176,49 +168,10 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
           </div>
           {startStop === 'stop' && (
             <>
-              <div className={style.inputGroup}>
-                <Checkbox
-                  text={`${driverLiuId} är sektionsaktiv (medlem i något av D-sektionens utskott)`}
-                  click={e => setActiveMember(e.target.checked)}
-                  checked={activeMember}
-                />
-              </div>
-
-              <div className={style.inputGroup}>
-                <span>Antal dagar som bilen använts:</span>
-
-                <input
-                  type="number"
-                  value={carDays}
-                  min="1"
-                  step="1"
-                  onChange={e => {
-                    setCarDays(e.target.value)
-                  }}
-                />
-              </div>
-
               <Checkbox
                 text="Släpet har använts"
                 click={e => setUsedTrailer(e.target.checked)}
               />
-
-              {usedTrailer && (
-                <>
-                  <div className={style.inputGroup}>
-                    <span>Antal dagar som släpet använts:</span>
-                    <input
-                      type="number"
-                      value={trailerDays}
-                      min="1"
-                      step="1"
-                      onChange={e => {
-                        setTrailerDays(e.target.value)
-                      }}
-                    />
-                  </div>
-                </>
-              )}
             </>
           )}
 
