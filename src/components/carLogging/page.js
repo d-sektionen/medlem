@@ -44,10 +44,10 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
       setStatusMessageStyle(style.error)
     } else {
       const logStartData = {
-        start_km: parseInt(distance, DECIMAL_RADIX),
-        start_message: message,
+        kilometers: parseInt(distance, DECIMAL_RADIX),
+        message: message,
+        car_cleaned: cleanCar,
         booking_liu_id: driverLiuId,
-        start_car_cleaned: cleanCar,
       }
 
       post('/carlogging/starts/', logStartData)
@@ -69,9 +69,9 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
       setStatusMessageStyle(style.error)
     } else {
       const logData = {
-        end_km: parseInt(distance, DECIMAL_RADIX),
-        end_message: message,
-        end_car_cleaned: cleanCar,
+        kilometers: parseInt(distance, DECIMAL_RADIX),
+        message: message,
+        car_cleaned: cleanCar,
         booking_liu_id: driverLiuId,
         trailer: usedTrailer,
       }

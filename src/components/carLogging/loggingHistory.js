@@ -90,18 +90,18 @@ const LoggingHistory = () => {
 
                         <Row>
                           <span>Mätarställning</span>
-                          <span>{` ${logStart.start_km} km`}</span>
+                          <span>{` ${logStart.kilometers} km`}</span>
                         </Row>
 
                         <Row>
                           <span>Lämnat meddelande</span>
-                          <span>{` ${logStart.start_message}`}</span>
+                          <span>{` ${logStart.message}`}</span>
                         </Row>
 
                         <Row>
                           <span>Bilen var städad</span>
                           <span>
-                            {` ${logStart.start_car_cleaned ? 'Ja' : 'Nej'}`}
+                            {` ${logStart.car_cleaned ? 'Ja' : 'Nej'}`}
                           </span>
                         </Row>
                       </div>
@@ -205,18 +205,9 @@ const LoggingHistory = () => {
                         <Row>
                           <span>Sträcka som körts:</span>
                           <span>
-                            {` ${logEnd.end_km - logEnd.log_start.start_km} km`}
+                            {` ${logEnd.kilometers -
+                              logEnd.log_start.kilometers} km`}
                           </span>
-                        </Row>
-
-                        <Row>
-                          <span>Föraren är sektionsaktiv:</span>
-                          <span>{logEnd.active_member ? 'Ja' : 'Nej'}</span>
-                        </Row>
-
-                        <Row>
-                          <span>Föraren är sektionsmedlem:</span>
-                          <span>{logEnd.member ? 'Ja' : 'Nej'}</span>
                         </Row>
 
                         <Row>
@@ -255,19 +246,17 @@ const LoggingHistory = () => {
 
                         <Row>
                           <span>Mätarställning</span>
-                          <span>{` ${logEnd.end_km} km`}</span>
+                          <span>{` ${logEnd.kilometers} km`}</span>
                         </Row>
 
                         <Row>
                           <span>Lämnat meddelande</span>
-                          <span>{` ${logEnd.end_message}`}</span>
+                          <span>{` ${logEnd.message}`}</span>
                         </Row>
 
                         <Row>
                           <span>Bilen städades</span>
-                          <span>
-                            {` ${logEnd.end_car_cleaned ? 'Ja' : 'Nej'}`}
-                          </span>
+                          <span>{` ${logEnd.car_cleaned ? 'Ja' : 'Nej'}`}</span>
                         </Row>
 
                         <div className={style.withPadding}>
@@ -290,7 +279,7 @@ const LoggingHistory = () => {
 
                         <Row>
                           <span>Mätarställning vid start-loggning</span>
-                          <span>{` ${logEnd.log_start.start_km} km`}</span>
+                          <span>{` ${logEnd.log_start.kilometers} km`}</span>
                         </Row>
 
                         {logEnd.log_start.logging_user && (
@@ -305,7 +294,7 @@ const LoggingHistory = () => {
                         {logEnd.log_start.logging_user && (
                           <Row>
                             <span>Meddelande vid start-loggning</span>
-                            <span>{` ${logEnd.log_start.start_message}`}</span>
+                            <span>{` ${logEnd.log_start.message}`}</span>
                           </Row>
                         )}
                       </div>
