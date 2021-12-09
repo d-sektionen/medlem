@@ -17,6 +17,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   const [distance, setDistance] = useState()
   const [message, setMessage] = useState('')
   const [usedTrailer, setUsedTrailer] = useState(false)
+  const [trailerLiuId, setTrailerLiuId] = useState('')
   const [statusMessage, setStatusMessage] = useState('')
   const [statusMessageStyle, setStatusMessageStyle] = useState(style.success)
   const DECIMAL_RADIX = 10
@@ -74,6 +75,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
         car_cleaned: cleanCar,
         booking_liu_id: driverLiuId,
         trailer: usedTrailer,
+        trailer_liu_id: trailerLiuId,
       }
 
       post('/carlogging/entries/', logData)
@@ -89,7 +91,10 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   const { data: userData } = useSWR(() => '/account/me/')
   useEffect(
     () => {
-      if (userData) setDriverLiuId(userData.username)
+      if (userData) {
+        setDriverLiuId(userData.username)
+        setTrailerLiuId(userData.username)
+      }
     },
     [userData]
   )
@@ -167,12 +172,23 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
             />
           </div>
           {startStop === 'stop' && (
-            <>
+            <div className={style.inputGroup}>
               <Checkbox
                 text="Släpet har använts"
                 click={e => setUsedTrailer(e.target.checked)}
               />
-            </>
+            </div>
+          )}
+          {startStop === 'stop' && usedTrailer && (
+            <div className={style.inputGroup}>
+              <span>LiU-ID på den som bokat släpet</span>
+              <input
+                value={trailerLiuId}
+                onChange={e => {
+                  setTrailerLiuId(e.target.value)
+                }}
+              />
+            </div>
           )}
 
           <div className={style.inputGroup}>
