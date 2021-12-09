@@ -167,7 +167,8 @@ const LoggingHistory = () => {
                           <div className={style.withPadding}>
                             {`Betala genom att swisha ${
                               logEnd.cost
-                            } kr till 123 585 58 53. Märk betalningen med LiU-ID på den som bokat bilen, och antal körda km.`}
+                            } kr till 123 585 58 53. Märk betalningen med LiU-ID på den som bokat bilen, 
+                            LiU-ID på den som bokat släpet, och antal körda km.`}
                           </div>
                         )}
 
@@ -175,27 +176,14 @@ const LoggingHistory = () => {
                           className={style.withPadding}
                           style={{ display: 'block', paddingBottom: '10px' }}
                         >
-                          Kostnaden beräknas genom följande. Det översta som
-                          stämmer på den som bokat bilen används:
-                          <div>
-                            <ul>
-                              <li>
-                                Sektionsaktiv (i utskott inom D-sektionen):
-                                3kr/km + 30kr/påbörjat dygn utöver det första
-                              </li>
-
-                              <li>
-                                Sektionsmedlem: 4kr/km + 30kr/påbörjat dygn
-                                utöver det första
-                              </li>
-
-                              <li>
-                                Annan sektion/förening: 6kr/km + 30kr/påbörjat
-                                dygn utöver det första
-                              </li>
-                            </ul>
-                          </div>
-                          Släpet kostar 100kr/dygn
+                          Kostnaden beräknas genom följande:
+                          <ul>
+                            <li>
+                              Bilen kostar 3 kr/km + 30 kr/dygn (utöver det
+                              första)
+                            </li>
+                            <li>Släpet kostar 100 kr/dygn</li>
+                          </ul>
                         </div>
 
                         <div className={style.withPadding}>
@@ -258,6 +246,20 @@ const LoggingHistory = () => {
                           <span>Bilen städades</span>
                           <span>{` ${logEnd.car_cleaned ? 'Ja' : 'Nej'}`}</span>
                         </Row>
+
+                        <Row>
+                          <span>Släpet användes</span>
+                          <span>{` ${
+                            logEnd.trailer_user ? 'Ja' : 'Nej'
+                          }`}</span>
+                        </Row>
+
+                        {logEnd.trailer_user && (
+                          <Row>
+                            <span>Släpet bokat av</span>
+                            <span>{` ${logEnd.trailer_user.pretty_name}`}</span>
+                          </Row>
+                        )}
 
                         <div className={style.withPadding}>
                           Information om tillhörande start-loggning:
