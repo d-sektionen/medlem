@@ -16,7 +16,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   const [cleanCar, setCleanCar] = useState(false)
   const [kilometers, setKilometers] = useState()
   const [message, setMessage] = useState('')
-  const [committee, setCommittee] = useState('null')
+  const [committeeId, setCommitteeId] = useState(-1)
   const [usedTrailer, setUsedTrailer] = useState(false)
   const [trailerLiuId, setTrailerLiuId] = useState('')
   const [statusMessage, setStatusMessage] = useState('')
@@ -66,7 +66,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
     } else if (kilometers === undefined || kilometers === '') {
       setStatusMessage('Miltalet får inte vara tomt')
       setStatusMessageStyle(style.error)
-    } else if (committee === 'null') {
+    } else if (committeeId === -1) {
       setStatusMessage('Utskottet får inte vara ovalt')
       setStatusMessageStyle(style.error)
     } else {
@@ -77,7 +77,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
         booking_liu_id: bookingLiuId,
         trailer: usedTrailer,
         trailer_liu_id: trailerLiuId,
-        committee_name: committee,
+        committee_id: committeeId,
       }
 
       post('/carlogging/entries/', data)
@@ -87,15 +87,17 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   }
 
   const { data: userData } = useSWR(() => '/account/me/')
-  useEffect(() => {
-    if (userData) {
-      setBookingLiuId(userData.username)
-      setTrailerLiuId(userData.username)
-    }
-  }, [userData])
+  useEffect(
+    () => {
+      if (userData) {
+        setBookingLiuId(userData.username)
+        setTrailerLiuId(userData.username)
+      }
+    },
+    [userData]
+  )
 
-  //const { data: committeeData } = useSWR(() => '/committee/')
-  const committeeData = ['utskott 1', 'utskott 2', 'utskott 3']
+  const { data: committeeData } = useSWR(() => '/committee/all/')
 
   return (
     <BigPixels>
@@ -171,12 +173,17 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
           {startStop === 'stop' && (
             <div className={style.inputGroup}>
               <span>Utskottet bilen har körts för</span>
-              <select onChange={e => setCommittee(e.target.value)}>
-                <option disabled selected value={'null'}>
+              <select
+                defaultValue={committeeId}
+                onChange={e => setCommitteeId(parseInt(e.target.value))}
+              >
+                <option disabled value={-1}>
                   --välj ett utskott--
                 </option>
                 {committeeData &&
-                  committeeData.map(c => <option value={c}>{c}</option>)}
+                  committeeData.map(c => (
+                    <option value={c.id}>{c.name}</option>
+                  ))}
               </select>
             </div>
           )}

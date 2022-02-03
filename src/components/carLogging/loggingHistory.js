@@ -233,6 +233,11 @@ const LoggingHistory = () => {
                         </Row>
 
                         <Row>
+                          <span>Utskott kört för</span>
+                          <span>{` ${logEnd.committee.name}`}</span>
+                        </Row>
+
+                        <Row>
                           <span>Mätarställning</span>
                           <span>{` ${logEnd.kilometers} km`}</span>
                         </Row>
