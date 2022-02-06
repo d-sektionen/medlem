@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import useSWR from 'swr'
 import { post } from '../request'
+import style from '../../scss/carlogging.module.scss'
 
 import BigPixels from '../layout/bigPixels'
 import { GridContainer, GridItem } from '../ui/grid'
 import { Checkbox } from '../ui/checkbox'
 import { Button } from '../ui/buttons'
-import style from '../../scss/carlogging.module.scss'
 
 import LoggingHistory from './loggingHistory'
 
-const CarLoggingPage = ({ pageContext: { title } }) => {
-  const [bookingLiuId, setBookingLiuId] = useState('')
+function CarLoggingPage({ pageContext: { title } }) {
+  const [carLiuId, setCarLiuId] = useState('')
   const [startStop, setStartStop] = useState('start')
   const [cleanCar, setCleanCar] = useState(false)
   const [kilometers, setKilometers] = useState()
@@ -23,8 +23,20 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   const [statusMessageStyle, setStatusMessageStyle] = useState(style.success)
   const DECIMAL_RADIX = 10
 
+  const { data: committeeData } = useSWR(() => '/committee/all/')
+  const { data: userData } = useSWR(() => '/account/me/')
+  useEffect(
+    () => {
+      if (userData) {
+        setCarLiuId(userData.username)
+        setTrailerLiuId(userData.username)
+      }
+    },
+    [userData]
+  )
+
   const updateStatus = response => {
-    if (response.status !== 200) {
+    if (response.status >= 400) {
       setStatusMessageStyle(style.error)
     } else {
       setStatusMessageStyle(style.success)
@@ -39,7 +51,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   }
 
   const submitStartData = async () => {
-    if (bookingLiuId === '') {
+    if (carLiuId === '') {
       setStatusMessage('LiU-ID:t får inte vara tomt')
       setStatusMessageStyle(style.error)
     } else if (kilometers === undefined || kilometers === '') {
@@ -47,10 +59,10 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
       setStatusMessageStyle(style.error)
     } else {
       const data = {
+        car_liu_id: carLiuId,
         kilometers: parseInt(kilometers, DECIMAL_RADIX),
         message: message,
         car_cleaned: cleanCar,
-        booking_liu_id: bookingLiuId,
       }
 
       post('/carlogging/starts/', data)
@@ -60,7 +72,7 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
   }
 
   const submitStopData = async () => {
-    if (bookingLiuId === '') {
+    if (carLiuId === '') {
       setStatusMessage('LiU-ID:t får inte vara tomt')
       setStatusMessageStyle(style.error)
     } else if (kilometers === undefined || kilometers === '') {
@@ -71,13 +83,13 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
       setStatusMessageStyle(style.error)
     } else {
       const data = {
-        kilometers: parseInt(kilometers, DECIMAL_RADIX),
-        message: message,
-        car_cleaned: cleanCar,
-        booking_liu_id: bookingLiuId,
+        car_liu_id: carLiuId,
         trailer: usedTrailer,
         trailer_liu_id: trailerLiuId,
         committee_id: committeeId,
+        kilometers: parseInt(kilometers, DECIMAL_RADIX),
+        message: message,
+        car_cleaned: cleanCar,
       }
 
       post('/carlogging/entries/', data)
@@ -86,24 +98,14 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
     }
   }
 
-  const { data: userData } = useSWR(() => '/account/me/')
-  useEffect(
-    () => {
-      if (userData) {
-        setBookingLiuId(userData.username)
-        setTrailerLiuId(userData.username)
-      }
-    },
-    [userData]
-  )
-
-  const { data: committeeData } = useSWR(() => '/committee/all/')
-
   return (
     <BigPixels>
       <GridContainer>
+        <GridItem fullWidth={true}>
+          <h1>{title}</h1>
+        </GridItem>
         <GridItem>
-          <h2>Ny billoggning</h2>
+          <h2>Ny loggning</h2>
           <p>
             Här kan du logga bilkörning för dig eller någon annan. Det gör du
             både när du börjar och avslutar din bilkörning.
@@ -113,8 +115,8 @@ const CarLoggingPage = ({ pageContext: { title } }) => {
           <div className={style.inputGroup}>
             <span>LiU-ID på den som har bokat bilen</span>
             <input
-              value={bookingLiuId}
-              onChange={e => setBookingLiuId(e.target.value)}
+              value={carLiuId}
+              onChange={e => setCarLiuId(e.target.value)}
             />
           </div>
 
