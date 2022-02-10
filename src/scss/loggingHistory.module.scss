@@ -1,0 +1,80 @@
+@import 'vars';
+
+.logInfo {
+  padding: $base-padding;
+  // margin: $base-padding;
+  margin-top: $base-padding;
+  background-color: $background-color-4;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $dsek-blue;
+  }
+}
+
+.logDetails {
+  padding: $base-padding;
+  // margin: $base-padding;
+  margin-top: 0;
+  background: $background-color-3;
+
+  color: $foreground-color-2;
+
+  div {
+    margin-bottom: $base-padding;
+  }
+}
+
+.date {
+  color: $foreground-color-1;
+  float: right;
+}
+
+.table {
+  background: $background-color-3;
+
+  .tableRow {
+    background-color: $background-color-3;
+    padding: 2px;
+    display: flex;
+
+    span {
+      display: inline-block;
+      background-color: $background-color-4;
+      padding: 4px;
+    }
+
+    span:nth-child(1) {
+      // text-align: right;
+      float: top;
+      width: 40%;
+      margin-right: 3px;
+      // padding-right: 5px;
+      // color: $foreground-color-1;
+    }
+
+    span:nth-child(2) {
+      width: 90%;
+    }
+  }
+
+  div:nth-child(1) {
+    padding-top: 3px;
+  }
+
+  ul {
+    margin-bottom: 0px;
+
+    li {
+      display: list-item;
+      list-style-type: disc;
+      margin-top: $base-padding / 4;
+      margin-bottom: $base-padding / 4;
+    }
+  }
+}
+
+.withPadding {
+  padding: 5px;
+  padding-top: 10px;
+}

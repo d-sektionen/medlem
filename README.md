@@ -19,6 +19,10 @@ As a non developer you can visit this project at [medlem.d-sektionen.se](https:/
 
 ## Development
 
+### Important
+
+This project works with Node **v.14**. If you are using a newer version (especially **v.16**) you might need to downgrade before getting started.
+
 ### Prerequisites
 
 Must know:

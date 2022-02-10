@@ -1,0 +1,91 @@
+@import 'vars';
+
+label {
+  display: block;
+
+  :first-child {
+    display: inline;
+    margin-right: 0.5rem;
+  }
+}
+
+.inputGroup {
+  margin: 1.3rem 0;
+
+  > span {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+}
+
+textarea {
+  width: 90%;
+}
+
+.statusMessage {
+  animation: fadeIn linear 1s;
+  -webkit-animation: fadeIn linear 1s;
+  -moz-animation: fadeIn linear 1s;
+  -o-animation: fadeIn linear 1s;
+  -ms-animation: fadeIn linear 1s;
+  /*.success {
+    color: green;
+  }
+  
+  .error{
+    color: red;
+  }*/
+}
+.success {
+  color: green;
+  margin-bottom: 5px;
+}
+.error {
+  color: red;
+  margin-bottom: 5px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
