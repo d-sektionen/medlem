@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import useSWR from 'swr'
+import useSWR, { mutate } from 'swr'
 import { post } from '../request'
 import style from '../../scss/carlogging.module.scss'
 
@@ -25,15 +25,12 @@ function CarLoggingPage({ pageContext: { title } }) {
 
   const { data: committeeData } = useSWR(() => '/committee/all/')
   const { data: userData } = useSWR(() => '/account/me/')
-  useEffect(
-    () => {
-      if (userData) {
-        setCarLiuId(userData.username)
-        setTrailerLiuId(userData.username)
-      }
-    },
-    [userData]
-  )
+  useEffect(() => {
+    if (userData) {
+      setCarLiuId(userData.username)
+      setTrailerLiuId(userData.username)
+    }
+  }, [userData])
 
   const updateStatus = response => {
     if (response.status >= 400) {
@@ -66,7 +63,10 @@ function CarLoggingPage({ pageContext: { title } }) {
       }
 
       post('/carlogging/starts/', data)
-        .then(response => updateStatus(response))
+        .then(response => {
+          mutate('/carlogging/starts/')
+          updateStatus(response)
+        })
         .catch(error => updateStatus(error.response))
     }
   }
@@ -93,7 +93,10 @@ function CarLoggingPage({ pageContext: { title } }) {
       }
 
       post('/carlogging/entries/', data)
-        .then(response => updateStatus(response))
+        .then(response => {
+          mutate('/carlogging/entries/')
+          updateStatus(response)
+        })
         .catch(error => updateStatus(error.response))
     }
   }
