@@ -13,7 +13,7 @@ const IconButton = ({ onClick, iconComponent: Icon, text }) => {
   )
 }
 
-const Button = ({ onClick, to, href, children, type }) => {
+const Button = ({ onClick, to, href, target, children, type }) => {
   if (to)
     return (
       <Link className={style.button} to={to} onClick={onClick}>
@@ -23,7 +23,7 @@ const Button = ({ onClick, to, href, children, type }) => {
 
   if (href)
     return (
-      <a className={style.button} href={href} onClick={onClick}>
+      <a className={style.button} href={href} target={target} onClick={onClick}>
         {children}
       </a>
     )

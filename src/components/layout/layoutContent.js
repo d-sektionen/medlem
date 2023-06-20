@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import style from '../../scss/layout.module.scss'
@@ -10,7 +10,7 @@ import { Button } from '../ui/buttons'
 import { get, post } from '../request/index'
 import { useState } from 'react'
 
-// The following function are copying from
+// The following function are copyied from
 // https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
 function getCookie(name) {
   var cookieValue = null
@@ -39,60 +39,43 @@ const LayoutContent = ({
   const [deviceCode, setDeviceCode] = useState('')
   const [verificationURI, setVerificationURI] = useState('')
 
-  const deviceLogin = 'http://localhost:8000/account/device/'
+  const deviceLogin = '/account/device/'
   const deviceFunc = () => {
-    let csrftoken = getCookie('csrftoken')
-    console.log(csrftoken)
-    const payload = { test: 'test' }
-    fetch(deviceLogin, {
-      method: 'POST',
-      //mode:"no-cors",
-      //headers: { "X-CSRFToken": csrftoken },
-      //credentials: 'omit'
-    })
-      .then(res => res.json())
+    post(deviceLogin, { credentials: 'omit' })
+      .then(res => res.data)
       .then(js => {
-        console.log(js)
+        // Set id of requesting device (This user)
         setDeviceCode(js['device_code'])
+        // Set verification url (sends user to LiU ADFS login)
+        // Code is pre-filled
         setVerificationURI(js['verification_uri_complete'])
       })
   }
 
   const deviceFuncLogin = () => {
-    let csrftoken = getCookie('csrftoken')
-    console.log(deviceCode)
-    console.log(verificationURI)
+    //let csrftoken = getCookie('csrftoken')
 
-    fetch(deviceLogin, {
-      method: 'POST',
-      headers: { 'X-CSRFToken': csrftoken },
-      body: JSON.stringify(payload),
+    // Send the device id to our backend
+    const payload = { device_code: deviceCode }
+
+    // The backend will send the device id to LiU ADFS
+    // LiU ADFS will send the user to our backend
+    // Our backend will send the access token to the user (the response to this)
+    post(deviceLogin, JSON.stringify(payload), {
+      //headers: { 'X-CSRFToken': csrftoken },
       credentials: 'omit',
     })
-      .then(res => res.json())
+      .then(res => res.data)
       .then(js => {
-        console.log(js)
+        // Save the accesstoken recieved from the server
         window.localStorage.setItem('token', js['code']['access_token'])
+        window.location.reload(true)
       })
   }
 
-  const fetchMe = () => {
-    let csrftoken = getCookie('csrftoken')
-    console.log(deviceCode)
-    console.log(verificationURI)
-    const payload = { device_code: deviceCode, test: 123 }
-
-    fetch(deviceLogin, {
-      method: 'POST',
-      headers: { 'X-CSRFToken': csrftoken },
-      body: JSON.stringify(payload),
-      credentials: 'omit',
-    })
-      .then(res => res.json())
-      .then(js => {
-        console.log(js)
-      })
-  }
+  useEffect(() => {
+    deviceFunc()
+  }, [])
 
   return (
     <div className={style.contentWrapper}>
@@ -135,16 +118,25 @@ const LayoutContent = ({
                     </a>
                     .
                   </p>
-                  <p>
+                  <b>
+                    {' '}
+                    ADFS: Logga in med liu-id och välj sen Blåa ikonen med ADFS
+                  </b>
+                  {/* <p>
                     <Button href={loginUrl}>Logga in med LiU-id</Button>
-                  </p>
+                  </p> */}
                   {/* För utveckling, när adfs inte kan redir till localhost */}
+                  {/* 
                   <p>
                     <Button onClick={deviceFunc}>Get Device id</Button>
-                  </p>
+                  </p> */}
                   <p>
-                    <Button href={verificationURI} onClick={deviceFuncLogin}>
-                      Device id Login
+                    <Button
+                      href={verificationURI}
+                      target="_blank"
+                      onClick={deviceFuncLogin}
+                    >
+                      Logga in med LiU-id (ADFS device)
                     </Button>
                   </p>
                 </>
