@@ -38,6 +38,13 @@ const NetlightPage = () => {
         <GridItem>
           <img className={style.logo} src={netlight} alt="Netlight logo" />
 
+          {/*
+            <p className={textClass}>
+              Det går för tillfället inte att låsa/låsa upp Netlight genom denna
+              sida, då sektionsrummet är utlånat till D-group nu under
+              DÖMD-perioden.
+            </p>
+          */}
           <p className={textClass}>{text}</p>
           <div className={style.buttons}>
             <IconButton

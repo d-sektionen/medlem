@@ -39,6 +39,7 @@ Good to know:
 ### Getting started
 
 Download Node.js (which includes npm)
+IMPORTANT!!!: has to be node version 15
 
 Clone the repository and view its directory in a terminal.
 
