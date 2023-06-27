@@ -13,7 +13,9 @@ export const onClientEntry = () => {
   const parsedQueryString = qs.parse(window.location.search.slice(1))
 
   if (parsedQueryString.access !== undefined) {
-    window.localStorage.setItem('token', parsedQueryString.access)
+    // Tokens are now saved when the user logs in from the axios post request.
+    // Kept for reference.
+    //window.localStorage.setItem('token', parsedQueryString.access)
     // update url in the address bar without refreshing the page.
     window.history.replaceState(
       window.history.state,
