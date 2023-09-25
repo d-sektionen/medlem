@@ -62,11 +62,28 @@ class Preferences extends Component {
         console.log(err)
         setLoading(false)
         if (!err.response) this.setState({ error: 'Nätverksfel.' })
-        else if (err.response.status === 400)
-          this.setState({ errors: err.response.data })
-        else this.setState({ error: 'Något gick fel.' })
+        else if (err.response.status === 400) {
+          this.getFormErrorText(err.response)
+        }
       })
     event.preventDefault()
+  }
+
+  /**
+   * Get error text to pass to setState.
+   * @param response - The response from the request.
+   * @returns Object - containing the error text.
+   */
+  getFormErrorText(response) {
+    if (response.data?.liu_card_id) {
+      return {
+        errors: {
+          profile: { liu_card_id: 'Det angivna LiU IDt är för långt.' },
+        },
+      }
+    }
+
+    return { error: 'Något gick fel.' }
   }
 
   render() {
