@@ -37,7 +37,11 @@ const DoorkeeperPanel = ({ event }) => {
           })
         }}
       >
-        <input value={input} onChange={e => setInput(e.target.value)} />
+        <input
+          value={input}
+          placeholder="LiU-ID"
+          onChange={e => setInput(e.target.value)}
+        />
       </form>
       <List>
         {doorkeepers &&
