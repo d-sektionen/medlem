@@ -146,8 +146,8 @@ const LayoutContent = ({
                       width="300"
                       height="300"
                       src="https://www.youtube.com/embed/ppY8vcrYmKQ"
-                      frameborder="0"
-                      allowfullscreen="1"
+                      frameBorder="0"
+                      allowFullScreen="1"
                       style={{
                         width: '50rem',
                         maxWidth: '100%',
