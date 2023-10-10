@@ -39,13 +39,10 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
   const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null
 
   // sync currentMeeting with updated meetings
-  useEffect(
-    () => {
-      if (currentMeeting)
-        setCurrentMeeting(meetings.find(m => m.id === currentMeeting.id))
-    },
-    [meetings]
-  )
+  useEffect(() => {
+    if (currentMeeting)
+      setCurrentMeeting(meetings.find(m => m.id === currentMeeting.id))
+  }, [meetings])
 
   return (
     <BigPixels>
@@ -85,9 +82,6 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
             </GridItem>
             <GridItem>
               <AttendantPanel currentMeeting={currentMeeting} />
-            </GridItem>
-            <GridItem>
-              <GuestPanel currentMeeting={currentMeeting} />
             </GridItem>
             <GridItem>
               <SpeakerPanel meeting={currentMeeting} />
