@@ -118,10 +118,6 @@ const LayoutContent = ({
                     </a>
                     .
                   </p>
-                  <b>
-                    {' '}
-                    ADFS: Logga in med liu-id och välj sen Blåa ikonen med ADFS
-                  </b>
                   {/* <p>
                     <Button href={loginUrl}>Logga in med LiU-id</Button>
                   </p> */}
@@ -139,6 +135,35 @@ const LayoutContent = ({
                       Logga in med LiU-id (ADFS device)
                     </Button>
                   </p>
+                  <div
+                    style={{
+                      marginTop: '1.5rem',
+                      borderTop: '1px solid white',
+                    }}
+                  >
+                    <p>
+                      Se videon nedan för att se hur man blir medlem. <br />
+                      Det kan ta några dagar innan Webmaster har accepterat din
+                      ansökan.
+                    </p>
+                    <iframe
+                      title="Youtube player"
+                      width="300"
+                      height="300"
+                      src="https://www.youtube.com/embed/ppY8vcrYmKQ"
+                      frameBorder="0"
+                      allowFullScreen="1"
+                      style={{
+                        width: '50rem',
+                        maxWidth: '100%',
+                        height: '30rem',
+                        maxHeight: '100%',
+                        border: 'none',
+                        display: 'block',
+                        marginBottom: 0,
+                      }}
+                    />
+                  </div>
                 </>
               )}
             </GridItem>
