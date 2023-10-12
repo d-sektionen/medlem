@@ -12,7 +12,6 @@ import AddMeeting from './addMeeting'
 import useModal, { useCloseModal } from '../modal/useModal'
 import { post, patch } from '../request'
 import BigPixels from '../layout/bigPixels'
-import GuestPanel from './guestPanel'
 
 const VotingAdminPage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
@@ -39,13 +38,10 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
   const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null
 
   // sync currentMeeting with updated meetings
-  useEffect(
-    () => {
-      if (currentMeeting)
-        setCurrentMeeting(meetings.find(m => m.id === currentMeeting.id))
-    },
-    [meetings]
-  )
+  useEffect(() => {
+    if (currentMeeting)
+      setCurrentMeeting(meetings.find(m => m.id === currentMeeting.id))
+  }, [meetings])
 
   return (
     <BigPixels>
@@ -85,9 +81,6 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
             </GridItem>
             <GridItem>
               <AttendantPanel currentMeeting={currentMeeting} />
-            </GridItem>
-            <GridItem>
-              <GuestPanel currentMeeting={currentMeeting} />
             </GridItem>
             <GridItem>
               <SpeakerPanel meeting={currentMeeting} />
