@@ -135,7 +135,12 @@ const LayoutContent = ({
                       Logga in med LiU-id (ADFS device)
                     </Button>
                   </p>
-                  <div style={{ marginTop: '3rem' }}>
+                  <div
+                    style={{
+                      marginTop: '1.5rem',
+                      borderTop: '1px solid white',
+                    }}
+                  >
                     <p>
                       Se videon nedan för att se hur man blir medlem. <br />
                       Det kan ta några dagar innan Webmaster har accepterat din
