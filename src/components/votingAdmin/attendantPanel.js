@@ -4,6 +4,8 @@ import { FiTrash2 } from 'react-icons/fi'
 import { List, ListButton, ListItem } from '../ui/list'
 import { Button, ButtonGroup } from '../ui/buttons'
 import { del, post } from '../request'
+import useConfirmModal from '../modal/useConfirmModal'
+import { useCloseModal } from '../modal/useModal'
 import useSWR from 'swr'
 
 const getMemberAttendants = attendants => {
@@ -15,6 +17,8 @@ const getMemberAttendants = attendants => {
 
 const AttendantPanel = ({ currentMeeting }) => {
   const [input, setInput] = useState('')
+  const [confirmModal] = useConfirmModal()
+  const closeModal = useCloseModal()
 
   const { data: attendants, mutate } = useSWR(
     () => `/voting/attendants/?meeting_id=${currentMeeting.id}`,
@@ -50,14 +54,19 @@ const AttendantPanel = ({ currentMeeting }) => {
             attendants ? getMemberAttendants(attendants).length : 0
           }`}</p>
           <Button
-            onClick={async () => {
-              // TODO: fix this ugly solution
-              await del(
-                `/voting/attendants/clear/?meeting_id=${currentMeeting.id}`
-              )
+            onClick={() =>
+              confirmModal(
+                `Är du säker på att du vill ta bort alla deltagare?`,
+                async () => {
+                  await del(
+                    `/voting/attendants/clear/?meeting_id=${currentMeeting.id}`
+                  )
 
-              mutate([])
-            }}
+                  mutate([])
+                },
+                closeModal
+              )
+            }
           >
             Återställ deltagarlista
           </Button>
