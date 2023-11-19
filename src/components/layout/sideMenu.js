@@ -86,14 +86,22 @@ const SideMenu = ({ close, open }) => {
                   </li>,
                 ]
               }, [])}
+              {user.privileges['staff'] && (
+                <li>
+                  <a
+                    to={`${BASE_URL}/admin`}
+                    onClick={close}
+                    activeClassName={style.thisPage}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Adminpanelen
+                  </a>
+                </li>
+              )}
             </ul>
 
             <div className={style.footer}>
-              {user.privileges['staff'] && (
-                <p>
-                  <a href={`${BASE_URL}/admin`}>Adminpanelen</a>
-                </p>
-              )}
               <div>
                 <a
                   href="https://github.com/d-sektionen/medlem"
