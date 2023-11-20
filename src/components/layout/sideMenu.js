@@ -89,9 +89,7 @@ const SideMenu = ({ close, open }) => {
               {user.privileges['staff'] && (
                 <li>
                   <a
-                    to={`${BASE_URL}/admin`}
-                    onClick={close}
-                    activeClassName={style.thisPage}
+                    href={`${BASE_URL}/admin`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
