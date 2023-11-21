@@ -6,6 +6,7 @@ import posed, { PoseGroup } from 'react-pose'
 import { FiX, FiGithub } from 'react-icons/fi'
 import { PAGES, BASE_URL } from '../../config'
 
+import webbu_logo from '../../images/webbu-logo-inverted.png'
 import logo from '../../images/round.svg'
 import style from '../../scss/sideMenu.module.scss'
 import { UserContext } from './layout'
@@ -85,18 +86,37 @@ const SideMenu = ({ close, open }) => {
                   </li>,
                 ]
               }, [])}
+              {user.privileges['staff'] && (
+                <li>
+                  <a
+                    href={`${BASE_URL}/admin`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Adminpanelen
+                  </a>
+                </li>
+              )}
             </ul>
 
             <div className={style.footer}>
-              {user.privileges['staff'] && (
-                <p>
-                  <a href={`${BASE_URL}/admin`}>Adminpanelen</a>
-                </p>
-              )}
-              <p>Sidan är utvecklad av Webbgruppen</p>
               <div>
-                <a href="https://github.com/d-sektionen/medlem">
+                <a
+                  href="https://github.com/d-sektionen/medlem"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <FiGithub />
+                </a>
+              </div>
+              <div>
+                <a
+                  href="https://www.webbu.se/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <p>Sidan är utvecklad av</p>
+                  <img src={webbu_logo} alt=""></img>
                 </a>
               </div>
             </div>
