@@ -99,7 +99,11 @@ const Layout = ({ children, location, pageContext }) => {
             <html lang="sv" />
           </Helmet>
           <div className={style.app}>
-            <DsektionSnowfall />
+            <DsektionSnowfall
+              snowflakeCountDayIncrement={25}
+              snowflakeCountBase={100}
+              dsektionSnowflakeCountBase={20}
+            />
             <ModalHandler>
               <div className={style.containerWrapper}>
                 {user && (
