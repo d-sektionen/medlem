@@ -7,11 +7,18 @@ import ceriseImage from '../../images/dsek-cerise.webp'
 import greenImage from '../../images/dsek-green.webp'
 import yellowImage from '../../images/dsek-yellow.webp'
 
+// Check if the window object is defined, i.e. if the code is running in the browser
+const isBrowser = typeof window !== 'undefined'
+
 const DsektionSnowfall = ({
   snowflakeCountDayIncrement,
   snowflakeCountBase,
   dsektionSnowflakeCountBase,
 }) => {
+  if (!isBrowser) {
+    return <></>
+  }
+
   const currentDate = new Date()
 
   // If the current month is not december
