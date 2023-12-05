@@ -15,6 +15,8 @@ import ModalHandler from '../modal/modalHandler'
 import LayoutContent from './layoutContent'
 import { Button } from '../ui/buttons'
 
+import DsektionSnowfall from '../christmas/snowfall'
+
 export const LoadingContext = React.createContext({
   status: true,
   set: () => {},
@@ -31,16 +33,13 @@ const Layout = ({ children, location, pageContext }) => {
   const userContextValue = useState(null)
   const [user, setUser] = userContextValue
 
-  useEffect(
-    () => {
-      // this needs to be state, otherwise the build version will use the undefined href from SSR.
-      const { origin, pathname } = location
-      setLoginUrl(`${BASE_URL}/account/token?redirect=${origin}${pathname}`)
+  useEffect(() => {
+    // this needs to be state, otherwise the build version will use the undefined href from SSR.
+    const { origin, pathname } = location
+    setLoginUrl(`${BASE_URL}/account/token?redirect=${origin}${pathname}`)
 
-      // Delete the foo parameter.
-    },
-    [location]
-  )
+    // Delete the foo parameter.
+  }, [location])
 
   useEffect(() => {
     ;(async () => {
@@ -89,21 +88,22 @@ const Layout = ({ children, location, pageContext }) => {
             meta={[
               {
                 name: 'description',
-                content: `${
-                  pageContext.title
-                } på Datateknologsektionens medlemsportal`,
+                content: `${pageContext.title} på Datateknologsektionens medlemsportal`,
               },
               {
                 name: 'keywords',
-                content: `${
-                  pageContext.title
-                }, medlem, d-sektionen, datateknologsektionen`,
+                content: `${pageContext.title}, medlem, d-sektionen, datateknologsektionen`,
               },
             ]}
           >
             <html lang="sv" />
           </Helmet>
           <div className={style.app}>
+            <DsektionSnowfall
+              snowflakeCountDayIncrement={25}
+              snowflakeCountBase={100}
+              dsektionSnowflakeCountBase={20}
+            />
             <ModalHandler>
               <div className={style.containerWrapper}>
                 {user && (
