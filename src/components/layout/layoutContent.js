@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import style from '../../scss/layout.module.scss'
@@ -7,8 +7,7 @@ import BigPixels from './bigPixels'
 import { GridContainer, GridItem } from '../ui/grid'
 import { Button } from '../ui/buttons'
 
-import { get, post } from '../request/index'
-import { useState } from 'react'
+import { post } from '../request/index'
 
 // The following function are copyied from
 // https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
@@ -122,7 +121,7 @@ const LayoutContent = ({
                     <Button href={loginUrl}>Logga in med LiU-id</Button>
                   </p> */}
                   {/* För utveckling, när adfs inte kan redir till localhost */}
-                  {/* 
+                  {/*
                   <p>
                     <Button onClick={deviceFunc}>Get Device id</Button>
                   </p> */}

@@ -15,7 +15,7 @@ import ModalHandler from '../modal/modalHandler'
 import LayoutContent from './layoutContent'
 import { Button } from '../ui/buttons'
 
-import DsektionSnowfall from '../christmas/snowfall'
+import DsektionSnowfall from '../celebration/snowfall'
 
 export const LoadingContext = React.createContext({
   status: true,
@@ -100,7 +100,7 @@ const Layout = ({ children, location, pageContext }) => {
           </Helmet>
           <div className={style.app}>
             <DsektionSnowfall
-              snowflakeCountDayIncrement={25}
+              snowflakeCountDayIncrement={15}
               snowflakeCountBase={100}
               dsektionSnowflakeCountBase={20}
             />
