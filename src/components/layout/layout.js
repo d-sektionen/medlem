@@ -16,6 +16,7 @@ import LayoutContent from './layoutContent'
 import { Button } from '../ui/buttons'
 
 import DsektionSnowfall from '../celebration/snowfall'
+import DsektionHappyBirthday from '../celebration/happybirthday'
 
 export const LoadingContext = React.createContext({
   status: true,
@@ -104,6 +105,7 @@ const Layout = ({ children, location, pageContext }) => {
               snowflakeCountBase={100}
               dsektionSnowflakeCountBase={20}
             />
+            <DsektionHappyBirthday />
             <ModalHandler>
               <div className={style.containerWrapper}>
                 {user && (
