@@ -19,7 +19,13 @@ import {
 import ViewBooking from './viewBooking'
 import useModal from '../modal/useModal'
 
-import style from '../../scss/bookingCalendar.module.scss'
+import {
+  controls,
+  booking,
+  restrictedTimeslot,
+  timeIndicators,
+  nowMarker,
+} from '../../scss/bookingCalendar.module.scss'
 import { Button } from '../ui/buttons'
 
 const splitDateRangeByDay = (start, end) => {
@@ -55,7 +61,7 @@ const BookingCalendar = ({ bookings }) => {
 
   return (
     <div>
-      <div className={style.controls}>
+      <div className={controls}>
         <div>{`Vecka ${getISOWeek(page)}${yearString}`}</div>
 
         <Button
@@ -85,8 +91,8 @@ const BookingCalendar = ({ bookings }) => {
         {bookings &&
           bookings
             // convert dates from string to date types.
-            .map(({ start, end, ...booking }) => ({
-              ...booking,
+            .map(({ start, end, ..._booking }) => ({
+              ..._booking,
               start: new Date(start),
               end: new Date(end),
             }))
@@ -96,29 +102,29 @@ const BookingCalendar = ({ bookings }) => {
                 start <= endOfISOWeek(page) && end >= startOfISOWeek(page)
             )
             .sort((a, b) => b.restricted_timeslot - a.restricted_timeslot)
-            .map(booking => {
-              const dayParts = splitDateRangeByDay(booking.start, booking.end)
+            .map(_booking => {
+              const dayParts = splitDateRangeByDay(_booking.start, _booking.end)
 
               return (
                 <g
-                  className={`${style.booking} ${
-                    booking.restricted_timeslot ? style.restrictedTimeslot : ''
+                  className={`${booking} ${
+                    _booking.restricted_timeslot ? restrictedTimeslot : ''
                   }`}
-                  key={booking.id}
+                  key={_booking.id}
                 >
                   {dayParts
                     // Remove dayParts that are not in the visible week.
                     .filter(([s]) => isSameISOWeek(s, page))
                     .map(([s, e]) => (
                       <rect
-                        key={`${booking.id}, ${getISODay(s)}`}
+                        key={`${_booking.id}, ${getISODay(s)}`}
                         x={calculateX(s)}
                         y={calculateY(s)}
                         width="50"
                         height={calculateHeight(s, e)}
                         onClick={() =>
                           openViewBooking('Bokningsinformation', {
-                            booking,
+                            _booking,
                           })
                         }
                       />
@@ -126,7 +132,7 @@ const BookingCalendar = ({ bookings }) => {
                 </g>
               )
             })}
-        <g className={style.timeIndicators}>
+        <g className={timeIndicators}>
           {[6, 12, 18].map(hour => (
             <g key={hour}>
               <text x="0" y={hour * 10 - 2}>
@@ -144,7 +150,7 @@ const BookingCalendar = ({ bookings }) => {
             x2={calculateX(now) + 50}
             y1={calculateY(now)}
             y2={calculateY(now)}
-            className={style.nowMarker}
+            className={nowMarker}
           />
         )}
         <line x1="50" y1="0" x2="50" y2="240" stroke="lightgray" />

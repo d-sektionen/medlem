@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import DateTimePicker from './dateTimePicker'
 
-import style from '../../scss/form.module.scss'
+import { label, required, inputWrapper } from '../../scss/form.module.scss'
 
 const AutoInput = ({
   value,
   onChange,
   type,
-  label,
-  required,
+  _label,
+  _required,
   min_value,
   max_value,
   min_length,
@@ -53,11 +53,11 @@ const AutoInput = ({
   )
 
   return (
-    <label className={style.label}>
-      {`${label}`}
-      {required && <span className={style.required}>*</span>}
-      <div className={style.inputWrapper}>{component}</div>
-    </label>
+    <_label className={label}>
+      {`${_label}`}
+      {_required && <span className={required}>*</span>}
+      <div className={inputWrapper}>{component}</div>
+    </_label>
   )
 }
 export default AutoInput

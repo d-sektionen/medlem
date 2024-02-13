@@ -3,7 +3,12 @@ import PropTypes from 'prop-types'
 import posed, { PoseGroup } from 'react-pose'
 import { FiX } from 'react-icons/fi'
 
-import style from '../../scss/modal.module.scss'
+import {
+  darknessOverlay,
+  modalWrapper,
+  modal,
+  noPadding,
+} from '../../scss/modal.module.scss'
 
 const Overlay = posed.div({
   enter: {
@@ -24,48 +29,41 @@ const ModalWrapper = posed.div({
 const Modal = ({ children, title, isOpen, options, setOpen }) => {
   const close = () => setOpen(false)
 
-  const { noPadding } = options
+  const { _noPadding } = options
 
-  useEffect(
-    () => {
-      if (isOpen) {
-        const escClose = event => {
-          if (event.key === 'Escape') close()
-        }
-
-        window.addEventListener('keydown', escClose, false)
-
-        return () => {
-          window.removeEventListener('keydown', escClose, false)
-        }
+  useEffect(() => {
+    if (isOpen) {
+      const escClose = event => {
+        if (event.key === 'Escape') close()
       }
-      return () => {}
-    },
-    [isOpen]
-  )
+
+      window.addEventListener('keydown', escClose, false)
+
+      return () => {
+        window.removeEventListener('keydown', escClose, false)
+      }
+    }
+    return () => {}
+  }, [isOpen])
 
   return (
     <PoseGroup style={{ overflow: 'hidden' }}>
       {isOpen && (
-        <Overlay
-          className={style.darknessOverlay}
-          onClick={close}
-          key="overlay"
-        />
+        <Overlay className={darknessOverlay} onClick={close} key="overlay" />
       )}
       {isOpen && (
         <ModalWrapper
           role="dialog"
           aria-modal
-          className={style.modalWrapper}
+          className={modalWrapper}
           key="modal"
         >
-          <div className={style.modal}>
+          <div className={modal}>
             <header>
               <h2>{title}</h2>
               <FiX onClick={close} />
             </header>
-            <div className={noPadding && style.noPadding}>{children}</div>
+            <div className={_noPadding && noPadding}>{children}</div>
           </div>
         </ModalWrapper>
       )}

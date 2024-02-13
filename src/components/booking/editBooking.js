@@ -4,7 +4,7 @@ import { Button } from '../ui/buttons'
 import DateTimePicker from '../form/dateTimePicker'
 import { UserContext } from '../layout/layout'
 
-import style from '../../scss/booking.module.scss'
+import { editForm, description } from '../../scss/booking.module.scss'
 import { useCloseModal } from '../modal/useModal'
 
 function newNiceDate(hourOffset = 0) {
@@ -23,8 +23,8 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
   const [user] = useContext(UserContext)
   const close = useCloseModal()
 
-  const [description, setDescription] = useState(
-    booking ? booking.description : ''
+  const [_description, setDescription] = useState(
+    booking ? booking._description : ''
   )
   const [start, setStart] = useState(
     booking ? new Date(booking.start) : newNiceDate()
@@ -45,14 +45,14 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
     const request = newBooking
       ? createBooking({
           item_id: item.id,
-          description,
+          _description,
           start,
           end,
           restricted_timeslot: restrictedTimeslot,
         })
       : updateBooking(booking.id, {
           item_id: booking.item.id,
-          description,
+          _description,
           start,
           end,
           restricted_timeslot: restrictedTimeslot,
@@ -71,7 +71,7 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
   return (
     <>
       <p>{`Bokning av ${item.name} för ${name}.`}</p>
-      <div className={style.editForm}>
+      <div className={editForm}>
         <h3>Startdatum</h3>
         <div>{errors.start}</div>
         <DateTimePicker value={start} onChange={setStart} />
@@ -81,11 +81,11 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
         <DateTimePicker value={end} onChange={setEnd} />
 
         <h3>Ändamål</h3>
-        <div>{errors.description}</div>
+        <div>{errors._description}</div>
 
         <textarea
-          className={style.description}
-          value={description}
+          className={description}
+          value={_description}
           onChange={e => setDescription(e.target.value)}
         />
         <h3>

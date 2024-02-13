@@ -5,7 +5,7 @@ import { SWRConfig } from 'swr'
 
 import { get } from '../request'
 import '../../scss/general.scss'
-import style from '../../scss/layout.module.scss'
+import { app, containerWrapper } from '../../scss/layout.module.scss'
 
 import SideMenu from './sideMenu'
 
@@ -98,14 +98,14 @@ const Layout = ({ children, location, pageContext }) => {
           >
             <html lang="sv" />
           </Helmet>
-          <div className={style.app}>
+          <div className={app}>
             <DsektionSnowfall
               snowflakeCountDayIncrement={25}
               snowflakeCountBase={100}
               dsektionSnowflakeCountBase={20}
             />
             <ModalHandler>
-              <div className={style.containerWrapper}>
+              <div className={containerWrapper}>
                 {user && (
                   <SideMenu
                     open={sideMenuOpen}

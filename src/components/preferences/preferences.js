@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import { put, patch } from '../request'
 
-import style from '../../scss/preferences.module.scss'
+import { inputLabel, error } from '../../scss/preferences.module.scss'
 import { Button } from '../ui/buttons'
 
 class Preferences extends Component {
@@ -32,7 +32,7 @@ class Preferences extends Component {
     const { setLoading, setUser } = this.props
 
     // reset errors
-    this.setState({ error: undefined, success: undefined, errors: {} })
+    this.setState({ _error: undefined, _success: undefined, errors: {} })
 
     setLoading(true)
     put('/account/profile/', {
@@ -44,7 +44,7 @@ class Preferences extends Component {
       .then(res => {
         setLoading(false)
         if (res.status < 300) {
-          this.setState({ success: 'Ändringarna har sparats.' })
+          this.setState({ _success: 'Ändringarna har sparats.' })
 
           setUser(prev => ({
             ...prev,
@@ -61,7 +61,7 @@ class Preferences extends Component {
       .catch(err => {
         console.log(err)
         setLoading(false)
-        if (!err.response) this.setState({ error: 'Nätverksfel.' })
+        if (!err.response) this.setState({ _error: 'Nätverksfel.' })
         else if (err.response.status === 400) {
           this.getFormErrorText(err.response)
         }
@@ -83,7 +83,7 @@ class Preferences extends Component {
       }
     }
 
-    return { error: 'Något gick fel.' }
+    return { _error: 'Något gick fel.' }
   }
 
   render() {
@@ -94,8 +94,8 @@ class Preferences extends Component {
       liuCardId,
       infomailSubscriber,
       errors,
-      error,
-      success,
+      _error,
+      _success,
     } = this.state
     return (
       <form onSubmit={this.handleSubmit}>
@@ -108,7 +108,7 @@ class Preferences extends Component {
           </strong>
         </p>
         <div>
-          <label className={style.inputLabel}>
+          <label className={inputLabel}>
             Förnamn:
             <input
               value={firstName}
@@ -116,23 +116,21 @@ class Preferences extends Component {
             />
           </label>
           {errors.first_name && (
-            <div className={style.error}>{errors.first_name}</div>
+            <div className={error}>{errors.first_name}</div>
           )}
         </div>
         <div>
-          <label className={style.inputLabel}>
+          <label className={inputLabel}>
             Efternamn:
             <input
               value={lastName}
               onChange={e => this.handleChange('lastName', e)}
             />
           </label>
-          {errors.last_name && (
-            <div className={style.error}>{errors.last_name}</div>
-          )}
+          {errors.last_name && <div className={error}>{errors.last_name}</div>}
         </div>
         <div>
-          <label className={style.inputLabel}>
+          <label className={inputLabel}>
             LiU-kortnummer:
             <input
               value={liuCardId}
@@ -140,11 +138,11 @@ class Preferences extends Component {
             />
           </label>
           {errors.profile && errors.profile.liu_card_id && (
-            <div className={style.error}>{errors.profile.liu_card_id}</div>
+            <div className={error}>{errors.profile.liu_card_id}</div>
           )}
         </div>
         <div>
-          <label className={style.inputLabel}>
+          <label className={inputLabel}>
             Prenumerera på veckomailet:
             <input
               type="checkbox"
@@ -153,17 +151,15 @@ class Preferences extends Component {
             />
           </label>
           {errors.profile && errors.profile.infomail_subscriber && (
-            <div className={style.error}>
-              {errors.profile.infomail_subscriber}
-            </div>
+            <div className={error}>{errors.profile.infomail_subscriber}</div>
           )}
         </div>
         <div>
           <Button type="submit">Spara</Button>
         </div>
         <div>
-          {error && <div className={style.error}>{error}</div>}
-          {success && <div className={style.success}>{success}</div>}
+          {_error && <div className={error}>{_error}</div>}
+          {_success && <div className={success}>{_success}</div>}
         </div>
       </form>
     )

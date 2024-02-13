@@ -8,7 +8,14 @@ import { PAGES, BASE_URL } from '../../config'
 
 import webbu_logo from '../../images/webbu-logo-inverted.png'
 import logo from '../../images/round.svg'
-import style from '../../scss/sideMenu.module.scss'
+import {
+  darknessOverlay,
+  menu,
+  x,
+  imgWrapper,
+  pageList,
+  thisPage,
+} from '../../scss/sideMenu.module.scss'
 import { UserContext } from './layout'
 
 const Menu = posed.div({
@@ -47,16 +54,12 @@ const SideMenu = ({ close, open }) => {
   return (
     <PoseGroup style={{ overflow: 'hidden' }}>
       {open && [
-        <Overlay
-          className={style.darknessOverlay}
-          onClick={close}
-          key="overlay"
-        />,
-        <Menu className={style.menu} key="menu">
+        <Overlay className={darknessOverlay} onClick={close} key="overlay" />,
+        <Menu className={menu} key="menu">
           <div>
             <div>
-              <FiX onClick={close} className={style.x} />
-              <a className={style.imgWrapper} href="https://d-sektionen.se">
+              <FiX onClick={close} className={x} />
+              <a className={imgWrapper} href="https://d-sektionen.se">
                 <img src={logo} alt="" useMap="circle" />
                 <map name="circle">
                   <area shape="circle" alt="" coords="0,100%,100%,100%" />
@@ -64,7 +67,7 @@ const SideMenu = ({ close, open }) => {
               </a>
             </div>
 
-            <ul className={style.pageList}>
+            <ul className={pageList}>
               {PAGES.reduce((links, current) => {
                 const pageData = current
                 if (
@@ -79,7 +82,7 @@ const SideMenu = ({ close, open }) => {
                     <Link
                       to={pageData.path}
                       onClick={close}
-                      activeClassName={style.thisPage}
+                      activeClassName={thisPage}
                     >
                       {pageData.title}
                     </Link>
