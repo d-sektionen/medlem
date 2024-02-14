@@ -9,7 +9,7 @@ import BookingCalendar from './bookingCalendar'
 import Pattern from '../ui/pattern'
 import ImageHeader from '../ui/imageHeader'
 
-const ItemPanel = ({ item, bookings, createBooking }) => {
+const ItemPanel = ({ item, bookings, createBooking, loadAllBookings }) => {
   const [openModal] = useModal(EditBooking)
 
   return (
@@ -33,11 +33,16 @@ const ItemPanel = ({ item, bookings, createBooking }) => {
           {'.'}
         </p>
       )}
-      <Button
-        onClick={() => openModal(`Boka ${item.name}`, { item, createBooking })}
-      >
-        {`Boka ${item.name}`}
-      </Button>
+      <div className={style.bookingButtonContainer}>
+        <Button
+          onClick={() =>
+            openModal(`Boka ${item.name}`, { item, createBooking })
+          }
+        >
+          {`Boka ${item.name}`}
+        </Button>
+        <Button onClick={loadAllBookings}>Ladda in äldre bokningar</Button>
+      </div>
     </div>
   )
 }
