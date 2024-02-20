@@ -2,7 +2,14 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import posed from 'react-pose'
 
-import {checkbox, switch, on, blob, off, slider} from '../../scss/ui.module.scss'
+import {
+  checkbox,
+  switchy,
+  on,
+  blob,
+  off,
+  slider,
+} from '../../scss/ui.module.scss'
 
 const Checkbox = ({ text, value, click, defaultChecked }) => (
   <div className={checkbox}>
@@ -47,7 +54,7 @@ const Switch = ({ _off, _on, click, defaultToggled }) => {
   })
 
   return (
-    <div className={[switch, toggled ? on : off].join(' ')}>
+    <div className={[switchy, toggled ? on : off].join(' ')}>
       <Slider
         className={slider}
         pose={toggled ? 'on' : 'off'}
