@@ -1,0 +1,44 @@
+{
+  "name": "medlem",
+  "version": "1.0.0",
+  "private": true,
+  "description": "medlem",
+  "author": "Therese Selberg",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "@zxing/library": "^0.20.0",
+    "axios": "^1.6.7",
+    "caniuse-lite": "^1.0.30001589",
+    "date-fns": "^3.3.1",
+    "dotenv": "^16.4.5",
+    "extend": "^3.0.2",
+    "gatsby": "^5.13.3",
+    "gatsby-plugin-manifest": "^5.13.1",
+    "gatsby-plugin-offline": "^6.13.1",
+    "gatsby-plugin-react-helmet": "^6.13.1",
+    "gatsby-plugin-sass": "^6.13.1",
+    "gatsby-source-filesystem": "^5.13.1",
+    "geopattern": "^1.2.3",
+    "node-sass": "^9.0.0",
+    "prop-types": "^15.8.1",
+    "qrcode": "^1.5.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^5.0.1",
+    "react-pose": "^4.0.10",
+    "react-snowfall": "^2.1.0",
+    "sass": "^1.71.1",
+    "swr": "^2.2.5",
+    "webrtc-adapter": "^8.2.3"
+  }
+}

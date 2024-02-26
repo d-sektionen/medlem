@@ -1,0 +1,119 @@
+@import 'vars';
+
+.darknessOverlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 29;
+  background: rgba($background-color-1, 0.9);
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  max-width: 250px;
+  width: 90%;
+  left: 0;
+
+  // for browsers that don't support backdrop filter
+  background: $background-color-2
+    linear-gradient(45deg, rgba($dsek-blue, 0.5), rgba($dsek-green, 0.5));
+  // for the most modern browsers
+  @supports (backdrop-filter: blur(20px)) {
+    background: linear-gradient(
+      45deg,
+      rgba($dsek-blue, 0.5),
+      rgba($dsek-green, 0.5)
+    );
+    backdrop-filter: blur(20px);
+  }
+
+  box-shadow: $box-shadow-raised;
+  z-index: 30;
+
+  > div {
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.imgWrapper {
+  border-radius: 50%;
+  display: block;
+  margin: $base-padding * 2;
+  img {
+    border-radius: 50%;
+    margin: 0;
+  }
+}
+
+.pageList {
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+    margin: 0;
+
+    a {
+      display: block;
+      padding: $base-padding;
+      text-decoration: none;
+      color: $foreground-color-3;
+
+      &:hover {
+        background: rgba($background-color-1, 0.5);
+      }
+    }
+    .thisPage {
+      background: rgba($background-color-1, 0.3);
+    }
+  }
+}
+
+.x {
+  position: absolute;
+
+  box-sizing: content-box;
+  padding: $base-padding;
+  height: 2 * $base-padding;
+  width: 2 * $base-padding;
+  color: $foreground-color-4;
+  cursor: pointer;
+  &:hover {
+    color: $dsek-cerise;
+  }
+}
+
+.footer {
+  text-align: center;
+  margin-top: auto;
+  padding: $base-padding;
+
+  > p {
+    color: $background-color-1;
+    a {
+      color: $foreground-color-3;
+    }
+  }
+
+  > div {
+    margin-top: $base-padding;
+    > a {
+      color: $background-color-1;
+      &:hover {
+        color: $dsek-cerise;
+      }
+      svg {
+        height: 3 * $base-padding;
+        width: 3 * $base-padding;
+      }
+    }
+  }
+}

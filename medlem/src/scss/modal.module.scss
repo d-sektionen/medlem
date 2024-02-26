@@ -1,0 +1,88 @@
+@import 'vars';
+
+.darknessOverlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 39;
+  background: rgba($background-color-1, 0.9);
+}
+
+.modalWrapper {
+  z-index: 40;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: $base-padding;
+  display: flex;
+  pointer-events: none;
+}
+
+.modal {
+  background-color: rgba($background-color-2, 0.9);
+  margin: auto;
+
+  max-width: 800px;
+  min-width: 250px;
+  max-height: 100%;
+  min-height: 250px;
+
+  backdrop-filter: blur(10px);
+
+  display: grid;
+  grid-template-rows: auto 1fr;
+  pointer-events: initial;
+
+  > header {
+    // background: rgba($background-color-2, 0.5);
+    border-bottom: 2px $foreground-color-1 solid;
+    color: $foreground-color-1;
+    display: flex;
+    justify-content: space-between;
+
+    h2 {
+      margin: $base-padding;
+      height: 2 * $base-padding;
+      line-height: 1;
+      font-weight: normal;
+      color: $foreground-color-1;
+    }
+
+    svg {
+      height: 2 * $base-padding;
+      width: 2 * $base-padding;
+      box-sizing: content-box;
+      padding: $base-padding;
+      cursor: pointer;
+      color: $foreground-color-1;
+
+      &:hover {
+        color: $dsek-cerise;
+      }
+    }
+  }
+
+  > div {
+    overflow-y: auto;
+
+    &:not(.noPadding) {
+      padding: $base-padding;
+    }
+  }
+}
+
+.confirmation {
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto;
+  gap: $base-padding;
+
+  > p {
+    grid-column: 1/3;
+  }
+}
