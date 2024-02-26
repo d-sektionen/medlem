@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: $base-padding / 2;
+  gap: calc($base-padding / 2);
 
   &:hover {
     background-color: $dsek-blue;
@@ -51,12 +51,12 @@
   justify-content: center;
   flex-direction: column;
   cursor: pointer;
-  margin: 0 $base-padding / 2;
+  margin: 0 calc($base-padding / 2);
 
   > svg {
     height: 3 * $base-padding;
     width: 3 * $base-padding;
-    margin-bottom: $base-padding / 2;
+    margin-bottom: calc($base-padding / 2);
   }
 
   &:hover {
@@ -79,10 +79,10 @@
   position: relative;
 
   @include small-mobile-only {
-    grid-gap: $base-padding/4;
+    grid-gap: calc($base-padding / 4);
     padding: 0;
     background: $background-color-2;
-    border-bottom: $background-color-3 $base-padding/4 solid;
+    border-bottom: $background-color-3 calc($base-padding / 4) solid;
   }
 }
 
@@ -107,7 +107,7 @@
 }
 
 .listItemColor {
-  border-left: $base-padding/2 solid;
+  border-left: calc($base-padding / 2) solid;
 }
 
 .listText {
@@ -115,7 +115,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: $base-padding/2 $base-padding;
+  padding: calc($base-padding / 2) $base-padding;
 
   h3 {
     margin: 0;
