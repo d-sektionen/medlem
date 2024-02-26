@@ -1,0 +1,9 @@
+[
+  {
+    "fromPath": "/blipp",
+    "isPermanent": true,
+    "ignoreCase": true,
+    "redirectInBrowser": true,
+    "toPath": "/checkin"
+  }
+]
