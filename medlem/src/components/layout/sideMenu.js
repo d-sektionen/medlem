@@ -15,6 +15,7 @@ import {
   imgWrapper,
   pageList,
   thisPage,
+  footer
 } from '../../scss/sideMenu.module.scss'
 import { UserContext } from './layout'
 
@@ -102,7 +103,7 @@ const SideMenu = ({ close, open }) => {
               )}
             </ul>
 
-            <div className={style.footer}>
+            <div className={footer}>
               <div>
                 <a
                   href="https://github.com/d-sektionen/medlem"
@@ -119,7 +120,7 @@ const SideMenu = ({ close, open }) => {
                   rel="noopener noreferrer"
                 >
                   <p>Sidan är utvecklad av</p>
-                  <img src={webbu_logo} alt=""></img>
+                  <img src={webbu_logo} alt="Webbutskottet"></img>
                 </a>
               </div>
             </div>
