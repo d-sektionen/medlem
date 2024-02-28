@@ -17,7 +17,7 @@
   "dependencies": {
     "@zxing/library": "^0.20.0",
     "axios": "^1.6.7",
-    "caniuse-lite": "^1.0.30001589",
+    "caniuse-lite": "^1.0.30001591",
     "date-fns": "^3.3.1",
     "dotenv": "^16.4.5",
     "extend": "^3.0.2",
