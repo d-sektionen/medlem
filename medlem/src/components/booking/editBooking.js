@@ -4,7 +4,7 @@ import { Button } from '../ui/buttons'
 import DateTimePicker from '../form/dateTimePicker'
 import { UserContext } from '../layout/layout'
 
-import { editForm, description } from '../../scss/booking.module.scss'
+import { editForm, dScription } from '../../scss/booking.module.scss'
 import { useCloseModal } from '../modal/useModal'
 
 function newNiceDate(hourOffset = 0) {
@@ -23,8 +23,8 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
   const [user] = useContext(UserContext)
   const close = useCloseModal()
 
-  const [_description, setDescription] = useState(
-    booking ? booking._description : ''
+  const [description, setDescription] = useState(
+    booking ? booking.description : ''
   )
   const [start, setStart] = useState(
     booking ? new Date(booking.start) : newNiceDate()
@@ -45,14 +45,14 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
     const request = newBooking
       ? createBooking({
           item_id: item.id,
-          _description,
+          description,
           start,
           end,
           restricted_timeslot: restrictedTimeslot,
         })
       : updateBooking(booking.id, {
           item_id: booking.item.id,
-          _description,
+          description,
           start,
           end,
           restricted_timeslot: restrictedTimeslot,
@@ -64,7 +64,7 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
       })
       .catch(err => {
         setErrors(err.response.data)
-        // console.log(err.response.data)
+        console.log(err.response.data)
       })
   }
 
@@ -81,11 +81,11 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
         <DateTimePicker value={end} onChange={setEnd} />
 
         <h3>Ändamål</h3>
-        <div>{errors._description}</div>
+        <div>{errors.description}</div>
 
         <textarea
-          className={description}
-          value={_description}
+          className={dScription}
+          value={description}
           onChange={e => setDescription(e.target.value)}
         />
         <h3>
