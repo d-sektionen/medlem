@@ -7,7 +7,7 @@ import {
   statusMessage,
   controlContainer,
   qrRegistration,
-  feedback,
+  Feedback,
 } from '../../scss/checkin.module.scss'
 import useFeedback from './useFeedback'
 import registerUser from './registerUser'
@@ -22,7 +22,7 @@ const Checkin = ({ events }) => {
   const [currentEvent, setCurrentEvent] = useState(events[0])
   const [currentAction, setCurrentAction] = useState(0)
   const [showQrScanner, setShowQrScanner] = useState(false)
-  const [_feedback, setFeedback] = useFeedback()
+  const [feedback, setFeedback] = useFeedback()
   const [_statusMessage, setStatusMessage] = useState('')
   const [compatibilityMode, setCompatibilityMode] = useLocalStorage(
     'checkin-compatibility-mode',
@@ -50,7 +50,7 @@ const Checkin = ({ events }) => {
   }
 
   return (
-    <div className={_feedback && _feedback.class}>
+    <div className={feedback && feedback.class}>
       <BigPixels>
         <GridContainer>
           <div className={container}>
@@ -145,10 +145,10 @@ const Checkin = ({ events }) => {
         </GridContainer>
 
         <GridContainer>
-          <div className={feedback}>
-            {_feedback && _feedback.icon && (
+          <div className={Feedback}>
+            {feedback && feedback.icon && (
               <GridItem>
-                <p>{_feedback && _feedback.text}</p>
+                <p>{feedback && feedback.text}</p>
               </GridItem>
             )}
           </div>

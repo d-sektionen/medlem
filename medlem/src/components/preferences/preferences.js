@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import { put, patch } from '../request'
 
-import { inputLabel, error } from '../../scss/preferences.module.scss'
+import { inputLabel, Error, Success } from '../../scss/preferences.module.scss'
 import { Button } from '../ui/buttons'
 
 class Preferences extends Component {
@@ -32,7 +32,7 @@ class Preferences extends Component {
     const { setLoading, setUser } = this.props
 
     // reset errors
-    this.setState({ _error: undefined, _success: undefined, errors: {} })
+    this.setState({ error: undefined, success: undefined, errors: {} })
 
     setLoading(true)
     put('/account/profile/', {
@@ -44,7 +44,7 @@ class Preferences extends Component {
       .then(res => {
         setLoading(false)
         if (res.status < 300) {
-          this.setState({ _success: 'Ändringarna har sparats.' })
+          this.setState({ success: 'Ändringarna har sparats.' })
 
           setUser(prev => ({
             ...prev,
@@ -61,7 +61,7 @@ class Preferences extends Component {
       .catch(err => {
         console.log(err)
         setLoading(false)
-        if (!err.response) this.setState({ _error: 'Nätverksfel.' })
+        if (!err.response) this.setState({ error: 'Nätverksfel.' })
         else if (err.response.status === 400) {
           this.getFormErrorText(err.response)
         }
@@ -83,7 +83,7 @@ class Preferences extends Component {
       }
     }
 
-    return { _error: 'Något gick fel.' }
+    return { error: 'Något gick fel.' }
   }
 
   render() {
@@ -94,8 +94,8 @@ class Preferences extends Component {
       liuCardId,
       infomailSubscriber,
       errors,
-      _error,
-      _success,
+      error,
+      success,
     } = this.state
     return (
       <form onSubmit={this.handleSubmit}>
@@ -116,7 +116,7 @@ class Preferences extends Component {
             />
           </label>
           {errors.first_name && (
-            <div className={error}>{errors.first_name}</div>
+            <div className={Error}>{errors.first_name}</div>
           )}
         </div>
         <div>
@@ -127,7 +127,7 @@ class Preferences extends Component {
               onChange={e => this.handleChange('lastName', e)}
             />
           </label>
-          {errors.last_name && <div className={error}>{errors.last_name}</div>}
+          {errors.last_name && <div className={Error}>{errors.last_name}</div>}
         </div>
         <div>
           <label className={inputLabel}>
@@ -138,7 +138,7 @@ class Preferences extends Component {
             />
           </label>
           {errors.profile && errors.profile.liu_card_id && (
-            <div className={error}>{errors.profile.liu_card_id}</div>
+            <div className={Error}>{errors.profile.liu_card_id}</div>
           )}
         </div>
         <div>
@@ -151,15 +151,15 @@ class Preferences extends Component {
             />
           </label>
           {errors.profile && errors.profile.infomail_subscriber && (
-            <div className={error}>{errors.profile.infomail_subscriber}</div>
+            <div className={Error}>{errors.profile.infomail_subscriber}</div>
           )}
         </div>
         <div>
           <Button type="submit">Spara</Button>
         </div>
         <div>
-          {_error && <div className={error}>{_error}</div>}
-          {_success && <div className={success}>{_success}</div>}
+          {error && <div className={Error}>{error}</div>}
+          {success && <div className={Success}>{success}</div>}
         </div>
       </form>
     )

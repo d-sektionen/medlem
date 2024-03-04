@@ -5,9 +5,9 @@ import posed from 'react-pose'
 import {
   checkbox,
   switchy,
-  on,
+  On,
   blob,
-  off,
+  Off,
   slider,
 } from '../../scss/ui.module.scss'
 
@@ -38,23 +38,23 @@ Checkbox.defaultProps = {
   click: () => null,
 }
 
-const Switch = ({ _off, _on, click, defaultToggled }) => {
+const Switch = ({ off, on, click, defaultToggled }) => {
   const [toggled, setToggled] = useState(defaultToggled)
 
   const Slider = posed.div({
-    _on: { background: 'blue' },
-    _off: { background: 'lightgray' },
+    on: { background: 'blue' },
+    off: { background: 'lightgray' },
     transition: { duration: 4000 },
   })
 
   const Blob = posed.div({
-    _on: { x: '90%' },
-    _off: { x: '0%' },
+    on: { x: '90%' },
+    off: { x: '0%' },
     transition: { duration: 1000 },
   })
 
   return (
-    <div className={[switchy, toggled ? on : off].join(' ')}>
+    <div className={[switchy, toggled ? On : Off].join(' ')}>
       <Slider
         className={slider}
         pose={toggled ? 'on' : 'off'}
@@ -65,14 +65,14 @@ const Switch = ({ _off, _on, click, defaultToggled }) => {
       >
         <Blob className={blob} pose={toggled ? 'on' : 'off'} />
       </Slider>
-      <p>{toggled ? _on : _off}</p>
+      <p>{toggled ? on : off}</p>
     </div>
   )
 }
 
 Switch.propTypes = {
-  _off: PropTypes.string.isRequired,
-  _on: PropTypes.string.isRequired,
+  off: PropTypes.string.isRequired,
+  on: PropTypes.string.isRequired,
   click: PropTypes.func,
   defaultToggled: PropTypes.bool,
 }

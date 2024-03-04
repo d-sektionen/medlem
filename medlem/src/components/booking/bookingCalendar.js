@@ -21,7 +21,7 @@ import useModal from '../modal/useModal'
 
 import {
   controls,
-  booking,
+  Booking,
   restrictedTimeslot,
   timeIndicators,
   nowMarker,
@@ -91,8 +91,8 @@ const BookingCalendar = ({ bookings }) => {
         {bookings &&
           bookings
             // convert dates from string to date types.
-            .map(({ start, end, ..._booking }) => ({
-              ..._booking,
+            .map(({ start, end, ...booking }) => ({
+              ...booking,
               start: new Date(start),
               end: new Date(end),
             }))
@@ -102,29 +102,29 @@ const BookingCalendar = ({ bookings }) => {
                 start <= endOfISOWeek(page) && end >= startOfISOWeek(page)
             )
             .sort((a, b) => b.restricted_timeslot - a.restricted_timeslot)
-            .map(_booking => {
-              const dayParts = splitDateRangeByDay(_booking.start, _booking.end)
+            .map(booking => {
+              const dayParts = splitDateRangeByDay(booking.start, booking.end)
 
               return (
                 <g
-                  className={`${booking} ${
-                    _booking.restricted_timeslot ? restrictedTimeslot : ''
+                  className={`${Booking} ${
+                    booking.restricted_timeslot ? restrictedTimeslot : ''
                   }`}
-                  key={_booking.id}
+                  key={booking.id}
                 >
                   {dayParts
                     // Remove dayParts that are not in the visible week.
                     .filter(([s]) => isSameISOWeek(s, page))
                     .map(([s, e]) => (
                       <rect
-                        key={`${_booking.id}, ${getISODay(s)}`}
+                        key={`${booking.id}, ${getISODay(s)}`}
                         x={calculateX(s)}
                         y={calculateY(s)}
                         width="50"
                         height={calculateHeight(s, e)}
                         onClick={() =>
                           openViewBooking('Bokningsinformation', {
-                            _booking,
+                            booking,
                           })
                         }
                       />

@@ -7,7 +7,7 @@ import {
   darknessOverlay,
   modalWrapper,
   modal,
-  noPadding,
+  NoPadding,
 } from '../../scss/modal.module.scss'
 
 const Overlay = posed.div({
@@ -29,7 +29,7 @@ const ModalWrapper = posed.div({
 const Modal = ({ children, title, isOpen, options, setOpen }) => {
   const close = () => setOpen(false)
 
-  const { _noPadding } = options
+  const { noPadding } = options
 
   useEffect(() => {
     if (isOpen) {
@@ -63,7 +63,7 @@ const Modal = ({ children, title, isOpen, options, setOpen }) => {
               <h2>{title}</h2>
               <FiX onClick={close} />
             </header>
-            <div className={_noPadding && noPadding}>{children}</div>
+            <div className={noPadding && NoPadding}>{children}</div>
           </div>
         </ModalWrapper>
       )}
