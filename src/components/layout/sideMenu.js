@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'gatsby'
-import posed, { PoseGroup } from 'react-pose'
 
 import { FiX, FiGithub } from 'react-icons/fi'
 import { PAGES, BASE_URL } from '../../config'
@@ -19,28 +19,6 @@ import {
 } from '../../scss/sideMenu.module.scss'
 import { UserContext } from './layout'
 
-const Menu = posed.div({
-  enter: {
-    x: 0,
-    transition: {
-      duration: 200,
-      ease: 'backIn',
-    },
-  },
-  exit: {
-    x: '-100%',
-    transition: {
-      duration: 200,
-      ease: 'backOut',
-    },
-  },
-})
-
-const Overlay = posed.div({
-  enter: { opacity: 1 },
-  exit: { opacity: 0 },
-})
-
 const SideMenu = ({ close, open }) => {
   const [user] = useContext(UserContext)
 
@@ -53,10 +31,14 @@ const SideMenu = ({ close, open }) => {
   }, [])
 
   return (
-    <PoseGroup style={{ overflow: 'hidden' }}>
+    <AnimatePresence style={{ overflow: 'hidden' }}>
       {open && [
-        <Overlay className={darknessOverlay} onClick={close} key="overlay" />,
-        <Menu className={menu} key="menu">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} 
+          exit={{ opacity: 0 }} transition={{ duration: 0.2, delay: 0 }}
+          className={darknessOverlay} onClick={close} key="overlay" />,
+        <motion.div exit={{ x: '-100%' }} initial={{ x: '-100%' }} 
+          animate={{ x: '0%' }} className={menu} key="menu" 
+          transition={{ x: { type: "spring", bounce: 0, duration: 0.2 }}}>
           <div>
             <div>
               <FiX onClick={close} className={x} />
@@ -125,9 +107,9 @@ const SideMenu = ({ close, open }) => {
               </div>
             </div>
           </div>
-        </Menu>,
+        </motion.div>,
       ]}
-    </PoseGroup>
+    </AnimatePresence>
   )
 }
 
