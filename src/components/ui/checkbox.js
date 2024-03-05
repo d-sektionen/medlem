@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import posed from 'react-pose'
+// import posed from 'react-pose'
 
 import {
   checkbox,
@@ -38,6 +38,8 @@ Checkbox.defaultProps = {
   click: () => null,
 }
 
+
+// OBS! if switch is used again, it first needs to be changed to use framer-motion instead
 const Switch = ({ off, on, click, defaultToggled }) => {
   const [toggled, setToggled] = useState(defaultToggled)
 
@@ -82,4 +84,7 @@ Switch.defaultProps = {
   defaultToggled: false,
 }
 
-export { Checkbox, Switch }
+export { Checkbox
+  // OBS! if switch is used again, it first needs to be changed to use framer-motion instead
+  // , Switch 
+}
