@@ -1,4 +1,4 @@
-/* 
+/*
 DO NOT change the BASE_URL value here
 It should be overwritten in .env.development and .env.production
 For example:
@@ -66,11 +66,11 @@ module.exports.PAGES = [
     component: './src/components/votingCounter/page.js',
   },
   {
-    path: '/netlight',
-    title: 'Netlight',
+    path: '/bettan',
+    title: 'Bettan',
     requiredPrivileges: 'member',
     menu: true,
-    component: './src/components/netlightPage.js',
+    component: './src/components/bettanPage.js',
   },
   {
     path: '/booking',
