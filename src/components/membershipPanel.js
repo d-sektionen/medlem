@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { get, post, del } from './request'
 import { Button } from './ui/buttons'
 
-import style from '../scss/membership.module.scss'
+import { inputLabel } from '../scss/membership.module.scss'
 
 const MembershipPanel = () => {
   const [initiallyLoaded, setInitiallyLoaded] = useState(true)
@@ -98,7 +98,7 @@ const MembershipPanel = () => {
           </p>
 
           <form onSubmit={submitRequest}>
-            <label className={style.inputLabel}>
+            <label className={inputLabel}>
               Förnamn
               <input
                 value={firstName}
@@ -106,7 +106,7 @@ const MembershipPanel = () => {
               />
               {errors && errors.first_name && errors.first_name.join(', ')}
             </label>
-            <label className={style.inputLabel}>
+            <label className={inputLabel}>
               Efternamn
               <input
                 value={lastName}
@@ -114,7 +114,7 @@ const MembershipPanel = () => {
               />
               {errors && errors.last_name && errors.last_name.join(', ')}
             </label>
-            <label className={style.inputLabel}>
+            <label className={inputLabel}>
               Program
               <select
                 value={program}
@@ -129,7 +129,7 @@ const MembershipPanel = () => {
               </select>
               {errors && errors.program && errors.program.join(', ')}
             </label>
-            <label className={style.inputLabel}>
+            <label className={inputLabel}>
               Startår
               <input
                 type="number"
@@ -140,7 +140,7 @@ const MembershipPanel = () => {
                 errors.starting_year &&
                 errors.starting_year.join(', ')}
             </label>
-            <label className={style.inputLabel}>
+            <label className={inputLabel}>
               Övrig information (kan lämnas tom)
               <textarea
                 value={message}

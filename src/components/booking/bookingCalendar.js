@@ -19,7 +19,13 @@ import {
 import ViewBooking from './viewBooking'
 import useModal from '../modal/useModal'
 
-import style from '../../scss/bookingCalendar.module.scss'
+import {
+  controls,
+  Booking,
+  restrictedTimeslot,
+  timeIndicators,
+  nowMarker,
+} from '../../scss/bookingCalendar.module.scss'
 import { Button } from '../ui/buttons'
 
 const splitDateRangeByDay = (start, end) => {
@@ -55,7 +61,7 @@ const BookingCalendar = ({ bookings }) => {
 
   return (
     <div>
-      <div className={style.controls}>
+      <div className={controls}>
         <div>{`Vecka ${getISOWeek(page)}${yearString}`}</div>
 
         <Button
@@ -101,8 +107,8 @@ const BookingCalendar = ({ bookings }) => {
 
               return (
                 <g
-                  className={`${style.booking} ${
-                    booking.restricted_timeslot ? style.restrictedTimeslot : ''
+                  className={`${Booking} ${
+                    booking.restricted_timeslot ? restrictedTimeslot : ''
                   }`}
                   key={booking.id}
                 >
@@ -126,7 +132,7 @@ const BookingCalendar = ({ bookings }) => {
                 </g>
               )
             })}
-        <g className={style.timeIndicators}>
+        <g className={timeIndicators}>
           {[6, 12, 18].map(hour => (
             <g key={hour}>
               <text x="0" y={hour * 10 - 2}>
@@ -144,7 +150,7 @@ const BookingCalendar = ({ bookings }) => {
             x2={calculateX(now) + 50}
             y1={calculateY(now)}
             y2={calculateY(now)}
-            className={style.nowMarker}
+            className={nowMarker}
           />
         )}
         <line x1="50" y1="0" x2="50" y2="240" stroke="lightgray" />

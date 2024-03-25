@@ -1,7 +1,7 @@
 import React from 'react'
 import { FiCheck, FiX } from 'react-icons/fi'
 import { post } from '../request'
-import style from '../../scss/checkin.module.scss'
+import { fail, success } from '../../scss/checkin.module.scss'
 import iconMap from '../iconMap'
 
 export default (setFeedback, setStatusMessage, eventId, identifier, action) => {
@@ -16,7 +16,7 @@ export default (setFeedback, setStatusMessage, eventId, identifier, action) => {
     setFeedback({
       text: text || defaultText,
       icon: Icon ? <Icon /> : defaultIcon,
-      class: error ? style.fail : style.success,
+      class: error ? fail : success,
     })
   }
 

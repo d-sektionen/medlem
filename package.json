@@ -1,71 +1,50 @@
 {
   "name": "medlem",
-  "description": "D-sektionen member portal",
-  "version": "0.1.0",
-  "author": "Emil Nilsson <webmaster@d-sektionen.se>",
-  "dependencies": {
-    "@zxing/library": "^0.15.1",
-    "axios": "^0.21.1",
-    "date-fns": "^2.16.1",
-    "dotenv": "^8.0.0",
-    "extend": "^3.0.2",
-    "gatsby": "^2.31.0",
-    "gatsby-plugin-manifest": "^2.4.10",
-    "gatsby-plugin-offline": "^2.2.10",
-    "gatsby-plugin-react-helmet": "^3.3.3",
-    "gatsby-plugin-sass": "^2.3.3",
-    "gatsby-source-filesystem": "^2.2.2",
-    "geopattern": "^1.2.3",
-    "node-sass": "^4.14.1",
-    "prop-types": "^15.7.2",
-    "qrcode": "^1.4.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-helmet": "^5.2.1",
-    "react-icons": "^3.10.0",
-    "react-pose": "^4.0.4",
-    "react-snowfall": "^1.2.1",
-    "swr": "^0.1.18",
-    "webrtc-adapter": "^7.3.0"
-  },
+  "version": "1.0.0",
+  "private": true,
+  "description": "medlem",
+  "author": "Therese Selberg",
   "keywords": [
     "gatsby"
   ],
-  "license": "MIT",
   "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
     "build": "gatsby build",
-    "develop": "gatsby develop -p 4000 -H 0.0.0.0",
-    "start": "npm run develop",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public",
-    "format": "prettier --write \"src/**/*.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
   },
-  "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.15.1",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^3.6.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-prettier": "^3.0.1",
-    "eslint-plugin-react": "^7.12.4",
-    "gh-pages": "^2.0.1",
-    "husky": "^1.2.0",
-    "prettier": "^1.15.2",
-    "pretty-quick": "^1.8.0"
+  "dependencies": {
+    "@zxing/library": "^0.20.0",
+    "axios": "^1.6.7",
+    "caniuse-lite": "^1.0.30001591",
+    "date-fns": "^3.3.1",
+    "dotenv": "^16.4.5",
+    "extend": "^3.0.2",
+    "framer-motion": "^11.0.8",
+    "gatsby": "^5.13.3",
+    "gatsby-plugin-manifest": "^5.13.1",
+    "gatsby-plugin-offline": "^6.13.1",
+    "gatsby-plugin-react-helmet": "^6.13.1",
+    "gatsby-plugin-sass": "^6.13.1",
+    "gatsby-source-filesystem": "^5.13.1",
+    "geopattern": "^1.2.3",
+    "node-sass": "^9.0.0",
+    "prop-types": "^15.8.1",
+    "qrcode": "^1.5.3",
+    "querystring": "^0.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^5.0.1",
+    "react-snowfall": "^2.1.0",
+    "sass": "^1.71.1",
+    "swr": "^2.2.5",
+    "webrtc-adapter": "^8.2.3"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/d-sektionen/medlem"
-  },
-  "browserslist": [
-    "> 1% in SE",
-    "not dead",
-    "not IE 11"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
+  "overrides": {
+    "react-server-dom-webpack@0.0.0-experimental-c8b778b7f-20220825": {
+      "react": "^18.0.0"
     }
   }
 }

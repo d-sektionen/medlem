@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FiLock, FiUnlock } from 'react-icons/fi'
 import netlight from '../images/netlight.svg'
 
-import style from '../scss/netlight.module.scss'
+import { success, error, logo, buttons } from '../scss/netlight.module.scss'
 import { post } from './request'
 import BigPixels from './layout/bigPixels'
 import { IconButton } from './ui/buttons'
@@ -23,12 +23,12 @@ const NetlightPage = () => {
     try {
       const { data } = await post(`/tools/netlight/${command}/`)
       setText(data.detail)
-      setTextClass(style.success)
+      setTextClass(success)
     } catch (err) {
       if (err.response !== undefined && err.response.data)
         setText(err.response.data.detail)
       else setText('Kunde inte kommunicera med servern.')
-      setTextClass(style.error)
+      setTextClass(error)
     }
   }
 
@@ -36,7 +36,7 @@ const NetlightPage = () => {
     <BigPixels>
       <GridContainer>
         <GridItem>
-          <img className={style.logo} src={netlight} alt="Netlight logo" />
+          <img className={logo} src={netlight} alt="Netlight logo" />
 
           {/*
             <p className={textClass}>
@@ -46,7 +46,7 @@ const NetlightPage = () => {
             </p>
           */}
           <p className={textClass}>{text}</p>
-          <div className={style.buttons}>
+          <div className={buttons}>
             <IconButton
               iconComponent={FiLock}
               text="Lås"

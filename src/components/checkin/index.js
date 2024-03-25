@@ -2,7 +2,13 @@ import React, { useState, useRef, useEffect } from 'react'
 import { FiVideo } from 'react-icons/fi'
 
 import { TextField, CompatibilityTextField } from './textField'
-import style from '../../scss/checkin.module.scss'
+import {
+  container,
+  statusMessage,
+  controlContainer,
+  qrRegistration,
+  Feedback,
+} from '../../scss/checkin.module.scss'
 import useFeedback from './useFeedback'
 import registerUser from './registerUser'
 import QrScanner from './qrScanner'
@@ -17,7 +23,7 @@ const Checkin = ({ events }) => {
   const [currentAction, setCurrentAction] = useState(0)
   const [showQrScanner, setShowQrScanner] = useState(false)
   const [feedback, setFeedback] = useFeedback()
-  const [statusMessage, setStatusMessage] = useState('')
+  const [_statusMessage, setStatusMessage] = useState('')
   const [compatibilityMode, setCompatibilityMode] = useLocalStorage(
     'checkin-compatibility-mode',
     false
@@ -47,7 +53,7 @@ const Checkin = ({ events }) => {
     <div className={feedback && feedback.class}>
       <BigPixels>
         <GridContainer>
-          <div className={style.container}>
+          <div className={container}>
             <h1>Bleep Bloop</h1>
 
             <label>
@@ -59,13 +65,13 @@ const Checkin = ({ events }) => {
               Kompatibilitetsläge
             </label>
 
-            <div className={style.statusMessage}>
+            <div className={statusMessage}>
               <GridItem>
-                <p>{statusMessage}</p>
+                <p>{_statusMessage}</p>
               </GridItem>
             </div>
 
-            <div className={style.controlContainer}>
+            <div className={controlContainer}>
               <select
                 onChange={e => {
                   setCurrentEvent(
@@ -104,7 +110,7 @@ const Checkin = ({ events }) => {
           </div>
 
           <GridItem>
-            <div className={style.qrRegistration}>
+            <div className={qrRegistration}>
               <header>
                 <h2>QR Registrering</h2>
                 {showQrScanner && (
@@ -125,7 +131,7 @@ const Checkin = ({ events }) => {
             </div>
 
             {!showQrScanner && (
-              <div className={style.container}>
+              <div className={container}>
                 <IconButton
                   iconComponent={FiVideo}
                   text="QR"
@@ -139,7 +145,7 @@ const Checkin = ({ events }) => {
         </GridContainer>
 
         <GridContainer>
-          <div className={style.feedback}>
+          <div className={Feedback}>
             {feedback && feedback.icon && (
               <GridItem>
                 <p>{feedback && feedback.text}</p>

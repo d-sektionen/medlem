@@ -1,37 +1,23 @@
 import React, { useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'gatsby'
-import posed, { PoseGroup } from 'react-pose'
 
 import { FiX, FiGithub } from 'react-icons/fi'
 import { PAGES, BASE_URL } from '../../config'
 
 import webbu_logo from '../../images/webbu-logo-inverted.png'
 import logo from '../../images/round.svg'
-import style from '../../scss/sideMenu.module.scss'
+import {
+  darknessOverlay,
+  menu,
+  x,
+  imgWrapper,
+  pageList,
+  thisPage,
+  footer
+} from '../../scss/sideMenu.module.scss'
 import { UserContext } from './layout'
-
-const Menu = posed.div({
-  enter: {
-    x: 0,
-    transition: {
-      duration: 200,
-      ease: 'backIn',
-    },
-  },
-  exit: {
-    x: '-100%',
-    transition: {
-      duration: 200,
-      ease: 'backOut',
-    },
-  },
-})
-
-const Overlay = posed.div({
-  enter: { opacity: 1 },
-  exit: { opacity: 0 },
-})
 
 const SideMenu = ({ close, open }) => {
   const [user] = useContext(UserContext)
@@ -45,18 +31,18 @@ const SideMenu = ({ close, open }) => {
   }, [])
 
   return (
-    <PoseGroup style={{ overflow: 'hidden' }}>
+    <AnimatePresence style={{ overflow: 'hidden' }}>
       {open && [
-        <Overlay
-          className={style.darknessOverlay}
-          onClick={close}
-          key="overlay"
-        />,
-        <Menu className={style.menu} key="menu">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} 
+          exit={{ opacity: 0 }} transition={{ duration: 0.2, delay: 0 }}
+          className={darknessOverlay} onClick={close} key="overlay" />,
+        <motion.div exit={{ x: '-100%' }} initial={{ x: '-100%' }} 
+          animate={{ x: '0%' }} className={menu} key="menu" 
+          transition={{ x: { type: "spring", bounce: 0, duration: 0.2 }}}>
           <div>
             <div>
-              <FiX onClick={close} className={style.x} />
-              <a className={style.imgWrapper} href="https://d-sektionen.se">
+              <FiX onClick={close} className={x} />
+              <a className={imgWrapper} href="https://d-sektionen.se">
                 <img src={logo} alt="" useMap="circle" />
                 <map name="circle">
                   <area shape="circle" alt="" coords="0,100%,100%,100%" />
@@ -64,7 +50,7 @@ const SideMenu = ({ close, open }) => {
               </a>
             </div>
 
-            <ul className={style.pageList}>
+            <ul className={pageList}>
               {PAGES.reduce((links, current) => {
                 const pageData = current
                 if (
@@ -79,7 +65,7 @@ const SideMenu = ({ close, open }) => {
                     <Link
                       to={pageData.path}
                       onClick={close}
-                      activeClassName={style.thisPage}
+                      activeClassName={thisPage}
                     >
                       {pageData.title}
                     </Link>
@@ -99,7 +85,7 @@ const SideMenu = ({ close, open }) => {
               )}
             </ul>
 
-            <div className={style.footer}>
+            <div className={footer}>
               <div>
                 <a
                   href="https://github.com/d-sektionen/medlem"
@@ -116,14 +102,14 @@ const SideMenu = ({ close, open }) => {
                   rel="noopener noreferrer"
                 >
                   <p>Sidan är utvecklad av</p>
-                  <img src={webbu_logo} alt=""></img>
+                  <img src={webbu_logo} alt="Webbutskottet"></img>
                 </a>
               </div>
             </div>
           </div>
-        </Menu>,
+        </motion.div>,
       ]}
-    </PoseGroup>
+    </AnimatePresence>
   )
 }
 
