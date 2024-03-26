@@ -100,4 +100,11 @@ module.exports.PAGES = [
     menu: true,
     component: './src/components/keylogPage.js',
   },
+  {
+    path: '/album',
+    title: 'Fotoalbum',
+    requiredPrivileges: 'member',
+    menu: true,
+    component: './src/components/album/page.js',
+  },
 ]
