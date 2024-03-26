@@ -7,15 +7,28 @@ import ItemPanel from './itemPanel'
 import BookingPanel from './bookingPanel'
 import TitleChooser from '../ui/titleChooser'
 import { post, put, del } from '../request'
+import { startOfISOWeek, subWeeks } from 'date-fns'
+
+/*
+ * Get the date 4 weeks ago relative to the start of the current week.
+ **/
+const getDate4WeeksAgo = date => {
+  return subWeeks(startOfISOWeek(date), 4).toISOString()
+}
 
 const BookingPage = ({ pageContext: { title } }) => {
   const [item, setItem] = useState(null)
+  const [afterDate, setAfterDate] = useState(getDate4WeeksAgo(new Date()))
   const { data: items } = useSWR('/booking/items/')
 
-  // TODO: make this fetch a subset of bookings (for example remove very old bookings)
   const { data: bookings, mutate } = useSWR(
-    () => item && `/booking/bookings/?item=${item.id}`
+    () =>
+      item &&
+      `/booking/bookings/?item=${item.id}${
+        afterDate ? '&after=' + afterDate : ''
+      }`
   )
+
   const categorizedItems = items
     ? items.reduce((accumulator, itm) => {
         const cat = itm.category || 'Okategoriserat'
@@ -59,6 +72,11 @@ const BookingPage = ({ pageContext: { title } }) => {
     )
   }
 
+  const loadAllBookings = async () => {
+    // Removes the after parameter from the request, thus causing all bookings to load.
+    setAfterDate(null)
+  }
+
   return (
     <BigPixels>
       <GridContainer>
@@ -69,6 +87,7 @@ const BookingPage = ({ pageContext: { title } }) => {
             setChoice={setItem}
             categorizedChoices={categorizedItems}
             label="name"
+            onChange={() => setAfterDate(getDate4WeeksAgo(new Date()))}
           />
         </GridItem>
         {item && bookings && (
@@ -78,6 +97,7 @@ const BookingPage = ({ pageContext: { title } }) => {
                 item={item}
                 bookings={bookings}
                 createBooking={create}
+                loadAllBookings={loadAllBookings}
               />
             </GridItem>
             <GridItem>

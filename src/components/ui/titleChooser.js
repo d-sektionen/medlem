@@ -13,6 +13,7 @@ const TitleChooser = ({
   action,
   actionLabel,
   noChoicesLabel,
+  onChange,
 }) => {
   const allChoices = [
     ...(choices || []),
@@ -39,6 +40,7 @@ const TitleChooser = ({
                     ? null
                     : allChoices.filter(i => `${i.id}` === selectedValue)[0]
                 setChoice(c)
+                onChange(e)
               }}
               value={choice ? choice.id : ''}
             >
@@ -82,6 +84,7 @@ TitleChooser.defaultProps = {
   noChoicesLabel: '',
   setChoice: () => {},
   label: '',
+  onChange: () => {},
 }
 
 TitleChooser.propTypes = {
@@ -94,6 +97,7 @@ TitleChooser.propTypes = {
   action: PropTypes.func,
   actionLabel: PropTypes.string,
   noChoicesLabel: PropTypes.string,
+  onChange: PropTypes.func,
 }
 
 export default TitleChooser

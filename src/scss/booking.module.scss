@@ -39,3 +39,9 @@
     font-size: 1.25rem;
   }
 }
+
+.bookingButtonContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
