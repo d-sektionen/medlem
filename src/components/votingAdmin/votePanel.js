@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import useSWR from 'swr'
-import { FiBarChart2, FiEdit2 } from 'react-icons/fi'
+import { FiTrash2, FiBarChart2, FiEdit2 } from 'react-icons/fi'
 
 import useModal, { useCloseModal } from '../modal/useModal'
 import useConfirmModal from '../modal/useConfirmModal'
@@ -8,7 +8,7 @@ import AddVote from './addVote'
 import VoteStats from './voteStats'
 import { List, ListItem, ListButton } from '../ui/list'
 import { Button } from '../ui/buttons'
-import { post, put } from '../request'
+import { del, post, put } from '../request'
 
 const VotePanel = ({ currentMeeting }) => {
   const { data: votes, mutate } = useSWR(
@@ -67,6 +67,28 @@ const VotePanel = ({ currentMeeting }) => {
                 subtitle={vote.open ? 'Active' : undefined}
                 key={vote.id}
                 buttons={[
+                  <ListButton
+                    onClick={() =>
+                      confirmModal(
+                        `Vill du ta bort omröstningen?`,
+                        async () => {
+                          console.log(vote)
+                          await del(`/voting/admin-votes/${vote.id}`, {
+                            params: {
+                              meeting_id: currentMeeting.id,
+                              vote_id: vote.id,
+                            },
+                          })
+
+                          mutate([])
+                        },
+                        closeModal
+                      )
+                    }
+                    iconComponent={FiTrash2}
+                    text="Ta bort"
+                    key="remove"
+                  />,
                   <ListButton
                     onClick={() =>
                       confirmModal(
