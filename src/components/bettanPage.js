@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FiLock, FiUnlock } from 'react-icons/fi'
 import bettan from '../images/bettan.png'
 
-import style from '../scss/bettan.module.scss'
+import { success, error, logo, buttons, roomTitle } from '../scss/bettan.module.scss'
 import { post } from './request'
 import BigPixels from './layout/bigPixels'
 import { IconButton } from './ui/buttons'
@@ -21,12 +21,12 @@ const BettanPage = () => {
     try {
       const { data } = await post(`/locks/bettan/${command}/`)
       setText(data.detail)
-      setTextClass(style.success)
+      setTextClass(success)
     } catch (err) {
       if (err.response !== undefined && err.response.data)
         setText(err.response.data.detail)
       else setText('Kunde inte kommunicera med servern.')
-      setTextClass(style.error)
+      setTextClass(error)
     }
   }
 
@@ -34,8 +34,8 @@ const BettanPage = () => {
     <BigPixels>
       <GridContainer>
         <GridItem>
-          <img className={style.logo} src={bettan} alt="Bettan logo" />
-          <h2 className={style.roomTitle}>Bettan</h2>
+          <img className={logo} src={bettan} alt="Bettan logo" />
+          <h2 className={roomTitle}>Bettan</h2>
           {/*
             <p className={textClass}>
               Det går för tillfället inte att låsa/låsa upp Bettan genom denna
@@ -44,7 +44,7 @@ const BettanPage = () => {
             </p>
           */}
           <p className={textClass}>{text}</p>
-          <div className={style.buttons}>
+          <div className={buttons}>
             <IconButton
               iconComponent={FiLock}
               text="Lås"

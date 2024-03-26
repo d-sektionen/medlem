@@ -1,7 +1,7 @@
 import React from 'react'
 import useSWR from 'swr'
 
-import style from '../../scss/booking.module.scss'
+import { itemDescription } from '../../scss/booking.module.scss'
 import { Button } from '../ui/buttons'
 import useModal from '../modal/useModal'
 import EditBooking from './editBooking'
@@ -20,7 +20,7 @@ const ItemPanel = ({ item, bookings, createBooking }) => {
         TitleTag="h2"
       />
       <h3>Beskrivning</h3>
-      <p className={style.itemDescription}>{item.description}</p>
+      <p className={itemDescription}>{item.description}</p>
       <h3>Tillgänglighet</h3>
       <BookingCalendar bookings={bookings} />
       <h3>Boka</h3>

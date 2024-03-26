@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import style from '../../scss/layout.module.scss'
+import { contentWrapper } from '../../scss/layout.module.scss'
 
 import BigPixels from './bigPixels'
 import { GridContainer, GridItem } from '../ui/grid'
@@ -78,7 +78,7 @@ const LayoutContent = ({
   }, [])
 
   return (
-    <div className={style.contentWrapper}>
+    <div className={contentWrapper}>
       {/* Display page */}
       {loggedIn && hasPrivileges && children}
       {/* Missing privileges */}

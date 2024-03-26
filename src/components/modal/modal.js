@@ -1,75 +1,66 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import posed, { PoseGroup } from 'react-pose'
 import { FiX } from 'react-icons/fi'
+import { motion, AnimatePresence } from 'framer-motion'
 
-import style from '../../scss/modal.module.scss'
-
-const Overlay = posed.div({
-  enter: {
-    transition: { duration: 100 },
-    opacity: 1,
-  },
-  exit: {
-    transition: { duration: 100 },
-    opacity: 0,
-  },
-})
-
-const ModalWrapper = posed.div({
-  enter: { transition: { duration: 100 }, scale: 1 },
-  exit: { transition: { duration: 100 }, scale: 0 },
-})
+import {
+  darknessOverlay,
+  modalWrapper,
+  modal,
+  NoPadding,
+} from '../../scss/modal.module.scss'
 
 const Modal = ({ children, title, isOpen, options, setOpen }) => {
   const close = () => setOpen(false)
 
   const { noPadding } = options
 
-  useEffect(
-    () => {
-      if (isOpen) {
-        const escClose = event => {
-          if (event.key === 'Escape') close()
-        }
-
-        window.addEventListener('keydown', escClose, false)
-
-        return () => {
-          window.removeEventListener('keydown', escClose, false)
-        }
+  useEffect(() => {
+    if (isOpen) {
+      const escClose = event => {
+        if (event.key === 'Escape') close()
       }
-      return () => {}
-    },
-    [isOpen]
-  )
+
+      window.addEventListener('keydown', escClose, false)
+
+      return () => {
+        window.removeEventListener('keydown', escClose, false)
+      }
+    }
+    return () => {}
+  }, [isOpen])
 
   return (
-    <PoseGroup style={{ overflow: 'hidden' }}>
+    <AnimatePresence style={{ overflow: 'hidden' }}>
       {isOpen && (
-        <Overlay
-          className={style.darknessOverlay}
-          onClick={close}
-          key="overlay"
-        />
+        <motion.div 
+          transition={{ duration: 0.2, delay: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className={darknessOverlay} onClick={close} key="overlay" />
       )}
       {isOpen && (
-        <ModalWrapper
+        <motion.div 
+          transition={{ duration: 0.1 }}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0 }}
           role="dialog"
           aria-modal
-          className={style.modalWrapper}
+          className={modalWrapper}
           key="modal"
         >
-          <div className={style.modal}>
+          <div className={modal}>
             <header>
               <h2>{title}</h2>
               <FiX onClick={close} />
             </header>
-            <div className={noPadding && style.noPadding}>{children}</div>
+            <div className={noPadding && NoPadding}>{children}</div>
           </div>
-        </ModalWrapper>
+        </motion.div>
       )}
-    </PoseGroup>
+    </AnimatePresence>
   )
 }
 

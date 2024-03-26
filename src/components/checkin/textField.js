@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import style from '../../scss/checkin.module.scss'
+import { textField } from '../../scss/checkin.module.scss'
 
 const useTextField = (onEnter, elem) => {
   // State for keeping track of whether key is pressed
@@ -25,19 +25,16 @@ const useTextField = (onEnter, elem) => {
   }
 
   // Add event listeners
-  useEffect(
-    () => {
-      if (elem) {
-        elem.current.addEventListener('keydown', downHandler)
-        // Remove event listeners on cleanup
-        return () => {
-          elem.current.removeEventListener('keydown', downHandler)
-        }
+  useEffect(() => {
+    if (elem) {
+      elem.current.addEventListener('keydown', downHandler)
+      // Remove event listeners on cleanup
+      return () => {
+        elem.current.removeEventListener('keydown', downHandler)
       }
-      return () => {}
-    },
-    [onEnter, elem]
-  ) // Empty array ensures that effect is only run on mount and unmount
+    }
+    return () => {}
+  }, [onEnter, elem]) // Empty array ensures that effect is only run on mount and unmount
 
   return text
 }
@@ -47,7 +44,7 @@ const TextField = ({ onSubmit }) => {
   const text = useTextField(onSubmit, elem)
 
   return (
-    <div ref={elem} tabIndex={0} className={style.textField}>
+    <div ref={elem} tabIndex={0} className={textField}>
       {text}
     </div>
   )
@@ -58,7 +55,7 @@ const CompatibilityTextField = ({ onSubmit }) => {
 
   return (
     <input
-      className={style.textField}
+      className={textField}
       onChange={e => {
         setValue(e.target.value)
       }}

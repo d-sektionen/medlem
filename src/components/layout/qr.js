@@ -3,7 +3,7 @@ import QRCode from 'qrcode'
 import { Link } from 'gatsby'
 import useSWR from 'swr'
 
-import style from '../../scss/qr.module.scss'
+import { qrWrapper1, qrWrapper2, qr } from '../../scss/qr.module.scss'
 import { useCloseModal } from '../modal/useModal'
 
 const QR = () => {
@@ -12,16 +12,13 @@ const QR = () => {
   const canvasRef = useRef(null)
   const closeModal = useCloseModal()
 
-  useEffect(
-    () => {
-      if (data && data.token) {
-        QRCode.toCanvas(canvasRef.current, data.token, { scale: 8 }, err => {
-          if (err) setError(err)
-        })
-      }
-    },
-    [data]
-  )
+  useEffect(() => {
+    if (data && data.token) {
+      QRCode.toCanvas(canvasRef.current, data.token, { scale: 8 }, err => {
+        if (err) setError(err)
+      })
+    }
+  }, [data])
 
   return (
     <div>
@@ -31,9 +28,9 @@ const QR = () => {
           <pre>{error}</pre>
         </div>
       ) : (
-        <div className={style.qrWrapper1}>
-          <div className={style.qrWrapper2}>
-            <canvas className={style.qr} ref={canvasRef} />
+        <div className={qrWrapper1}>
+          <div className={qrWrapper2}>
+            <canvas className={qr} ref={canvasRef} />
           </div>
         </div>
       )}
