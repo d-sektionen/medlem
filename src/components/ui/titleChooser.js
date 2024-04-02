@@ -9,6 +9,7 @@ const TitleChooser = ({
   categorizedChoices,
   choice,
   setChoice,
+  choicesLabel,
   label,
   action,
   actionLabel,
@@ -29,6 +30,7 @@ const TitleChooser = ({
     <div className={titleChooser}>
       <h1>{title}</h1>
       <div className={actions}>
+        {choicesLabel ? <p >{choicesLabel}</p> : <></>}
         {allChoices.length ? (
           <div className={selectContainer}>
             <select

@@ -93,6 +93,24 @@
   backdrop-filter: blur(5px);
 }
 
+.photoGridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 20em);
+  grid-gap: $base-padding;
+  padding: $base-padding;
+  justify-content: center;
+  z-index: 10;
+  position: relative;
+
+  @include small-mobile-only {
+    grid-template-columns: repeat(auto-fit, 100%);
+    grid-gap: calc($base-padding / 4);
+    padding: 0;
+    background: $background-color-2;
+    border-bottom: $background-color-3 calc($base-padding / 4) solid;
+  }
+}
+
 .gridFullWidth {
   grid-column: 1 / -1;
 }
