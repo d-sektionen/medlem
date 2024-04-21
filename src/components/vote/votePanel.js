@@ -9,7 +9,7 @@ const VotePanel = ({ meeting }) => {
 
   useEffect(
     () => {
-      revalidate()
+      //revalidate() temporarily disabled
     },
     [meeting]
   )
