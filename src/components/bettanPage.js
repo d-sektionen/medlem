@@ -1,27 +1,25 @@
 import React, { useState } from 'react'
 import { FiLock, FiUnlock } from 'react-icons/fi'
-import netlight from '../images/netlight.svg'
+import bettan from '../images/bettan.png'
 
-import { success, error, logo, buttons } from '../scss/netlight.module.scss'
+import { success, error, logo, buttons, roomTitle } from '../scss/bettan.module.scss'
 import { post } from './request'
 import BigPixels from './layout/bigPixels'
 import { IconButton } from './ui/buttons'
 import { GridContainer, GridItem } from './ui/grid'
 import useSWR from 'swr'
 
-const NetlightPage = () => {
-  const [text, setText] = useState(
-    'Här kan du låsa upp sektionsrummet Netlight.'
-  )
+const BettanPage = () => {
+  const [text, setText] = useState('Här kan du låsa upp sektionsrummet Bettan.')
   const [textClass, setTextClass] = useState('')
 
-  const { data: lockStatus } = useSWR('/tools/netlight/', {
+  const { data: lockStatus } = useSWR('/locks/bettan/', {
     refreshInterval: 180 * 1000, // 3 minutes
   })
 
   const request = async command => {
     try {
-      const { data } = await post(`/tools/netlight/${command}/`)
+      const { data } = await post(`/locks/bettan/${command}/`)
       setText(data.detail)
       setTextClass(success)
     } catch (err) {
@@ -36,11 +34,11 @@ const NetlightPage = () => {
     <BigPixels>
       <GridContainer>
         <GridItem>
-          <img className={logo} src={netlight} alt="Netlight logo" />
-
+          <img className={logo} src={bettan} alt="Bettan logo" />
+          <h2 className={roomTitle}>Bettan</h2>
           {/*
             <p className={textClass}>
-              Det går för tillfället inte att låsa/låsa upp Netlight genom denna
+              Det går för tillfället inte att låsa/låsa upp Bettan genom denna
               sida, då sektionsrummet är utlånat till D-group nu under
               DÖMD-perioden.
             </p>
@@ -69,4 +67,4 @@ const NetlightPage = () => {
   )
 }
 
-export default NetlightPage
+export default BettanPage
