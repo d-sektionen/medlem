@@ -1,12 +1,10 @@
 import React from 'react'
-import useSWR from 'swr'
 
-import { itemDescription } from '../../scss/booking.module.scss'
+import { itemDescription, bookingButtonContainer } from '../../scss/booking.module.scss'
 import { Button } from '../ui/buttons'
 import useModal from '../modal/useModal'
 import EditBooking from './editBooking'
 import BookingCalendar from './bookingCalendar'
-import Pattern from '../ui/pattern'
 import ImageHeader from '../ui/imageHeader'
 
 const ItemPanel = ({ item, bookings, createBooking, loadAllBookings }) => {
@@ -33,7 +31,7 @@ const ItemPanel = ({ item, bookings, createBooking, loadAllBookings }) => {
           {'.'}
         </p>
       )}
-      <div className={style.bookingButtonContainer}>
+      <div className={bookingButtonContainer}>
         <Button
           onClick={() =>
             openModal(`Boka ${item.name}`, { item, createBooking })
