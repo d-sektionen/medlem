@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import style from '../../scss/pixels.module.scss'
+import { path } from '../../scss/pixels.module.scss'
 
 /**
  * Displays pixels the D-sektionen logo.
@@ -104,7 +104,7 @@ class Pixels extends Component {
           transform="matrix(1.33333 0 0 -1.33333 -39.13999942 234.4946576)"
         >
           {Object.keys(pixels).map(key => (
-            <path key={key} className={style.path} d={key} fill={pixels[key]} />
+            <path key={key} className={path} d={key} fill={pixels[key]} />
           ))}
         </g>
       </svg>

@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import posed from 'react-pose'
+// import posed from 'react-pose'
 
-import style from '../../scss/ui.module.scss'
+import {
+  checkbox,
+  switchy,
+  On,
+  blob,
+  Off,
+  slider,
+} from '../../scss/ui.module.scss'
 
 const Checkbox = ({ text, value, click, defaultChecked }) => (
-  <div className={style.checkbox}>
+  <div className={checkbox}>
     <label>
       <input
         type="checkbox"
@@ -31,6 +38,8 @@ Checkbox.defaultProps = {
   click: () => null,
 }
 
+
+// OBS! if switch is used again, it first needs to be changed to use framer-motion instead
 const Switch = ({ off, on, click, defaultToggled }) => {
   const [toggled, setToggled] = useState(defaultToggled)
 
@@ -47,16 +56,16 @@ const Switch = ({ off, on, click, defaultToggled }) => {
   })
 
   return (
-    <div className={[style.switch, toggled ? style.on : style.off].join(' ')}>
+    <div className={[switchy, toggled ? On : Off].join(' ')}>
       <Slider
-        className={style.slider}
+        className={slider}
         pose={toggled ? 'on' : 'off'}
         onClick={() => {
           setToggled(!toggled)
           click(!toggled)
         }}
       >
-        <Blob className={style.blob} pose={toggled ? 'on' : 'off'} />
+        <Blob className={blob} pose={toggled ? 'on' : 'off'} />
       </Slider>
       <p>{toggled ? on : off}</p>
     </div>
@@ -75,4 +84,7 @@ Switch.defaultProps = {
   defaultToggled: false,
 }
 
-export { Checkbox, Switch }
+export { Checkbox
+  // OBS! if switch is used again, it first needs to be changed to use framer-motion instead
+  // , Switch 
+}

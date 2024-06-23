@@ -1,13 +1,13 @@
 import React from 'react'
 
-import style from '../../scss/ui.module.scss'
+import {gridContainer, gridItem, gridFullWidth} from '../../scss/ui.module.scss'
 
 const GridContainer = ({ children }) => (
-  <div className={style.gridContainer}>{children}</div>
+  <div className={gridContainer}>{children}</div>
 )
 
 const GridItem = ({ children, fullWidth }) => (
-  <div className={`${style.gridItem} ${fullWidth ? style.gridFullWidth : ''}`}>
+  <div className={`${gridItem} ${fullWidth ? gridFullWidth : ''}`}>
     {children}
   </div>
 )

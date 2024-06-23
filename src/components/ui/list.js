@@ -1,19 +1,19 @@
 import React from 'react'
 
-import style from '../../scss/ui.module.scss'
+import {listItemColor, listText, listButtons, list, listButton} from '../../scss/ui.module.scss'
 
-const List = ({ children }) => <ul className={style.list}>{children}</ul>
+const List = ({ children }) => <ul className={list}>{children}</ul>
 
 const ListItem = ({ title, subtitle, buttons, color }) => (
   <li
-    className={color ? style.listItemColor : ''}
+    className={color ? listItemColor : ''}
     style={{ borderColor: color }}
   >
-    <div className={style.listText}>
+    <div className={listText}>
       <h3>{title}</h3>
       <p>{subtitle}</p>
     </div>
-    <div className={style.listButtons}>{buttons}</div>
+    <div className={listButtons}>{buttons}</div>
   </li>
 )
 
@@ -26,7 +26,7 @@ const ListButton = ({ href, onClick, iconComponent: Icon, text, shown }) =>
     <>
       {href ? (
         <a
-          className={style.listButton}
+          className={listButton}
           href={href}
           onClick={onClick}
           title={text}
@@ -35,7 +35,7 @@ const ListButton = ({ href, onClick, iconComponent: Icon, text, shown }) =>
         </a>
       ) : (
         <button
-          className={style.listButton}
+          className={listButton}
           type="button"
           onClick={onClick}
           title={text}

@@ -1,12 +1,12 @@
 @import 'vars';
 
-.label {
+.Label {
   display: block;
 }
 
 .inputWrapper {
   input {
-    padding: $base-padding/2;
+    padding: calc($base-padding / 2);
     width: 100%;
   }
 }

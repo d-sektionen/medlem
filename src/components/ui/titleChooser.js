@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import style from '../../scss/ui.module.scss'
+import {actions, titleChooser, selectContainer, hint} from '../../scss/ui.module.scss'
 import { Button } from './buttons'
 
 const TitleChooser = ({
@@ -13,6 +13,7 @@ const TitleChooser = ({
   action,
   actionLabel,
   noChoicesLabel,
+  onChange,
 }) => {
   const allChoices = [
     ...(choices || []),
@@ -26,11 +27,11 @@ const TitleChooser = ({
     ),
   ]
   return (
-    <div className={style.titleChooser}>
+    <div className={titleChooser}>
       <h1>{title}</h1>
-      <div className={style.actions}>
+      <div className={actions}>
         {allChoices.length ? (
-          <div className={style.selectContainer}>
+          <div className={selectContainer}>
             <select
               onChange={e => {
                 const selectedValue = e.target.value
@@ -39,6 +40,7 @@ const TitleChooser = ({
                     ? null
                     : allChoices.filter(i => `${i.id}` === selectedValue)[0]
                 setChoice(c)
+                onChange(e)
               }}
               value={choice ? choice.id : ''}
             >
@@ -61,7 +63,7 @@ const TitleChooser = ({
                 ))}
             </select>
             {choice === null && (
-              <div className={style.hint}>Välj ett objekt</div>
+              <div className={hint}>Välj ett objekt</div>
             )}
           </div>
         ) : (
@@ -82,6 +84,7 @@ TitleChooser.defaultProps = {
   noChoicesLabel: '',
   setChoice: () => {},
   label: '',
+  onChange: () => {},
 }
 
 TitleChooser.propTypes = {
@@ -94,6 +97,7 @@ TitleChooser.propTypes = {
   action: PropTypes.func,
   actionLabel: PropTypes.string,
   noChoicesLabel: PropTypes.string,
+  onChange: PropTypes.func,
 }
 
 export default TitleChooser

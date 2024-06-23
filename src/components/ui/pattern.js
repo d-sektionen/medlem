@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import GeoPattern from 'geopattern'
 
-import style from '../../scss/ui.module.scss'
+import {Ppattern} from '../../scss/ui.module.scss'
 
 const Pattern = ({ seed }) => {
   const [pattern, setPattern] = useState(null)
@@ -14,7 +14,7 @@ const Pattern = ({ seed }) => {
     [seed]
   )
 
-  return <div className={style.pattern} style={{ backgroundImage: pattern }} />
+  return <div className={Ppattern} style={{ backgroundImage: pattern }} />
 }
 
 Pattern.defaultProps = {

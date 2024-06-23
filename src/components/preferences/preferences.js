@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import { put, patch } from '../request'
 
-import style from '../../scss/preferences.module.scss'
+import { inputLabel, Error, Success } from '../../scss/preferences.module.scss'
 import { Button } from '../ui/buttons'
 
 class Preferences extends Component {
@@ -108,7 +108,7 @@ class Preferences extends Component {
           </strong>
         </p>
         <div>
-          <label className={style.inputLabel}>
+          <label className={inputLabel}>
             Förnamn:
             <input
               value={firstName}
@@ -116,23 +116,21 @@ class Preferences extends Component {
             />
           </label>
           {errors.first_name && (
-            <div className={style.error}>{errors.first_name}</div>
+            <div className={Error}>{errors.first_name}</div>
           )}
         </div>
         <div>
-          <label className={style.inputLabel}>
+          <label className={inputLabel}>
             Efternamn:
             <input
               value={lastName}
               onChange={e => this.handleChange('lastName', e)}
             />
           </label>
-          {errors.last_name && (
-            <div className={style.error}>{errors.last_name}</div>
-          )}
+          {errors.last_name && <div className={Error}>{errors.last_name}</div>}
         </div>
         <div>
-          <label className={style.inputLabel}>
+          <label className={inputLabel}>
             LiU-kortnummer:
             <input
               value={liuCardId}
@@ -140,11 +138,11 @@ class Preferences extends Component {
             />
           </label>
           {errors.profile && errors.profile.liu_card_id && (
-            <div className={style.error}>{errors.profile.liu_card_id}</div>
+            <div className={Error}>{errors.profile.liu_card_id}</div>
           )}
         </div>
         <div>
-          <label className={style.inputLabel}>
+          <label className={inputLabel}>
             Prenumerera på veckomailet:
             <input
               type="checkbox"
@@ -153,17 +151,15 @@ class Preferences extends Component {
             />
           </label>
           {errors.profile && errors.profile.infomail_subscriber && (
-            <div className={style.error}>
-              {errors.profile.infomail_subscriber}
-            </div>
+            <div className={Error}>{errors.profile.infomail_subscriber}</div>
           )}
         </div>
         <div>
           <Button type="submit">Spara</Button>
         </div>
         <div>
-          {error && <div className={style.error}>{error}</div>}
-          {success && <div className={style.success}>{success}</div>}
+          {error && <div className={Error}>{error}</div>}
+          {success && <div className={Success}>{success}</div>}
         </div>
       </form>
     )

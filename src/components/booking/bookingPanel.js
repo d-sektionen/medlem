@@ -12,7 +12,7 @@ import ViewBooking from './viewBooking'
 import { UserContext } from '../layout/layout'
 import useConfirmModal from '../modal/useConfirmModal'
 
-import { Checkbox, Switch } from '../ui/checkbox'
+import { Checkbox } from '../ui/checkbox'
 
 const BookingPanel = ({
   bookings: unfilteredBookings,

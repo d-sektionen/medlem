@@ -22,7 +22,7 @@
 // }
 
 // from create booking form.
-.description {
+.dScription {
   width: 100%;
   resize: vertical;
   min-height: 4rem;
@@ -38,4 +38,10 @@
     font-weight: normal;
     font-size: 1.25rem;
   }
+}
+
+.bookingButtonContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
 }
