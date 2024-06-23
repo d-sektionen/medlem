@@ -1,18 +1,23 @@
 import React, { Component, useState } from 'react'
 import { post } from '../request'
 
-const VoteForm = ({ vote }) => {
+const VoteForm = ({ vote, setErrors }) => {
   const [checkedId, setCheckedId] = useState(-1)
   const [successfullyVoted, setSuccessfullyVoted] = useState(false)
 
   const placeVote = async () => {
+    setErrors({})
+
     const voteData = {
       vote_id: vote.id,
       alternative_id: checkedId,
     }
 
     await post('/voting/made_votes/', voteData)
-    setSuccessfullyVoted(true)
+      .then(() => setSuccessfullyVoted(true))
+      .catch(err => {
+        setErrors({ voteError: err.response.data.error })
+      })
   }
   const votingDisabled = checkedId === -1
   const buttonText = votingDisabled ? 'Välj ett alternativ' : 'Rösta'
