@@ -1,0 +1,44 @@
+@import 'vars';
+
+.success {
+  color: $dsek-green;
+}
+
+.error {
+  color: $red;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 60%;
+  height: 50%;
+  margin: 0 auto;
+}
+
+.roomTitle {
+  text-align: center;
+  margin-top: 0.4em;
+}
+
+.batteryContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    padding-left: 4px;
+    margin: 0;
+  }
+
+  svg {
+    width: 1.3em;
+    height: 1.3em;
+  }
+}
