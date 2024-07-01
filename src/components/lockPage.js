@@ -15,11 +15,12 @@ const STATUS_REFRESH_INTERVAL = 180 * 1000 // 3 minutes
 const CRITICAL_BATTERY_LEVEL = 15;
 
 const BatteryIcon = ({batteryLevel}) => {
-  return <FaBatteryFull></FaBatteryFull>
   if (batteryLevel > 75) return <FaBatteryFull />;
   if (batteryLevel > 50) return <FaBatteryThreeQuarters />;
   if (batteryLevel > 25) return <FaBatteryHalf />;
   if (batteryLevel > 0) return <FaBatteryQuarter />;
+
+  return <FaBatteryEmpty />;
 }
 
 const LockItem = ({logo, lockName}) => {
@@ -28,7 +29,7 @@ const LockItem = ({logo, lockName}) => {
 
   const lock_base_url = `/locks/${lockName.toLowerCase()}`
 
-  const request = async (lock, command, setText, setTextClass) => {
+  const request = async (command, setText, setTextClass) => {
     try {
       const { data } = await post(`${lock_base_url}/${command}/`)
       setText(data.detail)
