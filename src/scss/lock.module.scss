@@ -20,6 +20,11 @@
   width: 60%;
   height: 50%;
   margin: 0 auto;
+
+  @include small-mobile-only {
+    height: unset;
+    max-height: fit-content;
+  }
 }
 
 .roomTitle {
