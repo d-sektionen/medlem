@@ -66,11 +66,11 @@ module.exports.PAGES = [
     component: './src/components/votingCounter/page.js',
   },
   {
-    path: '/bettan',
-    title: 'Bettan',
+    path: '/locks',
+    title: 'Lås',
     requiredPrivileges: 'member',
     menu: true,
-    component: './src/components/bettanPage.js',
+    component: './src/components/lockPage.js',
   },
   {
     path: '/booking',
