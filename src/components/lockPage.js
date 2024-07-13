@@ -4,7 +4,7 @@ import { FaBatteryHalf, FaBatteryQuarter, FaBatteryThreeQuarters, FaBatteryFull}
 import bettan from '../images/bettan.png'
 import configura from '../images/configura-white.png'
 
-import { success, error, logoContainer, buttons, roomTitle, batteryContainer} from '../scss/lock.module.scss'
+import { success, error, logoContainer, buttons, roomTitle, batteryContainer, lockItemClass } from '../scss/lock.module.scss'
 import { post } from './request'
 import BigPixels from './layout/bigPixels'
 import { IconButton } from './ui/buttons'
@@ -84,11 +84,11 @@ const BettanPage = () => {
   return (
     <BigPixels>
       <GridContainer>
-        <LockItem
+        <LockItem className={lockItemClass}
           logo={bettan}
           lockName="Bettan"
         ></LockItem>
-        <LockItem
+        <LockItem className={lockItemClass}
           logo={configura}
           lockName="Configura"
         ></LockItem>
