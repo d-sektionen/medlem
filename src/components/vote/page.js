@@ -42,14 +42,14 @@ const VotePage = ({ pageContext: { title } }) => {
                 revalidate={revalidate}
               />
             </GridItem>
-            <GridItem>
-              <VotePanel meeting={currentMeeting} />
-            </GridItem>
             {/* {currentMeeting.enable_speaker_requests && ( */}
             <GridItem>
               <SpeakerPanel meeting={currentMeeting} />
             </GridItem>
             {/* )} */}
+            <GridItem>
+              <VotePanel meeting={currentMeeting} />
+            </GridItem>
           </>
         )}
       </GridContainer>
