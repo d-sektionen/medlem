@@ -7,7 +7,6 @@ import { FiX, FiGithub } from 'react-icons/fi'
 import { PAGES, BASE_URL } from '../../config'
 
 import webbu_logo from '../../images/webbu-logo-inverted.png'
-import logo from '../../images/round.svg'
 import {
   darknessOverlay,
   menu,
@@ -40,15 +39,7 @@ const SideMenu = ({ close, open }) => {
           animate={{ x: '0%' }} className={menu} key="menu" 
           transition={{ x: { type: "spring", bounce: 0, duration: 0.2 }}}>
           <div>
-            <div>
-              <FiX onClick={close} className={x} />
-              <a className={imgWrapper} href="https://d-sektionen.se">
-                <img src={logo} alt="" useMap="circle" />
-                <map name="circle">
-                  <area shape="circle" alt="" coords="0,100%,100%,100%" />
-                </map>
-              </a>
-            </div>
+            <FiX onClick={close} className={x} />
 
             <ul className={pageList}>
               {PAGES.reduce((links, current) => {

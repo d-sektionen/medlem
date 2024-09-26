@@ -93,6 +93,7 @@ module.exports.PAGES = [
     menu: true,
     component: './src/components/checkin/page.js',
   },
+/* Inactive keylog, because it has no real use.
   {
     path: '/keylog',
     title: 'Nyckelloggbok',
@@ -100,4 +101,5 @@ module.exports.PAGES = [
     menu: true,
     component: './src/components/keylogPage.js',
   },
+*/
 ]

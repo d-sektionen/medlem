@@ -78,10 +78,9 @@
 }
 
 .x {
-  position: absolute;
-
   box-sizing: content-box;
   padding: $base-padding;
+  margin-bottom: $base-padding;
   height: 2 * $base-padding;
   width: 2 * $base-padding;
   color: $foreground-color-4;
