@@ -15,7 +15,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
   const [alternatives, setAlternatives] = useState(
     updateData
       ? updateData.alternatives.map(alt => createAlternative(alt))
-      : [createAlternative(), createAlternative()]
+      : [createAlternative({text: 'Vakant'}), createAlternative({text: 'Blankt'})]
   )
   const [currentQuestion, setCurrentQuestion] = useState(
     updateData ? updateData.open : true
