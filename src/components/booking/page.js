@@ -72,6 +72,17 @@ const BookingPage = ({ pageContext: { title } }) => {
     )
   }
 
+  const deny = async (bookingId, data) => {
+    await post(
+      `/booking/bookings/${bookingId}/deny/`,
+      data
+    )
+    mutate(
+      bookings.filter(b => {
+        return bookingId !== b.id
+      })
+    )
+  }
   const loadAllBookings = async () => {
     // Removes the after parameter from the request, thus causing all bookings to load.
     setAfterDate(null)
@@ -106,6 +117,7 @@ const BookingPage = ({ pageContext: { title } }) => {
                 updateBooking={update}
                 destroyBooking={destroy}
                 confirmBooking={confirm}
+                denyBooking={deny}
               />
             </GridItem>
           </>

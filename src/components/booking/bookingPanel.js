@@ -2,13 +2,14 @@ import React, { useState, useEffect, useContext, Fragment } from 'react'
 import { formatRelative } from 'date-fns'
 import { sv } from 'date-fns/locale'
 
-import { FiTrash2, FiInfo, FiEdit, FiCheck } from 'react-icons/fi'
+import { FiTrash2, FiInfo, FiEdit, FiCheck, FiXCircle } from 'react-icons/fi'
 
 import { List, ListItem, ListButton } from '../ui/list'
 
 import EditBooking from './editBooking'
 import useModal from '../modal/useModal'
 import ViewBooking from './viewBooking'
+import DenyBooking from './denyBooking'
 import { UserContext } from '../layout/layout'
 import useConfirmModal from '../modal/useConfirmModal'
 
@@ -19,6 +20,7 @@ const BookingPanel = ({
   updateBooking,
   destroyBooking,
   confirmBooking,
+  denyBooking,
 }) => {
   const [user] = useContext(UserContext)
   const [onlyMine, setOnlyMine] = useState(false)
@@ -26,6 +28,7 @@ const BookingPanel = ({
   const [openEditBooking] = useModal(EditBooking)
   const [openViewBooking] = useModal(ViewBooking)
   const [openConfirmation] = useConfirmModal()
+  const [openDenyBooking] = useModal(DenyBooking)
 
   const bookingList = unfilteredBookings
     // convert strings to date objects
@@ -82,6 +85,20 @@ const BookingPanel = ({
                         confirmBooking(booking.id)
                       }}
                       key="confirm"
+                    />,
+                    <ListButton
+                      shown={
+                        user.privileges.booking_admin
+                      }
+                      iconComponent={FiXCircle}
+                      text="Neka bokning"
+                      onClick={() => {
+                        openDenyBooking(
+                          'Neka bokning',
+                          { booking, denyBooking }
+                        )
+                      }}
+                      key="deny"
                     />,
                     <ListButton
                       shown={
