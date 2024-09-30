@@ -1,7 +1,10 @@
 import React from 'react'
 import AutoForm from '../form/form'
 
-const AddCalendarSubscription = ({ create }) => (
+const AddCalendarSubscription = ({ create }) => {
+  const { data, mutate } = useSWR('/booking/items/')
+} 
+return (
   <AutoForm
     endpoint="/account/calendar-subscriptions/"
     customFetcher={create}
