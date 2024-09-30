@@ -9,6 +9,7 @@ const AddCalendarSubscription = ({ create }) => (
       include_bookings: true,
       include_events_attending: true,
       include_events_not_attending: true,
+      include_bookable_items: [1,2,3,4,5]
     }}
   />
 )

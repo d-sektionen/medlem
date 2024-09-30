@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useDeferredValue } from 'react'
 import DateTimePicker from './dateTimePicker'
 
 import { Label, Required, inputWrapper } from '../../scss/form.module.scss'
@@ -14,9 +14,26 @@ const AutoInput = ({
   min_length,
   max_length,
 }) => {
+
+  const [initialOptions, setInitialOptions] = useState([])
+
+  // Set the initial options based on the first value received
+  useEffect(() => {
+    if (value) {
+      setInitialOptions(value)
+    }
+  }, []) // Run only once, when the component mounts
+
+
   const change = e => {
     onChange(e.target.value)
   }
+  
+  const optionElementsCollection = initialOptions?.map((v) => (
+    <option key={v} value={v}>
+      {v}
+    </option>
+  ))
 
   const map = {
     datetime: <DateTimePicker value={value} onChange={onChange} />,
@@ -39,6 +56,17 @@ const AutoInput = ({
         min={min_value}
       />
     ),
+    field: (
+      <select
+        multiple
+        value={value}
+        onChange={e =>
+          onChange(Array.from(e.target.selectedOptions, option => option.value))
+        }
+      >
+        {optionElementsCollection}
+      </select>
+    )
   }
 
   const component = Object.prototype.hasOwnProperty.call(map, type) ? (
