@@ -68,12 +68,12 @@ const LockItem = ({logo, lockName}) => {
         <IconButton
           iconComponent={FiLock}
           text="Lås"
-          onClick={() => request(lockName, 'lock', setText, setTextClass)}
+          onClick={() => request('lock', setText, setTextClass)}
         />
         <IconButton
           iconComponent={FiUnlock}
           text="Lås upp"
-          onClick={() => request(lockName, 'unlock', setText, setTextClass)}
+          onClick={() => request('unlock', setText, setTextClass)}
         />
       </div>
     </GridItem>
