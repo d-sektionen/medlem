@@ -5,19 +5,20 @@ import useSWR from 'swr'
 const AddCalendarSubscription = ({ create }) => {
   const { data, mutate } = useSWR('/booking/items/')
 
+  const defaults = {
+    include_bookings: true,
+    include_events_attending: true,
+    include_events_not_attending: true,
+    include_bookable_items: data
+  }
+  console.log("Defaults: ", defaults)
   return (
     <AutoForm
       endpoint="/account/calendar-subscriptions/"
       customFetcher={create}
-      defaults={{
-        include_bookings: true,
-        include_events_attending: true,
-        include_events_not_attending: true,
-        include_bookable_items: [1,2,3,4,5]
-      }}
+      defaults={defaults}
     />
   )
-
 }
 
 export default AddCalendarSubscription

@@ -29,9 +29,9 @@ const AutoInput = ({
     onChange(e.target.value)
   }
   
-  const optionElementsCollection = initialOptions?.map((v) => (
-    <option key={v} value={v}>
-      {v}
+  const optionElementsCollection = initialOptions?.map((item) => (
+    <option key={item.id} value={item.id}>
+      {item.name}
     </option>
   ))
 
