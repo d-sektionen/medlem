@@ -2,10 +2,12 @@
 @import 'mixins';
 
 .success {
+  text-align: center;
   color: $dsek-green;
 }
 
 .error {
+  text-align: center;
   color: $red;
 }
 
