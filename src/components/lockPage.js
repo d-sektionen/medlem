@@ -139,8 +139,8 @@ const LockItem = ({ logo, lockName }) => {
 const BettanPage = () => {
   return (
     <BigPixels>
+      <h2 className={roomTitle}>Lås till sektionsrummen</h2>
       <GridContainer>
-        <h2 className={roomTitle}>Lås till sektionsrum</h2>
         <LockItem
           className={lockItemClass}
           logo={bettan}
