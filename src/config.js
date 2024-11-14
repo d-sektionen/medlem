@@ -100,4 +100,11 @@ module.exports.PAGES = [
     menu: true,
     component: './src/components/keylogPage.js',
   },
+  {
+    path: '/email',
+    title: 'Mejlsystem',
+    requiredPrivileges: 'staff',
+    menu: true,
+    component: './src/components/email/page.js',
+  },
 ]
