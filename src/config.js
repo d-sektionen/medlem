@@ -1,3 +1,5 @@
+const { m } = require("framer-motion")
+
 /*
 DO NOT change the BASE_URL value here
 It should be overwritten in .env.development and .env.production
@@ -92,6 +94,12 @@ module.exports.PAGES = [
     requiredPrivileges: 'doorkeeper',
     menu: true,
     component: './src/components/checkin/page.js',
+  },
+  {
+    path: '/budget',
+    title: 'Budget',
+    menu: true,
+    component: './src/components/budget/page.js',
   },
   {
     path: '/keylog',
