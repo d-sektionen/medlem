@@ -16,10 +16,11 @@ const EmailPage = ({ pageContext: { title } }) => {
     //const { data: emailTypes } = useSWR('/email/templates/')
     const { data: emailTypes } = {
         data: [
-            { id: 1, name: 'Infomejl', category: 'InfU', description: 'Den första rutan är till för infochefens hörna. Du skriver en titel och sen en text. Rutan under är till för själva nyheterna och då kan du skriva titel för varje ny nyhet och text under titlarna.' },
-            { id: 2, name: 'Sektionsmöte', category: 'Styrelse', description: 'Skicka kallelse om sektionsmöte' }
+            { id: 1, name: 'Infomejl', category: 'InfU', subject: "Infomejl - Vecka 21", description: 'Den första rutan är till för infochefens hörna. Du skriver en titel och sen en text. Rutan under är till för själva nyheterna och då kan du skriva titel för varje ny nyhet och text under titlarna.' },
+            { id: 2, name: 'Sektionsmöte', category: 'Styrelse', subject: "Kallelse till sektionsmöte", description: 'Skicka kallelse om sektionsmöte' }
         ]
     }
+    const [subject, setSubject] = useState(emailType.subject || '');
     const [htmlSummary, setHtmlSummary] = useState('');
     const [htmlText, setHtmlText] = useState('');
 
@@ -56,6 +57,24 @@ const EmailPage = ({ pageContext: { title } }) => {
         return newEmail
     }
 
+    /* Schedule email */
+    const [sendAt, setSendAt] = useState('');
+
+    const handleSendAtChange = (e) => {
+        setSendAt(e.target.value);
+    };
+
+    const handleSendEmail = () => {
+        const emailData = {
+            subject: subject,
+            type: emailType.id,
+            summary: htmlSummary,
+            text: htmlText,
+            sendAt: sendAt,
+        };
+        create(emailData);
+    };
+
     return (
         <BigPixels>
             <GridContainer>
@@ -76,18 +95,25 @@ const EmailPage = ({ pageContext: { title } }) => {
                                 <p>{emailType.description}</p>
                             </div>
                             <div className={emailBoxes}>
+                                <label>Här kan du skriva ämnet till mejlet, din typ av mejl kan ha ett förslag på ämne redan:</label>
+                                <input type='text' value={subject} onChange={setSubject} required/>
+                            </div>
+                            <div className={emailBoxes}>
                                 <label>Här kan du skriva som en inledning eller sammanfattning som hamnar i början av mejlet. Exempelvis "Infochefens hörna":</label>
                                 <Editor value={htmlSummary} onChange={htmlSummaryChange} />
                                 <textarea value={htmlSummary} onChange={htmlSummaryChange} />
                             </div>
                             <div className={emailBoxes}>
-                                <label>Här kan du skriva texten som du vill skicka ut. Exempelvis nyheterna i ett infomejl.:</label>
+                                <label>Här kan du skriva texten som du vill skicka ut. Exempelvis nyheterna i ett infomejl:</label>
                                 <Editor value={htmlText} onChange={htmlTextChange} />
                                 <textarea value={htmlText} onChange={htmlTextChange} />
                             </div>
                             <div className={emailBoxes}>
                                 <label>Skicka vid:</label>
-                                <input type='datetime-local' required />
+                                <input type='datetime-local' value={sendAt} onChange={handleSendAtChange} required />
+                                <Button onClick={handleSendEmail}>
+                                    Skicka {emailType.name}
+                                </Button>
                             </div>
                         </GridItem>
                         <GridItem fullWidth>
