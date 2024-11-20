@@ -62,7 +62,6 @@ const BookingCalendar = ({ bookings }) => {
   return (
     <div>
       <div className={controls}>
-        <div>{`Vecka ${getISOWeek(page)}${yearString}`}</div>
 
         <Button
           type="button"
@@ -70,11 +69,8 @@ const BookingCalendar = ({ bookings }) => {
         >
           -
         </Button>
-        <Button
-          type="button"
-          onClick={() => setPage(startOfISOWeek(new Date()))}
-        >
-          nu
+        <Button>
+          {`Vecka ${getISOWeek(page)}${yearString}`}
         </Button>
         <Button
           type="button"

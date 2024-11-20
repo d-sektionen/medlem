@@ -51,7 +51,7 @@ const BookingPanel = ({
   const restrictedTimeslots = bookingList.filter(b => b.restricted_timeslot)
 
   const partitions = [
-    { name: 'Begränsade tidsperioder', bookings: restrictedTimeslots },
+   // { name: 'Begränsade tidsperioder', bookings: restrictedTimeslots },
     { name: 'Bokningar', bookings: normalBookings },
   ]
 

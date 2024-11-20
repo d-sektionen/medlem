@@ -4,10 +4,13 @@ import useSWR from 'swr'
 import { GridContainer, GridItem } from '../ui/grid'
 import BigPixels from '../layout/bigPixels'
 import ItemPanel from './itemPanel'
-import BookingPanel from './bookingPanel'
 import TitleChooser from '../ui/titleChooser'
 import { post, put, del } from '../request'
 import { startOfISOWeek, subWeeks } from 'date-fns'
+
+import BookingCalendar from './bookingCalendar'
+import CreateBooking from './createBooking'
+
 
 /*
  * Get the date 4 weeks ago relative to the start of the current week.
@@ -48,41 +51,7 @@ const BookingPage = ({ pageContext: { title } }) => {
     return newBooking
   }
 
-  const update = async (bookingId, data) => {
-    const { data: updatedBooking } = await put(
-      `/booking/bookings/${bookingId}/`,
-      data
-    )
-    mutate([...bookings.filter(b => b.id !== bookingId), updatedBooking])
-    return updatedBooking
-  }
 
-  const destroy = async bookingId => {
-    await del(`/booking/bookings/${bookingId}/`)
-    mutate(bookings.filter(b => b.id !== bookingId))
-  }
-
-  const confirm = async bookingId => {
-    await put(`/booking/bookings/${bookingId}/confirm/`)
-    mutate(
-      bookings.map(b => {
-        if (bookingId !== b.id) return b
-        return { ...b, confirmed: true }
-      })
-    )
-  }
-
-  const deny = async (bookingId, data) => {
-    await post(
-      `/booking/bookings/${bookingId}/deny/`,
-      data
-    )
-    mutate(
-      bookings.filter(b => {
-        return bookingId !== b.id
-      })
-    )
-  }
   const loadAllBookings = async () => {
     // Removes the after parameter from the request, thus causing all bookings to load.
     setAfterDate(null)
@@ -90,7 +59,10 @@ const BookingPage = ({ pageContext: { title } }) => {
 
   return (
     <BigPixels>
+      
       <GridContainer>
+        <GridItem fullWidth>Bokningar</GridItem>
+        {/*
         <GridItem fullWidth>
           <TitleChooser
             title={title}
@@ -101,25 +73,29 @@ const BookingPage = ({ pageContext: { title } }) => {
             onChange={() => setAfterDate(getDate4WeeksAgo(new Date()))}
           />
         </GridItem>
-        {item && bookings && (
-          <>
-            <GridItem>
-              <ItemPanel
+          */}
+          
+        <GridItem>
+        <ItemPanel
                 item={item}
                 bookings={bookings}
-                createBooking={create}
+                createBooking={create}  
                 loadAllBookings={loadAllBookings}
               />
-            </GridItem>
+
+        </GridItem>
+        <GridItem>
+          <BookingCalendar bookings={bookings} />
+
+        </GridItem>
+        {item && bookings && (
+          <>
+        
             <GridItem>
-              <BookingPanel
-                bookings={bookings}
-                updateBooking={update}
-                destroyBooking={destroy}
-                confirmBooking={confirm}
-                denyBooking={deny}
-              />
+              
             </GridItem>
+          
+            
           </>
         )}
       </GridContainer>
