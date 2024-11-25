@@ -69,7 +69,9 @@ const BookingCalendar = ({ bookings }) => {
         >
           -
         </Button>
-        <Button>
+        <Button
+          type="button"
+        >
           {`Vecka ${getISOWeek(page)}${yearString}`}
         </Button>
         <Button
