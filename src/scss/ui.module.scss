@@ -71,19 +71,19 @@
 
 .gridContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 30rem));
-  grid-gap: $base-padding;
+  grid-template-columns: 30rem 50rem 30rem;
+  grid-gap: $base-padding * 3;
   padding: $base-padding;
   justify-content: center;
-  z-index: 10;
-  position: relative;
+  // z-index: 10;
+  // position: relative;
 
-  @include small-mobile-only {
-    grid-gap: calc($base-padding / 4);
-    padding: 0;
-    background: $background-color-2;
-    border-bottom: $background-color-3 calc($base-padding / 4) solid;
-  }
+  // @include small-mobile-only {
+  //   grid-gap: calc($base-padding / 4);
+  //   padding: 0;
+  //   background: $background-color-2;
+  //   border-bottom: $background-color-3 calc($base-padding / 4) solid;
+  // }
 }
 
 .gridItem {

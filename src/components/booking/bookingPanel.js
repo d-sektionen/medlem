@@ -13,7 +13,6 @@ import DenyBooking from './denyBooking'
 import { UserContext } from '../layout/layout'
 import useConfirmModal from '../modal/useConfirmModal'
 
-import { Checkbox } from '../ui/checkbox'
 
 const BookingPanel = ({
   bookings: unfilteredBookings,
@@ -145,11 +144,7 @@ const BookingPanel = ({
           </List>
         </Fragment>
       ))}
-      <Checkbox
-        text=" Visa endast mina bokningar."
-        value="Only Mine"
-        click={e => setOnlyMine(e.target.checked)}
-      />
+
     </>
   )
 }

@@ -2,12 +2,16 @@
 
 .controls {
   display: flex;
-  justify-content: space-between;
 
   display: grid;
-  grid-template-columns: 1fr auto auto auto;
-  gap: $base-padding;
+  grid-template-columns: auto auto auto;
+  gap: $base-padding * 3;
   align-items: baseline;
+}
+
+.bookingCheckbox {
+  padding: 10px;
+  background-color: #B77C0D;
 }
 
 .Booking {

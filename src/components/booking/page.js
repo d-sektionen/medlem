@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import useSWR from 'swr'
 
-import { Grid } from '../ui/grid'
+import { GridContainer, GridItem } from '../ui/grid'
 import BigPixels from '../layout/bigPixels'
 import ItemPanel from './itemPanel'
+import BookingColumn from './bookingColumn'
 import BookingPanel from './bookingPanel'
 import TitleChooser from '../ui/titleChooser'
 import { post, put, del } from '../request'
@@ -92,46 +93,63 @@ const BookingPage = ({ pageContext: { title } }) => {
   }
 
   return (
-    <Grid>
-      <div>
-        <BookingCalendar bookings={bookings} />
-      </div>
+    
+    <GridContainer>
+      <GridItem fullWidth>
+        <TitleChooser
+          title={title}
+          choice={item}
+          setChoice={setItem}
+          categorizedChoices={categorizedItems}
+          label="name"
+          onChange={() => setAfterDate(getDate4WeeksAgo(new Date()))}
+        />
+      </GridItem>
 
-    </Grid>
-    // <div>
-    //       {/* <TitleChooser
-    //         title={title}
-    //         choice={item}
-    //         setChoice={setItem}
-    //         categorizedChoices={categorizedItems}
-    //         label="name"
-    //         onChange={() => setAfterDate(getDate4WeeksAgo(new Date()))}
-    //       /> */}
-      // <div>
-      //   <BookingCalendar bookings={bookings} />
-      // </div>
 
-    //   <div>
-        // {item && bookings && (
-        //   <>
-        //       <ItemPanel
-        //         item={item}
-        //         bookings={bookings}
-        //         createBooking={create}
-        //         loadAllBookings={loadAllBookings}
-        //       />
-        //       {/* <BookingPanel
-        //         bookings={bookings}
-        //         updateBooking={update}
-        //         destroyBooking={destroy}
-        //         confirmBooking={confirm}
-        //         denyBooking={deny}
-        //       /> */}
-        //   </>
-        // )}
-    //   </div>
-        
-    // </div>
+
+        {item && bookings && (
+          <>
+  
+            <GridItem>
+              <ItemPanel
+                item={item}
+                bookings={bookings}
+                createBooking={create}
+                loadAllBookings={loadAllBookings}
+              />
+
+              <BookingPanel
+                bookings={bookings}
+                updateBooking={update}
+                destroyBooking={destroy}
+                confirmBooking={confirm}
+                denyBooking={deny}
+              />
+              </GridItem>
+
+              <GridItem>
+
+             
+
+                <BookingCalendar bookings={bookings} />
+
+              </GridItem>
+
+              <GridItem>
+                <BookingColumn
+                  item={item}
+                  bookings={bookings}
+                  createBooking={create}
+                  loadAllBookings={loadAllBookings}
+                />
+              </GridItem>
+      
+          </>
+        )}
+
+    </GridContainer>
+
   )
 }
 
