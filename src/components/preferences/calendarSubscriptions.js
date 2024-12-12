@@ -9,15 +9,7 @@ import useModal, { useCloseModal } from '../modal/useModal'
 import { Button } from '../ui/buttons'
 import CalendarLink from './calendarLink'
 
-const getTitle = sub => {
-  const parts = []
-  if (sub.include_bookings) parts.push('bokningar')
-  if (sub.include_events_attending) parts.push('anmälda evenemang')
-  if (sub.include_events_not_attending) parts.push('oanmälda evenemang')
 
-  const combined = parts.join(', ')
-  return combined.charAt(0).toUpperCase() + combined.substring(1)
-}
 
 const CalendarSubscriptions = () => {
   const [openCreateModal] = useModal(AddCalendarSubscription)
@@ -25,7 +17,25 @@ const CalendarSubscriptions = () => {
   const [openConfirmation] = useConfirmModal()
   const closeModal = useCloseModal()
   const { data: subs, mutate } = useSWR('/account/calendar-subscriptions/')
-
+  const bookableItems = useSWR('/booking/items/')
+  console.log(bookableItems)
+  const getTitle = sub => {
+    console.log(sub)
+    const parts = []
+    if (sub.include_bookings) parts.push('bokningar')
+    if (sub.include_events_attending) parts.push('anmälda evenemang')
+    if (sub.include_events_not_attending) parts.push('oanmälda evenemang')
+    if (sub.include_bookings_by_user) parts.push('bokningar av användare')
+    if (sub.include_bookable_items) {
+      sub.include_bookable_items.forEach(element => {
+        if(!bookableItems.isLoading){
+          parts.push(bookableItems.data.find(item => item.id === element).name)
+        }
+      });
+    }
+    const combined = parts.join(', ')
+    return combined.charAt(0).toUpperCase() + combined.substring(1)
+  }
   return (
     <div>
       <h2>Kalenderprenumerationer</h2>
