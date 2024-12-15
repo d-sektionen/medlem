@@ -2,16 +2,42 @@
 
 .controls {
   display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center; 
+  margin-bottom: 0.5rem;
+}
 
-  display: grid;
-  grid-template-columns: auto auto auto;
-  gap: $base-padding * 3;
-  align-items: baseline;
+.controls p {
+  margin: 0;
+}
+
+.arrowButton {
+  background-color: transparent;
+  border: none;
+  color: $foreground-color-4;
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease;
+}
+
+.arrowButton:hover {
+  color: $foreground-color-1;
+  cursor: pointer;
+}
+.arrowButton svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .bookingCheckbox {
   padding: 10px;
-  background-color: #B77C0D;
+  //background-color: #B77C0D;
 }
 
 .Booking {
@@ -22,18 +48,16 @@
   &:hover {
     fill: $dsek-green;
   }
-  rect {
-    stroke: $background-color-2;
-  }
 }
 
 .restrictedTimeslot {
-  opacity: 0.25;
+  // opacity: 0.25;
 }
 
 .timeIndicators {
   text {
-    fill: rgba($foreground-color-1, 0.5);
+    fill: rgba($foreground-color-1, 1);
+    font-size: 0.8rem;
   }
   line {
     stroke: rgba($foreground-color-1, 0.2);

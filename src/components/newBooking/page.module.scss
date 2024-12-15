@@ -1,0 +1,19 @@
+.page {
+  margin: 2rem;
+}
+.page h1 {
+  font-weight: 700;
+}
+.content {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem
+}
+.column {
+  min-width: 2rem;
+}
+.calendarPadding {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
