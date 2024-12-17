@@ -25,6 +25,8 @@ const EmailPage = ({ pageContext: { title } }) => {
     const [htmlContent, setHtmlContent] = useState('');
     /* Schedule email */
     const [sendAt, setSendAt] = useState('');
+    const [sendTo, setSendTo] = useState('');
+    const [showEmailInput, setShowEmailInput] = useState(false);
 
     const categorizedItems = emailTypes
     ? emailTypes.reduce((accumulator, itm) => {
@@ -57,6 +59,7 @@ const EmailPage = ({ pageContext: { title } }) => {
             type: emailType.id,
             html: htmlContent,
             sendAt: sendAt,
+            sendTo: sendTo || undefined, // Include sendTo if specified
         };
         create(emailData);
     };
@@ -88,6 +91,18 @@ const EmailPage = ({ pageContext: { title } }) => {
                                 <label>Innehåll:</label>
                                 <Editor value={htmlContent} onChange={(e) => setHtmlContent(e.target.value)} />
                                 <textarea value={htmlContent} onChange={(e) => setHtmlContent(e.target.value)} />
+                            </div>
+                            <div className={emailBoxes}>
+                                <button onClick={() => setShowEmailInput(!showEmailInput)}>
+                                    {showEmailInput ? 'Göm anpassad mejllista' : 'Bestäm anpassad mejllista'}
+                                </button>
+                                {showEmailInput && (
+                                    <>
+                                        <label>Mottagare</label>
+                                        <p>En eller flera emailadresser, separerade med kommatecken (Om du bestämmer en mejllista här så kommer backend ignorera sin egen mejllista)</p>
+                                        <input type='text' value={sendTo} onChange={(e) => setSendTo(e.target.value)} />
+                                    </>
+                                )}
                             </div>
                             <div className={emailBoxes}>
                                 <label>Skicka vid:</label>
