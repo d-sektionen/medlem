@@ -79,6 +79,12 @@ module.exports.PAGES = [
     component: './src/components/booking/page.js',
   },
   {
+    path: '/new-booking',
+    title: 'Ny bokning',
+    menu: true,
+    component: './src/components/newBooking/page.js',
+  },
+  {
     path: '/attendance',
     title: 'Närvarosystemet',
     requiredPrivileges: 'attendance_admin',

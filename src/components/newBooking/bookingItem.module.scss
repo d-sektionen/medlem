@@ -1,0 +1,27 @@
+.container {
+  padding: 0.5rem;
+  background-color: #212121;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+.container button {
+  border: none;
+  background-color: transparent;
+  color: white;
+  height: 100%;
+  cursor: pointer;
+}
+.container button:hover {
+  color: #B77C0D;
+}
+.title {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.date {
+  margin-top: 0;
+  font-size: 0.8rem;
+}
