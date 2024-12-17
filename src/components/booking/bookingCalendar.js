@@ -173,30 +173,30 @@ const BookingCalendar = ({ bookings }) => {
                   height={calculateHeight(s, e) - 10}
                   >
                   <div
-                  xmlns="http://www.w3.org/1999/xhtml"
-                  style={{
-                  color: 'white',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'normal',
-                  wordWrap: 'break-word',
-                  hyphens: 'auto',
-                  }}
-                  >
-                  <p style={{
-                  fontSize: '10px',
-                  lineHeight: '1.2',
-                  marginBottom: '0.1rem'
-                  }}>{booking.user.first_name}</p>
-                  <p style={{
-                  fontSize: '6px',
-                  marginTop: '0',
-                  marginBottom: '0.25rem',
-                  }}>{`${s.getHours()}:${`0${s.getMinutes()}`.slice(-2)} - ${e.getHours()}:${`0${e.getMinutes()}`.slice(-2)}`}</p>
-                  <p style={{
-                  fontSize: '8px',
-                  marginTop: '0',
-                  }}>{booking.description.length > 20 ? `${booking.description.slice(0, 20)}...` : booking.description}</p>
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    style={{
+                    color: 'white',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word',
+                    hyphens: 'auto',
+                    }}
+                    >
+                    <p style={{
+                    fontSize: '10px',
+                    lineHeight: '1.2',
+                    marginBottom: '0.1rem'
+                    }}>{booking.user.first_name}</p>
+                    <p style={{
+                    fontSize: '6px',
+                    marginTop: '0',
+                    marginBottom: '0.25rem',
+                    }}>{`${s.getHours()}:${`0${s.getMinutes()}`.slice(-2)} - ${e.getHours()}:${`0${e.getMinutes()}`.slice(-2)}`}</p>
+                    <p style={{
+                    fontSize: '8px',
+                    marginTop: '0',
+                    }}>{booking.description.length > 20 ? `${booking.description.slice(0, 20)}...` : booking.description}</p>
                   </div>
                   </foreignObject>
                   </g>

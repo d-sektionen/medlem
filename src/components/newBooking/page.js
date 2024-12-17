@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react"
 import {page, column, content, calendarPadding} from "./page.module.scss"
 import { BookableResourceContainer } from "./bookableResourceContainer"
 import { BookingsList } from "./bookingsList"
-import { AlertBanner } from "./alertbanner"
+import { AlertBanner } from "./alertBanner"
 import BookingCalendar from "../booking/bookingCalendar"
 import useSWR from "swr"
 import { startOfISOWeek, subWeeks } from 'date-fns'
@@ -60,7 +60,8 @@ export default function NewBookingPage () {
       <div className={content}>
 
       <div className={column}>
-        <BookableResourceContainer items={sortedItemsWithIcons} selectedItem={selectedResource} onSelectedItemChange={handleSelectedResourceChange}/>
+        {/* currently not working */}
+        {/* <BookableResourceContainer items={sortedItemsWithIcons} selectedItem={selectedResource} onSelectedItemChange={handleSelectedResourceChange}/> */}
       </div>
       <div className={`${column} ${calendarPadding}`}>
         {/* todo */}

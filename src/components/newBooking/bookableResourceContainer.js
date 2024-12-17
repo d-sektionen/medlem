@@ -5,9 +5,7 @@ import { FaTent } from "react-icons/fa6";
 import BookableResource from "./bookableResource";
 import { container } from "./bookableResourceContainer.module.scss";
 
-export const BookableResourceContainer = ({items, selectedItem, onSelectedItemChange}) => {
-
-  
+const BookableResourceContainer = ({items, selectedItem, onSelectedItemChange}) => {
 
   return (
     <div className={container}>
@@ -23,3 +21,5 @@ export const BookableResourceContainer = ({items, selectedItem, onSelectedItemCh
     </div>
   );
 }
+
+export default BookableResourceContainer;
