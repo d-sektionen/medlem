@@ -146,7 +146,7 @@ export const BookingCalendar2 = ({ bookings }) => {
                         ))}
                     </div>
                     {weekDays.map((day, index) => (
-                        <CalendarColumn key={day} events={eventsByDay[index]} onEventClick={(event) => handleEventClick(event)} />
+                        <CalendarColumn key={day} day={day} events={eventsByDay[index]} onEventClick={(event) => handleEventClick(event)} />
                     ))}
                     <div className={rightOverflow}></div>
                     <div className={gridLines}>
