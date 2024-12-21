@@ -1,0 +1,143 @@
+@import '../../scss/vars';
+
+.calendarContainerContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+.calendarContainer {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+.calendarHeader {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center; 
+}
+.calendarHeader p {
+    margin: 0;
+}
+
+.column {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 3.5rem;
+    justify-content: space-between;
+    border-right: 1px solid rgb(51, 53, 55);
+}
+.rightOverflow {
+    width: 1rem;
+    height: 100%;
+}
+.timeColumn {
+    position: absolute;
+    line-height: 1rem;
+    top: -0.5rem;
+    right: 1rem;
+    z-index: 2;
+}
+.timeContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+}
+.extraLines {
+    margin-left: calc(3.5rem - 1px);
+    margin-right: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 1px solid rgb(51, 53, 55);
+}
+.extraLines p {
+    width: 100%;
+    height: 100%;
+    line-height: 1rem;
+    margin: 0;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    text-align: center;
+    border-right: 1px solid rgb(51, 53, 55);
+}
+.vertLine {
+    width: 100%;
+    height: 1rem;
+    border-right: 1px solid rgb(51, 53, 55);
+}
+.extraLine {
+    width: 1px;
+    height: 100%;
+    background-color: rgb(51, 53, 55);
+}
+
+.arrowButton {
+    background-color: transparent;
+    border: none;
+    color: $foreground-color-4;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+}
+.arrowButton:hover {
+    color: $foreground-color-1;
+    cursor: pointer;
+}
+.arrowButton svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.weekButton {
+    background-color: transparent;
+    border: none;
+    color: $foreground-color-4;
+    height: 2rem;
+    width: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+}
+.weekButton:hover {
+    color: $foreground-color-1;
+    cursor: pointer;
+}
+
+  
+.gridLines {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: rgb(51, 53, 55);
+    position: relative;
+}
+@media 
+screen and (max-width: 800px) {
+    .calendarContainer {
+        min-height: 60vh;
+    }
+    .column {
+        min-height: 60vh;
+    }
+}

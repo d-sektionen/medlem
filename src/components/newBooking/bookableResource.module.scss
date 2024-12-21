@@ -43,3 +43,22 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
+@media (max-width: 800px) {
+  .container {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%;
+    min-width: 3rem;
+    min-height: 3rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .container p {
+    display: none;
+  }
+  
+}

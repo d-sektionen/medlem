@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react"
-import {page, column, content, calendarPadding} from "./page.module.scss"
-import { BookableResourceContainer } from "./bookableResourceContainer"
+import {page, bookingList, resourceSelector, content, calendarPadding} from "./page.module.scss"
+import BookableResourceContainer from "./bookableResourceContainer"
 import { BookingsList } from "./bookingsList"
 import { AlertBanner } from "./alertBanner"
 import BookingCalendar from "../booking/bookingCalendar"
@@ -11,7 +11,7 @@ import { LuLandPlot, LuDrill} from "react-icons/lu";
 import { FaTent } from "react-icons/fa6";
 import { UserContext } from "../layout/layout"
 import { CreateNewBooking } from "./createNewBooking"
-
+import { BookingCalendar2 } from "../booking/bookingCalendar2"
 const getDate4WeeksAgo = date => {
   return subWeeks(startOfISOWeek(date), 4).toISOString()
 }
@@ -58,21 +58,19 @@ export default function NewBookingPage () {
     <div className={page}>
       <h1>Bokningar</h1>
       <div className={content}>
-
-      <div className={column}>
-        {/* currently not working */}
-        {/* <BookableResourceContainer items={sortedItemsWithIcons} selectedItem={selectedResource} onSelectedItemChange={handleSelectedResourceChange}/> */}
-      </div>
-      <div className={`${column} ${calendarPadding}`}>
-        {/* todo */}
-        <AlertBanner message={alertMessage} />
-        <BookingCalendar bookings={bookings} />
-      </div>
-      <div className={column}>
-        <BookingsList bookings={myBookings}/>
-        <CreateNewBooking/>
-        <BookingsList bookings={otherBookings}/>
-      </div>
+        <div className={resourceSelector}>
+          <BookableResourceContainer items={sortedItemsWithIcons} selectedItem={selectedResource} onSelectedItemChange={handleSelectedResourceChange}/>
+        </div>
+        <div className={calendarPadding}>
+          {/* todo */}
+          <AlertBanner message={alertMessage} />
+          <BookingCalendar2 bookings={bookings} />
+        </div>
+        <div className={bookingList}>
+          <BookingsList bookings={myBookings}/>
+          <CreateNewBooking/>
+          <BookingsList bookings={otherBookings}/>
+        </div>
       </div>
     </div>
   )

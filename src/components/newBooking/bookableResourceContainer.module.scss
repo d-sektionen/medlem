@@ -4,11 +4,14 @@
   gap: 1rem;
   width: 8rem;
   transition: 0.2s ease;
+  overflow: auto;
 }
 
-@media (max-width: 30rem) {
+@media (max-width: 800px) {
   .container {
     flex-direction: row;
+    flex-wrap: nowrap;
     overflow-x: auto;
+    width: 100%;
   }
 }
