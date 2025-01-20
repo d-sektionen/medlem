@@ -7,10 +7,13 @@ const CalendarCell = ({ onMouseUp, onMouseDown, onMouseEnter, hour}) => {
         position: 'absolute',
         top: 100/24 * hour + '%',
         left: 0,
-        backgroundColor: 'blue',
-        border: '1px red solid',
+        //backgroundColor: 'blue',
+        //border: '1px red solid',
+        backgroundColor: 'transparent',
+        border: 'none',
         height: 100/24 + '%',
         width: '100%',
+        color: 'transparent',
     }
 
     return (
