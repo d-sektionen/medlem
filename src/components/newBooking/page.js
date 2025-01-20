@@ -12,6 +12,9 @@ import { FaTent } from "react-icons/fa6";
 import { UserContext } from "../layout/layout"
 import { CreateNewBooking } from "./createNewBooking"
 import { BookingCalendar2 } from "../booking/bookingCalendar2"
+// import { BookingModal } from "./bookingModal"
+import useModal from '../modal/useModal'
+
 const getDate4WeeksAgo = date => {
   return subWeeks(startOfISOWeek(date), 4).toISOString()
 }
@@ -20,6 +23,7 @@ export default function NewBookingPage () {
   const [afterDate, setAfterDate] = useState(getDate4WeeksAgo(new Date()))
   const [selectedResource, setSelectedResource] = useState(1)
   const [user] = useContext(UserContext)
+  // const [openBookingModal, isBookingModalOpen] = useModal(BookingModal)
 
   const alertMessage = "Bokningar mellan 11 November och 31 December behöver godkännas manuellt."
 
@@ -68,7 +72,7 @@ export default function NewBookingPage () {
         </div>
         <div className={bookingList}>
           <BookingsList bookings={myBookings}/>
-          <CreateNewBooking/>
+          <CreateNewBooking selectedItemId={selectedResource} items={items}/>
           <BookingsList bookings={otherBookings}/>
         </div>
       </div>
