@@ -35,7 +35,6 @@ export default function NewBookingPage () {
       afterDate ? '&after=' + afterDate : ''
     }`
   )
-
   const defaultIcon = <FaBox />;
   const icons = {
     1: <FaCar />,
@@ -54,6 +53,7 @@ export default function NewBookingPage () {
   const handleSelectedResourceChange = (id) => {
     setSelectedResource(id)
   }
+  
   const sortedBookings = bookings?.sort((a, b) => new Date(a.start) - new Date(b.start))
   const myBookings = sortedBookings?.filter(booking => booking.user === user.id)
   const otherBookings = sortedBookings?.filter(booking => booking.user !== user.id)
@@ -63,7 +63,7 @@ export default function NewBookingPage () {
       <h1>Bokningar</h1>
       <div className={content}>
         <div className={resourceSelector}>
-          <BookableResourceContainer items={sortedItemsWithIcons} selectedItem={selectedResource} onSelectedItemChange={handleSelectedResourceChange}/>
+        <BookableResourceContainer items={sortedItemsWithIcons} selectedItem={selectedResource} onSelectedItemChange={handleSelectedResourceChange}/>
         </div>
         <div className={calendarPadding}>
           {/* todo */}

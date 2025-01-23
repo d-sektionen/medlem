@@ -24,8 +24,10 @@ export const CreateNewBooking = ({selectedItemId, items}) => {
       endDate,
       endTime
     }
-    openBookingModal(`Boka ${selectedItem}`, { selectedItem, formValues });
+    openBookingModal(`Boka ${selectedItem.name}`, { selectedItem, formValues });
   }
+  
+
   const minDate = new Date().toISOString().split('T')[0];
   const minEndDate = startDate.length > 0 ? startDate : minDate;
   const selectedItem = items?.find(item => item.id === selectedItemId);
