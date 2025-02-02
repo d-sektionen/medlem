@@ -4,19 +4,26 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 import React from 'react'
-import qs from 'querystring'
 import Layout from './src/components/layout/layout'
-import adapter from 'webrtc-adapter' // for camera api compatability
+import {
+  ACCESS_TOKEN_KEY,
+  REFRESH_TOKEN_KEY,
+} from './src/components/request/backendService'
 
 // Removes token from url if it exists.
 export const onClientEntry = () => {
-  const parsedQueryString = qs.parse(window.location.search.slice(1))
+  const accessTokenRegex = new RegExp(`${ACCESS_TOKEN_KEY}=([^&]+)`)
+  //const refreshTokenRegex = new RegExp(`${REFRESH_TOKEN_KEY}=([^&]+)`)
+  // Try to find tokens in url.
+  const accessTokenMatch = window.location.href.match(accessTokenRegex)
+  //const refreshTokenMatch = window.location.href.match(refreshTokenRegex)
 
-  if (parsedQueryString.access !== undefined) {
-    // Tokens are now saved when the user logs in from the axios post request.
-    // Kept for reference.
-    //window.localStorage.setItem('token', parsedQueryString.access)
-    // update url in the address bar without refreshing the page.
+  if (accessTokenMatch) {
+    // Save tokens retrieved from backend
+    localStorage.setItem(ACCESS_TOKEN_KEY, accessTokenMatch[1])
+    //localStorage.setItem(REFRESH_TOKEN_KEY, refreshTokenMatch[1])
+
+    // Edit history to remove reference of tokens in url.
     window.history.replaceState(
       window.history.state,
       window.history.pageTitle,
