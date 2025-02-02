@@ -18,12 +18,17 @@ module.exports.BASE_URL =
 module.exports.TITLE = 'Medlem D-sektionen'
 
 module.exports.PAGES = [
-  // TODO: Add alternative paths (redirects)
   {
     path: '/404',
     title: 'Sidan kunde inte hittas',
     menu: false,
     component: './src/components/404Page.js',
+  },
+  {
+    path: '/login',
+    title: 'Login',
+    menu: false,
+    component: './src/components/loginRedirect.js',
   },
   {
     path: '/',

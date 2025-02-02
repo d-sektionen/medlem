@@ -49,7 +49,7 @@ const LayoutContent = ({
   const loggedIn = user !== null
 
   const loginHandler = () => {
-    const callbackUrl = `${window.location.href}`
+    const callbackUrl = `${window.location.href}login`
     const targetUrl = `${BASE_URL}/oauth2/login?next=${callbackUrl}`
     window.location.replace(targetUrl)
   }
