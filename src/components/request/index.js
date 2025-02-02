@@ -1,27 +1,25 @@
-import axios from 'axios'
-import { BASE_URL } from '../../config'
+import backendService from './backendService'
 
 /**
- * A wrapper of axios which automatically handles JWT and base url
- * for our needs.
+ * A wrapper of axios which automatically redirects to login
+ * if unauthorized is detected.
  * @param {*} config axios config
  */
 
-const request = config => {
+// Old request function left as a backward compatability,
+// to be removed and replaced by axios services.
+const request = (config) => {
+  const headers = config.headers ? config.headers : {}
+  const endpoint = config.endpoint
   // if config.endpoint is not a full path with the "https://" or "http://"
-  // prefix the BASE_URL is prepended to the endpoint
+  // the request is a d-sektionen backend request.
   const isFullUrl = /^https?:\/\//
-  const url = isFullUrl.test(config.endpoint)
-    ? config.endpoint
-    : BASE_URL + config.endpoint
-
-  // Add auth token to headers
-  const token = window.localStorage.getItem('token')
-  const oldHeaders = config.headers ? config.headers : {}
-  const headers = { ...oldHeaders, Authorization: `Bearer ${token}` }
+  if (!isFullUrl.test(endpoint)) {
+    return backendService({ ...config, headers, endpoint })
+  }
 
   // Send request using axios library
-  return axios({ ...config, headers, url })
+  return axios({ ...config, headers, endpoint })
 }
 
 // Aliases for the different request methods
