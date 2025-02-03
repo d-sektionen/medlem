@@ -30,13 +30,17 @@ const splitMultiDayEvents = (event) => {
     });
 }
 
+// Colors generated for different users
 const colors = [
     { fill: '#7C2070', border: '#CB34B7' },
     { fill: '#20407C', border: '#3469CB' },
     { fill: '#207C3F', border: '#34CB66' },
     { fill: '#596885', border: '#8593AD' },
-    { fill: '#AF7848', border: '#D2B093' }
+    { fill: '#AF7848', border: '#D2B093' },
 ]
+
+// Add different color if the booking isn't confirmed
+const unconfirmedColor = { fill: '#1Ac2bebe', border: '#545353' };
 
 export const BookingCalendar2 = ({ bookings }) => {
     /* Vars and state */
@@ -47,6 +51,7 @@ export const BookingCalendar2 = ({ bookings }) => {
         end: endOfWeek(new Date(), { weekStartsOn: 1 })
     });
     console.log('selectedDateInterval:', selectedDateInterval)
+    console.log("BOOKINGS", bookings);
 
     /* Input processing */
     
@@ -72,14 +77,18 @@ export const BookingCalendar2 = ({ bookings }) => {
 
     // Add colors and convert dates to Date objects
     const uniqueUsers = [...new Set(processedEvents?.map(event => event.user.id))]
+
     const getColorForUser = (userId) => {
         const index = uniqueUsers.indexOf(userId) % colors.length
         return colors.at(index)
     }
+
+    // change background if restricted period is set
+
     const colorizedEvents = processedEvents.map(event => {
         return {
             ...event,
-            color: getColorForUser(event.user.id),
+            color: !event.restricted_timeslot ? getColorForUser(event.user.id) : unconfirmedColor,
             start: new Date(event.start),
             end: new Date(event.end),
         }
