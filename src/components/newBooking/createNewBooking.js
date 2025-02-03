@@ -38,6 +38,7 @@ export const CreateNewBooking = ({selectedItemId, items}) => {
     endDate,
     endTime
   })
+  
   if (showBookingForm) {
     return (
       <>

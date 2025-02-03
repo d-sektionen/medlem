@@ -9,25 +9,40 @@ export const BookingsList = ({bookings, deletable, onDetailsClick, onDeleteClick
   const showAll = () => {
     setShowAllBookings(true);
   }
-  if (showAllBookings) {
 
-  return (
-    <>
-      <div className={container}>
-        <h2>Mina bokningar</h2> 
+  bookings?.map(booking => (console.log(booking.confirmed)));
+
+  // if (showAllBookings) {
+
+  // return (
+  //   <>
+  //     <div className={container}>
+  //       <h2>Mina bokningar</h2> 
     
-      {bookings?.map(booking => (<BookingItem booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} />))}
-      </div>
+  //     {bookings?.map(booking => (<BookingItem booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} />))}
+  //     </div>
 
-    </>
-  )
-  } else {
+  //   </>
+  // )
+  // } else {
+  //   return (
+  //     <div className={wrapper}>
+  //       <h2>Mina bokningar</h2> 
+
+  //       <Button onClick={showAll}>Visa alla bokningar</Button>
+  //     </div>
+  //   )
+  // }
+
     return (
       <div className={wrapper}>
-        <h2>Mina bokningar</h2> 
 
-        <Button onClick={showAll}>Visa alla bokningar</Button>
+        {/* <Button onClick={showAll}>Visa alla bokningar</Button> */}
+        {showAll && (
+          <div>{bookings?.map(booking => (<BookingItem booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} />))}</div>
+        )}
+        <p>You have no bookings</p>
       </div>
     )
-  }
+  
 }

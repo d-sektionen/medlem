@@ -17,13 +17,43 @@ export const BookingModal = ({selectedItem, formValues}) => {
 
   const handleCancel = () => {
     setShowPopup(false);
+    saveBooking();
   };
+
+  // todo: add new booking to calender
+
+  // const newBooking = booking === undefined
+  // const saveBooking = () => {
+  //   const request = newBooking
+  //     ? createBooking({
+  //         item_id: item.id,
+  //         description,
+  //         start,
+  //         end,
+  //         restricted_timeslot: restrictedTimeslot,
+  //       })
+  //     : updateBooking(booking.id, {
+  //         item_id: booking.item.id,
+  //         description,
+  //         start,
+  //         end,
+  //         restricted_timeslot: restrictedTimeslot,
+  //       })
+
+  //   request
+  //     .then(() => {
+  //       close()
+  //     })
+  //     .catch(err => {
+  //       setErrors(err.response.data)
+  //       console.log(err.response.data)
+  //     })
+  // }
+
 
   return (
     <>
       <h3>Ny bokning</h3>
-      <p></p>
-      <p></p>
 
       <form onSubmit={handleBooking}>
         <label for="purpose">ändamål</label><br></br>

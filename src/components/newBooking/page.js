@@ -35,6 +35,7 @@ export default function NewBookingPage () {
       afterDate ? '&after=' + afterDate : ''
     }`
   )
+
   const defaultIcon = <FaBox />;
   const icons = {
     1: <FaCar />,
@@ -58,6 +59,7 @@ export default function NewBookingPage () {
   const myBookings = sortedBookings?.filter(booking => booking.user === user.id)
   const otherBookings = sortedBookings?.filter(booking => booking.user !== user.id)
 
+
   return (
     <div className={page}>
       <h1>Bokningar</h1>
@@ -71,6 +73,7 @@ export default function NewBookingPage () {
           <BookingCalendar2 bookings={bookings} />
         </div>
         <div className={bookingList}>
+          <h2>Mina bokningar</h2> 
           <BookingsList bookings={myBookings}/>
           <CreateNewBooking selectedItemId={selectedResource} items={items}/>
           <BookingsList bookings={otherBookings}/>
