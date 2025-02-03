@@ -25,3 +25,47 @@
   display: inline-block;
   margin-right: 10px;
 }
+
+.textArea {
+  margin-top: 0.5rem;
+  width: 100%;
+  resize: none;
+}
+
+.wrapper {
+  max-width: 600px;
+  padding: 1rem;
+}
+
+.wrapper input[type=checkbox] {
+  height: 2rem;
+  width: 2rem;
+}
+
+.inlineInput {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: left;
+}
+
+.inlineInput p {
+  margin: 0;
+  line-height: 1rem;
+  text-wrap: wrap;
+  width: 100%;
+}
+
+.inlineInput input {
+  width: 2rem;
+  height: 2rem;
+}
+.timePeriod {
+  margin-bottom: 1rem;
+}
+.errorStyle {
+  color: red;
+  font-weight: bold;
+}

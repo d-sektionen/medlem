@@ -4,45 +4,27 @@ import { Button } from "../ui/buttons";
 import { container, wrapper } from "./bookingsList.module.scss";
 
 export const BookingsList = ({bookings, deletable, onDetailsClick, onDeleteClick}) => {
+
   const [showAllBookings, setShowAllBookings] = useState(false);
 
   const showAll = () => {
-    setShowAllBookings(true);
+    setShowAllBookings(!showAllBookings);
   }
 
   bookings?.map(booking => (console.log(booking.confirmed)));
-
-  // if (showAllBookings) {
-
-  // return (
-  //   <>
-  //     <div className={container}>
-  //       <h2>Mina bokningar</h2> 
-    
-  //     {bookings?.map(booking => (<BookingItem booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} />))}
-  //     </div>
-
-  //   </>
-  // )
-  // } else {
-  //   return (
-  //     <div className={wrapper}>
-  //       <h2>Mina bokningar</h2> 
-
-  //       <Button onClick={showAll}>Visa alla bokningar</Button>
-  //     </div>
-  //   )
-  // }
-
+  const filteredBookings = showAllBookings ? bookings : bookings?.filter((booking, index) => index < 5)
+    if (bookings?.length <= 0) {
+      return (<p>Du har inga bokningar</p>)
+    }
     return (
-      <div className={wrapper}>
-
-        {/* <Button onClick={showAll}>Visa alla bokningar</Button> */}
-        {showAll && (
-          <div>{bookings?.map(booking => (<BookingItem booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} />))}</div>
-        )}
-        <p>You have no bookings</p>
-      </div>
-    )
+        <div className={wrapper}>
+          {showAll && (
+            <div>{filteredBookings?.map((booking, index) => (<BookingItem booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} />))}
+            </div>
+          )}
+          <Button onClick={showAll}>{showAllBookings ? 'Visa färre' : 'Visa alla bokningar'}</Button>
+        </div>
+      )
+    
   
 }

@@ -40,7 +40,7 @@ const colors = [
 ]
 
 // Add different color if the booking isn't confirmed
-const unconfirmedColor = { fill: '#1Ac2bebe', border: '#545353' };
+const unconfirmedColor = { fill: '183 124 13 / 20%', border: '183 124 13 / 20%' };
 
 export const BookingCalendar2 = ({ bookings }) => {
     /* Vars and state */

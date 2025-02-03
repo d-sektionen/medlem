@@ -74,7 +74,7 @@ export default function NewBookingPage () {
         </div>
         <div className={bookingList}>
           <h2>Mina bokningar</h2> 
-          <BookingsList bookings={myBookings}/>
+          <BookingsList bookings={myBookings} type="mine"/>
           <CreateNewBooking selectedItemId={selectedResource} items={items}/>
           <BookingsList bookings={otherBookings}/>
         </div>
