@@ -25,12 +25,6 @@ module.exports.PAGES = [
     component: './src/components/404Page.js',
   },
   {
-    path: '/login',
-    title: 'Login',
-    menu: false,
-    component: './src/components/loginRedirect.js',
-  },
-  {
     path: '/',
     title: 'Hem',
     menu: true,

@@ -8,9 +8,11 @@ import { GridContainer, GridItem } from '../ui/grid'
 import { Button } from '../ui/buttons'
 import SideMenu from './sideMenu'
 import TopBar from './topBar'
-import { get } from '../request'
-import { BASE_URL } from '../../config'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '../request/backendService'
+import LoginPage from './loginPage'
+import BackendService, {
+  ACCESS_TOKEN_KEY,
+  REFRESH_TOKEN_KEY,
+} from '../request/backendService'
 
 // The following function are copyied from
 // https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
@@ -41,28 +43,22 @@ const LayoutContent = ({
   const [sideMenuOpen, setSideMenuOpen] = useState(false)
   const [error, setError] = useState(null)
 
+  const requiredPrivileges = pageContext.requiredPrivileges
+
   const hasPrivileges =
-    pageContext.requiredPrivileges &&
-    user &&
-    user.privileges[pageContext.requiredPrivileges]
+    requiredPrivileges && user && user.privileges[requiredPrivileges]
 
   const loggedIn = user !== null
 
-  const loginHandler = () => {
-    const callbackUrl = `${window.location.href}login`
-    const targetUrl = `${BASE_URL}/oauth2/login?next=${callbackUrl}`
-    window.location.replace(targetUrl)
-  }
-
   const getUser = async () => {
     try {
-      const { data } = await get('/account/me/')
+      const { data } = await BackendService.get('/account/me/')
       setUser(data)
       setError(null)
     } catch (err) {
       setUser(null)
       localStorage.removeItem(ACCESS_TOKEN_KEY)
-      localStorage.removeItem(REFRESH_TOKEN_KEY)
+      //localStorage.removeItem(REFRESH_TOKEN_KEY)
 
       if (!err.response) {
         setError(
@@ -80,20 +76,42 @@ const LayoutContent = ({
   useEffect(() => {
     setLoading(true)
 
-    const hasTokens =
-      localStorage.getItem(ACCESS_TOKEN_KEY) !== null &&
-      localStorage.getItem(REFRESH_TOKEN_KEY) !== null
+    const accessTokenRegex = new RegExp(`${ACCESS_TOKEN_KEY}=([^&]+)`)
+    //const refreshTokenRegex = new RegExp(`${REFRESH_TOKEN_KEY}=([^&]+)`)
+    // Try to find tokens in url.
+    const accessTokenMatch = window.location.href.match(accessTokenRegex)
+    //const refreshTokenMatch = window.location.href.match(refreshTokenRegex)
+
+    if (accessTokenMatch) {
+      // Save tokens retrieved from backend
+      localStorage.setItem(ACCESS_TOKEN_KEY, accessTokenMatch[1])
+      //localStorage.setItem(REFRESH_TOKEN_KEY, refreshTokenMatch[1])
+
+      // Edit history to remove reference of tokens in url.
+      window.history.replaceState(
+        window.history.state,
+        window.history.pageTitle,
+        window.location.pathname
+      )
+    }
+
+    const hasTokens = localStorage.getItem(ACCESS_TOKEN_KEY) !== null // && localStorage.getItem(REFRESH_TOKEN_KEY) !== null
 
     if (hasTokens) {
       getUser()
     } else {
       setUser(null)
       localStorage.removeItem(ACCESS_TOKEN_KEY)
-      localStorage.removeItem(REFRESH_TOKEN_KEY)
+      //localStorage.removeItem(REFRESH_TOKEN_KEY)
     }
 
     setLoading(false)
-  }, [])
+  }, [user])
+
+  // Page is loading
+  if (loading) {
+    return <BigPixels />
+  }
 
   return (
     <>
@@ -119,70 +137,16 @@ const LayoutContent = ({
             </GridContainer>
           </BigPixels>
         )}
-        {/* Page is loading */}
-        {!loggedIn && loading && <BigPixels />}
-        {/* Not logged in */}
-        {!loggedIn && !loading && (
+        {/* Login error */}
+        {!loggedIn && error && (
           <BigPixels>
             <GridContainer>
-              <GridItem>
-                {error}
-                {!error && (
-                  <>
-                    <h1>Logga in</h1>
-                    <p>
-                      Genom att logga in här kan du komma åt D&#8209;sektionens
-                      medlemstjänster, inloggningen sker via LiUs centrala
-                      inloggningssystem.
-                    </p>
-                    <p>
-                      {`Genom att logga in godkänner du att dina personuppgifter
-                  hanteras i enlighet med `}
-                      <a href="https://d-sektionen.se/wp-content/uploads/2018/05/Policy-datahantering-D-sektionen.pdf">
-                        D&#8209;sektionens datahanteringspolicy
-                      </a>
-                      .
-                    </p>
-                    <p>
-                      <Button onClick={loginHandler}>
-                        Logga in med LiU-ID
-                      </Button>
-                    </p>
-                    <div
-                      style={{
-                        marginTop: '1.5rem',
-                        borderTop: '1px solid white',
-                      }}
-                    >
-                      <p>
-                        Se videon nedan för att se hur man blir medlem. <br />
-                        Det kan ta några dagar innan Webmaster har accepterat
-                        din ansökan.
-                      </p>
-                      <iframe
-                        title="Youtube player"
-                        width="300"
-                        height="300"
-                        src="https://www.youtube.com/embed/ppY8vcrYmKQ"
-                        frameBorder="0"
-                        allowFullScreen="1"
-                        style={{
-                          width: '50rem',
-                          maxWidth: '100%',
-                          height: '30rem',
-                          maxHeight: '100%',
-                          border: 'none',
-                          display: 'block',
-                          marginBottom: 0,
-                        }}
-                      />
-                    </div>
-                  </>
-                )}
-              </GridItem>
+              <GridItem>{error}</GridItem>
             </GridContainer>
           </BigPixels>
         )}
+        {/* Display login page */}
+        {!loggedIn && !error && <LoginPage></LoginPage>}
       </div>
     </>
   )
