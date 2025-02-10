@@ -56,12 +56,9 @@ export default function NewBookingPage () {
   }
   
   const sortedBookings = bookings?.sort((a, b) => new Date(a.start) - new Date(b.start))
-  const myBookings = sortedBookings?.filter(booking => booking.user === user.id)
-  const otherBookings = sortedBookings?.filter(booking => booking.user !== user.id)
+  const myBookings = sortedBookings?.filter(booking => booking.user.id === user.id)
+  const otherBookings = sortedBookings?.filter(booking => booking.user.id !== user.id)
 
-  if (!items || !bookings) {
-    return <div>Loading...</div>
-  }
   return (
     <div className={page}>
       <h1>Bokningar</h1>
@@ -71,7 +68,7 @@ export default function NewBookingPage () {
         </div>
         <div className={calendarPadding}>
           {/* todo */}
-          <AlertBanner message={alertMessage} />
+          {/*<AlertBanner message={alertMessage} />*/}
           <BookingCalendar2 bookings={bookings} />
         </div>
         <div className={bookingList}>

@@ -2,12 +2,14 @@ import React, {useState} from "react";
 import { formItem, popup, popupContent, textArea, wrapper, inlineInput, errorStyle} from "./bookingModal.module.scss";
 import { Button } from "../ui/buttons";
 import { post } from '../request'
-export const BookingModal = ({selectedItem, formValues, mutateBooking, openBookingModal, bookings}) => {
+import { useCloseModal } from '../modal/useModal'
+export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}) => {
   const [restrictedTimeslot, setRestrictedTimeslot] = useState(false);
   const [description, setDescription] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [errors, setErrors] = useState({});
   console.log("Selecteditem", selectedItem)
+  const close = useCloseModal()
 
   const formatDate = (dateString, hourString) => {
     return new Date(`${dateString}T${hourString}`);
@@ -43,17 +45,22 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, openBooki
     request
       .then(() => {
         setErrors({})
-        openBookingModal(false)
+        close()
       })
       .catch(err => {
         console.log("error one:", err)
-        setErrors(err.response.data)
+        setErrors({
+          ...errors,
+          ...err.response?.data
+        })
         console.log("error two:", err)
-        console.log(err.response.data)
+        console.log(err.response?.data)
       })
   }
   
-
+  if (!formValues) {
+    return <p>Loading...</p>
+  }
   return (
     <>
       <form onSubmit={handleBooking} className={wrapper}>

@@ -145,3 +145,36 @@
         display: none;
     }
 }
+@media screen and (max-width: 600px) {
+    .column {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        width: 1.5rem;
+        justify-content: space-between;
+        border-right: 1px solid rgb(51, 53, 55);
+    }
+    .timeColumn {
+        position: absolute;
+        line-height: 1rem;
+        top: -0.5rem;
+        left: 0;
+        z-index: 2;
+    }
+    .line {
+        width: 100%;
+        height: 1px;
+        background-color: rgb(51, 53, 55);
+        position: relative;
+        text-wrap: nowrap;
+    }
+    .extraLines {
+        margin-left: calc(1.5rem - 1px);
+    }
+    .rightOverflow {
+        width: 0rem;
+    }
+    .extraLines {
+        margin-right: 0;
+    }
+}

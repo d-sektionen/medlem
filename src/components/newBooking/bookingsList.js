@@ -17,12 +17,12 @@ export const BookingsList = ({bookings, deletable, onDetailsClick, onDeleteClick
       return (<p>Du har inga bokningar</p>)
     }
     return (
-        <div className={wrapper}>
+        <div className={container}>
           {showAll && (
-            <div>{filteredBookings?.map((booking, index) => (<BookingItem booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} />))}
+            <div className={container}>{filteredBookings?.map((booking, index) => (<BookingItem booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} />))}
             </div>
           )}
-          <Button onClick={showAll}>{showAllBookings ? 'Visa färre' : 'Visa alla bokningar'}</Button>
+          {bookings?.length > 5 && (<Button onClick={showAll}>{showAllBookings ? 'Visa färre' : 'Visa alla bokningar'}</Button>)}
         </div>
       )
     

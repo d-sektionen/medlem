@@ -1,8 +1,10 @@
 import React from "react";
 import { format, differenceInMinutes } from 'date-fns';
 import { wrapper, text } from './calendarEvent.module.scss'
+import { useMediaQuery } from '../ui/useMediaQuery';
 
 export const CalendarEvent = ({ start, end, id, color, user, onEventClick, isDraft, restricted_timeslot }) => {
+    const isNarrow = useMediaQuery('(max-width: 600px)');
     const startDate = new Date(start);
     const endDate = new Date(end);
     const startHours = startDate.getHours() + startDate.getMinutes() / 60;

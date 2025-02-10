@@ -1,6 +1,7 @@
 import React from "react";
 import { CalendarEvent } from "./calendarEvent";
 import { set } from 'date-fns';
+import { useMediaQuery } from "../ui/useMediaQuery";
 
 const CalendarCell = ({ onMouseUp, onMouseDown, onMouseEnter, hour}) => {
     const buttonStyles = {
@@ -24,10 +25,11 @@ export const CalendarColumn = ({ events, onEventClick, day }) => {
     const [mouseDownValue, setMouseDownValue] = React.useState(null);
     const [isMouseDown, setIsMouseDown] = React.useState(false);
     const [mouseEnterValue, setMouseEnterValue] = React.useState(null);
+    const isNarrow = useMediaQuery('(max-width: 600px)');
 
     const styles = {
         heigth: '100%',
-        width: 'calc((100% - 4.5rem) / 7)',
+        width: `calc((100% - ${isNarrow ? '1.5rem' : '4.5rem'}) / 7)`,
         position: 'relative',
         borderRight: '1px solid rgb(51, 53, 55)',
         zIndex: 2,

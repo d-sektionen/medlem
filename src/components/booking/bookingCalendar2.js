@@ -7,6 +7,7 @@ import ViewBooking from './viewBooking'
 import useModal from '../modal/useModal'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import {useMediaQuery} from '../ui/useMediaQuery'
+import { AlertBanner } from '../newBooking/alertBanner'
 
 const splitMultiDayEvents = (event) => {
     const start = new Date(event.start);
@@ -52,8 +53,6 @@ export const BookingCalendar2 = ({ bookings }) => {
         end: endOfWeek(new Date(), { weekStartsOn: 1 })
     });
     const isNarrow = useMediaQuery("(max-width: 600px)")
-    console.log('selectedDateInterval:', selectedDateInterval)
-    console.log("BOOKINGS", bookings);
 
     /* Input processing */
     
@@ -64,6 +63,8 @@ export const BookingCalendar2 = ({ bookings }) => {
         ),
         [bookings, selectedDateInterval]
     );
+    
+    const restrictedBooking = eventsThisWeek?.find(event => event.restricted_timeslot);
 
     // Split multi-day events into single-day events
     const processedEvents = useMemo(() =>
@@ -128,6 +129,10 @@ export const BookingCalendar2 = ({ bookings }) => {
 
     return (
         <>
+            <AlertBanner 
+                message="Restricted timeslot booking exists!" 
+                restrictedTimeslot={restrictedBooking}
+            />
             <div className={calendarHeader}>
                 <button className={arrowButton} onClick={() => handleChangeWeek(-1)}>
                     <FaAngleLeft />
@@ -145,15 +150,14 @@ export const BookingCalendar2 = ({ bookings }) => {
             <div className={calendarContainerContainer}>
                 <div className={extraLines}>
                     {weekDays.map((day) => (
-                        <p>{day.toLocaleDateString('sv-SE', {weekday: 'short', day: 'numeric'})}</p>
+                        <p>{day.toLocaleDateString('sv-SE', {weekday: isNarrow ? 'narrow' : 'short', day: 'numeric'})}</p>
                     ))}
                 </div>
                 <div className={calendarContainer}>
                     <div className={column}>
                         {hoursOfDay.map(hour => (
                             <div key={hour} className={line}>
-                                <p className={`${timeColumn} ${mediaWide}`}>{`${hour.toString().padStart(2, '0')}:00`}</p>
-                                <p className={`${timeColumn} ${mediaNarrow}`}>{`${hour.toString().padStart(2, '0')}`}</p>
+                                <p className={`${timeColumn} ${mediaWide}`}>{`${hour.toString().padStart(2, '0')}${isNarrow ? "" : ":00"}`}</p>
                             </div>
                         ))}
                     </div>
