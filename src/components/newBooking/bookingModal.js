@@ -1,71 +1,70 @@
 import React, {useState} from "react";
 import { formItem, popup, popupContent, textArea, wrapper, inlineInput, errorStyle} from "./bookingModal.module.scss";
 import { Button } from "../ui/buttons";
-export const BookingModal = ({selectedItem, formValues}) => {
+import { post } from '../request'
+export const BookingModal = ({selectedItem, formValues, mutateBooking, openBookingModal, bookings}) => {
   const [restrictedTimeslot, setRestrictedTimeslot] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
-  const [purpose, setContent] = useState('');
+  const [description, setDescription] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false)
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({});
+  console.log("Selecteditem", selectedItem)
+
+  const formatDate = (dateString, hourString) => {
+    return new Date(`${dateString}T${hourString}`);
+  }
 
   const handleBooking = (e) => {
     e.preventDefault();
       if (!acceptTerms) {
-        setError("Du behöver godkänna villkoren för att gå vidare!")
+        setErrors({
+          ...errors,
+          acceptTerms: "Du behöver godkänna villkoren för att gå vidare!"
+        })
         return
       } 
-      setError("")
-      setShowPopup(true);
+      saveBooking();
   }
 
-  // const handleComfirm = () => {
-  //   setShowPopup(false);
-  // };
+  const createBooking = async data => {
+    const { data: newBooking } = await post('/booking/bookings/', data)
+    mutateBooking([...bookings, newBooking])
+    return newBooking
+  }
 
-  // const handleCancel = () => {
-  //   setShowPopup(false);
-  //   saveBooking();
-  // };
+  const saveBooking = () => {
+    const request = createBooking({
+      item_id: selectedItem.id,
+      description,
+      start: formatDate(formValues.startDate, formValues.startTime),
+      end: formatDate(formValues.endDate, formValues.endTime),
+      restricted_timeslot: restrictedTimeslot,
+    })
 
-  // todo: add new booking to calender
-
-  // const newBooking = booking === undefined
-  // const saveBooking = () => {
-  //   const request = newBooking
-  //     ? createBooking({
-  //         item_id: item.id,
-  //         description,
-  //         start,
-  //         end,
-  //         restricted_timeslot: restrictedTimeslot,
-  //       })
-  //     : updateBooking(booking.id, {
-  //         item_id: booking.item.id,
-  //         description,
-  //         start,
-  //         end,
-  //         restricted_timeslot: restrictedTimeslot,
-  //       })
-
-  //   request
-  //     .then(() => {
-  //       close()
-  //     })
-  //     .catch(err => {
-  //       setErrors(err.response.data)
-  //       console.log(err.response.data)
-  //     })
-  // }
-
+    request
+      .then(() => {
+        setErrors({})
+        openBookingModal(false)
+      })
+      .catch(err => {
+        console.log("error one:", err)
+        setErrors(err.response.data)
+        console.log("error two:", err)
+        console.log(err.response.data)
+      })
+  }
+  
 
   return (
     <>
       <form onSubmit={handleBooking} className={wrapper}>
-            <p>{`Startdatum: ${formValues.startDate} ${formValues.startTime}`}</p>
-            <p>{`Slutdatum: ${formValues.endDate} ${formValues.endTime}`}</p>
+            <p>{`Startdatum: ${formValues?.startDate} ${formValues.startTime}`}</p>
+            <p className={errorStyle}>{errors.start}</p>
+            <p>{`Slutdatum: ${formValues?.endDate} ${formValues.endTime}`}</p>
+            <p className={errorStyle}>{errors.end}</p>
             <br></br>
-        <label for="purpose">Ändamål</label><br></br>
-        <textarea name="purpose" value={purpose} onChange={e => setContent(e.target.value)} placeholder="Skriv ditt ändamål här" className={textArea}></textarea>
+        <label for="description">Ändamål</label><br></br>
+        <textarea name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Skriv ditt ändamål här" className={textArea}></textarea>
+        <p className={errorStyle}>{errors.description}</p>
         <h3>
             {'Begränsad tidsperiod '}
         </h3>
@@ -80,8 +79,8 @@ export const BookingModal = ({selectedItem, formValues}) => {
           prioritet att skapa bokningar. En begränsad tidsperiod måste bekräftas
           av en administratör.
         </p>
-
         </div>
+        <p className={errorStyle}>{errors.restricted_timeslot}</p>
     
       <div className={inlineInput}>
       <input type="checkbox"
@@ -89,7 +88,8 @@ export const BookingModal = ({selectedItem, formValues}) => {
       onChange={(e)=> setAcceptTerms(e.target.checked)}/>
       <p>Jag har läst och godkänner <a href={selectedItem.terms}>bokningsavtalet</a>.</p>
       </div>
-      {error && <p className={errorStyle}>{error}</p>}
+      <p className={errorStyle}>{errors.acceptTerms}</p>
+      <p className={errorStyle}>{errors.non_field_errors}</p>
       
       <Button type="submit">Boka</Button> 
       </form>

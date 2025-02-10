@@ -30,7 +30,7 @@ export default function NewBookingPage () {
   const { data: items } = useSWR('/booking/items/')
   const { data: bookings, mutate } = useSWR(
     () =>
-      items &&
+      selectedResource &&
     `/booking/bookings/?item=${selectedResource}${
       afterDate ? '&after=' + afterDate : ''
     }`
@@ -75,7 +75,7 @@ export default function NewBookingPage () {
         <div className={bookingList}>
           <h2>Mina bokningar</h2> 
           <BookingsList bookings={myBookings} type="mine"/>
-          <CreateNewBooking selectedItemId={selectedResource} items={items}/>
+          <CreateNewBooking selectedItemId={selectedResource} items={items} mutateBooking={mutate} bookings={bookings}/>
           <BookingsList bookings={otherBookings}/>
         </div>
       </div>

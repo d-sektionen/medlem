@@ -20,6 +20,10 @@
   max-height: 80vh;
 }
 
+.bookingList {
+  min-width: 300px;
+}
+
 @media screen and (max-width: 800px) {
   .content {
     flex-direction: column;

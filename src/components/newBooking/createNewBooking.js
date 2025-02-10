@@ -4,7 +4,7 @@ import { formRow, formBlock, form } from "./createNewBooking.module.scss";
 import { BookingModal } from "./bookingModal"
 import useModal from '../modal/useModal'
 
-export const CreateNewBooking = ({selectedItemId, items}) => {
+export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings}) => {
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [startTime, setStartTime] = useState('');
@@ -24,7 +24,7 @@ export const CreateNewBooking = ({selectedItemId, items}) => {
       endDate,
       endTime
     }
-    openBookingModal(`Boka ${selectedItem.name}`, { selectedItem, formValues });
+    openBookingModal(`Boka ${selectedItem.name}`, { selectedItem, formValues, mutateBooking, openBookingModal, bookings});
   }
   
 
