@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useMemo } from 'react'
-import { calendarHeader, vertLine, rightOverflow, calendarContainer, calendarContainerContainer, extraLines, gridLines, line, arrowButton, weekButton, column, timeColumn, timeContainer } from './bookingCalendar2.module.scss'
+import { calendarHeader, vertLine, rightOverflow, calendarContainer, calendarContainerContainer, extraLines, gridLines, line, arrowButton, weekButton, column, timeColumn, timeContainer, mediaNarrow, mediaWide } from './bookingCalendar2.module.scss'
 import { CalendarColumn } from './calendarColumn'
 import { areIntervalsOverlapping, getWeek, eachDayOfInterval, startOfDay, endOfDay, startOfWeek, endOfWeek, addDays, addWeeks } from 'date-fns'
 import ViewBooking from './viewBooking'
 import useModal from '../modal/useModal'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
+import {useMediaQuery} from '../ui/useMediaQuery'
 
 const splitMultiDayEvents = (event) => {
     const start = new Date(event.start);
@@ -50,6 +51,7 @@ export const BookingCalendar2 = ({ bookings }) => {
         start: startOfWeek(new Date(), { weekStartsOn: 1 }),
         end: endOfWeek(new Date(), { weekStartsOn: 1 })
     });
+    const isNarrow = useMediaQuery("(max-width: 600px)")
     console.log('selectedDateInterval:', selectedDateInterval)
     console.log("BOOKINGS", bookings);
 
@@ -150,7 +152,8 @@ export const BookingCalendar2 = ({ bookings }) => {
                     <div className={column}>
                         {hoursOfDay.map(hour => (
                             <div key={hour} className={line}>
-                                <p className={timeColumn}>{`${hour.toString().padStart(2, '0')}:00`}</p>
+                                <p className={`${timeColumn} ${mediaWide}`}>{`${hour.toString().padStart(2, '0')}:00`}</p>
+                                <p className={`${timeColumn} ${mediaNarrow}`}>{`${hour.toString().padStart(2, '0')}`}</p>
                             </div>
                         ))}
                     </div>
