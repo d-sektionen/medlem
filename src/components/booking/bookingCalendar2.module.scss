@@ -141,3 +141,8 @@ screen and (max-width: 800px) {
         min-height: 60vh;
     }
 }
+@media screen and (max-height: 900px) {
+    .column div:nth-child(even) p {
+        display: none;
+    }
+}

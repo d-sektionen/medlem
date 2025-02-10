@@ -59,7 +59,9 @@ export default function NewBookingPage () {
   const myBookings = sortedBookings?.filter(booking => booking.user === user.id)
   const otherBookings = sortedBookings?.filter(booking => booking.user !== user.id)
 
-
+  if (!items || !bookings) {
+    return <div>Loading...</div>
+  }
   return (
     <div className={page}>
       <h1>Bokningar</h1>
