@@ -28,7 +28,7 @@ import useSWR from 'swr'
 const STATUS_REFRESH_INTERVAL = 120 * 1000 // 2 min
 const CRITICAL_BATTERY_LEVEL = 15 // percentage
 
-const LockStatus = ({ batteryPercentage, lockOnline }) => {
+const LockStatus = ({ batteryPercentage, lockOnline, lockUnlocked }) => {
   const BatteryIcon = () => {
     if (batteryPercentage > 75) return <FaBatteryFull />
     if (batteryPercentage > 50) return <FaBatteryThreeQuarters />
@@ -44,6 +44,12 @@ const LockStatus = ({ batteryPercentage, lockOnline }) => {
     return <FiWifiOff />
   }
 
+  const UnlockedIcon = () => {
+    if (lockUnlocked) return <FiUnlock />
+
+    return <FiLock />
+  }
+
   return (
     <div className={batteryContainer}>
       <BatteryIcon />
@@ -54,6 +60,10 @@ const LockStatus = ({ batteryPercentage, lockOnline }) => {
         {lockOnline ? 'Online' : 'Offline'}
       </p>
       <OnlineIcon />
+      <p className={lockUnlocked ? success : error}>
+        {lockUnlocked ? 'Upplåst' : 'Låst'}
+      </p>
+      <UnlockedIcon />
     </div>
   )
 }
@@ -63,6 +73,7 @@ const LockItem = ({ logo, lockName }) => {
     message: '',
     battery_percentage: 100,
     online: true,
+    unlocked: false,
   })
 
   const [messageClass, setMessageClass] = useState(success)
@@ -84,6 +95,7 @@ const LockItem = ({ logo, lockName }) => {
           message: 'Kunde inte kommunicera med servern.',
           battery_percentage: 0,
           online: false,
+          unlocked: false,
         })
       }
     }
@@ -118,6 +130,7 @@ const LockItem = ({ logo, lockName }) => {
       <LockStatus
         batteryPercentage={lockData.battery_percentage}
         lockOnline={lockData.online}
+        lockUnlocked={lockData.unlocked}
       />
       <p className={messageClass}>{lockData.message}</p>
       <div className={buttons}>
