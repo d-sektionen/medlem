@@ -25,7 +25,7 @@ import { IconButton } from './ui/buttons'
 import { GridContainer, GridItem } from './ui/grid'
 import useSWR from 'swr'
 
-const STATUS_REFRESH_INTERVAL = 120 * 1000 // 2 min
+const STATUS_REFRESH_INTERVAL = 2 * 1000 // 2 sec
 const CRITICAL_BATTERY_LEVEL = 15 // percentage
 
 const LockStatus = ({ batteryPercentage, lockOnline, lockUnlocked }) => {
@@ -83,7 +83,12 @@ const LockItem = ({ logo, lockName }) => {
   const request = async (command) => {
     try {
       const { data } = await post(`${lock_base_url}/${command}/`)
-      setLockData(data)
+      setLockData((prev) => {
+        return {
+          ...data,
+          message: data.message.length ? data.message : prev.message,
+        }
+      })
       setMessageClass(data.online ? success : error)
     } catch (err) {
       setMessageClass(error)
@@ -110,7 +115,14 @@ const LockItem = ({ logo, lockName }) => {
     },
     {
       onSuccess: (data) => {
-        setLockData(data)
+        setLockData(
+          (prev) => {
+            return {
+              ...data,
+              message: data.message.length ? data.message : prev.message,
+            }
+          }
+        )
         setMessageClass(success)
       },
       onError: (data) => {
