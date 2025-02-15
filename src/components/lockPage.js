@@ -52,14 +52,16 @@ const LockStatus = ({ batteryPercentage, lockOnline, lockUnlocked }) => {
 
   return (
     <div className={batteryContainer}>
-      <BatteryIcon />
       <p className={batteryPercentage < CRITICAL_BATTERY_LEVEL ? error : ''}>
         {`${Math.round(batteryPercentage)}%`}
       </p>
+      <BatteryIcon />
+      <p>&#x2022;</p>
       <p className={lockOnline ? success : error}>
         {lockOnline ? 'Online' : 'Offline'}
       </p>
       <OnlineIcon />
+      <p>&#x2022;</p>
       <p className={lockUnlocked ? success : error}>
         {lockUnlocked ? 'Upplåst' : 'Låst'}
       </p>
