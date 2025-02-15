@@ -24,7 +24,6 @@ const AutoInput = ({
     }
   }, []) // Run only once, when the component mounts
 
-
   const change = e => {
     onChange(e.target.value)
   }
@@ -36,11 +35,12 @@ const AutoInput = ({
   ))
 
   const map = {
-    datetime: <DateTimePicker value={value} onChange={onChange} />,
-    date: <input type="date" value={value} onChange={change} />,
+    datetime: <DateTimePicker required={required} value={value} onChange={onChange} />,
+    date: <input type="date" required={required} value={value} onChange={change} />,
     boolean: (
       <input
         type="checkbox"
+        required={required}
         checked={value}
         onChange={e => {
           onChange(e.target.checked)
@@ -50,6 +50,7 @@ const AutoInput = ({
     integer: (
       <input
         type="number"
+        required={required}
         value={value}
         onChange={change}
         max={max_value}
@@ -59,6 +60,7 @@ const AutoInput = ({
     field: (
       <select
         multiple
+        required={required}
         value={value}
         onChange={e =>
           onChange(Array.from(e.target.selectedOptions, option => option.value))
