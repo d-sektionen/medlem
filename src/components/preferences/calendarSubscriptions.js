@@ -18,9 +18,7 @@ const CalendarSubscriptions = () => {
   const closeModal = useCloseModal()
   const { data: subs, mutate } = useSWR('/account/calendar-subscriptions/')
   const bookableItems = useSWR('/booking/items/')
-  console.log(bookableItems)
   const getTitle = sub => {
-    console.log(sub)
     const parts = []
     if (sub.include_bookings) parts.push('bokningar')
     if (sub.include_events_attending) parts.push('anmälda evenemang')

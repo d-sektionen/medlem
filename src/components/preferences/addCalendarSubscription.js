@@ -11,7 +11,6 @@ const AddCalendarSubscription = ({ create }) => {
     include_events_not_attending: true,
     include_bookable_items: data
   }
-  console.log("Defaults: ", defaults)
   return (
     <AutoForm
       endpoint="/account/calendar-subscriptions/"
