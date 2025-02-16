@@ -71,6 +71,7 @@ const LockStatus = ({ batteryPercentage, lockOnline, lockUnlocked }) => {
 }
 
 const LockItem = ({ logo, lockName }) => {
+  const [isRateLimited, setIsRateLimited] = useState(false)
   const [lockData, setLockData] = useState({
     message: '',
     battery_percentage: 100,
@@ -100,6 +101,12 @@ const LockItem = ({ logo, lockName }) => {
       switch (err.response?.status) {
         case 429:
           const wait_until = err.response.headers.get('retry-after')
+
+          setIsRateLimited(true)
+          setTimeout(() => {
+            setIsRateLimited(false)
+          }, wait_until * 1000)
+
           return setLockData((prev) => {
             return {
               ...prev,
@@ -166,11 +173,13 @@ const LockItem = ({ logo, lockName }) => {
           iconComponent={FiLock}
           text="Lås"
           onClick={() => request('lock')}
+          disabled={isRateLimited}
         />
         <IconButton
           iconComponent={FiUnlock}
           text="Lås upp"
           onClick={() => request('unlock')}
+          disabled={isRateLimited}
         />
       </div>
     </GridItem>
