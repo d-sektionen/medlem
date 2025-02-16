@@ -85,26 +85,40 @@ const LockItem = ({ logo, lockName }) => {
   const request = async (command) => {
     try {
       const { data } = await post(`${lock_base_url}/${command}/`)
+
+      if (data.message.length) setMessageClass(success)
+
       setLockData((prev) => {
         return {
           ...data,
           message: data.message.length ? data.message : prev.message,
         }
       })
-      setMessageClass(data.online ? success : error)
     } catch (err) {
       setMessageClass(error)
 
-      if (err.response?.data) {
-        setLockData(err.response.data)
-      } else {
-        setLockData({
-          message: 'Kunde inte kommunicera med servern.',
-          battery_percentage: 0,
-          online: false,
-          unlocked: false,
-        })
+      switch (err.response?.status) {
+        case 429:
+          const wait_until = err.response.headers.get('retry-after')
+          return setLockData((prev) => {
+            return {
+              ...prev,
+              message: `Du har försökt låsa/låsa upp för många gånger, vänta ${wait_until} sekunder`,
+            }
+          })
+        default:
+          if (err.response?.data) {
+            setLockData(err.response.data)
+          } else {
+            setLockData({
+              message: 'Kunde inte kommunicera med servern.',
+              battery_percentage: 0,
+              online: false,
+              unlocked: false,
+            })
+          }
       }
+
     }
   }
 
@@ -125,7 +139,7 @@ const LockItem = ({ logo, lockName }) => {
             }
           }
         )
-        setMessageClass(success)
+        if (data.message.length) setMessageClass(success)
       },
       onError: (data) => {
         setLockData(data)
