@@ -148,7 +148,8 @@ const LockItem = ({ logo, lockName }) => {
         )
         if (data.message.length) setMessageClass(success)
       },
-      onError: (data) => {
+      onError: (error) => {
+        const data = error.response?.data ? error.response.data : error
         setLockData(data)
         setMessageClass(error)
       },
