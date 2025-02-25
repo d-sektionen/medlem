@@ -30,12 +30,15 @@ const TitleChooser = ({
   // Re-select the previously selected choice if there is one
   useEffect(() => {
     const savedChoice = sessionStorage.getItem(`${title}-selectedItem`)
-    if (savedChoice) {
-      const selectedItem = allChoices.find((item) => `${item.id}` === savedChoice)
-      if (selectedItem) {
-        setChoice(selectedItem)
-      }
+    if (!savedChoice) {
+      return;
     }
+
+    const selectedItem = allChoices.find((item) => `${item.id}` === savedChoice)
+    if (selectedItem) {
+      setChoice(selectedItem)
+    }
+
   }, [choices, categorizedChoices])
 
   return (
