@@ -12,6 +12,7 @@ import { FaTent } from "react-icons/fa6";
 import { UserContext } from "../layout/layout"
 import { CreateNewBooking } from "./createNewBooking"
 import { BookingCalendar2 } from "../booking/bookingCalendar2"
+import { put } from "../request"
 // import { BookingModal } from "./bookingModal"
 import useModal from '../modal/useModal'
 
@@ -35,6 +36,14 @@ export default function NewBookingPage () {
       afterDate ? '&after=' + afterDate : ''
     }`
   )
+  const update = async (bookingId, data) => {
+      const { data: updatedBooking } = await put(
+        `/booking/bookings/${bookingId}/`,
+        data
+      )
+      mutate([...bookings.filter(b => b.id !== bookingId), updatedBooking])
+      return updatedBooking
+    }
 
   const defaultIcon = <FaBox />;
   const icons = {
@@ -58,6 +67,8 @@ export default function NewBookingPage () {
   const sortedBookings = bookings?.sort((a, b) => new Date(a.start) - new Date(b.start))
   const myBookings = sortedBookings?.filter(booking => booking.user.id === user.id)
   const otherBookings = sortedBookings?.filter(booking => booking.user.id !== user.id)
+  const handleDelete = () => console.log("delete")
+  const handleDetails = () => console.log("details")
 
   return (
     <div className={page}>
@@ -73,9 +84,9 @@ export default function NewBookingPage () {
         </div>
         <div className={bookingList}>
           <h2>Mina bokningar</h2> 
-          <BookingsList bookings={myBookings} deletable={true}/>
+          <BookingsList bookings={myBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update}/>
           <CreateNewBooking selectedItemId={selectedResource} items={items} mutateBooking={mutate} bookings={bookings}/>
-          <BookingsList bookings={otherBookings}/>
+          <BookingsList bookings={otherBookings} deletable={false} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update}/>
         </div>
       </div>
     </div>

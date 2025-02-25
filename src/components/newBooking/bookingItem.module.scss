@@ -1,6 +1,4 @@
 .container {
-  padding: 0.5rem;
-  background-color: #212121;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -24,4 +22,11 @@
 .date {
   margin-top: 0;
   font-size: 0.8rem;
+}
+.containerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: #212121;
 }

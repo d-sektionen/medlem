@@ -3,6 +3,7 @@ import { formItem, popup, popupContent, textArea, wrapper, inlineInput, errorSty
 import { Button } from "../ui/buttons";
 import { post } from '../request'
 import { useCloseModal } from '../modal/useModal'
+import { formatDate } from "./bookingUtils";
 export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}) => {
   const [restrictedTimeslot, setRestrictedTimeslot] = useState(false);
   const [description, setDescription] = useState('');
@@ -11,9 +12,9 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
   console.log("Selecteditem", selectedItem)
   const close = useCloseModal()
 
-  const formatDate = (dateString, hourString) => {
+  /*const formatDate = (dateString, hourString) => {
     return new Date(`${dateString}T${hourString}`);
-  }
+  }*/
 
   const handleBooking = (e) => {
     e.preventDefault();

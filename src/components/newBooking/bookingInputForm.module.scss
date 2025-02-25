@@ -1,0 +1,35 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.formRow input {
+  width: 100%;
+}
+
+.formBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.form button {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+}
+.buttonContainer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+.buttonContainer button[type="submit"] {
+  background-color: #20407C;
+}

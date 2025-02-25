@@ -4,6 +4,7 @@ import { formRow, formBlock, form, buttonWrapper, errorInput, errorMessage } fro
 import { BookingModal } from "./bookingModal"
 import useModal from '../modal/useModal'
 import { parseISO, differenceInMinutes, isBefore, isEqual } from 'date-fns';
+import { BoookingInputForm } from "./bookingInputForm";
 
 export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings}) => {
   const [showBookingForm, setShowBookingForm] = useState(false);
@@ -79,7 +80,7 @@ export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings
     return (
       <>
       <h3>Ny bokning</h3>
-      <form onSubmit={handleSubmit} className={form}>
+      {/*<form onSubmit={handleSubmit} className={form}>
         <div className={formBlock}>
           <label for="startDate">Startdatum</label>
           <div className={formRow}>
@@ -99,7 +100,8 @@ export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings
         {errors.duration && <div className={errorMessage}>{errors.duration}</div>}
         {errors.overlap && <div className={errorMessage}>{errors.overlap}</div>}
         <Button type="submit">Gå vidare</Button>
-      </form>
+      </form>*/}
+      <BoookingInputForm handleSubmit={handleSubmit}/>
       </>
     )
   } else {
