@@ -20,9 +20,6 @@ const CalendarSubscriptions = () => {
   const bookableItems = useSWR('/booking/items/')
   const getTitle = sub => {
     const parts = []
-    if (sub.include_bookings) parts.push('bokningar')
-    if (sub.include_events_attending) parts.push('anmälda evenemang')
-    if (sub.include_events_not_attending) parts.push('oanmälda evenemang')
     if (sub.include_bookings_by_user) parts.push('bokningar av användare')
     if (sub.include_bookable_items) {
       sub.include_bookable_items.forEach(element => {
