@@ -10,11 +10,11 @@ const CalendarLink = ({ url }) => (
       automatiskt hållas uppdaterad med nya händelser.
     </p>
     <div className={calendarSubNotice}>
-      <input value={url + ".ics"} readOnly />
+      <input value={url} readOnly />
       <Button
         onClick={() => {
           // TODO: Error handling???
-          navigator.clipboard.writeText(url + ".ics")
+          navigator.clipboard.writeText(url)
         }}
       >
         Kopiera
