@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {actions, titleChooser, selectContainer, hint} from '../../scss/ui.module.scss'
 import { Button } from './buttons'
@@ -26,6 +26,21 @@ const TitleChooser = ({
       []
     ),
   ]
+
+  // Re-select the previously selected choice if there is one
+  useEffect(() => {
+    const savedChoice = sessionStorage.getItem(`${title}-selectedItem`)
+    if (!savedChoice) {
+      return;
+    }
+
+    const selectedItem = allChoices.find((item) => `${item.id}` === savedChoice)
+    if (selectedItem) {
+      setChoice(selectedItem)
+    }
+
+  }, [choices, categorizedChoices])
+
   return (
     <div className={titleChooser}>
       <h1>{title}</h1>
@@ -35,12 +50,19 @@ const TitleChooser = ({
             <select
               onChange={e => {
                 const selectedValue = e.target.value
-                const c =
+                const selectedItem =
                   selectedValue === ''
                     ? null
                     : allChoices.filter(i => `${i.id}` === selectedValue)[0]
-                setChoice(c)
+                setChoice(selectedItem)
                 onChange(e)
+
+                // Save the selected item for refresh re-select
+                if (selectedItem) {
+                  sessionStorage.setItem(`${title}-selectedItem`, selectedItem.id)
+                } else {
+                  sessionStorage.removeItem(`${title}-selectedItem`)
+                }
               }}
               value={choice ? choice.id : ''}
             >
