@@ -125,7 +125,8 @@ const MembershipPanel = () => {
                 <option value="U">Mjukvaruteknik (U)</option>
                 <option value="IT">Informationsteknologi (IT)</option>
                 <option value="IP">Innovativ Programmering (IP)</option>
-                <option value="CS">Masterprogram (CS)</option>
+                <option value="CS">Masterprogram Computer Science (CS)</option>
+                <option value="CY">Masterprogram Cybersecurity (CYS)</option>
               </select>
               {errors && errors.program && errors.program.join(', ')}
             </label>
