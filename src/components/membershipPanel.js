@@ -8,7 +8,7 @@ import { inputLabel } from '../scss/membership.module.scss'
 const MembershipPanel = () => {
   const [initiallyLoaded, setInitiallyLoaded] = useState(true)
   const [sent, setSent] = useState(false)
-  const [startingYear, setStartingYear] = useState(2019)
+  const [startingYear, setStartingYear] = useState('')
   const [program, setProgram] = useState('Empty')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -95,6 +95,12 @@ const MembershipPanel = () => {
             sponsoravtal, bidrag från studentkåren LinTek och universitetet,
             samt betalningar under enskilda event. För att bli medlem i
             D-sektionen registrerar du dig via följande formulär:
+          </p>
+          <p>
+            Med ansökan kommer du att prenumerera på vårt nyhetsbrev, där vi
+            informerar om kommande evenemang och annan information som kan vara
+            av intresse för dig som student på D-sektionen.
+            För att avsluta prenumerationen kan du gå till profilinställningar efter att du har loggat in.
           </p>
 
           <form onSubmit={submitRequest}>
