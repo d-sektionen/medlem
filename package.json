@@ -8,8 +8,8 @@
     "gatsby"
   ],
   "scripts": {
-    "develop": "gatsby develop",
-    "start": "gatsby develop -p 8001",
+    "develop": "gatsby develop -p 4000",
+    "start": "gatsby develop -p 4000",
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
