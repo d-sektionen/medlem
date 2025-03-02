@@ -35,7 +35,7 @@ class Preferences extends Component {
     this.setState({ error: undefined, success: undefined, errors: {} })
 
     setLoading(true)
-    put('/account/profile/', {
+    put('/account/profile/me/', {
       first_name: this.state.firstName,
       last_name: this.state.lastName,
       liu_card_id: this.state.liuCardId,
