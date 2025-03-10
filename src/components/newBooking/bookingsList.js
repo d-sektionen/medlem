@@ -3,7 +3,7 @@ import { BookingItem } from "./bookingItem";
 import { Button } from "../ui/buttons";
 import { container, wrapper } from "./bookingsList.module.scss";
 
-export const BookingsList = ({bookings, deletable, onDetailsClick, onDeleteClick, onUpdate}) => {
+export const BookingsList = ({bookings, deletable, onDetailsClick, onDeleteClick, onUpdate, validateBooking}) => {
 
   const [showAllBookings, setShowAllBookings] = useState(false);
 
@@ -11,7 +11,7 @@ export const BookingsList = ({bookings, deletable, onDetailsClick, onDeleteClick
     setShowAllBookings(!showAllBookings);
   }
 
-  //bookings?.map(booking => (console.log(booking.confirmed)));
+  //bookings?.map(booking => (console.log(booking.confirmed)));           
   const filteredBookings = showAllBookings ? bookings : bookings?.filter((booking, index) => index < 5)
 
   if (bookings?.length <= 0) {
@@ -21,7 +21,7 @@ export const BookingsList = ({bookings, deletable, onDetailsClick, onDeleteClick
   return (
       <div className={container}>
         {showAll && (
-          <div className={container}>{filteredBookings?.map((booking, index) => (<BookingItem booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} onUpdate={onUpdate} />))}
+          <div className={container}>{filteredBookings?.map((booking, index) => (<BookingItem booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} onUpdate={onUpdate} key={`booking-item-${index}`} validateBooking={validateBooking}/>))}
           </div>
         )}
         {bookings?.length > 5 && (<Button onClick={showAll}>{showAllBookings ? 'Visa färre' : 'Visa alla bokningar'}</Button>)}

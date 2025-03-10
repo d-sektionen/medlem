@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Button } from "../ui/buttons";
 import { formRow, formBlock, form, errorInput, errorMessage, buttonContainer } from "./bookingInputForm.module.scss";
-export const BoookingInputForm = ({handleSubmit, onAbort, type, booking}) => {
-  const [startDate, setStartDate] = useState(new Date(booking?.start).toISOString().split('T')[0] || '');
-  const [startTime, setStartTime] = useState(new Date(booking?.start).toTimeString().split(' ')[0] || '');
-  const [endDate, setEndDate] = useState(new Date(booking?.end).toISOString().split('T')[0] || '');
-  const [endTime, setEndTime] = useState(new Date(booking?.end).toTimeString().split(' ')[0] || '');
+import { parseISO, differenceInMinutes, isBefore, isEqual } from 'date-fns';
+
+export const BoookingInputForm = ({handleSubmit, onAbort, type, booking, validateBooking}) => {
+  console.log("BookingInputForm booking input:", booking)
+  const [startDate, setStartDate] = useState(booking?.start ? new Date(booking.start).toISOString().split('T')[0] : '');
+  const [startTime, setStartTime] = useState(booking?.start ? new Date(booking?.start)?.toTimeString().split(' ')[0] : '');
+  const [endDate, setEndDate] = useState(booking?.end ? new Date(booking?.end)?.toISOString().split('T')[0] : '');
+  const [endTime, setEndTime] = useState(booking?.end ? new Date(booking?.end)?.toTimeString().split(' ')[0] : '');
   const [errors, setErrors] = useState({});
 
   const minDate = new Date().toISOString().split('T')[0];
@@ -15,21 +18,36 @@ export const BoookingInputForm = ({handleSubmit, onAbort, type, booking}) => {
   console.log("in bookingInputForm, booking: ", booking);
   console.log("in bookingInputForm, starDate: ", startDate);
   console.log("in bookingInputForm, startTime: ", startTime);
+
+  
+  const onSubmit = (e) => {
+    e.preventDefault()
+    console.log("BookingInputForm: Submitting bookingInputForm")
+    const validationErrors = validateBooking(startDate, startTime, endDate, endTime);
+    console.log("BookingInputForm: validation results:", validationErrors)
+    if (Object.keys(validationErrors).length > 0){
+      console.error("invalid date", validationErrors)
+      setErrors(validationErrors)
+      return
+    }
+    handleSubmit(e)
+  }
+
   return (
-    <form onSubmit={handleSubmit} className={form}>
+    <form onSubmit={onSubmit} className={form}>
       <div className={formBlock}>
-        <label for="startDate">Startdatum</label>
+        <label htmlFor="startDate">Startdatum</label>
         <div className={formRow}>
-          <input name="startDate" type="date" min={minDate} max={maxStartDate} value={startDate} onChange={(e) => setStartDate(e.target.value)} required={true} className={errors.startDate ? errorInput : ''}></input>
-          <input name="startTime" type="time" value={startTime} onChange={e=>setStartTime(e.target.value)} required={true} className={errors.startTime ? errorInput : ''}></input>
+          <input name="startDate" id="startDate" type="date" min={minDate} max={maxStartDate} value={startDate} onChange={(e) => setStartDate(e.target.value)} required={true} className={errors.startDate ? errorInput : ''}></input>
+          <input name="startTime" id="startTime" type="time" value={startTime} onChange={e=>setStartTime(e.target.value)} required={true} className={errors.startTime ? errorInput : ''}></input>
         </div>
         {errors.startDate && <div className={errorMessage}>{errors.startDate}</div>}
       </div>
       <div className={formBlock}>
-        <label for="endDate">Slutdatum</label>
+        <label htmlFor="endDate">Slutdatum</label>
         <div className={formRow}>
-          <input name="endDate" type="date" min={minEndDate} value={endDate} onChange={(e)=>setEndDate(e.target.value)} required={true} className={errors.endDate ? errorInput : ''}></input>
-          <input name="endTime" type="time" value={endTime} onChange={(e)=>setEndTime(e.target.value)} required={true} className={errors.endTime ? errorInput : ''}></input>
+          <input name="endDate" id="endDate" type="date" min={minEndDate} value={endDate} onChange={(e)=>setEndDate(e.target.value)} required={true} className={errors.endDate ? errorInput : ''}></input>
+          <input name="endTime" id="endTime" type="time" value={endTime} onChange={(e)=>setEndTime(e.target.value)} required={true} className={errors.endTime ? errorInput : ''}></input>
         </div>
         {errors.endDate && <div className={errorMessage}>{errors.endDate}</div>}
       </div>

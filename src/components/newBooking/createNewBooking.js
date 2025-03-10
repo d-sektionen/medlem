@@ -6,43 +6,9 @@ import useModal from '../modal/useModal'
 import { parseISO, differenceInMinutes, isBefore, isEqual } from 'date-fns';
 import { BoookingInputForm } from "./bookingInputForm";
 
-export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings}) => {
+export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings, validateBooking}) => {
   const [showBookingForm, setShowBookingForm] = useState(false);
-  const [startDate, setStartDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [errors, setErrors] = useState({});
   const [openBookingModal, isBookingModalOpen] = useModal(BookingModal)
-  
-
-  const validateBooking = () => {
-    const start = parseISO(`${startDate}T${startTime}`);
-    const end = parseISO(`${endDate}T${endTime}`);
-    const newErrors = {};
-    
-    if (isBefore(end, start) || isEqual(end, start)) {
-      newErrors.endDate = "Slutdatum/tid måste vara efter startdatum/tid.";
-    }
-  
-    const diffInMinutes = differenceInMinutes(end, start);
-    if (diffInMinutes < 30) {
-      newErrors.duration = "Bokningen måste vara minst 30 minuter lång.";
-    }
-  
-    const isIntercepting = bookings.some(booking => {
-      const bookingStart = parseISO(`${booking.startDate}T${booking.startTime}`);
-      const bookingEnd = parseISO(`${booking.endDate}T${booking.endTime}`);
-      return (isBefore(start, bookingEnd) && isAfter(end, bookingStart));
-    });
-  
-    if (isIntercepting) {
-      newErrors.overlap = "Bokningen överlappar med en annan bokning.";
-    }
-  
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  }
 
   const handleClick = () => {
     setShowBookingForm(true);
@@ -50,31 +16,24 @@ export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validateBooking()) {
-      return;
-    }
-    console.log('Form submitted');
+    
+    const formData = new FormData(e.target);
+    console.log("Form data in createbooking:",formData)
     const formValues = {
-      startDate,
-      startTime,
-      endDate,
-      endTime
+      startDate: formData.get('startDate'),
+      startTime: formData.get('startTime'),
+      endDate: formData.get('endDate'),
+      endTime: formData.get('endTime')
     }
+    /*if (!validateBooking(formValues.startDate, formValues.startTime, formValues.endDate, formValues.endTime)) {
+      console.error("invalid date")
+      return;
+    }*/
+    console.log('Form submitted w/ data:', formValues);
     openBookingModal(`Boka ${selectedItem.name}`, { selectedItem, formValues, mutateBooking, bookings});
   }
-  
 
-  const minDate = new Date().toISOString().split('T')[0];
-  const minEndDate = startDate.length > 0 ? startDate : minDate;
-  const maxStartDate = endDate.length > 0 ? endDate : null;
   const selectedItem = items?.find(item => item.id === selectedItemId);
-
-  console.log('form data', {
-    startDate,
-    startTime,
-    endDate,
-    endTime
-  })
   
   if (showBookingForm) {
     return (
@@ -101,7 +60,7 @@ export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings
         {errors.overlap && <div className={errorMessage}>{errors.overlap}</div>}
         <Button type="submit">Gå vidare</Button>
       </form>*/}
-      <BoookingInputForm handleSubmit={handleSubmit}/>
+      <BoookingInputForm handleSubmit={handleSubmit} validateBooking={validateBooking}/>
       </>
     )
   } else {

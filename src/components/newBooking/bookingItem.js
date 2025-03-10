@@ -6,14 +6,10 @@ import { BoookingInputForm } from "./bookingInputForm";
 import { put } from "../request";
 import { formatDate } from "./bookingUtils";
 import useSWR from "swr";
-export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteClick, onUpdate}) => {
+
+export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteClick, onUpdate, validateBooking}) => {
   const [isEditing, setIsEditing] = useState(false);
-  const { data: bookings, mutate } = useSWR(
-    () =>
-      selectedResource &&
-    `/booking/bookings/?item=${selectedResource}`
-  )
-  console.log("bookings")
+
   const dateOptions = {
     weekday: 'long',
     year: 'numeric',
@@ -50,17 +46,17 @@ export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteCl
           <button onClick={() => setIsEditing(!isEditing)}>
             <FaPen />
           </button>
-          <button onClick={onDeleteClick}>
+          <button onClick={()=> onDeleteClick(booking.id)}>
             <FaTrash />
           </button>
         </>
       )}
-      <button onClick={onDetailsClick}>
+      <button onClick={() => onDetailsClick(booking)}>
         <FaInfoCircle />
       </button>
       </div>
       {isEditing && (
-        <BoookingInputForm handleSubmit={handleSubmit} type="edit" onAbort={() => setIsEditing(false)} booking={booking}/>
+        <BoookingInputForm handleSubmit={handleSubmit} type="edit" onAbort={() => setIsEditing(false)} booking={booking} validateBooking={validateBooking}/>
         )}
     </div>
   );
