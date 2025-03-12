@@ -13,6 +13,8 @@ const MembershipPanel = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [message, setMessage] = useState('')
+  const [infomailSubscriber, setInfomailSubscriber] = useState(true)
+  const [liuCardId, setLiuCardId] = useState("")
   const [errors, setErrors] = useState('')
 
   useEffect(() => {
@@ -42,6 +44,8 @@ const MembershipPanel = () => {
       program,
       starting_year: startingYear,
       message,
+      infomail_subscriber: infomailSubscriber,
+      liu_card_id: liuCardId,
     })
       .then(() => {
         setErrors(null)
@@ -97,10 +101,10 @@ const MembershipPanel = () => {
             D-sektionen registrerar du dig via följande formulär:
           </p>
           <p>
-            Med ansökan kommer du att prenumerera på vårt nyhetsbrev, där vi
+            Med ansökan kan du välja att prenumerera på vårt nyhetsbrev, där vi
             informerar om kommande evenemang och annan information som kan vara
             av intresse för dig som student på D-sektionen.
-            För att avsluta prenumerationen kan du gå till profilinställningar efter att du har loggat in.
+            För att avsluta prenumerationen efter att du blivit medlem kan du gå till profilinställningar.
           </p>
 
           <form onSubmit={submitRequest}>
@@ -148,12 +152,29 @@ const MembershipPanel = () => {
                 errors.starting_year.join(', ')}
             </label>
             <label className={inputLabel}>
+              LiU-kortnummer (kan lämnas tom)
+              <input
+                value={liuCardId}
+                onChange={e => setLiuCardId(e.target.value)}
+              />
+              {errors && errors.liu_card_id && errors.liu_card_id.join(', ')}
+            </label>
+            <label className={inputLabel}>
               Övrig information (kan lämnas tom)
               <textarea
                 value={message}
                 onChange={e => setMessage(e.target.value)}
               />
               {errors && errors.message && errors.message.join(', ')}
+            </label>
+            <label className={inputLabel}>
+              Prenumerera på veckomailet:
+              <input
+                checked={infomailSubscriber}
+                type="checkbox"
+                onChange={e => setInfomailSubscriber(e.target.checked)}
+              />
+              {errors && errors.infomail_subscriber && errors.infomail_subscriber.join(', ')}
             </label>
             <Button type="submit">Skicka förfrågan</Button>
           </form>
