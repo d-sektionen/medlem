@@ -153,6 +153,8 @@ const MembershipPanel = () => {
             </label>
             <label className={inputLabel}>
               LiU-kortnummer (kan lämnas tom)
+              <br />
+              <span>Finns på framsidan av LiU-kortet.</span>
               <input
                 value={liuCardId}
                 onChange={e => setLiuCardId(e.target.value)}
