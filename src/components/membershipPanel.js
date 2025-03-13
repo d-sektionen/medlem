@@ -51,15 +51,19 @@ const MembershipPanel = () => {
   const submitRequest = e => {
     e.preventDefault()
 
-    post('/membership/request/', {
+    const data = {
       first_name: firstName,
       last_name: lastName,
       program,
       starting_year: startingYear,
       message,
       infomail_subscriber: infomailSubscriber,
-      liu_card_id: liuCardId,
-    })
+    }
+
+    if (liuCardId !== "")
+      data['liu_card_id'] = liuCardId;
+
+    post('/membership/request/', data)
       .then(() => {
         setErrors(null)
         setSent(true)
