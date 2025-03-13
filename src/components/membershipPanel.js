@@ -5,10 +5,23 @@ import { Button } from './ui/buttons'
 
 import { inputLabel } from '../scss/membership.module.scss'
 
+const getStartingYearDefault = () => {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+
+  // August = 7
+  if (currentMonth < 7) {
+    return currentYear - 1;
+  } else {
+    return currentYear;
+  }
+}
+
 const MembershipPanel = () => {
   const [initiallyLoaded, setInitiallyLoaded] = useState(true)
   const [sent, setSent] = useState(false)
-  const [startingYear, setStartingYear] = useState('')
+  const [startingYear, setStartingYear] = useState(getStartingYearDefault())
   const [program, setProgram] = useState('Empty')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
