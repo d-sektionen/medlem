@@ -5,14 +5,29 @@ import { Button } from './ui/buttons'
 
 import { inputLabel } from '../scss/membership.module.scss'
 
+const getStartingYearDefault = () => {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+
+  // August = 7
+  if (currentMonth < 7) {
+    return currentYear - 1;
+  } else {
+    return currentYear;
+  }
+}
+
 const MembershipPanel = () => {
   const [initiallyLoaded, setInitiallyLoaded] = useState(true)
   const [sent, setSent] = useState(false)
-  const [startingYear, setStartingYear] = useState('')
+  const [startingYear, setStartingYear] = useState(getStartingYearDefault())
   const [program, setProgram] = useState('Empty')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [message, setMessage] = useState('')
+  const [infomailSubscriber, setInfomailSubscriber] = useState(true)
+  const [liuCardId, setLiuCardId] = useState("")
   const [errors, setErrors] = useState('')
 
   useEffect(() => {
@@ -36,13 +51,19 @@ const MembershipPanel = () => {
   const submitRequest = e => {
     e.preventDefault()
 
-    post('/membership/request/', {
+    const data = {
       first_name: firstName,
       last_name: lastName,
       program,
       starting_year: startingYear,
       message,
-    })
+      infomail_subscriber: infomailSubscriber,
+    }
+
+    if (liuCardId !== "")
+      data['liu_card_id'] = liuCardId;
+
+    post('/membership/request/', data)
       .then(() => {
         setErrors(null)
         setSent(true)
@@ -97,10 +118,10 @@ const MembershipPanel = () => {
             D-sektionen registrerar du dig via följande formulär:
           </p>
           <p>
-            Med ansökan kommer du att prenumerera på vårt nyhetsbrev, där vi
+            Med ansökan kan du välja att prenumerera på vårt nyhetsbrev, där vi
             informerar om kommande evenemang och annan information som kan vara
             av intresse för dig som student på D-sektionen.
-            För att avsluta prenumerationen kan du gå till profilinställningar efter att du har loggat in.
+            För att avsluta prenumerationen efter att du blivit medlem kan du gå till profilinställningar.
           </p>
 
           <form onSubmit={submitRequest}>
@@ -148,12 +169,31 @@ const MembershipPanel = () => {
                 errors.starting_year.join(', ')}
             </label>
             <label className={inputLabel}>
+              LiU-kortnummer (kan lämnas tom)
+              <br />
+              <span>Finns på framsidan av LiU-kortet.</span>
+              <input
+                value={liuCardId}
+                onChange={e => setLiuCardId(e.target.value)}
+              />
+              {errors && errors.liu_card_id && errors.liu_card_id.join(', ')}
+            </label>
+            <label className={inputLabel}>
               Övrig information (kan lämnas tom)
               <textarea
                 value={message}
                 onChange={e => setMessage(e.target.value)}
               />
               {errors && errors.message && errors.message.join(', ')}
+            </label>
+            <label className={inputLabel}>
+              Prenumerera på veckomailet:
+              <input
+                checked={infomailSubscriber}
+                type="checkbox"
+                onChange={e => setInfomailSubscriber(e.target.checked)}
+              />
+              {errors && errors.infomail_subscriber && errors.infomail_subscriber.join(', ')}
             </label>
             <Button type="submit">Skicka förfrågan</Button>
           </form>
