@@ -3,7 +3,7 @@ import { Button } from "../ui/buttons";
 import { formRow, formBlock, form, errorInput, errorMessage, buttonContainer } from "./bookingInputForm.module.scss";
 import { parseISO, differenceInMinutes, isBefore, isEqual } from 'date-fns';
 
-export const BoookingInputForm = ({handleSubmit, onAbort, type, booking, validateBooking}) => {
+export const BookingInputForm = ({handleSubmit, onAbort, type, booking, validateBooking}) => {
   console.log("BookingInputForm booking input:", booking)
   const [startDate, setStartDate] = useState(booking?.start ? new Date(booking.start).toISOString().split('T')[0] : '');
   const [startTime, setStartTime] = useState(booking?.start ? new Date(booking?.start)?.toTimeString().split(' ')[0] : '');

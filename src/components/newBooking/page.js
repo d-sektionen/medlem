@@ -110,7 +110,7 @@ export default function NewBookingPage () {
     if (isIntercepting) {
       newErrors.overlap = "Bokningen överlappar med en annan bokning.";
     }
-    console.error("in validatebooking, errors:", newErrors)
+    //console.error("in validatebooking, errors:", newErrors)
     return newErrors
     //return Object.keys(newErrors).length === 0;
   }
@@ -167,7 +167,7 @@ export default function NewBookingPage () {
         </div>
         <div className={bookingList}>
           <h2>Mina bokningar</h2> 
-          <BookingsList bookings={myBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update}/>
+          <BookingsList bookings={myBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/>
           <CreateNewBooking selectedItemId={selectedResource} items={items} mutateBooking={mutate} bookings={bookings} validateBooking={validateBooking}/>
           {user.privileges.booking_admin && <><h2>Ohanterade bokningar</h2><BookingsList bookings={unConfirmedBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/></>}
           <BookingsList bookings={otherBookings} deletable={false} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/>

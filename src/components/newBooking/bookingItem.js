@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { container, containerContainer, title, date } from "./bookingItem.module.scss";
 import { FaInfoCircle, FaTrash, FaPen } from "react-icons/fa";
 import { CreateNewBooking } from "./createNewBooking";
-import { BoookingInputForm } from "./bookingInputForm";
+import { BookingInputForm } from "./bookingInputForm";
 import { put } from "../request";
 import { formatDate } from "./bookingUtils";
 import useSWR from "swr";
@@ -32,6 +32,7 @@ export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteCl
 
     const res = await onUpdate(booking.id, data);
     console.log(res)
+    
   }
     
   return (
@@ -56,7 +57,7 @@ export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteCl
       </button>
       </div>
       {isEditing && (
-        <BoookingInputForm handleSubmit={handleSubmit} type="edit" onAbort={() => setIsEditing(false)} booking={booking} validateBooking={validateBooking}/>
+        <BookingInputForm handleSubmit={handleSubmit} type="edit" onAbort={() => setIsEditing(false)} booking={booking} validateBooking={validateBooking}/>
         )}
     </div>
   );
