@@ -32,7 +32,8 @@ export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteCl
 
     const res = await onUpdate(booking.id, data);
     console.log(res)
-    
+    setIsEditing(false);
+
   }
     
   return (
@@ -57,7 +58,7 @@ export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteCl
       </button>
       </div>
       {isEditing && (
-        <BookingInputForm handleSubmit={handleSubmit} type="edit" onAbort={() => setIsEditing(false)} booking={booking} validateBooking={validateBooking}/>
+        <BookingInputForm handleSubmit={handleSubmit} type="edit" handleAbort={()=>setIsEditing(false)} booking={booking} validateBooking={validateBooking} test={()=>console.log("skibdidididi didid")}/>
         )}
     </div>
   );

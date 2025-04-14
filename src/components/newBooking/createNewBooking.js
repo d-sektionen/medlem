@@ -39,28 +39,7 @@ export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings
     return (
       <>
       <h3>Ny bokning</h3>
-      {/*<form onSubmit={handleSubmit} className={form}>
-        <div className={formBlock}>
-          <label for="startDate">Startdatum</label>
-          <div className={formRow}>
-            <input name="startDate" type="date" min={minDate} max={maxStartDate} value={startDate} onChange={(e) => setStartDate(e.target.value)} required={true} className={errors.startDate ? errorInput : ''}></input>
-            <input name="startTime" type="time" value={startTime} onChange={e=>setStartTime(e.target.value)} required={true} className={errors.startTime ? errorInput : ''}></input>
-          </div>
-          {errors.startDate && <div className={errorMessage}>{errors.startDate}</div>}
-        </div>
-        <div className={formBlock}>
-          <label for="endDate">Slutdatum</label>
-          <div className={formRow}>
-            <input name="endDate" type="date" min={minEndDate} value={endDate} onChange={(e)=>setEndDate(e.target.value)} required={true} className={errors.endDate ? errorInput : ''}></input>
-            <input name="endTime" type="time" value={endTime} onChange={(e)=>setEndTime(e.target.value)} required={true} className={errors.endTime ? errorInput : ''}></input>
-          </div>
-          {errors.endDate && <div className={errorMessage}>{errors.endDate}</div>}
-        </div>
-        {errors.duration && <div className={errorMessage}>{errors.duration}</div>}
-        {errors.overlap && <div className={errorMessage}>{errors.overlap}</div>}
-        <Button type="submit">Gå vidare</Button>
-      </form>*/}
-      <BookingInputForm handleSubmit={handleSubmit} validateBooking={validateBooking}/>
+      <BookingInputForm handleSubmit={handleSubmit} handleAbort={()=>setShowBookingForm(false)} validateBooking={validateBooking}/>
       </>
     )
   } else {

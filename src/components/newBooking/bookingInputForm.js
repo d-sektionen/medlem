@@ -3,7 +3,7 @@ import { Button } from "../ui/buttons";
 import { formRow, formBlock, form, errorInput, errorMessage, buttonContainer } from "./bookingInputForm.module.scss";
 import { parseISO, differenceInMinutes, isBefore, isEqual } from 'date-fns';
 
-export const BookingInputForm = ({handleSubmit, onAbort, type, booking, validateBooking}) => {
+export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, handleAbort}) => {
   console.log("BookingInputForm booking input:", booking)
   const [startDate, setStartDate] = useState(booking?.start ? new Date(booking.start).toISOString().split('T')[0] : '');
   const [startTime, setStartTime] = useState(booking?.start ? new Date(booking?.start)?.toTimeString().split(' ')[0] : '');
@@ -34,6 +34,7 @@ export const BookingInputForm = ({handleSubmit, onAbort, type, booking, validate
   }
 
   return (
+    <>
     <form onSubmit={onSubmit} className={form}>
       <div className={formBlock}>
         <label htmlFor="startDate">Startdatum</label>
@@ -54,9 +55,11 @@ export const BookingInputForm = ({handleSubmit, onAbort, type, booking, validate
       {errors.duration && <div className={errorMessage}>{errors.duration}</div>}
       {errors.overlap && <div className={errorMessage}>{errors.overlap}</div>}
       <div className={buttonContainer}>
-        <Button type="button" onClick={onAbort}>Avbryt</Button>
+        <Button type="button" onClick={handleAbort}>Avbryt</Button>
         <Button type="submit">{type == "edit" ? "Ändra" : "Gå vidare"}</Button>
       </div>
     </form>
+
+    </>
   );
 }
