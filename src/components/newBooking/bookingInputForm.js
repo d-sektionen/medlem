@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "../ui/buttons";
-import { formRow, formBlock, form, errorInput, errorMessage, buttonContainer } from "./bookingInputForm.module.scss";
+import { formRow, formBlock, form, errorInput, errorMessage, buttonContainer, descriptionStyle } from "./bookingInputForm.module.scss";
 import { parseISO, differenceInMinutes, isBefore, isEqual } from 'date-fns';
 
 export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, handleAbort}) => {
@@ -10,6 +10,7 @@ export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, 
   const [endDate, setEndDate] = useState(booking?.end ? new Date(booking?.end)?.toISOString().split('T')[0] : '');
   const [endTime, setEndTime] = useState(booking?.end ? new Date(booking?.end)?.toTimeString().split(' ')[0] : '');
   const [errors, setErrors] = useState({});
+  const [description, setDescription] = useState(booking?.description);
 
   const minDate = new Date().toISOString().split('T')[0];
   const minEndDate = startDate.length > 0 ? startDate : minDate;
@@ -54,6 +55,10 @@ export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, 
       </div>
       {errors.duration && <div className={errorMessage}>{errors.duration}</div>}
       {errors.overlap && <div className={errorMessage}>{errors.overlap}</div>}
+<div>
+      <label for="description">Ändamål</label><br></br>
+      <textarea name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Skriv ditt ändamål här"></textarea>
+</div>
       <div className={buttonContainer}>
         <Button type="button" onClick={handleAbort}>Avbryt</Button>
         <Button type="submit">{type == "edit" ? "Ändra" : "Gå vidare"}</Button>

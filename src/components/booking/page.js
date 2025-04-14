@@ -118,7 +118,6 @@ const BookingPage = ({ pageContext: { title } }) => {
                 createBooking={create}
                 loadAllBookings={loadAllBookings}
               />
-
               <BookingPanel
                 bookings={bookings}
                 updateBooking={update}

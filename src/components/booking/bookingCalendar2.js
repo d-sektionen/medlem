@@ -87,7 +87,6 @@ export const BookingCalendar2 = ({ bookings }) => {
     }
 
     // change background if restricted period is set
-
     const colorizedEvents = processedEvents.map(event => {
         return {
             ...event,
@@ -114,7 +113,6 @@ export const BookingCalendar2 = ({ bookings }) => {
     console.log('eventsByDay:', eventsByDay)
     
     /* Event handlers */
-
     const handleChangeWeek = (direction) => {
         setSelectedDateInterval({
             start: addWeeks(selectedDateInterval.start, direction),

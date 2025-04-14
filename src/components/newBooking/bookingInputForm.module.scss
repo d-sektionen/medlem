@@ -16,6 +16,12 @@
   width: 100%;
 }
 
+.form textarea {
+  margin-top: 0.5rem;
+  width: 100%;
+  resize: none;
+}
+
 .formBlock {
   display: flex;
   flex-direction: column;
@@ -32,4 +38,8 @@
 }
 .buttonContainer button[type="submit"] {
   background-color: #20407C;
+}
+
+.descriptionStyle {
+  margin-top: 0;
 }

@@ -101,9 +101,9 @@ export default function NewBookingPage () {
       newErrors.duration = "Bokningen måste vara minst 30 minuter lång.";
     }
   
-    const isIntercepting = bookings.some(booking => {
-      const bookingStart = parseISO(`${booking.startDate}T${booking.startTime}`);
-      const bookingEnd = parseISO(`${booking.endDate}T${booking.endTime}`);
+    const isIntercepting = bookings?.some(booking => {
+      const bookingStart = parseISO(`${booking?.startDate}T${booking?.startTime}`);
+      const bookingEnd = parseISO(`${booking?.endDate}T${booking?.endTime}`);
       return (isBefore(start, bookingEnd) && isAfter(end, bookingStart));
     });
   
@@ -140,6 +140,7 @@ export default function NewBookingPage () {
   const otherBookings = sortedBookings?.filter(booking => booking.user.id !== user.id)
   
   console.log("Booking:", bookings); 
+  console.log("items", items);
 
   const handleDelete = (bookingId) => {
     console.log("Handling delete w/ bookingId:", bookingId)
@@ -159,17 +160,17 @@ export default function NewBookingPage () {
       <div className={content}>
         <div className={resourceSelector}>
         <BookableResourceContainer items={sortedItemsWithIcons} selectedItem={selectedResource} onSelectedItemChange={handleSelectedResourceChange}/>
+        <p>{items?.find(item=>item.id === selectedResource)?.name}</p>
         </div>
         <div className={calendarPadding}>
-          {/* todo */}
-          {/*<AlertBanner message={alertMessage} />*/}
           <BookingCalendar2 bookings={bookings} />
         </div>
         <div className={bookingList}>
           <h2>Mina bokningar</h2> 
           <BookingsList bookings={myBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/>
           <CreateNewBooking selectedItemId={selectedResource} items={items} mutateBooking={mutate} bookings={bookings} validateBooking={validateBooking}/>
-          {user.privileges.booking_admin && <><h2>Ohanterade bokningar</h2><BookingsList bookings={unConfirmedBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/></>}
+          {user.privileges.booking_admin && <><h2>Ohanterade bokningar</h2><BookingsList bookings={unConfirmedBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} onConfirm={confirm} onDeny={deny} validateBooking={validateBooking}/></>}
+          <h2>Alla bokningar</h2>
           <BookingsList bookings={otherBookings} deletable={false} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/>
         </div>
       </div>

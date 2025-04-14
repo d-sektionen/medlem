@@ -3,7 +3,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0rem;
 }
 .container button {
   border: none;
@@ -11,6 +11,7 @@
   color: white;
   height: 100%;
   cursor: pointer;
+  padding-inline: 0.5rem;
 }
 .container button:hover {
   color: #B77C0D;
