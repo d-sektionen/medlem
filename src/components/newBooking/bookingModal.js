@@ -12,10 +12,6 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
   console.log("Selecteditem", selectedItem)
   const close = useCloseModal()
 
-  /*const formatDate = (dateString, hourString) => {
-    return new Date(`${dateString}T${hourString}`);
-  }*/
-
   const handleBooking = (e) => {
     e.preventDefault();
       if (!acceptTerms) {

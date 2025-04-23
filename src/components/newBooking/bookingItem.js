@@ -29,10 +29,8 @@ export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteCl
       end: formatDate(formData.get('endDate'), formData.get('endTime')),
       restricted_timeslot: formData.get('restricted_timeslot') === 'true',
     }
-    console.log("data: ", data);
 
     const res = await onUpdate(booking.id, data);
-    console.log(res)
     setIsEditing(false);
 
   }

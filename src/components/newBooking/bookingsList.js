@@ -11,7 +11,6 @@ export const BookingsList = ({bookings, deletable, onDetailsClick, onDeleteClick
     setShowAllBookings(!showAllBookings);
   }
 
-  //bookings?.map(booking => (console.log(booking.confirmed)));           
   const filteredBookings = showAllBookings ? bookings : bookings?.filter((booking, index) => index < 5)
 
   if (bookings?.length <= 0) {

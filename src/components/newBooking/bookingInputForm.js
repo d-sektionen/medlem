@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Button } from "../ui/buttons";
 import { formRow, formBlock, form, errorInput, errorMessage, buttonContainer, descriptionStyle } from "./bookingInputForm.module.scss";
-import { parseISO, differenceInMinutes, isBefore, isEqual } from 'date-fns';
 
 export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, handleAbort}) => {
-  console.log("BookingInputForm booking input:", booking)
   const [startDate, setStartDate] = useState(booking?.start ? new Date(booking.start).toISOString().split('T')[0] : '');
   const [startTime, setStartTime] = useState(booking?.start ? new Date(booking?.start)?.toTimeString().split(' ')[0] : '');
   const [endDate, setEndDate] = useState(booking?.end ? new Date(booking?.end)?.toISOString().split('T')[0] : '');
@@ -15,17 +13,13 @@ export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, 
   const minDate = new Date().toISOString().split('T')[0];
   const minEndDate = startDate.length > 0 ? startDate : minDate;
   const maxStartDate = endDate.length > 0 ? endDate : null;
-  //const selectedItem = items?.find(item => item.id === selectedItemId);
-  console.log("in bookingInputForm, booking: ", booking);
-  console.log("in bookingInputForm, starDate: ", startDate);
-  console.log("in bookingInputForm, startTime: ", startTime);
-
   
   const onSubmit = (e) => {
     e.preventDefault()
-    console.log("BookingInputForm: Submitting bookingInputForm")
+
     const validationErrors = validateBooking(startDate, startTime, endDate, endTime);
     console.log("BookingInputForm: validation results:", validationErrors)
+
     if (Object.keys(validationErrors).length > 0){
       console.error("invalid date", validationErrors)
       setErrors(validationErrors)

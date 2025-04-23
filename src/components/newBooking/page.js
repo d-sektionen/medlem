@@ -1,5 +1,5 @@
 import React, {useContext, useState} from "react"
-import {page, bookingList, resourceSelector, content, calendarPadding} from "./page.module.scss"
+import {page, bookingList, resourceSelector, content, calendarPadding, infoBox} from "./page.module.scss"
 import BookableResourceContainer from "./bookableResourceContainer"
 import { BookingsList } from "./bookingsList"
 import { AlertBanner } from "./alertBanner"
@@ -13,10 +13,11 @@ import { UserContext } from "../layout/layout"
 import { CreateNewBooking } from "./createNewBooking"
 import { BookingCalendar2 } from "../booking/bookingCalendar2"
 import { post, put, del } from "../request"
-// import { BookingModal } from "./bookingModal"
 import useModal from '../modal/useModal'
 import ViewBooking from '../booking/viewBooking'
 import useConfirmModal from '../modal/useConfirmModal'
+import { useMediaQuery } from "../ui/useMediaQuery";
+import { Button } from "../ui/buttons";
 
 
 const getDate4WeeksAgo = date => {
@@ -30,10 +31,9 @@ export default function NewBookingPage () {
 
   const [openViewBooking] = useModal(ViewBooking)
   const [openConfirmation] = useConfirmModal()
+
+  const [view, setVisible] = useState(false);
   
-
-  // const [openBookingModal, isBookingModalOpen] = useModal(BookingModal)
-
   const alertMessage = "Bokningar mellan 11 November och 31 December behöver godkännas manuellt."
 
   const { data: items } = useSWR('/booking/items/')
@@ -110,9 +110,7 @@ export default function NewBookingPage () {
     if (isIntercepting) {
       newErrors.overlap = "Bokningen överlappar med en annan bokning.";
     }
-    //console.error("in validatebooking, errors:", newErrors)
     return newErrors
-    //return Object.keys(newErrors).length === 0;
   }
 
   const defaultIcon = <FaBox />;
@@ -138,9 +136,11 @@ export default function NewBookingPage () {
   const myBookings = sortedBookings?.filter(booking => booking.user.id === user.id)
   const unConfirmedBookings = sortedBookings?.filter(booking => !booking.confirmed)
   const otherBookings = sortedBookings?.filter(booking => booking.user.id !== user.id)
+  const resource = items?.find(item=>item.id === selectedResource)?.name
   
   console.log("Booking:", bookings); 
   console.log("items", items);
+  console.log("selected: ", resource)
 
   const handleDelete = (bookingId) => {
     console.log("Handling delete w/ bookingId:", bookingId)
@@ -158,21 +158,41 @@ export default function NewBookingPage () {
     <div className={page}>
       <h1>Bokningar</h1>
       <div className={content}>
+
         <div className={resourceSelector}>
         <BookableResourceContainer items={sortedItemsWithIcons} selectedItem={selectedResource} onSelectedItemChange={handleSelectedResourceChange}/>
         <p>{items?.find(item=>item.id === selectedResource)?.name}</p>
         </div>
+
         <div className={calendarPadding}>
           <BookingCalendar2 bookings={bookings} />
         </div>
+
         <div className={bookingList}>
           <h2>Mina bokningar</h2> 
           <BookingsList bookings={myBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/>
+          
+          <p>Genom att boka {items?.find(item=>item.id === selectedResource)?.name} godkänner du <a href={items?.find(item=>item.id === selectedResource)?.terms}>bokningsavtalet</a>.</p>
+          <Button onClick={() => setVisible(!view)}>Mer info</Button>
+          {view && (
+            <div className={infoBox}>
+              <div>
+                <h2>{resource}</h2>
+                <p>{items?.find(item=>item.id === selectedResource)?.description}</p>
+                <Button type="button" onClick={() => setVisible(false)}>Avbryt</Button>
+                
+              </div>
+              
+            </div>
+          )}
+          
           <CreateNewBooking selectedItemId={selectedResource} items={items} mutateBooking={mutate} bookings={bookings} validateBooking={validateBooking}/>
           {user.privileges.booking_admin && <><h2>Ohanterade bokningar</h2><BookingsList bookings={unConfirmedBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} onConfirm={confirm} onDeny={deny} validateBooking={validateBooking}/></>}
+          
           <h2>Alla bokningar</h2>
           <BookingsList bookings={otherBookings} deletable={false} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/>
         </div>
+
       </div>
     </div>
   )
