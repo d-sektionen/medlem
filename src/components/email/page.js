@@ -101,9 +101,6 @@ const EmailPage = ({ pageContext: { title } }) => {
               </div>
               {status && <div className={emailBoxes}><p className={sendSuccess}>{status}</p></div>}
             </GridItem>
-              </div>
-            </GridItem>
-            */}
           </>
         )}
       </GridContainer>
