@@ -103,7 +103,7 @@ module.exports.PAGES = [
   {
     path: '/email',
     title: 'Mejlsystem',
-    requiredPrivileges: 'staff',
+    requiredPrivileges: 'mail_admin',
     menu: true,
     component: './src/components/email/page.js',
   },
