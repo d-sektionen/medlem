@@ -46,7 +46,7 @@ const VoteForm = ({ vote, setErrors }) => {
               </li>
             ))}
           </ul>
-          <button type="button" disabled={votingDisabled} onClick={placeVote}>
+          <button type="button" disabled={votingDisabled || successfullyVoted} onClick={placeVote}>
             {buttonText}
           </button>
         </>
