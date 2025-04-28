@@ -1,5 +1,5 @@
 import React, {useContext, useState} from "react"
-import {page, bookingList, resourceSelector, content, calendarPadding, infoBox} from "./page.module.scss"
+import {page, bookingList, resourceSelector, content, calendarPadding, infoBox, infoPopup} from "./page.module.scss"
 import BookableResourceContainer from "./bookableResourceContainer"
 import { BookingsList } from "./bookingsList"
 import { AlertBanner } from "./alertBanner"
@@ -138,10 +138,6 @@ export default function NewBookingPage () {
   const otherBookings = sortedBookings?.filter(booking => booking.user.id !== user.id)
   const resource = items?.find(item=>item.id === selectedResource)?.name
   
-  console.log("Booking:", bookings); 
-  console.log("items", items);
-  console.log("selected: ", resource)
-
   const handleDelete = (bookingId) => {
     console.log("Handling delete w/ bookingId:", bookingId)
     openConfirmation(
@@ -170,22 +166,25 @@ export default function NewBookingPage () {
 
         <div className={bookingList}>
           <h2>Mina bokningar</h2> 
-          <BookingsList bookings={myBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/>
-          
-          <p>Genom att boka {items?.find(item=>item.id === selectedResource)?.name} godkänner du <a href={items?.find(item=>item.id === selectedResource)?.terms}>bokningsavtalet</a>.</p>
-          <Button onClick={() => setVisible(!view)}>Mer info</Button>
+
+          <div className={infoBox}>
+            <p>Genom att boka {items?.find(item=>item.id === selectedResource)?.name} godkänner du <a href={items?.find(item=>item.id === selectedResource)?.terms}>bokningsavtalet</a>.</p>
+            <Button onClick={() => setVisible(!view)}>Mer info</Button>  
+          </div>
+         
           {view && (
-            <div className={infoBox}>
+            <div className={infoPopup}>
               <div>
                 <h2>{resource}</h2>
                 <p>{items?.find(item=>item.id === selectedResource)?.description}</p>
-                <Button type="button" onClick={() => setVisible(false)}>Avbryt</Button>
-                
+                <Button type="button" onClick={() => setVisible(false)}>Stäng</Button>
               </div>
               
             </div>
           )}
-          
+
+          <BookingsList bookings={myBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/>
+                    
           <CreateNewBooking selectedItemId={selectedResource} items={items} mutateBooking={mutate} bookings={bookings} validateBooking={validateBooking}/>
           {user.privileges.booking_admin && <><h2>Ohanterade bokningar</h2><BookingsList bookings={unConfirmedBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} onConfirm={confirm} onDeny={deny} validateBooking={validateBooking}/></>}
           

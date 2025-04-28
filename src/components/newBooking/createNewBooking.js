@@ -6,6 +6,20 @@ import useModal from '../modal/useModal'
 import { parseISO, differenceInMinutes, isBefore, isEqual } from 'date-fns';
 import { BookingInputForm } from "./bookingInputForm";
 
+/**
+ * CreateNewBooking component represents 
+ * 
+ * @param {} selectedItemId - 
+ * @param {} items - 
+ * @param {} mutateBooking -
+ * @param {} bookings - 
+ * @param {} validateBooking -
+ * 
+ * @description
+ * This component 
+ */
+
+
 export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings, validateBooking}) => {
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [openBookingModal, isBookingModalOpen] = useModal(BookingModal)
@@ -23,14 +37,16 @@ export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings
       startDate: formData.get('startDate'),
       startTime: formData.get('startTime'),
       endDate: formData.get('endDate'),
-      endTime: formData.get('endTime')
+      endTime: formData.get('endTime'),
+      description: formData.get('description')
     }
     /*if (!validateBooking(formValues.startDate, formValues.startTime, formValues.endDate, formValues.endTime)) {
       console.error("invalid date")
       return;
     }*/
-    console.log('Form submitted w/ data:', formValues);
+    // console.log('Form submitted w/ data:', formValues);
     openBookingModal(`Boka ${selectedItem.name}`, { selectedItem, formValues, mutateBooking, bookings});
+    setShowBookingForm(false)
   }
 
   const selectedItem = items?.find(item => item.id === selectedItemId);

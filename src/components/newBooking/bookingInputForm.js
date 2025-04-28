@@ -2,6 +2,19 @@ import React, { useState } from "react";
 import { Button } from "../ui/buttons";
 import { formRow, formBlock, form, errorInput, errorMessage, buttonContainer, descriptionStyle } from "./bookingInputForm.module.scss";
 
+/**
+ *  BookingInputForm component represents a selectable resource
+ * 
+ * @param {} handleSubmit - 
+ * @param {} type - 
+ * @param {} booking - 
+ * @param {} validateBooking -
+ * @param {} handleAbort - 
+ * 
+ * @description
+ * This component 
+ */
+
 export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, handleAbort}) => {
   const [startDate, setStartDate] = useState(booking?.start ? new Date(booking.start).toISOString().split('T')[0] : '');
   const [startTime, setStartTime] = useState(booking?.start ? new Date(booking?.start)?.toTimeString().split(' ')[0] : '');
@@ -18,7 +31,7 @@ export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, 
     e.preventDefault()
 
     const validationErrors = validateBooking(startDate, startTime, endDate, endTime);
-    console.log("BookingInputForm: validation results:", validationErrors)
+    // console.log("BookingInputForm: validation results:", validationErrors)
 
     if (Object.keys(validationErrors).length > 0){
       console.error("invalid date", validationErrors)
@@ -49,10 +62,10 @@ export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, 
       </div>
       {errors.duration && <div className={errorMessage}>{errors.duration}</div>}
       {errors.overlap && <div className={errorMessage}>{errors.overlap}</div>}
-<div>
-      <label for="description">Ändamål</label><br></br>
-      <textarea name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Skriv ditt ändamål här"></textarea>
-</div>
+      <div>
+            <label for="description">Ändamål</label><br></br>
+            <textarea name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Skriv ditt ändamål här"></textarea>
+      </div>
       <div className={buttonContainer}>
         <Button type="button" onClick={handleAbort}>Avbryt</Button>
         <Button type="submit">{type == "edit" ? "Ändra" : "Gå vidare"}</Button>

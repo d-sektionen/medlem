@@ -5,6 +5,17 @@ import { FaTent } from "react-icons/fa6";
 import BookableResource from "./bookableResource";
 import { container, outerContainer } from "./bookableResourceContainer.module.scss";
 
+/**
+ * BookableResourceContainer component represents a selectable resource
+ * 
+ * @param {} item - 
+ * @param {} selectedItem - 
+ * @param {} onSelectedItemChange - 
+ * 
+ * @description
+ * This component 
+ */
+
 const BookableResourceContainer = ({items, selectedItem, onSelectedItemChange}) => {
 
   return (

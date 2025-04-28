@@ -25,6 +25,12 @@
 }
 
 .infoBox {
+  background-color: #212121;
+  padding: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.infoPopup {
   position: fixed;
   top: 0;
   left: 0;
@@ -37,11 +43,12 @@
   z-index: 2;
 }
 
-.infoBox div {
-  max-width: 600px;
-  padding: 1rem;
+.infoPopup div {
+  max-width: 700px;
+  padding: 2rem;
   background-color: #212121;
 }
+
 
 @media screen and (max-width: 800px) {
   .content {

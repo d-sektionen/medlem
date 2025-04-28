@@ -3,10 +3,24 @@ import { container, containerContainer, title, date } from "./bookingItem.module
 import { FaInfoCircle, FaTrash, FaPen, FaCheck, FaTimes } from "react-icons/fa";
 import { CreateNewBooking } from "./createNewBooking";
 import { BookingInputForm } from "./bookingInputForm";
-import { put } from "../request";
 import { formatDate } from "./bookingUtils";
 import useSWR from "swr";
 import { UserContext } from "../layout/layout";
+
+/**
+ * BookingItem component represents a selectable resource
+ * 
+ * @param {} booking - 
+ * @param {} showDeleteIcon - 
+ * @param {} onDetailsClick -
+ * @param {} onDeleteClick -
+ * @param {} onUpdate - 
+ * @param {} onSubmit -
+ * @param {} validateBooking - 
+ * 
+ * @description
+ * This component 
+ */
 
 export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteClick, onUpdate, onDeny, onConfirm,  validateBooking}) => {
   const [isEditing, setIsEditing] = useState(false);

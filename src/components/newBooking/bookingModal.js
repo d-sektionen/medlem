@@ -4,12 +4,24 @@ import { Button } from "../ui/buttons";
 import { post } from '../request'
 import { useCloseModal } from '../modal/useModal'
 import { formatDate } from "./bookingUtils";
+
+/**
+ * BookingModal component represents a selectable resource
+ * 
+ * @param {} selectedItem - 
+ * @param {} formValues - 
+ * @param {} mutateBooking -
+ * @param {} booking - 
+ * 
+ * @description
+ * This component 
+ */
+
 export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}) => {
   const [restrictedTimeslot, setRestrictedTimeslot] = useState(false);
-  const [description, setDescription] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [errors, setErrors] = useState({});
-  console.log("Selecteditem", selectedItem)
+  // console.log("Selecteditem", selectedItem)
   const close = useCloseModal()
 
   const handleBooking = (e) => {
@@ -33,7 +45,7 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
   const saveBooking = () => {
     const request = createBooking({
       item_id: selectedItem.id,
-      description,
+      description: formValues.description,
       start: formatDate(formValues.startDate, formValues.startTime),
       end: formatDate(formValues.endDate, formValues.endTime),
       restricted_timeslot: restrictedTimeslot,
@@ -61,14 +73,19 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
   return (
     <>
       <form onSubmit={handleBooking} className={wrapper}>
-            <p>{`Startdatum: ${formValues?.startDate} ${formValues.startTime}`}</p>
-            <p className={errorStyle}>{errors.start}</p>
-            <p>{`Slutdatum: ${formValues?.endDate} ${formValues.endTime}`}</p>
-            <p className={errorStyle}>{errors.end}</p>
-            <br></br>
-        <label for="description">Ändamål</label><br></br>
-        <textarea name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Skriv ditt ändamål här" className={textArea}></textarea>
-        <p className={errorStyle}>{errors.description}</p>
+        <p>{`Startdatum: ${formValues?.startDate} ${formValues.startTime}`}</p>
+        <p className={errorStyle}>{errors.start}</p>
+        <p>{`Slutdatum: ${formValues?.endDate} ${formValues.endTime}`}</p>
+        <p className={errorStyle}>{errors.end}</p>
+        <br></br>
+
+        {/* REMOVE THIS PART ? */}
+        <label for="description">Ändamål:</label><br></br>
+        {/*<textarea name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Skriv ditt ändamål här" className={textArea}></textarea>
+        <p className={errorStyle}>{errors.description}</p> */}
+        <p>{formValues.description}</p>
+
+
         <h3>
             {'Begränsad tidsperiod '}
         </h3>
@@ -86,16 +103,18 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
         </div>
         <p className={errorStyle}>{errors.restricted_timeslot}</p>
     
-      <div className={inlineInput}>
-      <input type="checkbox"
-      checked={acceptTerms}
-      onChange={(e)=> setAcceptTerms(e.target.checked)}/>
-      <p>Jag har läst och godkänner <a href={selectedItem.terms}>bokningsavtalet</a>.</p>
-      </div>
-      <p className={errorStyle}>{errors.acceptTerms}</p>
-      <p className={errorStyle}>{errors.non_field_errors}</p>
-      
-      <Button type="submit">Boka</Button> 
+        <div className={inlineInput}>
+          <input type="checkbox"
+            checked={acceptTerms}
+            onChange={(e)=> setAcceptTerms(e.target.checked)}/>
+            
+          <p>Jag har läst och godkänner <a href={selectedItem.terms}>bokningsavtalet</a>.</p>
+        </div>
+        
+        <p className={errorStyle}>{errors.acceptTerms}</p>
+        <p className={errorStyle}>{errors.non_field_errors}</p>
+        
+        <Button type="submit">Boka</Button> 
       </form>
     </>
   )

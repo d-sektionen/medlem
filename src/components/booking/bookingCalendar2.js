@@ -110,7 +110,7 @@ export const BookingCalendar2 = ({ bookings }) => {
             return eventStart >= dayStart && eventStart < dayEnd;
         });
     });
-    console.log('eventsByDay:', eventsByDay)
+    // console.log('eventsByDay:', eventsByDay)
     
     /* Event handlers */
     const handleChangeWeek = (direction) => {
