@@ -3,7 +3,7 @@ import { FaCar, FaTrailer, FaToolbox, FaCamera} from "react-icons/fa";
 import { LuLandPlot, LuDrill} from "react-icons/lu";
 import { FaTent } from "react-icons/fa6";
 import BookableResource from "./bookableResource";
-import { container, outerContainer } from "./bookableResourceContainer.module.scss";
+import { container } from "./bookableResourceContainer.module.scss";
 
 /**
  * BookableResourceContainer component represents a selectable resource
@@ -19,7 +19,7 @@ import { container, outerContainer } from "./bookableResourceContainer.module.sc
 const BookableResourceContainer = ({items, selectedItem, onSelectedItemChange}) => {
 
   return (
-    <div className={outerContainer}>
+    <div>
       <div className={container}>
         {items?.map((item) => (
           <BookableResource

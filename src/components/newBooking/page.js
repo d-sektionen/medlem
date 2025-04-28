@@ -3,7 +3,6 @@ import {page, bookingList, resourceSelector, content, calendarPadding, infoBox, 
 import BookableResourceContainer from "./bookableResourceContainer"
 import { BookingsList } from "./bookingsList"
 import { AlertBanner } from "./alertBanner"
-import BookingCalendar from "../booking/bookingCalendar"
 import useSWR from "swr"
 import { parseISO, differenceInMinutes, isBefore, isEqual, startOfISOWeek, subWeeks } from 'date-fns';
 import { FaCar, FaTrailer, FaToolbox, FaCamera, FaBox } from "react-icons/fa";
@@ -11,10 +10,10 @@ import { LuLandPlot, LuDrill} from "react-icons/lu";
 import { FaTent } from "react-icons/fa6";
 import { UserContext } from "../layout/layout"
 import { CreateNewBooking } from "./createNewBooking"
-import { BookingCalendar2 } from "../booking/bookingCalendar2"
+import { BookingCalendar2 } from "./bookingCalendar2"
 import { post, put, del } from "../request"
 import useModal from '../modal/useModal'
-import ViewBooking from '../booking/viewBooking'
+import ViewBooking from './viewBooking'
 import useConfirmModal from '../modal/useConfirmModal'
 import { useMediaQuery } from "../ui/useMediaQuery";
 import { Button } from "../ui/buttons";

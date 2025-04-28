@@ -36,7 +36,7 @@ export const BookingsList = ({bookings, deletable, onDetailsClick, onDeleteClick
   return (
       <div className={container}>
         {showAll && (
-          <div className={container}>{filteredBookings?.map((booking, index) => (<BookingItem booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} onUpdate={onUpdate} onConfirm={onConfirm} onDeny={onDeny} onkey={`booking-item-${index}`} validateBooking={validateBooking}/>))}
+          <div className={container}>{filteredBookings?.map((booking, index) => (<BookingItem key={`booking-item-${booking.id}`} booking={booking} showDeleteIcon={deletable} onDetailsClick={onDetailsClick} onDeleteClick={onDeleteClick} onUpdate={onUpdate} onConfirm={onConfirm} onDeny={onDeny} onkey={`booking-item-${index}`} validateBooking={validateBooking}/>))}
           </div>
         )}
         {bookings?.length > 5 && (<Button onClick={showAll}>{showAllBookings ? 'Visa färre' : 'Visa alla bokningar'}</Button>)}

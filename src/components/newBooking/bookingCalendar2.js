@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMemo } from 'react'
-import { calendarHeader, vertLine, rightOverflow, calendarContainer, calendarContainerContainer, extraLines, gridLines, line, arrowButton, weekButton, column, timeColumn, timeContainer, mediaNarrow, mediaWide } from './bookingCalendar2.module.scss'
+import { calendarHeader, vertLine, rightOverflow, calendarContainer, calendarContainerContainer, extraLines, gridLines, line, arrowButton, weekButton, column, timeColumn, timeContainer, mediaNarrow } from './bookingCalendar2.module.scss'
 import { CalendarColumn } from './calendarColumn'
 import { areIntervalsOverlapping, getWeek, eachDayOfInterval, startOfDay, endOfDay, startOfWeek, endOfWeek, addDays, addWeeks } from 'date-fns'
 import ViewBooking from './viewBooking'
@@ -155,7 +155,7 @@ export const BookingCalendar2 = ({ bookings }) => {
                     <div className={column}>
                         {hoursOfDay.map(hour => (
                             <div key={hour} className={line}>
-                                <p className={`${timeColumn} ${mediaWide}`}>{`${hour.toString().padStart(2, '0')}${isNarrow ? "" : ":00"}`}</p>
+                                <p className={`${timeColumn}`}>{`${hour.toString().padStart(2, '0')}${isNarrow ? "" : ":00"}`}</p>
                             </div>
                         ))}
                     </div>
