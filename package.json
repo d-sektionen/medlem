@@ -30,7 +30,6 @@
     "gatsby-plugin-sass": "^6.13.1",
     "gatsby-source-filesystem": "^5.13.1",
     "geopattern": "^1.2.3",
-    "node-sass": "^9.0.0",
     "prop-types": "^15.8.1",
     "qrcode": "^1.5.3",
     "querystring": "^0.2.1",
