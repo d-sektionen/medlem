@@ -15,7 +15,7 @@ import useModal from '../modal/useModal'
 import ViewBooking from './viewBooking'
 import useConfirmModal from '../modal/useConfirmModal'
 import { Button } from "../ui/buttons";
-
+import { useMediaQuery } from "../ui/useMediaQuery"
 
 const getDate4WeeksAgo = date => {
   return subWeeks(startOfISOWeek(date), 4).toISOString()
@@ -121,10 +121,12 @@ export default function NewBookingPage () {
   }
   
   const sortedBookings = bookings?.sort((a, b) => new Date(a.start) - new Date(b.start))
-  const myBookings = sortedBookings?.filter(booking => booking.user.id === user.id) 
+  const myBookings = sortedBookings?.filter(booking => booking.user.id === user.id && booking.end >= new Date()) 
   const unConfirmedBookings = sortedBookings?.filter(booking => !booking.confirmed)
   const otherBookings = sortedBookings?.filter(booking => booking.user.id !== user.id && booking.end >= new Date())
   const resource = items?.find(item=>item.id === selectedResource)?.name
+  
+  const isNarrow = useMediaQuery("(max-width: 600px)")
 
   const handleDelete = (bookingId) => {
     openConfirmation(
@@ -135,6 +137,7 @@ export default function NewBookingPage () {
   const handleDetails = (booking) => {
     openViewBooking('Bokningsinformation', { booking });
   };
+
   
   return (
     <div className={page}>
@@ -143,7 +146,7 @@ export default function NewBookingPage () {
 
         <div className={resourceSelector}>
         <BookableResourceContainer items={sortedItemsWithIcons} selectedItem={selectedResource} onSelectedItemChange={handleSelectedResourceChange}/>
-        <p>{items?.find(item=>item.id === selectedResource)?.name}</p>
+        {isNarrow && (<p>{items?.find(item=>item.id === selectedResource)?.name}</p>)}
         </div>
 
         <div className={calendarPadding}>
