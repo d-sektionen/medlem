@@ -16,7 +16,7 @@ export const CalendarColumn = ({ events, onEventClick }) => {
     const isNarrow = useMediaQuery('(max-width: 600px)');
 
     const styles = {
-        heigth: '100%',
+        height: '100%',
         width: `calc((100% - ${isNarrow ? '1.5rem' : '4.5rem'}) / 7)`,
         position: 'relative',
         borderRight: '1px solid rgb(51, 53, 55)',
