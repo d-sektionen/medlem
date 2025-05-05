@@ -1,9 +1,18 @@
 import React from "react";
 import { CalendarEvent } from "./calendarEvent";
-import { set } from 'date-fns';
 import { useMediaQuery } from "../ui/useMediaQuery";
 
-export const CalendarColumn = ({ events, onEventClick, day }) => {
+/**
+ *  calenderColumn 
+ * 
+ * @param {} events - 
+ * @param {} onEventClick - 
+ * 
+ * @description
+ * This component 
+ */
+
+export const CalendarColumn = ({ events, onEventClick }) => {
     const isNarrow = useMediaQuery('(max-width: 600px)');
 
     const styles = {
@@ -15,12 +24,10 @@ export const CalendarColumn = ({ events, onEventClick, day }) => {
     }
 
     return (
-        <>
         <div style={styles}>
             {events?.map(event => (
                 <CalendarEvent onEventClick={()=>onEventClick(event)} key={event.id} {...event} />
             ))}
         </div>
-        </>
     )
 }

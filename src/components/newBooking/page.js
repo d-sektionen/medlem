@@ -2,7 +2,6 @@ import React, {useContext, useState} from "react"
 import {page, bookingList, resourceSelector, content, calendarPadding, infoBox, infoPopup} from "./page.module.scss"
 import BookableResourceContainer from "./bookableResourceContainer"
 import { BookingsList } from "./bookingsList"
-import { AlertBanner } from "./alertBanner"
 import useSWR from "swr"
 import { parseISO, differenceInMinutes, isBefore, isEqual, startOfISOWeek, subWeeks } from 'date-fns';
 import { FaCar, FaTrailer, FaToolbox, FaCamera, FaBox } from "react-icons/fa";
@@ -10,12 +9,11 @@ import { LuLandPlot, LuDrill} from "react-icons/lu";
 import { FaTent } from "react-icons/fa6";
 import { UserContext } from "../layout/layout"
 import { CreateNewBooking } from "./createNewBooking"
-import { BookingCalendar2 } from "./bookingCalendar2"
+import { BookingCalendar } from "./bookingCalendar"
 import { post, put, del } from "../request"
 import useModal from '../modal/useModal'
 import ViewBooking from './viewBooking'
 import useConfirmModal from '../modal/useConfirmModal'
-import { useMediaQuery } from "../ui/useMediaQuery";
 import { Button } from "../ui/buttons";
 
 
@@ -32,8 +30,6 @@ export default function NewBookingPage () {
   const [openConfirmation] = useConfirmModal()
 
   const [view, setVisible] = useState(false);
-  
-  const alertMessage = "Bokningar mellan 11 November och 31 December behöver godkännas manuellt."
 
   const { data: items } = useSWR('/booking/items/')
   const { data: bookings, mutate } = useSWR(
@@ -51,15 +47,8 @@ export default function NewBookingPage () {
       mutate([...bookings.filter(b => b.id !== bookingId), updatedBooking])
       return updatedBooking
     }
-  
-  const create = async data => {
-    const { data: newBooking } = await post('/booking/bookings/', data)
-    mutate([...bookings, newBooking])
-    return newBooking
-  }
 
   const destroy = async bookingId => {
-    console.log("Booking id to destroy:", bookingId)
     await del(`/booking/bookings/${bookingId}/`)
     mutate(bookings.filter(b => b.id !== bookingId))
   }
@@ -138,14 +127,12 @@ export default function NewBookingPage () {
   const resource = items?.find(item=>item.id === selectedResource)?.name
 
   const handleDelete = (bookingId) => {
-    console.log("Handling delete w/ bookingId:", bookingId)
     openConfirmation(
       'Är du säker på att du vill ta bort bokningen?',
       () => destroy(bookingId)
     )
   }
   const handleDetails = (booking) => {
-    console.log("Handling details:", booking)
     openViewBooking('Bokningsinformation', { booking });
   };
   
@@ -160,7 +147,7 @@ export default function NewBookingPage () {
         </div>
 
         <div className={calendarPadding}>
-          <BookingCalendar2 bookings={bookings} />
+          <BookingCalendar bookings={bookings} />
         </div>
 
         <div className={bookingList}>

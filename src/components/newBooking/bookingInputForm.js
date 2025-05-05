@@ -31,7 +31,6 @@ export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, 
     e.preventDefault()
 
     const validationErrors = validateBooking(startDate, startTime, endDate, endTime);
-    // console.log("BookingInputForm: validation results:", validationErrors)
 
     if (Object.keys(validationErrors).length > 0){
       console.error("invalid date", validationErrors)

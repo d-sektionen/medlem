@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useMemo } from 'react'
-import { calendarHeader, vertLine, rightOverflow, calendarContainer, calendarContainerContainer, extraLines, gridLines, line, arrowButton, weekButton, column, timeColumn, timeContainer, mediaNarrow } from './bookingCalendar2.module.scss'
+import { calendarHeader, vertLine, rightOverflow, calendarContainer, calendarContainerContainer, extraLines, gridLines, line, arrowButton, weekButton, column, timeColumn } from './bookingCalendar.module.scss'
 import { CalendarColumn } from './calendarColumn'
 import { areIntervalsOverlapping, getWeek, eachDayOfInterval, startOfDay, endOfDay, startOfWeek, endOfWeek, addDays, addWeeks } from 'date-fns'
 import ViewBooking from './viewBooking'
 import useModal from '../modal/useModal'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import {useMediaQuery} from '../ui/useMediaQuery'
-import { AlertBanner } from '../newBooking/alertBanner'
+import { AlertBanner } from './alertBanner'
 
 const splitMultiDayEvents = (event) => {
     const start = new Date(event.start);
@@ -44,7 +44,7 @@ const colors = [
 // Add different color if the booking isn't confirmed
 const unconfirmedColor = { fill: '183 124 13 / 20%', border: '183 124 13 / 20%' };
 
-export const BookingCalendar2 = ({ bookings }) => {
+export const BookingCalendar = ({ bookings }) => {
     /* Vars and state */
     
     const [openViewBooking] = useModal(ViewBooking)
@@ -110,7 +110,6 @@ export const BookingCalendar2 = ({ bookings }) => {
             return eventStart >= dayStart && eventStart < dayEnd;
         });
     });
-    // console.log('eventsByDay:', eventsByDay)
     
     /* Event handlers */
     const handleChangeWeek = (direction) => {
@@ -121,7 +120,6 @@ export const BookingCalendar2 = ({ bookings }) => {
     }
 
     const handleEventClick = (booking) => {
-        console.log('event/booking:', event)
         openViewBooking('Bokningsinformation', { booking });
     }
 

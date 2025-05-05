@@ -1,10 +1,8 @@
 import React, { useState, useContext } from "react";
 import { container, containerContainer, title, date } from "./bookingItem.module.scss";
 import { FaInfoCircle, FaTrash, FaPen, FaCheck, FaTimes } from "react-icons/fa";
-import { CreateNewBooking } from "./createNewBooking";
 import { BookingInputForm } from "./bookingInputForm";
 import { formatDate } from "./bookingUtils";
-import useSWR from "swr";
 import { UserContext } from "../layout/layout";
 
 /**

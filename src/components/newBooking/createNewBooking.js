@@ -1,9 +1,8 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/buttons";
-import { formRow, formBlock, form, buttonWrapper, errorInput, errorMessage } from "./createNewBooking.module.scss";
+import { buttonWrapper } from "./createNewBooking.module.scss";
 import { BookingModal } from "./bookingModal"
 import useModal from '../modal/useModal'
-import { parseISO, differenceInMinutes, isBefore, isEqual } from 'date-fns';
 import { BookingInputForm } from "./bookingInputForm";
 
 /**
@@ -22,7 +21,7 @@ import { BookingInputForm } from "./bookingInputForm";
 
 export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings, validateBooking}) => {
   const [showBookingForm, setShowBookingForm] = useState(false);
-  const [openBookingModal, isBookingModalOpen] = useModal(BookingModal)
+  const [openBookingModal] = useModal(BookingModal)
 
   const handleClick = () => {
     setShowBookingForm(true);
@@ -32,7 +31,6 @@ export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings
     e.preventDefault();
     
     const formData = new FormData(e.target);
-    console.log("Form data in createbooking:",formData)
     const formValues = {
       startDate: formData.get('startDate'),
       startTime: formData.get('startTime'),
@@ -40,11 +38,6 @@ export const CreateNewBooking = ({selectedItemId, items, mutateBooking, bookings
       endTime: formData.get('endTime'),
       description: formData.get('description')
     }
-    /*if (!validateBooking(formValues.startDate, formValues.startTime, formValues.endDate, formValues.endTime)) {
-      console.error("invalid date")
-      return;
-    }*/
-    // console.log('Form submitted w/ data:', formValues);
     openBookingModal(`Boka ${selectedItem.name}`, { selectedItem, formValues, mutateBooking, bookings});
     setShowBookingForm(false)
   }

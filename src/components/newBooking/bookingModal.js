@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { formItem, popup, popupContent, textArea, wrapper, inlineInput, errorStyle} from "./bookingModal.module.scss";
+import { wrapper, inlineInput, errorStyle} from "./bookingModal.module.scss";
 import { Button } from "../ui/buttons";
 import { post } from '../request'
 import { useCloseModal } from '../modal/useModal'
@@ -21,7 +21,7 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
   const [restrictedTimeslot, setRestrictedTimeslot] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [errors, setErrors] = useState({});
-  // console.log("Selecteditem", selectedItem)
+
   const close = useCloseModal()
 
   const handleBooking = (e) => {
@@ -57,13 +57,11 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
         close()
       })
       .catch(err => {
-        console.log("error one:", err)
         setErrors({
           ...errors,
           ...err.response?.data
         })
-        console.log("error two:", err)
-        console.log(err.response?.data)
+        console.error("Bookingmodal error:", err.response?.data)
       })
   }
   
@@ -79,13 +77,8 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
         <p className={errorStyle}>{errors.end}</p>
         <br></br>
 
-        {/* REMOVE THIS PART ? */}
         <label for="description">Ändamål:</label><br></br>
-        {/*<textarea name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Skriv ditt ändamål här" className={textArea}></textarea>
-        <p className={errorStyle}>{errors.description}</p> */}
         <p>{formValues.description}</p>
-
-
         <h3>
             {'Begränsad tidsperiod '}
         </h3>

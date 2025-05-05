@@ -10,8 +10,6 @@ export const AlertBanner = ({ restrictedTimeslot }) => {
     return new Date(time).toLocaleDateString('sv-SE', options);
   };
 
-  // console.log("Restricted timeslot", restrictedTimeslot)
-
   return (
       <div className={container}>
         <FaExclamationTriangle />

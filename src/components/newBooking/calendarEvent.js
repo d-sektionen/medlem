@@ -1,10 +1,21 @@
 import React from "react";
 import { format, differenceInMinutes } from 'date-fns';
-import { wrapper, text } from './calendarEvent.module.scss'
-import { useMediaQuery } from '../ui/useMediaQuery';
+/**
+ *  calenderEvent 
+ * 
+ * @param {} start - 
+ * @param {} end - 
+ * @param {} color -
+ * @param {} user -
+ * @param {} onEventClick -
+ * @param {} isDraft -
+ * @param {} restricted_timeslot -
+ * 
+ * @description
+ * This component 
+ */
 
-export const CalendarEvent = ({ start, end, id, color, user, onEventClick, isDraft, restricted_timeslot }) => {
-    const isNarrow = useMediaQuery('(max-width: 600px)');
+export const CalendarEvent = ({ start, end, color, user, onEventClick, isDraft, restricted_timeslot }) => {
     const startDate = new Date(start);
     const endDate = new Date(end);
     const startHours = startDate.getHours() + startDate.getMinutes() / 60;
@@ -30,11 +41,13 @@ export const CalendarEvent = ({ start, end, id, color, user, onEventClick, isDra
         <div className="wrapper" style={styles} onClick={onEventClick}>
             <p style={{color: '#B77C0D', marginTop: '32px'}}>Begränsad period</p>
         </div>
-        )} else {
-    return (
-        <div className="booking" style={styles} onClick={onEventClick}>
-            <p>{format(startDate, 'HH:mm')} - {format(endDate, 'HH:mm')}</p>
-            <p>{user.first_name}</p>
-        </div>
-    )}
+        )
+    } else {
+        return (
+            <div className="booking" style={styles} onClick={onEventClick}>
+                <p>{format(startDate, 'HH:mm')} - {format(endDate, 'HH:mm')}</p>
+                <p>{user.first_name}</p>
+            </div>
+        )
+    }
 }

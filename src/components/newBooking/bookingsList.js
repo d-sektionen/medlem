@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BookingItem } from "./bookingItem";
 import { Button } from "../ui/buttons";
-import { container, wrapper } from "./bookingsList.module.scss";
+import { container } from "./bookingsList.module.scss";
 
 /**
  * BookingList component represents a selectable resource
@@ -32,7 +32,6 @@ export const BookingsList = ({bookings, deletable, onDetailsClick, onDeleteClick
   if (bookings?.length <= 0) {
     return (<p>Du har inga bokningar</p>)
   }
-  // console.log(bookings, deletable, onDetailsClick, onDeleteClick);
   return (
       <div className={container}>
         {showAll && (
@@ -42,6 +41,4 @@ export const BookingsList = ({bookings, deletable, onDetailsClick, onDeleteClick
         {bookings?.length > 5 && (<Button onClick={showAll}>{showAllBookings ? 'Visa färre' : 'Visa alla bokningar'}</Button>)}
       </div>
     )
-    
-  
 }

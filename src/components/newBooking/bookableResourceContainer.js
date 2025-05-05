@@ -1,9 +1,5 @@
-import React, { useState } from "react";
-import { FaCar, FaTrailer, FaToolbox, FaCamera} from "react-icons/fa";
-import { LuLandPlot, LuDrill} from "react-icons/lu";
-import { FaTent } from "react-icons/fa6";
-import BookableResource from "./bookableResource";
-import { container } from "./bookableResourceContainer.module.scss";
+import React from "react";
+import { container, resourceContainer, label, graphic, selected } from "./bookableResourceContainer.module.scss";
 
 /**
  * BookableResourceContainer component represents a selectable resource
@@ -21,15 +17,14 @@ const BookableResourceContainer = ({items, selectedItem, onSelectedItemChange}) 
   return (
     <div>
       <div className={container}>
-        {items?.map((item) => (
-          <BookableResource
-            key={item.id}
-            title={item.name}
-            icon={item.icon}
-            isSelected={item.id === selectedItem}
-            onClick={() => onSelectedItemChange(item.id)}
-          />
-        ))}
+        {items?.map((item) => {
+          const containerClasses = `${resourceContainer} ${item.id === selectedItem ? selected : ""}`;
+          return (
+            <div className={containerClasses} onClick={() => onSelectedItemChange(item.id)} key={item.id}>
+              <p className={label}>{item.name}</p>
+              <div className={graphic}>{item.icon}</div>
+            </div>)
+          })}
       </div>
     </div>
   );
