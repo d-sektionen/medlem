@@ -77,7 +77,7 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
         <p className={errorStyle}>{errors.end}</p>
         <br></br>
 
-        <label for="description">Ändamål:</label><br></br>
+        <label htmlFor="description">Ändamål:</label><br></br>
         <p>{formValues.description}</p>
         <h3>
             {'Begränsad tidsperiod '}
