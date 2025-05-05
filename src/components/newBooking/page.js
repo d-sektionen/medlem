@@ -132,11 +132,11 @@ export default function NewBookingPage () {
   }
   
   const sortedBookings = bookings?.sort((a, b) => new Date(a.start) - new Date(b.start))
-  const myBookings = sortedBookings?.filter(booking => booking.user.id === user.id)
+  const myBookings = sortedBookings?.filter(booking => booking.user.id === user.id) 
   const unConfirmedBookings = sortedBookings?.filter(booking => !booking.confirmed)
-  const otherBookings = sortedBookings?.filter(booking => booking.user.id !== user.id)
+  const otherBookings = sortedBookings?.filter(booking => booking.user.id !== user.id && booking.end >= new Date())
   const resource = items?.find(item=>item.id === selectedResource)?.name
-  
+
   const handleDelete = (bookingId) => {
     console.log("Handling delete w/ bookingId:", bookingId)
     openConfirmation(
