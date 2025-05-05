@@ -71,18 +71,12 @@ module.exports.PAGES = [
     requiredPrivileges: 'member',
     menu: true,
     component: './src/components/lockPage.js',
-  },/*
+  },
   {
     path: '/booking',
     title: 'Bokning',
     menu: true,
     component: './src/components/booking/page.js',
-  },*/
-  {
-    path: '/new-booking',
-    title: 'Ny bokning',
-    menu: true,
-    component: './src/components/newBooking/page.js',
   },
   {
     path: '/attendance',
