@@ -31,7 +31,10 @@ export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, 
     e.preventDefault()
 
     const validationErrors = validateBooking(startDate, startTime, endDate, endTime);
-
+    if (!description || description?.length < 1){
+      validationErrors.description = "Beskrivning är obligatorisk"
+      console.error("invalid description", validationErrors)
+    }
     if (Object.keys(validationErrors).length > 0){
       console.error("invalid date", validationErrors)
       setErrors(validationErrors)
@@ -62,8 +65,9 @@ export const BookingInputForm = ({handleSubmit, type, booking, validateBooking, 
       {errors.duration && <div className={errorMessage}>{errors.duration}</div>}
       {errors.overlap && <div className={errorMessage}>{errors.overlap}</div>}
       <div>
-            <label for="description">Ändamål</label><br></br>
-            <textarea name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Skriv ditt ändamål här"></textarea>
+        <label for="description">Ändamål</label><br></br>
+        <textarea name="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Skriv ditt ändamål här"></textarea>
+        {errors.description && <div className={errorMessage}>{errors.description}</div>}
       </div>
       <div className={buttonContainer}>
         <Button type="button" onClick={handleAbort}>Avbryt</Button>
