@@ -4,20 +4,24 @@ import { post } from '../request'
 const VoteForm = ({ vote, setErrors }) => {
   const [checkedId, setCheckedId] = useState(-1)
   const [successfullyVoted, setSuccessfullyVoted] = useState(false)
+  const [sentVote, setSentVote] = useState(false)
 
   const placeVote = async () => {
+    if (sentVote || successfullyVoted) return
     setErrors({})
 
+    setSentVote(true)
     const voteData = {
       vote_id: vote.id,
       alternative_id: checkedId,
     }
 
     await post('/voting/made_votes/', voteData)
-      .then(() => setSuccessfullyVoted(true))
-      .catch(err => {
-        setErrors({ voteError: err.response.data.error })
-      })
+    .then(() => setSuccessfullyVoted(true))
+    .catch(err => {
+      setSentVote(false)
+      setErrors({ voteError: err.response.data.error })
+    })
   }
   const votingDisabled = checkedId === -1
   const buttonText = votingDisabled ? 'Välj ett alternativ' : 'Rösta'
@@ -46,7 +50,7 @@ const VoteForm = ({ vote, setErrors }) => {
               </li>
             ))}
           </ul>
-          <button type="button" disabled={votingDisabled} onClick={placeVote}>
+          <button type="button" disabled={votingDisabled || successfullyVoted || sentVote} onClick={placeVote}>
             {buttonText}
           </button>
         </>
