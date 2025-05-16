@@ -1,0 +1,30 @@
+@import 'vars';
+
+.emailBoxes  {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.4rem;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.previewBox {
+  border: 1px solid #aaa;
+  padding: 1rem;
+}
+
+.fieldError {
+  color: $red;
+}
+
+.sendSuccess {
+  color: green;
+}
