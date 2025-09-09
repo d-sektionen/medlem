@@ -23,8 +23,11 @@ const CalendarSubscriptions = () => {
     if (sub.include_bookings_by_user) parts.push('bokningar av användare')
     if (sub.include_bookable_items) {
       sub.include_bookable_items.forEach(element => {
-        if(!bookableItems.isLoading){
-          parts.push(bookableItems.data.find(item => item.id === element).name)
+        if (!bookableItems.isLoading) {
+          const item = bookableItems.data.find(item => item.id === element)
+          const name = item?.name ?? "Gömt objekt"
+
+          parts.push(name)
         }
       });
     }
