@@ -4,8 +4,7 @@ import BookableResourceContainer from "./bookableResourceContainer"
 import { BookingsList } from "./bookingsList"
 import useSWR from "swr"
 import { parseISO, differenceInMinutes, isBefore, isEqual, startOfISOWeek, subWeeks } from 'date-fns';
-import { FaCar, FaTrailer, FaToolbox, FaCamera, FaBox } from "react-icons/fa";
-import { LuLandPlot, LuDrill} from "react-icons/lu";
+import { FaCar, FaTrailer, FaToolbox, FaCamera, FaBox, FaWarehouse } from "react-icons/fa";
 import { FaTent } from "react-icons/fa6";
 import { UserContext } from "../layout/layout"
 import { CreateNewBooking } from "./createNewBooking"
@@ -105,11 +104,11 @@ export default function NewBookingPage () {
   const icons = {
     1: <FaCar />,
     2: <FaTrailer />,
-    3: <LuLandPlot />,
+    3: <FaWarehouse />,
     4: <FaTent />,
-    6: <LuDrill />,
     7: <FaToolbox />,
-    9: <FaCamera />
+    9: <FaCamera />,
+    10: <FaCar />,
   }
   const itemsWithIcons = items?.map(item => ({
     ...item,
