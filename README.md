@@ -44,7 +44,7 @@ Tip: Use `nvm` to manage multiple node versions.
 
 Clone the repository and view its directory in a terminal.
 
-Copy the `.env.example` file to `.env`.
+Copy the `.env.example` file to `.env.development`.
 
 Run the following commands:
 
