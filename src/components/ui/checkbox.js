@@ -16,7 +16,7 @@ const Checkbox = ({ text, value, click, defaultChecked }) => (
     <label>
       <input
         type="checkbox"
-        onClick={e => click(e)}
+        onClick={(e) => click(e)}
         value={value}
         defaultChecked={defaultChecked}
       />
@@ -38,53 +38,53 @@ Checkbox.defaultProps = {
   click: () => null,
 }
 
-
 // OBS! if switch is used again, it first needs to be changed to use framer-motion instead
-const Switch = ({ off, on, click, defaultToggled }) => {
-  const [toggled, setToggled] = useState(defaultToggled)
+// const Switch = ({ off, on, click, defaultToggled }) => {
+//   const [toggled, setToggled] = useState(defaultToggled)
 
-  const Slider = posed.div({
-    on: { background: 'blue' },
-    off: { background: 'lightgray' },
-    transition: { duration: 4000 },
-  })
+//   const Slider = posed.div({
+//     on: { background: 'blue' },
+//     off: { background: 'lightgray' },
+//     transition: { duration: 4000 },
+//   })
 
-  const Blob = posed.div({
-    on: { x: '90%' },
-    off: { x: '0%' },
-    transition: { duration: 1000 },
-  })
+//   const Blob = posed.div({
+//     on: { x: '90%' },
+//     off: { x: '0%' },
+//     transition: { duration: 1000 },
+//   })
 
-  return (
-    <div className={[switchy, toggled ? On : Off].join(' ')}>
-      <Slider
-        className={slider}
-        pose={toggled ? 'on' : 'off'}
-        onClick={() => {
-          setToggled(!toggled)
-          click(!toggled)
-        }}
-      >
-        <Blob className={blob} pose={toggled ? 'on' : 'off'} />
-      </Slider>
-      <p>{toggled ? on : off}</p>
-    </div>
-  )
-}
+//   return (
+//     <div className={[switchy, toggled ? On : Off].join(' ')}>
+//       <Slider
+//         className={slider}
+//         pose={toggled ? 'on' : 'off'}
+//         onClick={() => {
+//           setToggled(!toggled)
+//           click(!toggled)
+//         }}
+//       >
+//         <Blob className={blob} pose={toggled ? 'on' : 'off'} />
+//       </Slider>
+//       <p>{toggled ? on : off}</p>
+//     </div>
+//   )
+// }
 
-Switch.propTypes = {
-  off: PropTypes.string.isRequired,
-  on: PropTypes.string.isRequired,
-  click: PropTypes.func,
-  defaultToggled: PropTypes.bool,
-}
+// Switch.propTypes = {
+//   off: PropTypes.string.isRequired,
+//   on: PropTypes.string.isRequired,
+//   click: PropTypes.func,
+//   defaultToggled: PropTypes.bool,
+// }
 
-Switch.defaultProps = {
-  click: () => null,
-  defaultToggled: false,
-}
+// Switch.defaultProps = {
+//   click: () => null,
+//   defaultToggled: false,
+// }
 
-export { Checkbox
+export {
+  Checkbox,
   // OBS! if switch is used again, it first needs to be changed to use framer-motion instead
-  // , Switch 
+  // , Switch
 }

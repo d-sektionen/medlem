@@ -1,0 +1,14 @@
+FROM node:20-alpine AS base
+RUN apk add python3 gcc make g++;
+
+FROM base AS installer
+WORKDIR /opt/app
+ADD package.json package-lock.json ./
+RUN npm ci
+
+FROM base AS runner
+WORKDIR /opt/app
+COPY --from=installer /opt/app/package.json /opt/app/package.json
+COPY --from=installer /opt/app/node_modules /opt/app/node_modules
+COPY ./gatsby-* /opt/app/
+ENTRYPOINT [ "/opt/app/node_modules/.bin/gatsby", "develop", "--host", "0.0.0.0" ]

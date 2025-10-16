@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { BASE_URL } from '../../config'
+import { apiUrl } from '../../config'
 
 /**
  * A wrapper of axios which automatically handles JWT and base url
@@ -13,7 +13,7 @@ const request = config => {
   const isFullUrl = /^https?:\/\//
   const url = isFullUrl.test(config.endpoint)
     ? config.endpoint
-    : BASE_URL + config.endpoint
+    : apiUrl(config.endpoint)
 
   // Add auth token to headers
   const token = window.localStorage.getItem('token')

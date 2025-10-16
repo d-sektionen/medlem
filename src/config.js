@@ -12,8 +12,11 @@ The value in there will be prefered.
 .env.development will affect `npm start`
 .env.production will affect `npm run build` and `npm run deploy`
 */
-module.exports.BASE_URL =
-  process.env.BASE_URL || 'https://backend.d-sektionen.se'
+module.exports.apiUrl = (path = '') => {
+  const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+  if (path.startsWith('/')) return `${baseUrl}${path}`
+  else return `${baseUrl}/${path}`
+}
 
 module.exports.TITLE = 'Medlem D-sektionen'
 
