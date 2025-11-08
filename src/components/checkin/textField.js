@@ -30,10 +30,11 @@ const useTextField = (onEnter, elem) => {
       elem.current.addEventListener('keydown', downHandler)
       // Remove event listeners on cleanup
       return () => {
+        if (!elem.current) return;
         elem.current.removeEventListener('keydown', downHandler)
       }
     }
-    return () => {}
+    return () => { }
   }, [onEnter, elem]) // Empty array ensures that effect is only run on mount and unmount
 
   return text
