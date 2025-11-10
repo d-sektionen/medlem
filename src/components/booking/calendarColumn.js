@@ -25,8 +25,8 @@ export const CalendarColumn = ({ events, onEventClick }) => {
 
     return (
         <div style={styles}>
-            {events?.map(event => (
-                <CalendarEvent onEventClick={()=>onEventClick(event)} key={event.id} {...event} />
+            {events?.map((event, i) => (
+                <CalendarEvent onEventClick={()=>onEventClick(event)} key={event.id} {...event} index={i} />
             ))}
         </div>
     )
