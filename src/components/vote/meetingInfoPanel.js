@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '../ui/buttons'
 import { post, del } from '../request'
 
-const MeetingInfoPanel = ({ currentMeeting }) => (
+const MeetingInfoPanel = ({ currentMeeting, setCurrentMeeting }) => (
   <div>
     <h2>Mötesinfo</h2>
     <h3>{currentMeeting.name}</h3>
@@ -21,7 +21,10 @@ const MeetingInfoPanel = ({ currentMeeting }) => (
         {currentMeeting.attending ? (
           <Button
             onClick={async () => {
-              await del(`/voting/attend/?meeting_id=${currentMeeting.id}`)
+              const res = await del(
+                `/voting/attend/?meeting_id=${currentMeeting.id}`
+              )
+              console.log(res)
             }}
           >
             Lämna röstlängden
@@ -29,7 +32,11 @@ const MeetingInfoPanel = ({ currentMeeting }) => (
         ) : (
           <Button
             onClick={async () => {
-              await post('/voting/attend/', { meeting_id: currentMeeting.id })
+              const res = await post('/voting/attend/', {
+                meeting_id: currentMeeting.id,
+              })
+              console.log(res.data.meeting)
+              setCurrentMeeting(res.data.meeting)
             }}
           >
             Gå med i röstlängden

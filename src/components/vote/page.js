@@ -38,6 +38,7 @@ const VotePage = ({ pageContext: { title } }) => {
             <GridItem>
               <MeetingInfoPanel
                 currentMeeting={currentMeeting}
+                setCurrentMeeting={setCurrentMeeting}
               />
             </GridItem>
             {/* {currentMeeting.enable_speaker_requests && ( */}
