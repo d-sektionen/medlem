@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '../ui/buttons'
 import { post, del } from '../request'
 
-const MeetingInfoPanel = ({ currentMeeting, revalidate }) => (
+const MeetingInfoPanel = ({ currentMeeting }) => (
   <div>
     <h2>Mötesinfo</h2>
     <h3>{currentMeeting.name}</h3>
@@ -22,7 +22,6 @@ const MeetingInfoPanel = ({ currentMeeting, revalidate }) => (
           <Button
             onClick={async () => {
               await del(`/voting/attend/?meeting_id=${currentMeeting.id}`)
-              revalidate()
             }}
           >
             Lämna röstlängden
@@ -31,7 +30,6 @@ const MeetingInfoPanel = ({ currentMeeting, revalidate }) => (
           <Button
             onClick={async () => {
               await post('/voting/attend/', { meeting_id: currentMeeting.id })
-              revalidate()
             }}
           >
             Gå med i röstlängden

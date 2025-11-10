@@ -10,8 +10,7 @@ import VotePanel from './votePanel'
 
 const VotePage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
-  const { data: meetings, revalidate } = useSWR('/voting/meetings/')
-
+  const { data: meetings } = useSWR('/voting/meetings/')
   // sync currentMeeting with updated meetings
   useEffect(
     () => {
@@ -39,7 +38,6 @@ const VotePage = ({ pageContext: { title } }) => {
             <GridItem>
               <MeetingInfoPanel
                 currentMeeting={currentMeeting}
-                revalidate={revalidate}
               />
             </GridItem>
             {/* {currentMeeting.enable_speaker_requests && ( */}
