@@ -2,49 +2,60 @@ import React from 'react'
 import { Button } from '../ui/buttons'
 import { post, del } from '../request'
 
-const MeetingInfoPanel = ({ currentMeeting, setCurrentMeeting }) => (
-  <div>
-    <h2>Mötesinfo</h2>
-    <h3>{currentMeeting.name}</h3>
-    <p>
-      <strong>
-        {currentMeeting.attending
-          ? 'Du deltar på mötet.'
-          : 'Du är inte registrerad på mötet.'}
-      </strong>
-    </p>
-    {currentMeeting.description && (
-      <p style={{ whiteSpace: 'pre-line' }}>{currentMeeting.description}</p>
-    )}
-    {currentMeeting.open_attendance && (
+export default function MeetingInfoPanel({
+  currentMeeting,
+  setCurrentMeeting,
+}) {
+  return (
+    <div>
+      <h2>Mötesinfo</h2>
+      <h3>{currentMeeting.name}</h3>
       <p>
-        {currentMeeting.attending ? (
-          <Button
-            onClick={async () => {
-              const res = await del(
-                `/voting/attend/?meeting_id=${currentMeeting.id}`
-              )
-              console.log(res)
-            }}
-          >
-            Lämna röstlängden
-          </Button>
-        ) : (
-          <Button
-            onClick={async () => {
-              const res = await post('/voting/attend/', {
-                meeting_id: currentMeeting.id,
-              })
-              console.log(res.data.meeting)
-              setCurrentMeeting(res.data.meeting)
-            }}
-          >
-            Gå med i röstlängden
-          </Button>
-        )}
+        <strong>
+          {currentMeeting.attending
+            ? 'Du deltar på mötet.'
+            : 'Du är inte registrerad på mötet.'}
+        </strong>
       </p>
-    )}
-  </div>
-)
-
-export default MeetingInfoPanel
+      {currentMeeting.description && (
+        <p style={{ whiteSpace: 'pre-line' }}>{currentMeeting.description}</p>
+      )}
+      {currentMeeting.open_attendance && (
+        <p>
+          {currentMeeting.attending ? (
+            <Button
+              onClick={async () => {
+                try {
+                  await del(`/voting/attend/?meeting_id=${currentMeeting.id}`)
+                  // Needs to be a new object reference for react to trigger a update
+                  const copy = JSON.parse(JSON.stringify(currentMeeting))
+                  copy.attending = false
+                  setCurrentMeeting(copy)
+                } catch (error) {
+                  console.error('Failed to leave meeting attendance', error)
+                }
+              }}
+            >
+              Lämna röstlängden
+            </Button>
+          ) : (
+            <Button
+              onClick={async () => {
+                try {
+                  const res = await post('/voting/attend/', {
+                    meeting_id: currentMeeting.id,
+                  })
+                  setCurrentMeeting(res.data.meeting)
+                } catch (error) {
+                  console.error('Failed to join meeting attendance', error)
+                }
+              }}
+            >
+              Gå med i röstlängden
+            </Button>
+          )}
+        </p>
+      )}
+    </div>
+  )
+}
