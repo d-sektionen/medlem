@@ -71,8 +71,6 @@ export const BookingModal = ({
       })
   }
 
-  console.log(formValues)
-
   if (!formValues) {
     return <p>Loading...</p>
   }
