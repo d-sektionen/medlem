@@ -8,14 +8,18 @@ import SpeakerPanel from './speakerPanel'
 import MeetingInfoPanel from './meetingInfoPanel'
 import VotePanel from './votePanel'
 
-export default function VotePage({ pageContext: { title } }) {
+const VotePage = ({ pageContext: { title } }) => {
   const [currentMeeting, setCurrentMeeting] = useState(null)
-  const { data: meetings } = useSWR('/voting/meetings/')
+  const { data: meetings, revalidate } = useSWR('/voting/meetings/')
 
-  useEffect(() => {
-    if (currentMeeting)
-      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id))
-  }, [meetings])
+  // sync currentMeeting with updated meetings
+  useEffect(
+    () => {
+      if (currentMeeting)
+        setCurrentMeeting(meetings.find(m => m.id === currentMeeting.id))
+    },
+    [meetings]
+  )
 
   return (
     <BigPixels>
@@ -35,12 +39,14 @@ export default function VotePage({ pageContext: { title } }) {
             <GridItem>
               <MeetingInfoPanel
                 currentMeeting={currentMeeting}
-                setCurrentMeeting={setCurrentMeeting}
+                revalidate={revalidate}
               />
             </GridItem>
+            {/* {currentMeeting.enable_speaker_requests && ( */}
             <GridItem>
               <SpeakerPanel meeting={currentMeeting} />
             </GridItem>
+            {/* )} */}
             <GridItem>
               <VotePanel meeting={currentMeeting} />
             </GridItem>
@@ -50,3 +56,4 @@ export default function VotePage({ pageContext: { title } }) {
     </BigPixels>
   )
 }
+export default VotePage

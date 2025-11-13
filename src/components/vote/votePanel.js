@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import useSWR from 'swr'
 import VoteForm from './voteForm'
 import { formError } from '../../scss/vote.module.scss'
 
 const VotePanel = ({ meeting }) => {
-  const { data: votes = [], mutate } = useSWR(
-    `/voting/votes/?meeting_id=${meeting.id}`
+  const { data: votes } = useSWR(
+    () => `/voting/votes/?meeting_id=${meeting.id}`
   )
-
-  useEffect(() => {
-    mutate()
-  }, [meeting, mutate])
-
   const [errors, setErrors] = useState({})
-  const setFormErrors = (errors) => {
+  const setFormErrors = errors => {
     setErrors(errors)
     setTimeout(() => setErrors({}), 3000)
   }
@@ -25,7 +20,7 @@ const VotePanel = ({ meeting }) => {
       {votes && (
         <>
           {votes.length === 0 && <p>Det finns ingen aktiv omröstning</p>}
-          {votes.map((vote) => (
+          {votes.map(vote => (
             <VoteForm key={vote.id} vote={vote} setErrors={setFormErrors} />
           ))}
         </>
