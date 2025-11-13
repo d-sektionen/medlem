@@ -70,7 +70,7 @@ const unconfirmedColor = {
   border: '183 124 13 / 20%',
 }
 
-export const BookingCalendar = ({ bookings }) => {
+export const BookingCalendar = ({ bookings, showBookingCount }) => {
   /* Vars and state */
 
   const [openViewBooking] = useModal(ViewBooking)
@@ -124,8 +124,6 @@ export const BookingCalendar = ({ bookings }) => {
 
     return eventsThisWeek
   }, [eventsThisWeek])
-
-  console.log(eventsWithOverlap)
 
   // Split multi-day events into single-day events
   const processedEvents = useMemo(
@@ -243,6 +241,7 @@ export const BookingCalendar = ({ bookings }) => {
               day={day}
               events={eventsByDay[index]}
               onEventClick={(event) => handleEventClick(event)}
+              showCount={showBookingCount}
             />
           ))}
           <div className={rightOverflow}></div>

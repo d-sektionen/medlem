@@ -1,42 +1,47 @@
-import React, {useState} from "react";
-import { wrapper, inlineInput, errorStyle} from "./bookingModal.module.scss";
-import { Button } from "../ui/buttons";
+import React, { useState } from 'react'
+import { wrapper, inlineInput, errorStyle } from './bookingModal.module.scss'
+import { Button } from '../ui/buttons'
 import { post } from '../request'
 import { useCloseModal } from '../modal/useModal'
-import { formatDate } from "./bookingUtils";
+import { formatDate } from './bookingUtils'
 
 /**
  * BookingModal component represents a selectable resource
- * 
- * @param {} selectedItem - 
- * @param {} formValues - 
+ *
+ * @param {} selectedItem -
+ * @param {} formValues -
  * @param {} mutateBooking -
- * @param {} booking - 
- * 
+ * @param {} booking -
+ *
  * @description
- * This component 
+ * This component
  */
 
-export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}) => {
-  const [restrictedTimeslot, setRestrictedTimeslot] = useState(false);
+export const BookingModal = ({
+  selectedItem,
+  formValues,
+  mutateBooking,
+  bookings,
+}) => {
+  const [restrictedTimeslot, setRestrictedTimeslot] = useState(false)
   const [acceptTerms, setAcceptTerms] = useState(false)
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({})
 
   const close = useCloseModal()
 
   const handleBooking = (e) => {
-    e.preventDefault();
-      if (!acceptTerms) {
-        setErrors({
-          ...errors,
-          acceptTerms: "Du behöver godkänna villkoren för att gå vidare!"
-        })
-        return
-      } 
-      saveBooking();
+    e.preventDefault()
+    if (!acceptTerms) {
+      setErrors({
+        ...errors,
+        acceptTerms: 'Du behöver godkänna villkoren för att gå vidare!',
+      })
+      return
+    }
+    saveBooking()
   }
 
-  const createBooking = async data => {
+  const createBooking = async (data) => {
     const { data: newBooking } = await post('/booking/bookings/', data)
     mutateBooking([...bookings, newBooking])
     return newBooking
@@ -49,6 +54,7 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
       start: formatDate(formValues.startDate, formValues.startTime),
       end: formatDate(formValues.endDate, formValues.endTime),
       restricted_timeslot: restrictedTimeslot,
+      count: formValues.count,
     })
 
     request
@@ -56,15 +62,17 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
         setErrors({})
         close()
       })
-      .catch(err => {
+      .catch((err) => {
         setErrors({
           ...errors,
-          ...err.response?.data
+          ...err.response?.data,
         })
-        console.error("Bookingmodal error:", err.response?.data)
+        console.error('Bookingmodal error:', err.response?.data)
       })
   }
-  
+
+  console.log(formValues)
+
   if (!formValues) {
     return <p>Loading...</p>
   }
@@ -75,39 +83,44 @@ export const BookingModal = ({selectedItem, formValues, mutateBooking, bookings}
         <p className={errorStyle}>{errors.start}</p>
         <p>{`Slutdatum: ${formValues?.endDate} ${formValues.endTime}`}</p>
         <p className={errorStyle}>{errors.end}</p>
+        <p>{`Antal: ${formValues?.count}st`}</p>
         <br></br>
 
-        <label htmlFor="description">Ändamål:</label><br></br>
+        <label htmlFor="description">Ändamål:</label>
+        <br></br>
         <p>{formValues.description}</p>
-        <h3>
-            {'Begränsad tidsperiod '}
-        </h3>
+        <h3>{'Begränsad tidsperiod '}</h3>
         <div className={inlineInput}>
-        <input
-          type="checkbox"
-          checked={restrictedTimeslot}
-          onChange={(e) => setRestrictedTimeslot(e.target.checked)}
-        />
-        <p>
-          En begränsad tidsperiod låter dig skapa en tidsperiod där du har
-          prioritet att skapa bokningar. En begränsad tidsperiod måste bekräftas
-          av en administratör.
-        </p>
+          <input
+            type="checkbox"
+            checked={restrictedTimeslot}
+            onChange={(e) => setRestrictedTimeslot(e.target.checked)}
+          />
+          <p>
+            En begränsad tidsperiod låter dig skapa en tidsperiod där du har
+            prioritet att skapa bokningar. En begränsad tidsperiod måste
+            bekräftas av en administratör.
+          </p>
         </div>
         <p className={errorStyle}>{errors.restricted_timeslot}</p>
-    
+
         <div className={inlineInput}>
-          <input type="checkbox"
+          <input
+            type="checkbox"
             checked={acceptTerms}
-            onChange={(e)=> setAcceptTerms(e.target.checked)}/>
-            
-          <p>Jag har läst och godkänner <a href={selectedItem.terms}>bokningsavtalet</a>.</p>
+            onChange={(e) => setAcceptTerms(e.target.checked)}
+          />
+
+          <p>
+            Jag har läst och godkänner{' '}
+            <a href={selectedItem.terms}>bokningsavtalet</a>.
+          </p>
         </div>
-        
+
         <p className={errorStyle}>{errors.acceptTerms}</p>
         <p className={errorStyle}>{errors.non_field_errors}</p>
-        
-        <Button type="submit">Boka</Button> 
+
+        <Button type="submit">Boka</Button>
       </form>
     </>
   )

@@ -25,6 +25,8 @@ export const CalendarEvent = ({
   restricted_timeslot,
   index,
   hasOverlap,
+  count,
+  showCount,
 }) => {
   const startDate = new Date(start)
   const endDate = new Date(end)
@@ -70,6 +72,7 @@ export const CalendarEvent = ({
           {format(startDate, 'HH:mm')} - {format(endDate, 'HH:mm')}
         </p>
         <p>{user.first_name}</p>
+        {showCount && <p>{count}st</p>}
       </div>
     )
   }

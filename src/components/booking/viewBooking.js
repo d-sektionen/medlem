@@ -2,7 +2,7 @@ import React from 'react'
 import { formatDistance } from 'date-fns'
 import { sv } from 'date-fns/locale'
 
-const formatDate = date => {
+const formatDate = (date) => {
   if (date instanceof Date) {
     return date.toLocaleDateString('sv-SE', {
       month: 'short',
@@ -18,23 +18,23 @@ const formatDate = date => {
       minute: 'numeric',
     })
   }
-};
-  
+}
 
 const ViewBooking = ({ booking }) => {
   const {
-    item: { name: item },
+    item,
     user: { pretty_name: user },
     start,
     end,
     description,
     confirmed,
+    count,
   } = booking
 
   const bookingInfoText = booking.restricted_timeslot
-    ? `Begränsad tidsperiod för bokningar av ${item} utfärdad av ${user}.
+    ? `Begränsad tidsperiod för bokningar av ${item.name} utfärdad av ${user}.
     Under en begränsad tidsperiod måste alla bokningar godkännas manuellt.`
-    : `Bokning av ${item} för ${user}.`
+    : `Bokning av ${item.name} för ${user}.`
 
   return (
     <>
@@ -48,6 +48,7 @@ const ViewBooking = ({ booking }) => {
         {`${formatDate(start)} - ${formatDate(end)}`}
         {` (${formatDistance(end, start, { locale: sv })})`}
       </p>
+      {item.count > 1 && <p>Antal: {count}st</p>}
       <p>{description}</p>
     </>
   )
