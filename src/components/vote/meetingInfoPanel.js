@@ -27,9 +27,7 @@ export default function MeetingInfoPanel({
               onClick={async () => {
                 try {
                   await del(`/voting/attend/?meeting_id=${currentMeeting.id}`)
-                  // Needs to be a new object reference for react to trigger a update
-                  const copy = JSON.parse(JSON.stringify(currentMeeting))
-                  copy.attending = false
+                  const copy = { ...currentMeeting, attending: false }
                   setCurrentMeeting(copy)
                 } catch (error) {
                   console.error('Failed to leave meeting attendance', error)
