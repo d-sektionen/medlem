@@ -29,6 +29,7 @@ export const BookingInputForm = ({
   booking,
   validateBooking,
   handleAbort,
+  selectedItem,
 }) => {
   const [startDate, setStartDate] = useState(
     booking?.start ? new Date(booking.start).toISOString().split('T')[0] : ''
@@ -146,19 +147,24 @@ export const BookingInputForm = ({
             <div className={errorMessage}>{errors.description}</div>
           )}
         </div>
-        <div>
-          <label htmlFor="count">Antal</label>
-          <br></br>
-          <input
-            type="number"
-            step={1}
-            name="count"
-            id="count"
-            value={count}
-            onChange={(e) => setCount(e.target.value)}
-          ></input>
-          {errors.count && <div className={errorMessage}>{errors.count}</div>}
-        </div>
+        {selectedItem && selectedItem.count > 1 && (
+          <div>
+            <label htmlFor="count">Antal</label>
+            <br></br>
+
+            <input
+              type="number"
+              step={1}
+              name="count"
+              id="count"
+              value={count}
+              min={1}
+              max={selectedItem.count}
+              onChange={(e) => setCount(e.target.value)}
+            ></input>
+            {errors.count && <div className={errorMessage}>{errors.count}</div>}
+          </div>
+        )}
         <div className={buttonContainer}>
           <Button type="button" onClick={handleAbort}>
             Avbryt

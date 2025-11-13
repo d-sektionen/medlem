@@ -42,7 +42,7 @@ export const CreateNewBooking = ({
       endDate: formData.get('endDate'),
       endTime: formData.get('endTime'),
       description: formData.get('description'),
-      count: formData.get('count'),
+      count: formData.get('count') ?? 0,
     }
     openBookingModal(`Boka ${selectedItem.name}`, {
       selectedItem,
@@ -63,6 +63,7 @@ export const CreateNewBooking = ({
           handleSubmit={handleSubmit}
           handleAbort={() => setShowBookingForm(false)}
           validateBooking={validateBooking}
+          selectedItem={selectedItem}
         />
       </>
     )
