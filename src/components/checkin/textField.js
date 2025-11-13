@@ -30,7 +30,7 @@ const useTextField = (onEnter, elem) => {
       elem.current.addEventListener('keydown', downHandler)
       // Remove event listeners on cleanup
       return () => {
-        if (!elem.current) return;
+        if (!elem?.current) return;
         elem.current.removeEventListener('keydown', downHandler)
       }
     }
