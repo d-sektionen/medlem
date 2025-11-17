@@ -7,7 +7,6 @@ import {
   errorInput,
   errorMessage,
   buttonContainer,
-  descriptionStyle,
 } from './bookingInputForm.module.scss'
 
 /**
@@ -160,7 +159,7 @@ export const BookingInputForm = ({
               value={count}
               min={1}
               max={selectedItem.count}
-              onChange={(e) => setCount(e.target.value)}
+              onChange={(e) => setCount(e.target.valueAsNumber)}
             ></input>
             {errors.count && <div className={errorMessage}>{errors.count}</div>}
           </div>
@@ -170,7 +169,7 @@ export const BookingInputForm = ({
             Avbryt
           </Button>
           <Button type="submit">
-            {type == 'edit' ? 'Ändra' : 'Gå vidare'}
+            {type === 'edit' ? 'Ändra' : 'Gå vidare'}
           </Button>
         </div>
       </form>

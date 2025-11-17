@@ -209,11 +209,11 @@ export default function NewBookingPage() {
             <Button onClick={() => setVisible(!view)}>Mer info</Button>
           </div>
 
-          {view && (
+          {view && resource && (
             <div className={infoPopup}>
               <div>
-                <h2>{resource?.name}</h2>
-                <p>{resource?.description}</p>
+                <h2>{resource.name}</h2>
+                <p>{resource.description}</p>
                 <Button type="button" onClick={() => setVisible(false)}>
                   Stäng
                 </Button>
