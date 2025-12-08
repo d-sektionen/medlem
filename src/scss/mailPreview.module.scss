@@ -1,0 +1,29 @@
+.previewFrame {
+  width: 100%;
+  height: 600px;
+  border: none;
+  display: block;
+  margin-bottom: -25px;
+}
+
+.errorContainer {
+  padding: 1em;
+}
+
+.errorTitle {
+  color: red;
+}
+
+.errorBody {
+  color: #ddd;
+}
+
+.errorMessageClass {
+  background: #333;
+  padding: 10px;
+  border-radius: 12px;
+  color: #ddd;
+  border-style: dashed;
+  border-width: 3px;
+  border-color: #555;
+}
