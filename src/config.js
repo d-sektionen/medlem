@@ -103,7 +103,7 @@ module.exports.PAGES = [
   {
     path: '/mail',
     title: 'Mailutskick',
-    requiredPrivileges: 'staff', // FIXME: Change to 'mail_admin' when such a privilege exists
+    requiredPrivileges: 'infomail_sender',
     menu: true,
     component: './src/components/mail/page.js',
   },
