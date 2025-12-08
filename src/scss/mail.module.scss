@@ -1,0 +1,47 @@
+.inputContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.inputContainer button {
+  margin: 0px; /* disable the button margin added in ui.module.scss */
+}
+.inputButtons {
+  display: flex;
+  justify-content: space-between;  
+  gap: 12px;
+}
+.inputButtons > * {
+  flex: 1;
+}
+
+.confirmation {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.confirmationButtons {
+  display: flex;
+  justify-content: space-between;
+}
+.confirmationButtons button {
+  margin: 0px; /* disable the button margin added in ui.module.scss */
+}
+
+.status {
+  padding-top: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.textSuccess {
+  color: rgb(112, 189, 68);
+}
+
+.textFail {
+  color: red;
+}

@@ -100,4 +100,11 @@ module.exports.PAGES = [
     menu: true,
     component: './src/components/keylogPage.js',
   },
+  {
+    path: '/mail',
+    title: 'Mailutskick',
+    requiredPrivileges: 'staff', // FIXME: Change to 'mail_admin' when such a privilege exists
+    menu: true,
+    component: './src/components/mail/page.js',
+  },
 ]
