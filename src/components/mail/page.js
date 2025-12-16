@@ -30,13 +30,13 @@ const ModalState = Object.freeze({
 
 const MailPage = ({ pageContext }) => {
   const [subject, setSubject] = useState('')
-  const [infoCheifContent, setInfoCheifContent] = useState('')
+  const [infoChiefContent, setInfoChiefContent] = useState('')
   const [content, setContent] = useState('')
   let [modalState, setModalState] = useState(ModalState.CLOSED)
 
   function sendMail() {
     setModalState(ModalState.SENDING)
-    post('/mail/send/', { subject, content, infoCheifContent })
+    post('/mail/send/', { subject, content, infoChiefContent })
       .then(() => {
         setModalState(ModalState.SUCCESS)
       })
@@ -47,7 +47,7 @@ const MailPage = ({ pageContext }) => {
 
   function sendMailToMyself() {
     setModalState(ModalState.SENDING)
-    post('/mail/send-self/', { subject, content, infoCheifContent })
+    post('/mail/send-self/', { subject, content, infoChiefContent })
       .then(() => {
         setModalState(ModalState.SUCCESS)
       })
@@ -126,8 +126,8 @@ const MailPage = ({ pageContext }) => {
               <br />
               <label>Infochefens hörna</label>
               <RichText
-                value={infoCheifContent}
-                onChange={setInfoCheifContent}
+                value={infoChiefContent}
+                onChange={setInfoChiefContent}
               />
               <br />
               <label>Innehåll</label>
@@ -147,7 +147,7 @@ const MailPage = ({ pageContext }) => {
           <Preview
             subject={subject}
             content={content}
-            infoCheifContent={infoCheifContent}
+            infoChiefContent={infoChiefContent}
           />
         </GridItem>
       </GridContainer>

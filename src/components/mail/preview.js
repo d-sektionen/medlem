@@ -10,7 +10,7 @@ import {
 } from '../../scss/mailPreview.module.scss'
 import Window from '../ui/window'
 
-const Preview = ({ subject, content, infoCheifContent }) => {
+const Preview = ({ subject, content, infoChiefContent }) => {
   const [preview, setPreview] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -19,7 +19,7 @@ const Preview = ({ subject, content, infoCheifContent }) => {
     const signal = controller.signal
     let isLatest = true
 
-    post('/mail/preview/', { content, infoCheifContent }, { signal })
+    post('/mail/preview/', { content, infoChiefContent }, { signal })
       .then((data) => {
         if (!isLatest) return // ignore stale response
         setPreview(data.data)
@@ -34,7 +34,7 @@ const Preview = ({ subject, content, infoCheifContent }) => {
       isLatest = false
       controller.abort()
     }
-  }, [content, infoCheifContent])
+  }, [content, infoChiefContent])
 
   return (
     <Window title={`Ämne: ${subject}`}>
