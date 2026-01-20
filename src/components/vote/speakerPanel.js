@@ -25,21 +25,21 @@ const SpeakerPanel = ({ meeting }) => {
         <ButtonGroup>
           <Button
             onClick={async () => {
-              const { data: newSpeaker } = await post('/voting/speakers/', {
+              await post('/voting/speakers/', {
                 meeting_id: meeting.id,
               })
-              mutate([...speakers, newSpeaker])
+              mutate()
             }}
           >
             Jag vill tala!
           </Button>
           <Button
             onClick={async () => {
-              const { data: newSpeaker } = await post('/voting/speakers/', {
+              await post('/voting/speakers/', {
                 meeting_id: meeting.id,
                 prioritized: true,
               })
-              mutate([...speakers, newSpeaker])
+              mutate()
             }}
           >
             Replik!
@@ -50,7 +50,7 @@ const SpeakerPanel = ({ meeting }) => {
       )}
       <List>
         {speakers &&
-          speakers.map(s => (
+          speakers.map((s) => (
             <ListItem
               title={s.user.pretty_name}
               subtitle={s.prioritized ? 'Replik' : null}
@@ -63,7 +63,7 @@ const SpeakerPanel = ({ meeting }) => {
                     await del(
                       `/voting/speakers/?meeting_id=${meeting.id}${prioQS}`
                     )
-                    mutate(speakers.filter(x => x.id !== s.id))
+                    mutate(speakers.filter((x) => x.id !== s.id))
                   }}
                   iconComponent={FiTrash2}
                   text="Lämna talarlista"
