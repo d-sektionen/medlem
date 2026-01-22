@@ -27,3 +27,38 @@
   border-width: 3px;
   border-color: #555;
 }
+
+.loadingContainer {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5em;
+
+  padding: 1em;
+  border-radius: 1em;
+  background-color: #242424b5;
+}
+
+.loadingSpinner {
+  font-size: 3em;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

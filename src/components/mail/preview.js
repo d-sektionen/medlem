@@ -7,14 +7,20 @@ import {
   errorTitle,
   errorBody,
   errorMessageClass,
+  loadingContainer,
+  loading,
+  loadingSpinner,
 } from '../../scss/mailPreview.module.scss'
+import { FiLoader } from 'react-icons/fi'
 import Window from '../ui/window'
 
 const Preview = ({ subject, content, infoChiefContent }) => {
   const [preview, setPreview] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
+    setIsLoading(true)
     const controller = new AbortController()
     const signal = controller.signal
     let isLatest = true
@@ -29,6 +35,9 @@ const Preview = ({ subject, content, infoChiefContent }) => {
         if (!isLatest) return
         if (axios.isCancel(err) || err.name === 'CanceledError') return
         setErrorMessage(err.message)
+      })
+      .finally(() => {
+        if (isLatest) setIsLoading(false)
       })
 
     return () => {
@@ -55,6 +64,15 @@ const Preview = ({ subject, content, infoChiefContent }) => {
           className={previewFrame}
         ></iframe>
       )}
+
+      {isLoading ? (
+        <div className={loadingContainer}>
+          <div className={loading}>
+            <FiLoader className={loadingSpinner} />
+            Laddar förhandsgranskning...
+          </div>
+        </div>
+      ) : null}
     </Window>
   )
 }
