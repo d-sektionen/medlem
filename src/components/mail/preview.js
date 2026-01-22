@@ -23,6 +23,7 @@ const Preview = ({ subject, content, infoChiefContent }) => {
       .then((data) => {
         if (!isLatest) return // ignore stale response
         setPreview(data.data)
+        setErrorMessage(null)
       })
       .catch((err) => {
         if (!isLatest) return
