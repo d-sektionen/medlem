@@ -107,7 +107,7 @@ const BookingCalendar = ({ bookings }) => {
         xmlns="http://www.w3.org/2000/svg"
       >
         {bookingsThisWeek &&
-          bookingsThisWeek
+          [...bookingsThisWeek]
             .sort((a, b) => b.restricted_timeslot - a.restricted_timeslot)
             .map((booking, i) => {
               const hasOverlapping = bookingsThisWeek.some((other) => {
