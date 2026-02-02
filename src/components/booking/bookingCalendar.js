@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import {
   differenceInCalendarDays,
@@ -43,14 +43,32 @@ const splitDateRangeByDay = (start, end) => {
 }
 
 // the y axis uses one pixel per six minutes (hence division by 6) this is 10 px per hour.
-const calculateX = date => getISODay(date) * 50
-const calculateY = date => differenceInMinutes(date, startOfDay(date)) / 6
+const calculateX = (date) => getISODay(date) * 50
+const calculateY = (date) => differenceInMinutes(date, startOfDay(date)) / 6
 
 const calculateHeight = (start, end) => differenceInMinutes(end, start) / 6
 
 const BookingCalendar = ({ bookings }) => {
   const [openViewBooking] = useModal(ViewBooking)
   const [page, setPage] = useState(startOfISOWeek(new Date())) // TODO: fix new year
+
+  const bookingsThisWeek = useMemo(() => {
+    return (
+      bookings &&
+      bookings
+        // convert dates from string to date types.
+        .map(({ start, end, ...booking }) => ({
+          ...booking,
+          start: new Date(start),
+          end: new Date(end),
+        }))
+        // show only those in this week
+        .filter(
+          ({ start, end }) =>
+            start <= endOfISOWeek(page) && end >= startOfISOWeek(page)
+        )
+    )
+  }, [bookings, page])
 
   const now = new Date()
 
@@ -66,7 +84,7 @@ const BookingCalendar = ({ bookings }) => {
 
         <Button
           type="button"
-          onClick={() => setPage(oldPage => subWeeks(oldPage, 1))}
+          onClick={() => setPage((oldPage) => subWeeks(oldPage, 1))}
         >
           -
         </Button>
@@ -78,7 +96,7 @@ const BookingCalendar = ({ bookings }) => {
         </Button>
         <Button
           type="button"
-          onClick={() => setPage(oldPage => addWeeks(oldPage, 1))}
+          onClick={() => setPage((oldPage) => addWeeks(oldPage, 1))}
         >
           +
         </Button>
@@ -88,21 +106,26 @@ const BookingCalendar = ({ bookings }) => {
         viewBox="0 0 400 240"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {bookings &&
-          bookings
-            // convert dates from string to date types.
-            .map(({ start, end, ...booking }) => ({
-              ...booking,
-              start: new Date(start),
-              end: new Date(end),
-            }))
-            // show only those in this week
-            .filter(
-              ({ start, end }) =>
-                start <= endOfISOWeek(page) && end >= startOfISOWeek(page)
-            )
+        {bookingsThisWeek &&
+          bookingsThisWeek
             .sort((a, b) => b.restricted_timeslot - a.restricted_timeslot)
-            .map(booking => {
+            .map((booking, i) => {
+              const hasOverlapping = bookingsThisWeek.some((other) => {
+                if (other.id === booking.id) return false
+
+                return (
+                  (other.end > booking.start && other.end < booking.end) || // other ends inside booking
+                  (other.start > booking.start && other.start < booking.end) || // other starts inside booking
+                  (other.start <= booking.start && other.end >= booking.end) // booking is inside other
+                )
+              })
+
+              // alternate overlap index between 0 and 1 to put overlapping bookings side by side
+              const overlapIndex = i % (hasOverlapping ? 2 : 1)
+
+              // make overlapping bookings 1/3 thinner
+              const width = 50 / (hasOverlapping ? 1.5 : 1)
+
               const dayParts = splitDateRangeByDay(booking.start, booking.end)
 
               return (
@@ -118,9 +141,9 @@ const BookingCalendar = ({ bookings }) => {
                     .map(([s, e]) => (
                       <rect
                         key={`${booking.id}, ${getISODay(s)}`}
-                        x={calculateX(s)}
+                        x={calculateX(s) + overlapIndex * (2 * width - 50)}
                         y={calculateY(s)}
-                        width="50"
+                        width={width}
                         height={calculateHeight(s, e)}
                         onClick={() =>
                           openViewBooking('Bokningsinformation', {
@@ -133,7 +156,7 @@ const BookingCalendar = ({ bookings }) => {
               )
             })}
         <g className={timeIndicators}>
-          {[6, 12, 18].map(hour => (
+          {[6, 12, 18].map((hour) => (
             <g key={hour}>
               <text x="0" y={hour * 10 - 2}>
                 {`0${hour}`.slice(-2)}

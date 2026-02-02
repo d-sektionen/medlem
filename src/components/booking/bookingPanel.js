@@ -32,23 +32,23 @@ const BookingPanel = ({
 
   const bookingList = unfilteredBookings
     // convert strings to date objects
-    .map(b => ({
+    .map((b) => ({
       ...b,
       start: new Date(b.start),
       end: new Date(b.end),
     }))
     // apply only mine filter
-    .filter(b => {
+    .filter((b) => {
       if (onlyMine) return user.id === b.user.id
       return true
     })
     // only future bookings
-    .filter(b => b.end > new Date())
+    .filter((b) => b.end > new Date())
     // sort properly
     .sort((a, b) => a.start - b.start)
 
-  const normalBookings = bookingList.filter(b => !b.restricted_timeslot)
-  const restrictedTimeslots = bookingList.filter(b => b.restricted_timeslot)
+  const normalBookings = bookingList.filter((b) => !b.restricted_timeslot)
+  const restrictedTimeslots = bookingList.filter((b) => b.restricted_timeslot)
 
   const partitions = [
     { name: 'Begränsade tidsperioder', bookings: restrictedTimeslots },
@@ -62,16 +62,20 @@ const BookingPanel = ({
           <h3>{name}</h3>
           <List>
             {bookings &&
-              bookings.map(booking => (
+              bookings.map((booking) => (
                 <ListItem
                   // TODO: färger ska vara samma som i css!
                   color={booking.confirmed ? 'green' : 'orange'}
                   title={`${booking.user.pretty_name}`}
                   subtitle={`${
                     booking.confirmed ? '' : 'Obekräftad bokning - '
-                  }${formatRelative(booking.start, new Date(), {
-                    locale: sv,
-                  })}`}
+                  }${booking.items.length}st ${formatRelative(
+                    booking.start,
+                    new Date(),
+                    {
+                      locale: sv,
+                    }
+                  )}`}
                   buttons={[
                     <ListButton
                       shown={
@@ -87,16 +91,14 @@ const BookingPanel = ({
                       key="confirm"
                     />,
                     <ListButton
-                      shown={
-                        user.privileges.booking_admin
-                      }
+                      shown={user.privileges.booking_admin}
                       iconComponent={FiXCircle}
                       text="Neka bokning"
                       onClick={() => {
-                        openDenyBooking(
-                          'Neka bokning',
-                          { booking, denyBooking }
-                        )
+                        openDenyBooking('Neka bokning', {
+                          booking,
+                          denyBooking,
+                        })
                       }}
                       key="deny"
                     />,
@@ -124,8 +126,8 @@ const BookingPanel = ({
                       text="Redigera"
                       onClick={() => {
                         openEditBooking(
-                          `Redigera bokning av ${booking.item.name}`,
-                          { booking, item: booking.item, updateBooking }
+                          `Redigera bokning av ${booking.pool.name}`,
+                          { booking, itemPool: booking.pool, updateBooking }
                         )
                       }}
                       key="edit"
@@ -148,7 +150,7 @@ const BookingPanel = ({
       <Checkbox
         text=" Visa endast mina bokningar."
         value="Only Mine"
-        click={e => setOnlyMine(e.target.checked)}
+        click={(e) => setOnlyMine(e.target.checked)}
       />
     </>
   )

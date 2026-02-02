@@ -3,7 +3,7 @@ import useSWR from 'swr'
 
 import { GridContainer, GridItem } from '../ui/grid'
 import BigPixels from '../layout/bigPixels'
-import ItemPanel from './itemPanel'
+import ItemPoolPanel from './itemPanel'
 import BookingPanel from './bookingPanel'
 import TitleChooser from '../ui/titleChooser'
 import { post, put, del } from '../request'
@@ -12,25 +12,25 @@ import { startOfISOWeek, subWeeks } from 'date-fns'
 /*
  * Get the date 4 weeks ago relative to the start of the current week.
  **/
-const getDate4WeeksAgo = date => {
+const getDate4WeeksAgo = (date) => {
   return subWeeks(startOfISOWeek(date), 4).toISOString()
 }
 
 const BookingPage = ({ pageContext: { title } }) => {
-  const [item, setItem] = useState(null)
+  const [pool, setPool] = useState(null)
   const [afterDate, setAfterDate] = useState(getDate4WeeksAgo(new Date()))
-  const { data: items } = useSWR('/booking/items/')
+  const { data: pools } = useSWR('/booking/itemPools/')
 
   const { data: bookings, mutate } = useSWR(
     () =>
-      item &&
-      `/booking/bookings/?item=${item.id}${
+      pool &&
+      `/booking/bookings/?pool=${pool.id}${
         afterDate ? '&after=' + afterDate : ''
       }`
   )
 
-  const categorizedItems = items
-    ? items.reduce((accumulator, itm) => {
+  const categorizedPools = pools
+    ? pools.reduce((accumulator, itm) => {
         const cat = itm.category || 'Okategoriserat'
         if (Object.prototype.hasOwnProperty.call(accumulator, cat)) {
           return {
@@ -42,7 +42,7 @@ const BookingPage = ({ pageContext: { title } }) => {
       }, {})
     : {}
 
-  const create = async data => {
+  const create = async (data) => {
     const { data: newBooking } = await post('/booking/bookings/', data)
     mutate([...bookings, newBooking])
     return newBooking
@@ -53,19 +53,19 @@ const BookingPage = ({ pageContext: { title } }) => {
       `/booking/bookings/${bookingId}/`,
       data
     )
-    mutate([...bookings.filter(b => b.id !== bookingId), updatedBooking])
+    mutate([...bookings.filter((b) => b.id !== bookingId), updatedBooking])
     return updatedBooking
   }
 
-  const destroy = async bookingId => {
+  const destroy = async (bookingId) => {
     await del(`/booking/bookings/${bookingId}/`)
-    mutate(bookings.filter(b => b.id !== bookingId))
+    mutate(bookings.filter((b) => b.id !== bookingId))
   }
 
-  const confirm = async bookingId => {
+  const confirm = async (bookingId) => {
     await put(`/booking/bookings/${bookingId}/confirm/`)
     mutate(
-      bookings.map(b => {
+      bookings.map((b) => {
         if (bookingId !== b.id) return b
         return { ...b, confirmed: true }
       })
@@ -73,12 +73,9 @@ const BookingPage = ({ pageContext: { title } }) => {
   }
 
   const deny = async (bookingId, data) => {
-    await post(
-      `/booking/bookings/${bookingId}/deny/`,
-      data
-    )
+    await post(`/booking/bookings/${bookingId}/deny/`, data)
     mutate(
-      bookings.filter(b => {
+      bookings.filter((b) => {
         return bookingId !== b.id
       })
     )
@@ -94,18 +91,18 @@ const BookingPage = ({ pageContext: { title } }) => {
         <GridItem fullWidth>
           <TitleChooser
             title={title}
-            choice={item}
-            setChoice={setItem}
-            categorizedChoices={categorizedItems}
+            choice={pool}
+            setChoice={setPool}
+            categorizedChoices={categorizedPools}
             label="name"
             onChange={() => setAfterDate(getDate4WeeksAgo(new Date()))}
           />
         </GridItem>
-        {item && bookings && (
+        {pool && bookings && (
           <>
             <GridItem>
-              <ItemPanel
-                item={item}
+              <ItemPoolPanel
+                pool={pool}
                 bookings={bookings}
                 createBooking={create}
                 loadAllBookings={loadAllBookings}
