@@ -69,7 +69,7 @@ const Preview = ({ subject, content, infoChiefContent }) => {
         <div className={loadingContainer}>
           <div className={loading}>
             <FiLoader className={loadingSpinner} />
-            Laddar förhandsgranskning...
+            Laddar förhandsgranskning&#8230;
           </div>
         </div>
       ) : null}
