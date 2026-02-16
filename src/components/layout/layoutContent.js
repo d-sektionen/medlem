@@ -42,11 +42,14 @@ const LayoutContent = ({
   const [loading, setLoading] = loadingContextValue
   const [sideMenuOpen, setSideMenuOpen] = useState(false)
   const [error, setError] = useState(null)
+  const [token, setToken] = useState(localStorage.getItem(ACCESS_TOKEN_KEY))
 
   const requiredPrivileges = pageContext.requiredPrivileges
+  const [hasPrivileges, setHasPrivileges] = useState(false)
 
-  const hasPrivileges =
-    requiredPrivileges && user && user.privileges[requiredPrivileges]
+  console.log("pagecontext", pageContext)
+
+  useEffect(() => setHasPrivileges(requiredPrivileges == undefined || user?.privileges[requiredPrivileges]), [pageContext])
 
   const loggedIn = user !== null
 
@@ -55,10 +58,12 @@ const LayoutContent = ({
       const { data } = await BackendService.get('/account/me/')
       setUser(data)
       setError(null)
+      setHasPrivileges(requiredPrivileges == undefined || user?.privileges[requiredPrivileges])
     } catch (err) {
       setUser(null)
       localStorage.removeItem(ACCESS_TOKEN_KEY)
-      //localStorage.removeItem(REFRESH_TOKEN_KEY)
+      localStorage.removeItem(REFRESH_TOKEN_KEY)
+      setToken(null)
 
       if (!err.response) {
         setError(
@@ -77,15 +82,18 @@ const LayoutContent = ({
     setLoading(true)
 
     const accessTokenRegex = new RegExp(`${ACCESS_TOKEN_KEY}=([^&]+)`)
-    //const refreshTokenRegex = new RegExp(`${REFRESH_TOKEN_KEY}=([^&]+)`)
+    const refreshTokenRegex = new RegExp(`${REFRESH_TOKEN_KEY}=([^&]+)`)
     // Try to find tokens in url.
     const accessTokenMatch = window.location.href.match(accessTokenRegex)
-    //const refreshTokenMatch = window.location.href.match(refreshTokenRegex)
+    const refreshTokenMatch = window.location.href.match(refreshTokenRegex)
 
     if (accessTokenMatch) {
       // Save tokens retrieved from backend
+      console.log("match")
       localStorage.setItem(ACCESS_TOKEN_KEY, accessTokenMatch[1])
-      //localStorage.setItem(REFRESH_TOKEN_KEY, refreshTokenMatch[1])
+      setToken(accessTokenMatch[1])
+
+      localStorage.setItem(REFRESH_TOKEN_KEY, refreshTokenMatch[1])
 
       // Edit history to remove reference of tokens in url.
       window.history.replaceState(
@@ -96,6 +104,7 @@ const LayoutContent = ({
     }
 
     const hasTokens = localStorage.getItem(ACCESS_TOKEN_KEY) !== null // && localStorage.getItem(REFRESH_TOKEN_KEY) !== null
+    console.log("hasTokens", hasTokens)
 
     if (hasTokens) {
       getUser()
@@ -103,10 +112,11 @@ const LayoutContent = ({
       setUser(null)
       localStorage.removeItem(ACCESS_TOKEN_KEY)
       //localStorage.removeItem(REFRESH_TOKEN_KEY)
+      //TODO:
     }
 
     setLoading(false)
-  }, [user])
+  }, [token])
 
   // Page is loading
   if (loading) {
