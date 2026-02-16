@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { BASE_URL } from '../../config'
+import createAuthRefreshInterceptor from 'axios-auth-refresh'
 
 export const ACCESS_TOKEN_KEY = 'access'
 export const REFRESH_TOKEN_KEY = 'refresh'
@@ -8,6 +9,28 @@ const backendService = axios.create({
   baseURL: `${BASE_URL}`,
   timeout: 10000,
 })
+
+const refreshAuthLogic = async (failedRequest) => {
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
+
+  if (!refreshToken) return Promise.reject()
+
+  const response = await backendService.post('/oauth2/login/refresh', {
+    "refresh": refreshToken,
+  })
+  const newAccessToken = response.data[ACCESS_TOKEN_KEY]
+  const newRefreshToken = response.data[REFRESH_TOKEN_KEY]
+
+  //set new access token
+  localStorage.setItem(ACCESS_TOKEN_KEY, newAccessToken)
+  localStorage.setItem(REFRESH_TOKEN_KEY, newRefreshToken)
+  originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
+
+  return Promise.resolve()
+}
+
+
+createAuthRefreshInterceptor(backendService, refreshAuthLogic)
 
 // Request interceptor
 backendService.interceptors.request.use(
@@ -21,39 +44,6 @@ backendService.interceptors.request.use(
     return config
   },
   (error) => {
-    return Promise.reject(error)
-  }
-)
-
-// Response interceptor
-backendService.interceptors.response.use(
-  (response) => {
-    return response
-  },
-  async (error) => {
-    const originalRequest = error.config
-
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true
-      const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
-
-      if (refreshToken) {
-        try {
-          const response = await backendService.post('/oauth2/refresh', {
-            refreshToken,
-          })
-          const newAccessToken = response.data.get(ACCESS_TOKEN_KEY)
-          //set new access token
-          localStorage.setItem(ACCESS_TOKEN_KEY, newAccessToken)
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
-
-          return backendService(originalRequest)
-        } catch (error) {
-          localStorage.removeItem(ACCESS_TOKEN_KEY)
-          localStorage.removeItem(REFRESH_TOKEN_KEY)
-        }
-      }
-    }
     return Promise.reject(error)
   }
 )
