@@ -14,3 +14,13 @@
 .required {
   color: $red;
 }
+
+option {
+  padding: calc($base-padding / 4);
+  border: 1px solid $foreground-color-1;
+}
+
+option::selection {
+  background-color: $dsek-blue;
+  border: 1px dotted $foreground-color-1;
+}

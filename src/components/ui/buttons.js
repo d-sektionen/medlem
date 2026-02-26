@@ -3,10 +3,10 @@ import { Link } from 'gatsby'
 
 import { iconButton, button, buttonGroup } from '../../scss/ui.module.scss'
 
-const IconButton = ({ onClick, iconComponent: Icon, text }) => {
+const IconButton = ({ onClick, iconComponent: Icon, text, disabled }) => {
   // TODO: add anchor tag mode.
   return (
-    <button type="button" className={iconButton} onClick={onClick}>
+    <button type="button" className={iconButton} onClick={onClick} disabled={disabled}>
       <Icon />
       <div>{text}</div>
     </button>

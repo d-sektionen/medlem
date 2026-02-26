@@ -8,7 +8,7 @@ import { inputLabel } from '../scss/membership.module.scss'
 const MembershipPanel = () => {
   const [initiallyLoaded, setInitiallyLoaded] = useState(true)
   const [sent, setSent] = useState(false)
-  const [startingYear, setStartingYear] = useState(2019)
+  const [startingYear, setStartingYear] = useState('')
   const [program, setProgram] = useState('Empty')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -96,6 +96,12 @@ const MembershipPanel = () => {
             samt betalningar under enskilda event. För att bli medlem i
             D-sektionen registrerar du dig via följande formulär:
           </p>
+          <p>
+            Med ansökan kommer du att prenumerera på vårt nyhetsbrev, där vi
+            informerar om kommande evenemang och annan information som kan vara
+            av intresse för dig som student på D-sektionen.
+            För att avsluta prenumerationen kan du gå till profilinställningar efter att du har loggat in.
+          </p>
 
           <form onSubmit={submitRequest}>
             <label className={inputLabel}>
@@ -125,7 +131,8 @@ const MembershipPanel = () => {
                 <option value="U">Mjukvaruteknik (U)</option>
                 <option value="IT">Informationsteknologi (IT)</option>
                 <option value="IP">Innovativ Programmering (IP)</option>
-                <option value="CS">Masterprogram (CS)</option>
+                <option value="CS">Masterprogram Computer Science (CS)</option>
+                <option value="CY">Masterprogram Cybersecurity (CYS)</option>
               </select>
               {errors && errors.program && errors.program.join(', ')}
             </label>
