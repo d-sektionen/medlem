@@ -32,7 +32,7 @@ const EditBooking = ({ booking, itemPool, createBooking, updateBooking }) => {
   const [end, setEnd] = useState(
     booking ? new Date(booking.end) : newNiceDate(2)
   )
-  const [count, setCount] = useState(booking ? booking.items.length : 1)
+  const [count, setCount] = useState(booking ? booking.count : 1)
 
   const [restrictedTimeslot, setRestrictedTimeslot] = useState(
     booking ? booking.restricted_timeslot : false
@@ -75,7 +75,7 @@ const EditBooking = ({ booking, itemPool, createBooking, updateBooking }) => {
     <>
       <p>{`Bokning av ${itemPool.name} för ${name}.`}</p>
       <div className={editForm}>
-        {itemPool.count > 1 && (
+        {itemPool.items.length > 1 && (
           <>
             <h3>Antal</h3>
             <div>{errors.count}</div>
@@ -84,7 +84,7 @@ const EditBooking = ({ booking, itemPool, createBooking, updateBooking }) => {
               value={count}
               onChange={(e) => setCount(e.target.valueAsNumber)}
               min="1"
-              max={itemPool.count}
+              max={itemPool.items.length}
             />
           </>
         )}

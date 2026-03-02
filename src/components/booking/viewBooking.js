@@ -38,7 +38,7 @@ const ViewBooking = ({ booking }) => {
         {`${formatDate(start)} - ${formatDate(end)}`}
         {` (${formatDistance(end, start, { locale: sv })})`}
       </p>
-      {pool.count > 1 && (
+      {pool.items.length > 1 && (
         <>
           <p>Bokade objekt:</p>
           <ul>

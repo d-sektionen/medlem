@@ -20,10 +20,10 @@ const ItemPoolPanel = ({ pool, bookings, createBooking, loadAllBookings }) => {
         image={pool.image_processed ? pool.image_processed : null}
         TitleTag="h2"
       />
-      {pool.count > 1 && (
+      {pool.items.length > 1 && (
         <>
           <h3>Antal</h3>
-          <p className={itemDescription}>{pool.count}</p>
+          <p className={itemDescription}>{pool.items.length}</p>
         </>
       )}
       <h3>Beskrivning</h3>

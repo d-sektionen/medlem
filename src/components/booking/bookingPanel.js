@@ -14,6 +14,7 @@ import { UserContext } from '../layout/layout'
 import useConfirmModal from '../modal/useConfirmModal'
 
 import { Checkbox } from '../ui/checkbox'
+import ConfirmBooking from './confirmBooking'
 
 const BookingPanel = ({
   bookings: unfilteredBookings,
@@ -28,6 +29,7 @@ const BookingPanel = ({
   const [openEditBooking] = useModal(EditBooking)
   const [openViewBooking] = useModal(ViewBooking)
   const [openConfirmation] = useConfirmModal()
+  const [openConfirmBooking] = useModal(ConfirmBooking)
   const [openDenyBooking] = useModal(DenyBooking)
 
   const bookingList = unfilteredBookings
@@ -69,7 +71,7 @@ const BookingPanel = ({
                   title={`${booking.user.pretty_name}`}
                   subtitle={`${
                     booking.confirmed ? '' : 'Obekräftad bokning - '
-                  }${booking.items.length}st ${formatRelative(
+                  }${booking.count}st ${formatRelative(
                     booking.start,
                     new Date(),
                     {
@@ -86,7 +88,7 @@ const BookingPanel = ({
                       iconComponent={FiCheck}
                       text="Bekräfta bokning"
                       onClick={() => {
-                        confirmBooking(booking.id)
+                        openConfirmBooking('Bekräfta bokning', { booking, confirmBooking })
                       }}
                       key="confirm"
                     />,
