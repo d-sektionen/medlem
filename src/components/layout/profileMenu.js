@@ -3,7 +3,7 @@ import React, { useEffect, useContext } from 'react'
 import { FiLogOut, FiSettings } from 'react-icons/fi'
 import { IoMdQrScanner } from 'react-icons/io'
 
-import { BASE_URL } from '../../config'
+import { apiUrl } from '../../config'
 import useModal, { useCloseModal } from '../modal/useModal'
 import QR from './qr'
 import { UserContext } from './layout'
@@ -20,7 +20,7 @@ const LogoutModal = () => {
   return (
     <iframe
       title="Log out"
-      src={`${BASE_URL}/account/logout/`}
+      src={`${apiUrl()}/account/logout/`}
       sandbox="allow-scripts"
       style={{
         width: '50rem',

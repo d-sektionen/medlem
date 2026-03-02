@@ -1,0 +1,21 @@
+FROM node:20-alpine AS base
+RUN apk add python3 gcc make g++;
+
+FROM base AS installer
+WORKDIR /opt/app
+ADD package.json package-lock.json ./
+RUN npm ci
+
+FROM base AS builder
+WORKDIR /opt/app
+COPY --from=installer /opt/app/package.json /opt/app/package.json
+COPY --from=installer /opt/app/node_modules /opt/app/node_modules
+COPY ./gatsby-* /opt/app/
+COPY ./src /opt/app/src
+RUN npm run build
+
+FROM base AS runner
+WORKDIR /opt/app
+COPY --from=builder /opt/app/public /opt/app/public
+
+ENTRYPOINT [ "/bin/ash" ]

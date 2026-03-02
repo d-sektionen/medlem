@@ -10,7 +10,7 @@ import { app, containerWrapper } from '../../scss/layout.module.scss'
 import SideMenu from './sideMenu'
 
 import TopBar from './topBar'
-import { BASE_URL, TITLE } from '../../config'
+import { apiUrl, TITLE } from '../../config'
 import ModalHandler from '../modal/modalHandler'
 import LayoutContent from './layoutContent'
 import { Button } from '../ui/buttons'
@@ -36,7 +36,7 @@ const Layout = ({ children, location, pageContext }) => {
   useEffect(() => {
     // this needs to be state, otherwise the build version will use the undefined href from SSR.
     const { origin, pathname } = location
-    setLoginUrl(`${BASE_URL}/account/token?redirect=${origin}${pathname}`)
+    setLoginUrl(`${apiUrl()}/account/token?redirect=${origin}${pathname}`)
 
     // Delete the foo parameter.
   }, [location])
@@ -80,7 +80,7 @@ const Layout = ({ children, location, pageContext }) => {
         <SWRConfig
           value={{
             refreshInterval: 20000,
-            fetcher: url => get(url).then(res => res.data),
+            fetcher: (url) => get(url).then((res) => res.data),
           }}
         >
           <Helmet

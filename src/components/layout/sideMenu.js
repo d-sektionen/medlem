@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'gatsby'
 
 import { FiX, FiGithub } from 'react-icons/fi'
-import { PAGES, BASE_URL } from '../../config'
+import { PAGES, apiUrl } from '../../config'
 
 import webbu_logo from '../../images/webbu-logo-inverted.png'
 import logo from '../../images/round.svg'
@@ -75,7 +75,7 @@ const SideMenu = ({ close, open }) => {
               {user.privileges['staff'] && (
                 <li>
                   <a
-                    href={`${BASE_URL}/admin`}
+                    href={apiUrl('admin')}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
