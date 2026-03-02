@@ -69,21 +69,20 @@ const LayoutContent = ({
     }
   }
 
-  function handleToken(setLoading, setToken, getUser, setUser) {
+  function handleToken() {
     setLoading(true)
 
-    const accessTokenRegex = new RegExp(`${ACCESS_TOKEN_KEY}=([^&]+)`)
-    const refreshTokenRegex = new RegExp(`${REFRESH_TOKEN_KEY}=([^&]+)`)
-    // Try to find tokens in url.
-    const accessTokenMatch = window.location.href.match(accessTokenRegex)
-    const refreshTokenMatch = window.location.href.match(refreshTokenRegex)
+    const urlParams = new URLSearchParams(window.location.search)
 
-    if (accessTokenMatch) {
+    const accessToken = urlParams.get(ACCESS_TOKEN_KEY)
+    const refreshToken = urlParams.get(REFRESH_TOKEN_KEY)
+
+    if (accessToken) {
       // Save tokens retrieved from backend
-      localStorage.setItem(ACCESS_TOKEN_KEY, accessTokenMatch[1])
-      setToken(accessTokenMatch[1])
+      localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
+      setToken(accessToken)
 
-      localStorage.setItem(REFRESH_TOKEN_KEY, refreshTokenMatch[1])
+      localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
 
       // Edit history to remove reference of tokens in url.
       window.history.replaceState(
@@ -107,9 +106,7 @@ const LayoutContent = ({
     setLoading(false)
   }
 
-  useEffect(() => {
-    handleToken(setLoading, setToken, getUser, setUser)
-  }, [token])
+  useEffect(handleToken, [token])
 
   // Page is loading
   if (loading) {
