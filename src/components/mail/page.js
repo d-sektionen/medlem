@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import BigPixels from '../layout/bigPixels'
 import { GridContainer, GridItem } from '../ui/grid'
+import Textarea from '../ui/textarea'
 
 import {
   inputContainer,
@@ -32,6 +33,7 @@ const MailPage = ({ pageContext }) => {
   const [subject, setSubject] = useState('')
   const [infoChiefContent, setInfoChiefContent] = useState('')
   const [content, setContent] = useState('')
+  const [rawMode, setRawMode] = useState(false)
   let [modalState, setModalState] = useState(ModalState.CLOSED)
 
   function sendMail() {
@@ -122,16 +124,38 @@ const MailPage = ({ pageContext }) => {
         <GridItem>
           <div className={inputContainer}>
             <div>
+              <label htmlFor="rawMode">
+                <input
+                  type="checkbox"
+                  id="rawMode"
+                  onChange={(e) => {
+                    setRawMode(e.target.checked)
+                  }}
+                ></input>
+                &nbsp; Skriv rå HTML
+              </label>
+
               <AutoInput label={'Ämne'} onChange={setSubject} value={subject} />
               <br />
               <label>Infochefens hörna</label>
-              <RichText
-                value={infoChiefContent}
-                onChange={setInfoChiefContent}
-              />
+              {rawMode ? (
+                <Textarea
+                  value={infoChiefContent}
+                  onChange={setInfoChiefContent}
+                />
+              ) : (
+                <RichText
+                  value={infoChiefContent}
+                  onChange={setInfoChiefContent}
+                />
+              )}
               <br />
               <label>Innehåll</label>
-              <RichText value={content} onChange={setContent} />
+              {rawMode ? (
+                <Textarea value={content} onChange={setContent} />
+              ) : (
+                <RichText value={content} onChange={setContent} />
+              )}
             </div>
             <div className={inputButtons}>
               <Button onClick={sendMailToMyself}>
