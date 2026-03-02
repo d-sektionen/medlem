@@ -14,24 +14,6 @@ import BackendService, {
   REFRESH_TOKEN_KEY,
 } from '../request/backendService'
 
-// The following function are copyied from
-// https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
-function getCookie(name) {
-  var cookieValue = null
-  if (document.cookie && document.cookie !== '') {
-    var cookies = document.cookie.split(';')
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = cookies[i].trim()
-      // Does this cookie string begin with the name we want?
-      if (cookie.substring(0, name.length + 1) === name + '=') {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
-        break
-      }
-    }
-  }
-  return cookieValue
-}
-
 const LayoutContent = ({
   children,
   userContextValue,
@@ -47,26 +29,27 @@ const LayoutContent = ({
   const requiredPrivileges = pageContext.requiredPrivileges
   const [hasPrivileges, setHasPrivileges] = useState(false)
 
-  console.log('pagecontext', pageContext)
+  function handlePageChange() {
+    setHasPrivileges(
+      requiredPrivileges == undefined || user?.privileges[requiredPrivileges]
+    )
+  }
+  useEffect(handlePrivilegeChange, [user, requiredPrivileges])
 
-  useEffect(
-    () =>
-      setHasPrivileges(
-        requiredPrivileges == undefined || user?.privileges[requiredPrivileges]
-      ),
-    [pageContext]
-  )
+  function handlePrivilegeChange() {
+    setHasPrivileges(
+      requiredPrivileges == undefined || user?.privileges[requiredPrivileges]
+    )
+  }
+  useEffect(handlePageChange, [pageContext])
 
   const loggedIn = user !== null
 
-  const getUser = async () => {
+  async function getUser() {
     try {
       const { data } = await BackendService.get('/account/me/')
       setUser(data)
       setError(null)
-      setHasPrivileges(
-        requiredPrivileges == undefined || user?.privileges[requiredPrivileges]
-      )
     } catch (err) {
       setUser(null)
       localStorage.removeItem(ACCESS_TOKEN_KEY)
@@ -86,7 +69,7 @@ const LayoutContent = ({
     }
   }
 
-  useEffect(() => {
+  function handleToken(setLoading, setToken, getUser, setUser) {
     setLoading(true)
 
     const accessTokenRegex = new RegExp(`${ACCESS_TOKEN_KEY}=([^&]+)`)
@@ -97,7 +80,6 @@ const LayoutContent = ({
 
     if (accessTokenMatch) {
       // Save tokens retrieved from backend
-      console.log('match')
       localStorage.setItem(ACCESS_TOKEN_KEY, accessTokenMatch[1])
       setToken(accessTokenMatch[1])
 
@@ -112,7 +94,6 @@ const LayoutContent = ({
     }
 
     const hasTokens = localStorage.getItem(ACCESS_TOKEN_KEY) !== null // && localStorage.getItem(REFRESH_TOKEN_KEY) !== null
-    console.log('hasTokens', hasTokens)
 
     if (hasTokens) {
       getUser()
@@ -124,6 +105,10 @@ const LayoutContent = ({
     }
 
     setLoading(false)
+  }
+
+  useEffect(() => {
+    handleToken(setLoading, setToken, getUser, setUser)
   }, [token])
 
   // Page is loading
