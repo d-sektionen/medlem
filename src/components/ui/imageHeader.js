@@ -18,7 +18,7 @@ const ImageHeader = ({ TitleTag = 'h1', title = '', image = null }) => {
   )
 }
 
-ImageHeader.defaultProps = {
+ImageHeader.propTypes = {
   TitleTag: PropTypes.string,
   title: PropTypes.string,
   image: PropTypes.string,
