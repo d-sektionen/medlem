@@ -4,7 +4,7 @@ import { LoadingContext } from './layout'
 import Pixels from './pixels'
 import { pixels, container, content } from '../../scss/layout.module.scss'
 
-const BigPixels = ({ children }) => {
+const BigPixels = ({ children = undefined }) => {
   const [loading] = useContext(LoadingContext)
 
   return (
@@ -18,10 +18,6 @@ const BigPixels = ({ children }) => {
       </div> */}
     </>
   )
-}
-
-BigPixels.defaultProps = {
-  children: undefined,
 }
 
 BigPixels.propTypes = {

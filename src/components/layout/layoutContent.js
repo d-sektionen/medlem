@@ -152,11 +152,6 @@ const LayoutContent = ({
   )
 }
 
-LayoutContent.defaultProps = {
-  error: undefined,
-  hasPrivileges: true,
-}
-
 LayoutContent.propTypes = {
   children: PropTypes.node.isRequired,
   userContextValue: PropTypes.array.isRequired,
