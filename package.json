@@ -8,6 +8,7 @@
     "gatsby"
   ],
   "scripts": {
+    "dev": "gatsby develop -p 4000",
     "develop": "gatsby develop -p 4000",
     "start": "gatsby develop -p 4000",
     "build": "gatsby build",
