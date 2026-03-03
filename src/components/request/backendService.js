@@ -25,7 +25,9 @@ async function refreshAuthLogic(failedRequest) {
   failedRequest.headers.Authorization = `Bearer ${newAccessToken}`
 }
 
-createAuthRefreshInterceptor(backendService, refreshAuthLogic)
+createAuthRefreshInterceptor(backendService, refreshAuthLogic, {
+  pauseInstanceWhileRefreshing: true,
+})
 
 // Request interceptor
 backendService.interceptors.request.use(
