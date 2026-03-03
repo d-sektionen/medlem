@@ -10,25 +10,20 @@ const backendService = axios.create({
   timeout: 10000,
 })
 
-const refreshAuthLogic = async (failedRequest) => {
+async function refreshAuthLogic(failedRequest) {
   const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
 
-  if (!refreshToken) return Promise.reject()
+  if (!refreshToken) throw new Error('No Refresh token')
 
   const response = await backendService.post('/oauth2/login/refresh', {
-    "refresh": refreshToken,
+    refresh: refreshToken,
   })
   const newAccessToken = response.data[ACCESS_TOKEN_KEY]
-  const newRefreshToken = response.data[REFRESH_TOKEN_KEY]
 
   //set new access token
   localStorage.setItem(ACCESS_TOKEN_KEY, newAccessToken)
-  localStorage.setItem(REFRESH_TOKEN_KEY, newRefreshToken)
-  originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
-
-  return Promise.resolve()
+  failedRequest.headers.Authorization = `Bearer ${newAccessToken}`
 }
-
 
 createAuthRefreshInterceptor(backendService, refreshAuthLogic)
 
