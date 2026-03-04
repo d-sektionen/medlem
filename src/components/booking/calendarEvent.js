@@ -25,6 +25,8 @@ export const CalendarEvent = ({
   restricted_timeslot,
   index,
   hasOverlap,
+  dayIndex,
+  totalDays,
 }) => {
   const startDate = new Date(start)
   const endDate = new Date(end)
@@ -32,11 +34,24 @@ export const CalendarEvent = ({
   const length =
     (100 * differenceInMinutes(endDate, startDate)) / (24 * 60) + '%'
   const xOffset = (100 * startHours) / 24 + '%'
+  const isMultiDay = dayIndex != undefined && totalDays != undefined && totalDays > 1
 
   // make overlapping events 25% thinner
   const width = hasOverlap ? 0.75 : 1
   // if events overlap, offset every other by their width difference
   const left = (1 - width) * (index % 2)
+
+  function getEventText() {
+    if (isMultiDay) {
+      const dayString = `(dag ${dayIndex + 1}/${totalDays})`;
+      if (dayIndex != 0 && dayIndex != (totalDays - 1))
+        return dayString;
+
+      return `${format(startDate, 'HH:mm')} ${format(endDate, 'HH:mm')} - ${dayString}`
+    }
+
+    return `${format(startDate, 'HH:mm')} ${format(endDate, 'HH:mm')}`
+  }
 
   const styles = {
     position: 'absolute',
@@ -67,7 +82,7 @@ export const CalendarEvent = ({
     return (
       <div className="booking" style={styles} onClick={onEventClick}>
         <p>
-          {format(startDate, 'HH:mm')} - {format(endDate, 'HH:mm')}
+          {getEventText()}
         </p>
         <p>{user.pretty_name}</p>
       </div>
