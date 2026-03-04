@@ -7,17 +7,17 @@ import { UserContext } from "../layout/layout";
 
 /**
  * BookingItem component represents a selectable resource
- * 
- * @param {} booking - 
- * @param {} showDeleteIcon - 
+ *
+ * @param {} booking -
+ * @param {} showDeleteIcon -
  * @param {} onDetailsClick -
  * @param {} onDeleteClick -
- * @param {} onUpdate - 
+ * @param {} onUpdate -
  * @param {} onSubmit -
- * @param {} validateBooking - 
- * 
+ * @param {} validateBooking -
+ *
  * @description
- * This component 
+ * This component
  */
 
 export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteClick, onUpdate, onDeny, onConfirm,  validateBooking}) => {
@@ -47,11 +47,11 @@ export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteCl
 
   }
   const isAdmin = user.privileges.booking_admin
-    
+
   return (
     <div className={containerContainer}>
       <div>
-        <p className={title}>{booking?.user?.first_name}</p>
+        <p className={title}>{booking?.user?.pretty_name}</p>
         <p className={date}>{new Date(booking?.start)?.toLocaleString('sv-SE', dateOptions)}</p>
       </div>
       <div className={container}>

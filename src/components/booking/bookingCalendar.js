@@ -43,12 +43,14 @@ const splitMultiDayEvents = (event) => {
   })
 
   // Map each day to a single-day event
-  return days.map((day) => {
+  return days.map((day, index) => {
     const isFirstDay = day.getTime() === startOfDay(start).getTime()
     const isLastDay = day.getTime() === startOfDay(end).getTime()
 
     return {
       ...event,
+      dayIndex: index,
+      totalDays: days.length,
       start: isFirstDay ? start : day,
       end: isLastDay ? end : endOfDay(day),
     }
@@ -188,7 +190,10 @@ export const BookingCalendar = ({ bookings }) => {
   }
 
   const handleEventClick = (booking) => {
-    openViewBooking('Bokningsinformation', { booking })
+    // We want to keep track of the original,
+    // to make sure the proper event details are shown when clicking on a multi-day event
+    const originalBooking = bookings.find((b) => b.id === booking.id)
+    openViewBooking('Bokningsinformation', { booking: originalBooking })
   }
 
   return (

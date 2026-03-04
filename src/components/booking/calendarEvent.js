@@ -69,7 +69,7 @@ export const CalendarEvent = ({
         <p>
           {format(startDate, 'HH:mm')} - {format(endDate, 'HH:mm')}
         </p>
-        <p>{user.first_name}</p>
+        <p>{user.pretty_name}</p>
       </div>
     )
   }
