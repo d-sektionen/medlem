@@ -57,11 +57,11 @@ export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteCl
       <div className={container}>
       {(isAdmin) && (
         <>
-        <button onClick={()=> onDeleteClick(booking.id)}>
+        <button onClick={()=> onDeleteClick(booking.id)} title="Neka bokning">
           <FaTimes />
         </button>
         {booking.confirmed !== true && (
-        <button onClick={() => onConfirm(booking.id)}>
+        <button onClick={() => onConfirm(booking.id)} title="Godkänn bokning">
           <FaCheck />
         </button>
         )}
@@ -69,15 +69,15 @@ export const BookingItem = ({booking, showDeleteIcon, onDetailsClick, onDeleteCl
       )}
       {(showDeleteIcon || isAdmin) && (
         <>
-          <button onClick={() => setIsEditing(!isEditing)}>
+          <button onClick={() => setIsEditing(!isEditing)} title="Redigera bokning">
             <FaPen />
           </button>
-          <button onClick={()=> onDeleteClick(booking.id)}>
+          <button onClick={()=> onDeleteClick(booking.id)} title="Ta bort bokning">
             <FaTrash />
           </button>
         </>
       )}
-      <button onClick={() => onDetailsClick(booking)}>
+      <button onClick={() => onDetailsClick(booking)} title="Visa bokningsinformation">
         <FaInfoCircle />
       </button>
       </div>
