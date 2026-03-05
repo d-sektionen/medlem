@@ -8,6 +8,7 @@ export const REFRESH_TOKEN_KEY = 'refresh'
 const backendService = axios.create({
   baseURL: `${BASE_URL}`,
   timeout: 10000,
+  withCredentials: true,
 })
 
 async function refreshAuthLogic(failedRequest) {
@@ -25,24 +26,8 @@ async function refreshAuthLogic(failedRequest) {
   failedRequest.headers.Authorization = `Bearer ${newAccessToken}`
 }
 
-createAuthRefreshInterceptor(backendService, refreshAuthLogic, {
-  pauseInstanceWhileRefreshing: true,
-})
-
-// Request interceptor
-backendService.interceptors.request.use(
-  (config) => {
-    // get stored access token
-    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
-    if (accessToken) {
-      // set in header
-      config.headers.Authorization = `Bearer ${accessToken}`
-    }
-    return config
-  },
-  (error) => {
-    throw error
-  }
-)
+// createAuthRefreshInterceptor(backendService, refreshAuthLogic, {
+//   pauseInstanceWhileRefreshing: true,
+// })
 
 export default backendService
