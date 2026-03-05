@@ -24,7 +24,12 @@ const LayoutContent = ({
   const [loading, setLoading] = loadingContextValue
   const [sideMenuOpen, setSideMenuOpen] = useState(false)
   const [error, setError] = useState(null)
-  const [token, setToken] = useState(localStorage.getItem(ACCESS_TOKEN_KEY))
+  const [token, setToken] = useState(null)
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem(ACCESS_TOKEN_KEY)
+    setToken(storedToken)
+  }, [])
 
   const requiredPrivileges = pageContext.requiredPrivileges
   const [hasPrivileges, setHasPrivileges] = useState(false)
