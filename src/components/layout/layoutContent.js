@@ -21,7 +21,6 @@ const LayoutContent = ({
   const [loading, setLoading] = loadingContextValue
   const [sideMenuOpen, setSideMenuOpen] = useState(false)
   const [error, setError] = useState(null)
-  const [token, setToken] = useState(null)
 
   const requiredPrivileges = pageContext.requiredPrivileges
   const [hasPrivileges, setHasPrivileges] = useState(false)
@@ -44,13 +43,12 @@ const LayoutContent = ({
 
   async function getUser() {
     try {
+      setLoading(true)
       const { data } = await BackendService.get('/account/me/')
-      console.log('🚀 ~ getUser ~ data:', data)
       setUser(data)
       setError(null)
     } catch (err) {
       setUser(null)
-      setToken(null)
 
       if (!err.response) {
         setError(
@@ -62,22 +60,12 @@ const LayoutContent = ({
           </>
         )
       }
+    } finally {
+      setLoading(false)
     }
   }
 
-  function handleToken() {
-    setLoading(true)
-
-    if (true) {
-      getUser()
-    } else {
-      setUser(null)
-    }
-
-    setLoading(false)
-  }
-
-  useEffect(handleToken, [token])
+  useEffect(getUser, [])
 
   // Page is loading
   if (loading) {

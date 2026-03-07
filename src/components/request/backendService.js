@@ -11,23 +11,16 @@ const backendService = axios.create({
   withCredentials: true,
 })
 
-async function refreshAuthLogic(failedRequest) {
-  const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY)
-
-  if (!refreshToken) throw new Error('No Refresh token')
-
-  const response = await backendService.post('/oauth2/login/refresh', {
-    refresh: refreshToken,
-  })
-  const newAccessToken = response.data[ACCESS_TOKEN_KEY]
-
-  //set new access token
-  localStorage.setItem(ACCESS_TOKEN_KEY, newAccessToken)
-  failedRequest.headers.Authorization = `Bearer ${newAccessToken}`
+async function refreshAuth(failedRequest) {
+  try {
+    await backendService.post('/oauth2/login/refresh')
+  } catch (err) {
+    throw failedRequest
+  }
 }
 
-// createAuthRefreshInterceptor(backendService, refreshAuthLogic, {
-//   pauseInstanceWhileRefreshing: true,
-// })
+createAuthRefreshInterceptor(backendService, refreshAuth, {
+  pauseInstanceWhileRefreshing: true,
+})
 
 export default backendService
