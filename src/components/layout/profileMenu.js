@@ -9,16 +9,17 @@ import useModal, { useCloseModal } from '../modal/useModal'
 import QR from './qr'
 import { UserContext } from './layout'
 import { Button, ButtonGroup } from '../ui/buttons'
+import backendService from '../request/backendService'
 
 const ProfileMenu = ({ user }) => {
   const setUser = useContext(UserContext)[1]
   const [openModal] = useModal(QR)
   const closeModal = useCloseModal()
 
-  const logout = () => {
+  const logout = async () => {
+    await backendService.post(`${BASE_URL}/oauth2/logout`)
+    closeModal()
     setUser(null)
-
-    navigate(`${BASE_URL}/oauth2/logout?next=${window.location.origin}`)
   }
 
   return (
