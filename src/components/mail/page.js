@@ -33,7 +33,7 @@ const MailPage = ({ pageContext }) => {
   const [infoChiefContent, setInfoChiefContent] = useState('')
   const [content, setContent] = useState('')
   const [rawMode, setRawMode] = useState(false)
-  let [modalState, setModalState] = useState(ModalState.CLOSED)
+  const [modalState, setModalState] = useState(ModalState.CLOSED)
 
   function sendMail() {
     setModalState(ModalState.SENDING)
