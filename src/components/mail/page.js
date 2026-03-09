@@ -86,10 +86,9 @@ const MailPage = () => {
               <p>
                 Du är påväg att skicka ut ett infomail till alla medlemmar på
                 d-sektionen som prenumererar på infomailet (potentiellt över
-                2000 personer!).{' '}
-                {/* FIXME: är denna siffra korrekt? (tagen från facebook) */}
-                Om du väljer att skicka mailet kommer det skickas omedelbart
-                till alla prenumeranter. Detta val går inte att ångra
+                2000 personer!). Om du väljer att skicka mailet kommer det
+                skickas omedelbart till alla prenumeranter. Detta val går inte
+                att ångra
               </p>
             </div>
 
