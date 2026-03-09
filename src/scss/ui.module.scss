@@ -301,3 +301,17 @@
       linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 30%);
   }
 }
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: $base-padding;
+  padding: $base-padding 2 * $base-padding;
+  background-color: $background-color-3;
+
+  label {
+    input {
+      margin-right: $base-padding / 2;
+    }
+  }
+}

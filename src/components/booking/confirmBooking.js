@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useCloseModal } from '../modal/useModal'
 import { Button } from '../ui/buttons'
-import { Checkbox } from '../ui/checkbox'
+import { Checklist } from '../ui/checklist'
+import { confirmBookingChecklists } from '../../scss/booking.module.scss'
 
 const ConfirmBooking = ({ booking, confirmBooking }) => {
   const close = useCloseModal()
@@ -17,18 +18,6 @@ const ConfirmBooking = ({ booking, confirmBooking }) => {
   const [selectedItems, setSelectedItems] = useState([])
   const [selectedAccessories, setSelectedAccessories] = useState([])
 
-  const toggleSelectedItem = (itemId) => {
-    if (selectedItems.includes(itemId)) {
-      setSelectedItems(selectedItems.filter((id) => id !== itemId))
-    } else {
-      const newItems = [...selectedItems, itemId]
-      if (newItems.length > booking.count) {
-        newItems.shift()
-      }
-      setSelectedItems(newItems)
-    }
-  }
-
   return (
     <>
       <p>Bokad av {user}.</p>
@@ -38,41 +27,32 @@ const ConfirmBooking = ({ booking, confirmBooking }) => {
         <>
           <h3>Välj {booking.count} objekt</h3>
 
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {items.map((item) => {
-              return (
-                <label key={item.id}>
-                  <input
-                    type="checkbox"
-                    checked={selectedItems.includes(item.id)}
-                    onChange={() => toggleSelectedItem(item.id)}
-                  />
+          <div className={confirmBookingChecklists}>
+            <Checklist
+              items={items}
+              selected={selectedItems}
+              setSelected={setSelectedItems}
+              maxSelected={booking.count}
+            />
 
-                  {item.name}
-                </label>
-              )
-            })}
+            {requiresAccessory && (
+              <Checklist
+                items={accessories}
+                selected={selectedAccessories}
+                setSelected={setSelectedAccessories}
+                maxSelected={booking.count}
+              />
+            )}
           </div>
-
-          {requiresAccessory && (
-            <div style={{ marginTop: '0.5em' }}>
-              {accessories.map((accessory) => {
-                return (
-                  <div key={accessory.id}>
-                    <Checkbox text={accessory.name} value={accessory.id} />
-
-                    <span>{accessory.name}</span>
-                  </div>
-                )
-              })}
-            </div>
-          )}
         </>
       )}
 
       <Button
         onClick={() => {
-          confirmBooking(booking.id)
+          confirmBooking(booking.id, {
+            items: selectedItems,
+            accessories: selectedAccessories,
+          })
           close()
         }}
       >

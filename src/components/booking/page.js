@@ -62,8 +62,8 @@ const BookingPage = ({ pageContext: { title } }) => {
     mutate(bookings.filter((b) => b.id !== bookingId))
   }
 
-  const confirm = async (bookingId) => {
-    await put(`/booking/bookings/${bookingId}/confirm/`)
+  const confirm = async (bookingId, data) => {
+    await put(`/booking/bookings/${bookingId}/confirm/`, data)
     mutate(
       bookings.map((b) => {
         if (bookingId !== b.id) return b
