@@ -1,4 +1,4 @@
-import {} from '../../scss/richText.module.scss'
+import '../../scss/richText.module.scss'
 
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
