@@ -12,7 +12,7 @@ async function refreshAuth(failedRequest) {
   try {
     await backendService.post('/oauth2/login/refresh')
   } catch (err) {
-    throw failedRequest
+    throw err
   }
 }
 
