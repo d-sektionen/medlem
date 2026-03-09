@@ -134,8 +134,12 @@ const MailPage = ({ pageContext }) => {
                 &nbsp; Skriv rå HTML
               </label>
 
-              <AutoInput label={'Ämne'} onChange={setSubject} value={subject} />
               <br />
+
+              <AutoInput label={'Ämne'} onChange={setSubject} value={subject} />
+
+              <br />
+
               <label>Infochefens hörna</label>
               {rawMode ? (
                 <Textarea
@@ -148,7 +152,9 @@ const MailPage = ({ pageContext }) => {
                   onChange={setInfoChiefContent}
                 />
               )}
+
               <br />
+
               <label>Innehåll</label>
               {rawMode ? (
                 <Textarea value={content} onChange={setContent} />
@@ -156,6 +162,7 @@ const MailPage = ({ pageContext }) => {
                 <RichText value={content} onChange={setContent} />
               )}
             </div>
+
             <div className={inputButtons}>
               <Button onClick={sendMailToMyself}>
                 <FiUser /> Skicka till mig själv
