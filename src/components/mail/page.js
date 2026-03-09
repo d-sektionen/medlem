@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import BigPixels from '../layout/bigPixels'
 import { GridContainer, GridItem } from '../ui/grid'
 import Textarea from '../ui/textarea'
@@ -12,9 +12,8 @@ import {
   textSuccess,
   textFail,
 } from '../../scss/mail.module.scss'
-import { useEffect } from 'react'
 import AutoInput from '../form/input'
-import { IconButton, Button } from '../ui/buttons'
+import { Button } from '../ui/buttons'
 import { post } from '../request'
 import { FiSend, FiCheck, FiSlash, FiUpload, FiUser } from 'react-icons/fi'
 import RichText from '../ui/richText'
