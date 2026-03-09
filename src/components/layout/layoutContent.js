@@ -65,7 +65,9 @@ const LayoutContent = ({
     }
   }
 
-  useEffect(getUser, [])
+  useEffect(() => {
+    getUser()
+  }, [])
 
   // Page is loading
   if (loading) {
