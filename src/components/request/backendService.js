@@ -2,9 +2,6 @@ import axios from 'axios'
 import { BASE_URL } from '../../config'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
 
-export const ACCESS_TOKEN_KEY = 'access'
-export const REFRESH_TOKEN_KEY = 'refresh'
-
 const backendService = axios.create({
   baseURL: `${BASE_URL}`,
   timeout: 10000,

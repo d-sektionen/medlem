@@ -9,10 +9,6 @@ import useModal, { useCloseModal } from '../modal/useModal'
 import QR from './qr'
 import { UserContext } from './layout'
 import { Button, ButtonGroup } from '../ui/buttons'
-import {
-  ACCESS_TOKEN_KEY,
-  REFRESH_TOKEN_KEY,
-} from '../request/backendService'
 
 const ProfileMenu = ({ user }) => {
   const setUser = useContext(UserContext)[1]
@@ -20,8 +16,6 @@ const ProfileMenu = ({ user }) => {
   const closeModal = useCloseModal()
 
   const logout = () => {
-    localStorage.removeItem(ACCESS_TOKEN_KEY)
-    localStorage.removeItem(REFRESH_TOKEN_KEY)
     setUser(null)
 
     navigate(`${BASE_URL}/oauth2/logout?next=${window.location.origin}`)
@@ -39,9 +33,7 @@ const ProfileMenu = ({ user }) => {
           <FiSettings />
           Kontoinställningar
         </Button>
-        <Button
-          onClick={logout}
-        >
+        <Button onClick={logout}>
           <FiLogOut />
           Logga ut
         </Button>
