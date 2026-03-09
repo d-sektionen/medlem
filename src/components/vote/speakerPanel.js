@@ -19,7 +19,9 @@ const SpeakerPanel = ({ meeting }) => {
     }
   }
 
-  useEffect(handleMeetingChange, [meeting])
+  useEffect(() => {
+    handleMeetingChange
+  }, [meeting])
   socket.emit('join', { room: `meeting_speker_${meeting.id}` })
 
   socket.on('new_speaker_request', (data) => {
