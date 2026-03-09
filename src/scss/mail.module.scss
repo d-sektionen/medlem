@@ -1,3 +1,5 @@
+@import 'vars';
+
 .inputContainer {
   height: 100%;
   display: flex;
@@ -40,9 +42,9 @@
 }
 
 .textSuccess {
-  color: rgb(112, 189, 68);
+  color: $dsek-green;
 }
 
 .textFail {
-  color: red;
+  color: $dsek-cerise;
 }
