@@ -69,7 +69,7 @@ const MailPage = () => {
     <BigPixels>
       <Modal
         title="Skicka infomail"
-        isOpen={modalState != ModalState.CLOSED}
+        isOpen={modalState !== ModalState.CLOSED}
         setOpen={(value) => {
           if (!value) {
             setModalState(ModalState.CLOSED)
