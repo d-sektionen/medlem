@@ -28,7 +28,7 @@ const ModalState = Object.freeze({
   FAIL: 'FAIL',
 })
 
-const MailPage = ({ pageContext }) => {
+const MailPage = () => {
   const [subject, setSubject] = useState('')
   const [infoChiefContent, setInfoChiefContent] = useState('')
   const [content, setContent] = useState('')
