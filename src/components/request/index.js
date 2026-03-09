@@ -1,43 +1,40 @@
-import axios from 'axios'
-import { BASE_URL } from '../../config'
+import backendService from './backendService'
 
 /**
- * A wrapper of axios which automatically handles JWT and base url
- * for our needs.
+ * A wrapper of axios which automatically redirects to login
+ * if unauthorized is detected.
  * @param {*} config axios config
  */
 
-const request = config => {
-  // if config.endpoint is not a full path with the "https://" or "http://"
-  // prefix the BASE_URL is prepended to the endpoint
+// Old request function left as a backward compatability,
+// to be removed and replaced by axios services.
+const request = (config) => {
+  const headers = config.headers ? config.headers : {}
+  // if config.url is not a full path with the "https://" or "http://"
+  // the request is a d-sektionen backend request.
   const isFullUrl = /^https?:\/\//
-  const url = isFullUrl.test(config.endpoint)
-    ? config.endpoint
-    : BASE_URL + config.endpoint
-
-  // Add auth token to headers
-  const token = window.localStorage.getItem('token')
-  const oldHeaders = config.headers ? config.headers : {}
-  const headers = { ...oldHeaders, Authorization: `Bearer ${token}` }
+  if (!isFullUrl.test(config.url)) {
+    return backendService({ ...config, headers })
+  }
 
   // Send request using axios library
-  return axios({ ...config, headers, url })
+  return axios({ ...config, headers })
 }
 
 // Aliases for the different request methods
-export const get = (endpoint, config = {}) =>
-  request({ ...config, method: 'get', endpoint })
-export const del = (endpoint, config = {}) =>
-  request({ ...config, method: 'delete', endpoint })
-export const head = (endpoint, config = {}) =>
-  request({ ...config, method: 'head', endpoint })
-export const options = (endpoint, config = {}) =>
-  request({ ...config, method: 'options', endpoint })
-export const post = (endpoint, data = {}, config = {}) =>
-  request({ ...config, data, method: 'post', endpoint })
-export const put = (endpoint, data = {}, config = {}) =>
-  request({ ...config, data, method: 'put', endpoint })
-export const patch = (endpoint, data = {}, config = {}) =>
-  request({ ...config, data, method: 'patch', endpoint })
+export const get = (url, config = {}) =>
+  request({ ...config, method: 'get', url })
+export const del = (url, config = {}) =>
+  request({ ...config, method: 'delete', url })
+export const head = (url, config = {}) =>
+  request({ ...config, method: 'head', url })
+export const options = (url, config = {}) =>
+  request({ ...config, method: 'options', url })
+export const post = (url, data = {}, config = {}) =>
+  request({ ...config, data, method: 'post', url })
+export const put = (url, data = {}, config = {}) =>
+  request({ ...config, data, method: 'put', url })
+export const patch = (url, data = {}, config = {}) =>
+  request({ ...config, data, method: 'patch', url })
 
 export default request

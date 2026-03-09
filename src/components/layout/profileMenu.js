@@ -1,4 +1,5 @@
-import React, { useEffect, useContext } from 'react'
+import { navigate } from 'gatsby'
+import React, { useContext } from 'react'
 
 import { FiLogOut, FiSettings } from 'react-icons/fi'
 import { IoMdQrScanner } from 'react-icons/io'
@@ -8,37 +9,23 @@ import useModal, { useCloseModal } from '../modal/useModal'
 import QR from './qr'
 import { UserContext } from './layout'
 import { Button, ButtonGroup } from '../ui/buttons'
-
-const LogoutModal = () => {
-  const setUser = useContext(UserContext)[1]
-
-  useEffect(() => {
-    window.localStorage.removeItem('token')
-    setUser(null)
-  }, [])
-
-  return (
-    <iframe
-      title="Log out"
-      src={`${BASE_URL}/account/logout/`}
-      sandbox="allow-scripts"
-      style={{
-        width: '50rem',
-        maxWidth: '100%',
-        height: '30rem',
-        maxHeight: '100%',
-        border: 'none',
-        display: 'block',
-        marginBottom: 0,
-      }}
-    />
-  )
-}
+import {
+  ACCESS_TOKEN_KEY,
+  REFRESH_TOKEN_KEY,
+} from '../request/backendService'
 
 const ProfileMenu = ({ user }) => {
+  const setUser = useContext(UserContext)[1]
   const [openModal] = useModal(QR)
-  const [openLogoutModal] = useModal(LogoutModal)
   const closeModal = useCloseModal()
+
+  const logout = () => {
+    localStorage.removeItem(ACCESS_TOKEN_KEY)
+    localStorage.removeItem(REFRESH_TOKEN_KEY)
+    setUser(null)
+
+    navigate(`${BASE_URL}/oauth2/logout?next=${window.location.origin}`)
+  }
 
   return (
     <div>
@@ -53,7 +40,7 @@ const ProfileMenu = ({ user }) => {
           Kontoinställningar
         </Button>
         <Button
-          onClick={() => openLogoutModal('Loggar ut', {}, { noPadding: true })}
+          onClick={logout}
         >
           <FiLogOut />
           Logga ut

@@ -1,19 +1,24 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import {actions, titleChooser, selectContainer, hint} from '../../scss/ui.module.scss'
+import {
+  actions,
+  titleChooser,
+  selectContainer,
+  hint,
+} from '../../scss/ui.module.scss'
 import { Button } from './buttons'
 
 const TitleChooser = ({
   title,
-  choices,
-  categorizedChoices,
-  choice,
-  setChoice,
-  label,
-  action,
-  actionLabel,
-  noChoicesLabel,
-  onChange,
+  choices = [],
+  categorizedChoices = {},
+  choice = null,
+  setChoice = () => {},
+  label = '',
+  action = null,
+  actionLabel = '',
+  noChoicesLabel = '',
+  onChange = () => {},
 }) => {
   const allChoices = [
     ...(choices || []),
@@ -31,14 +36,13 @@ const TitleChooser = ({
   useEffect(() => {
     const savedChoice = sessionStorage.getItem(`${title}-selectedItem`)
     if (!savedChoice) {
-      return;
+      return
     }
 
     const selectedItem = allChoices.find((item) => `${item.id}` === savedChoice)
     if (selectedItem) {
       setChoice(selectedItem)
     }
-
   }, [choices, categorizedChoices])
 
   return (
@@ -48,18 +52,21 @@ const TitleChooser = ({
         {allChoices.length ? (
           <div className={selectContainer}>
             <select
-              onChange={e => {
+              onChange={(e) => {
                 const selectedValue = e.target.value
                 const selectedItem =
                   selectedValue === ''
                     ? null
-                    : allChoices.filter(i => `${i.id}` === selectedValue)[0]
+                    : allChoices.filter((i) => `${i.id}` === selectedValue)[0]
                 setChoice(selectedItem)
                 onChange(e)
 
                 // Save the selected item for refresh re-select
                 if (selectedItem) {
-                  sessionStorage.setItem(`${title}-selectedItem`, selectedItem.id)
+                  sessionStorage.setItem(
+                    `${title}-selectedItem`,
+                    selectedItem.id
+                  )
                 } else {
                   sessionStorage.removeItem(`${title}-selectedItem`)
                 }
@@ -67,16 +74,16 @@ const TitleChooser = ({
               value={choice ? choice.id : ''}
             >
               <option hidden value="" />
-              {choices.sort().map(c => (
+              {choices.sort().map((c) => (
                 <option value={c.id} key={c.id}>
                   {c[label]}
                 </option>
               ))}
               {Object.keys(categorizedChoices)
                 .sort()
-                .map(key => (
+                .map((key) => (
                   <optgroup label={key} key={key}>
-                    {categorizedChoices[key].sort().map(c => (
+                    {categorizedChoices[key].sort().map((c) => (
                       <option value={c.id} key={c.id}>
                         {c[label]}
                       </option>
@@ -84,9 +91,7 @@ const TitleChooser = ({
                   </optgroup>
                 ))}
             </select>
-            {choice === null && (
-              <div className={hint}>Välj ett objekt</div>
-            )}
+            {choice === null && <div className={hint}>Välj ett objekt</div>}
           </div>
         ) : (
           <span>{noChoicesLabel}</span>
@@ -96,17 +101,6 @@ const TitleChooser = ({
       </div>
     </div>
   )
-}
-TitleChooser.defaultProps = {
-  categorizedChoices: {},
-  choices: [],
-  action: null,
-  actionLabel: '',
-  choice: null,
-  noChoicesLabel: '',
-  setChoice: () => {},
-  label: '',
-  onChange: () => {},
 }
 
 TitleChooser.propTypes = {

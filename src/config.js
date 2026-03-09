@@ -18,7 +18,6 @@ module.exports.BASE_URL =
 module.exports.TITLE = 'Medlem D-sektionen'
 
 module.exports.PAGES = [
-  // TODO: Add alternative paths (redirects)
   {
     path: '/404',
     title: 'Sidan kunde inte hittas',
