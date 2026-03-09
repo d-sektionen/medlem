@@ -37,7 +37,9 @@ const Preview = ({ subject, content, infoChiefContent }) => {
         setErrorMessage(err.message)
       })
       .finally(() => {
-        if (isLatest) setIsLoading(false)
+        if (isLatest) {
+          setIsLoading(false)
+        }
       })
 
     return () => {
