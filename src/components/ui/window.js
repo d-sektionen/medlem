@@ -15,9 +15,9 @@ const Window = ({ title, children }) => {
       <div className={windowTitleBar}>
         <div>{title}</div>
         <div className={windowControls}>
-          <div className={windowControl}></div>
-          <div className={windowControl}></div>
-          <div className={windowControl}></div>
+          <div className={windowControl} />
+          <div className={windowControl} />
+          <div className={windowControl} />
         </div>
       </div>
       <div className={windowContent}>{children}</div>
