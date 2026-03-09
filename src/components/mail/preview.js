@@ -64,6 +64,7 @@ const Preview = ({ subject, content, infoChiefContent }) => {
           title="preview"
           srcDoc={preview}
           className={previewFrame}
+          sandbox=""
         ></iframe>
       )}
 
