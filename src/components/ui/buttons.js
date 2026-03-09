@@ -6,14 +6,19 @@ import { iconButton, button, buttonGroup } from '../../scss/ui.module.scss'
 const IconButton = ({ onClick, iconComponent: Icon, text, disabled }) => {
   // TODO: add anchor tag mode.
   return (
-    <button type="button" className={iconButton} onClick={onClick} disabled={disabled}>
+    <button
+      type="button"
+      className={iconButton}
+      onClick={onClick}
+      disabled={disabled}
+    >
       <Icon />
       <div>{text}</div>
     </button>
   )
 }
 
-const Button = ({ onClick, to, href, target, children, type }) => {
+const Button = ({ onClick, to, href, target, children, type, disabled }) => {
   if (to)
     return (
       <Link className={button} to={to} onClick={onClick}>
@@ -29,7 +34,12 @@ const Button = ({ onClick, to, href, target, children, type }) => {
     )
 
   return (
-    <button className={button} type={type} onClick={onClick}>
+    <button
+      className={button}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   )

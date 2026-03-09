@@ -6,7 +6,6 @@
   border: none;
   background-color: $background-color-3;
   color: $foreground-color-3;
-  cursor: pointer;
   padding: $base-padding $base-padding * 2;
   margin-bottom: $base-padding;
 
@@ -16,10 +15,18 @@
   justify-content: center;
   gap: calc($base-padding / 2);
 
-  &:hover {
-    background-color: $dsek-blue;
-  }
+  &:enabled {
+    cursor: pointer;
 
+    &:hover {
+      background-color: $dsek-blue;
+    }
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
   &:focus {
     outline-width: 0;
     box-shadow: 0 0 2px 2px $dsek-blue;
