@@ -8,6 +8,7 @@ import socket from '../request/socket'
 
 const SpeakerPanel = ({ meeting }) => {
   const [speakers, setSpeakers] = useState([])
+
   async function handleMeetingChange() {
     if (meeting) {
       const resp = await backendService.get(
@@ -17,11 +18,17 @@ const SpeakerPanel = ({ meeting }) => {
     }
   }
 
-  useEffect(handleMeetingChange, [meeting])
+  useEffect(() => {
+    handleMeetingChange()
+  }, [meeting])
+
   socket.emit('join', { room: `meeting_speker_${meeting.id}` })
 
   socket.on('new_speaker_request', (data) => {
     if (data.meeting_id === meeting.id) {
+      if (speakers.find((s) => s.id === data.speaker.id)) {
+        return
+      }
       speakers.push(data.speaker)
       setSpeakers([...speakers])
     }
