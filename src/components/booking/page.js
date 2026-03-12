@@ -1,61 +1,51 @@
-import React, { useState } from 'react'
-import useSWR from 'swr'
+import React, {useContext, useState} from "react"
+import {page, bookingList, resourceSelector, content, calendarPadding, infoBox, infoPopup} from "./page.module.scss"
+import BookableResourceContainer from "./bookableResourceContainer"
+import { BookingsList } from "./bookingsList"
+import useSWR from "swr"
+import { parseISO, differenceInMinutes, isBefore, isEqual, startOfISOWeek, subWeeks } from 'date-fns';
+import { FaCar, FaTrailer, FaToolbox, FaCamera, FaBox, FaWarehouse } from "react-icons/fa";
+import { FaTent } from "react-icons/fa6";
+import { UserContext } from "../layout/layout"
+import { CreateNewBooking } from "./createNewBooking"
+import { BookingCalendar } from "./bookingCalendar"
+import { post, put, del } from "../request"
+import useModal from '../modal/useModal'
+import ViewBooking from './viewBooking'
+import useConfirmModal from '../modal/useConfirmModal'
+import { Button } from "../ui/buttons";
+import { useMediaQuery } from "../ui/useMediaQuery"
 
-import { GridContainer, GridItem } from '../ui/grid'
-import BigPixels from '../layout/bigPixels'
-import ItemPanel from './itemPanel'
-import BookingPanel from './bookingPanel'
-import TitleChooser from '../ui/titleChooser'
-import { post, put, del } from '../request'
-import { startOfISOWeek, subWeeks } from 'date-fns'
-
-/*
- * Get the date 4 weeks ago relative to the start of the current week.
- **/
 const getDate4WeeksAgo = date => {
   return subWeeks(startOfISOWeek(date), 4).toISOString()
 }
 
-const BookingPage = ({ pageContext: { title } }) => {
-  const [item, setItem] = useState(null)
+export default function NewBookingPage () {
   const [afterDate, setAfterDate] = useState(getDate4WeeksAgo(new Date()))
-  const { data: items } = useSWR('/booking/items/')
+  const [selectedResource, setSelectedResource] = useState(1)
+  const [user] = useContext(UserContext)
 
+  const [openViewBooking] = useModal(ViewBooking)
+  const [openConfirmation] = useConfirmModal()
+
+  const [view, setVisible] = useState(false);
+
+  const { data: items } = useSWR('/booking/items/')
   const { data: bookings, mutate } = useSWR(
     () =>
-      item &&
-      `/booking/bookings/?item=${item.id}${
-        afterDate ? '&after=' + afterDate : ''
-      }`
+      selectedResource &&
+    `/booking/bookings/?item=${selectedResource}${
+      afterDate ? '&after=' + afterDate : ''
+    }`
   )
-
-  const categorizedItems = items
-    ? items.reduce((accumulator, itm) => {
-        const cat = itm.category || 'Okategoriserat'
-        if (Object.prototype.hasOwnProperty.call(accumulator, cat)) {
-          return {
-            ...accumulator,
-            [cat]: [...accumulator[cat], itm],
-          }
-        }
-        return { ...accumulator, [cat]: [itm] }
-      }, {})
-    : {}
-
-  const create = async data => {
-    const { data: newBooking } = await post('/booking/bookings/', data)
-    mutate([...bookings, newBooking])
-    return newBooking
-  }
-
   const update = async (bookingId, data) => {
-    const { data: updatedBooking } = await put(
-      `/booking/bookings/${bookingId}/`,
-      data
-    )
-    mutate([...bookings.filter(b => b.id !== bookingId), updatedBooking])
-    return updatedBooking
-  }
+      const { data: updatedBooking } = await put(
+        `/booking/bookings/${bookingId}/`,
+        data
+      )
+      mutate([...bookings.filter(b => b.id !== bookingId), updatedBooking])
+      return updatedBooking
+    }
 
   const destroy = async bookingId => {
     await del(`/booking/bookings/${bookingId}/`)
@@ -83,48 +73,114 @@ const BookingPage = ({ pageContext: { title } }) => {
       })
     )
   }
-  const loadAllBookings = async () => {
-    // Removes the after parameter from the request, thus causing all bookings to load.
-    setAfterDate(null)
+
+  const validateBooking = (startDate, startTime, endDate, endTime) => {
+    const start = parseISO(`${startDate}T${startTime}`);
+    const end = parseISO(`${endDate}T${endTime}`);
+    const newErrors = {};
+    
+    if (isBefore(end, start) || isEqual(end, start)) {
+      newErrors.endDate = "Slutdatum/tid måste vara efter startdatum/tid.";
+    }
+  
+    const diffInMinutes = differenceInMinutes(end, start);
+    if (diffInMinutes < 30) {
+      newErrors.duration = "Bokningen måste vara minst 30 minuter lång.";
+    }
+  
+    const isIntercepting = bookings?.some(booking => {
+      const bookingStart = parseISO(`${booking?.startDate}T${booking?.startTime}`);
+      const bookingEnd = parseISO(`${booking?.endDate}T${booking?.endTime}`);
+      return (isBefore(start, bookingEnd) && isAfter(end, bookingStart));
+    });
+  
+    if (isIntercepting) {
+      newErrors.overlap = "Bokningen överlappar med en annan bokning.";
+    }
+    return newErrors
   }
 
+  const defaultIcon = <FaBox />;
+  const icons = {
+    1: <FaCar />,
+    2: <FaTrailer />,
+    3: <FaWarehouse />,
+    4: <FaTent />,
+    7: <FaToolbox />,
+    9: <FaCamera />,
+    10: <FaCar />,
+  }
+  const itemsWithIcons = items?.map(item => ({
+    ...item,
+    icon: icons[item.id] || defaultIcon
+  }))
+  const sortedItemsWithIcons = itemsWithIcons?.sort((a, b) => a.id - b.id)
+  const handleSelectedResourceChange = (id) => {
+    setSelectedResource(id)
+  }
+  
+  const sortedBookings = bookings?.sort((a, b) => new Date(a.start) - new Date(b.start))
+  const myBookings = sortedBookings?.filter(booking => booking.user.id === user.id && new Date(booking.start) >= new Date()) 
+  const unConfirmedBookings = sortedBookings?.filter(booking => !booking.confirmed)
+  const otherBookings = sortedBookings?.filter(booking => booking.user.id !== user.id && new Date(booking.start) >= new Date())
+  const resource = items?.find(item=>item.id === selectedResource)?.name
+  
+  const isNarrow = useMediaQuery("(max-width: 600px)")
+
+  const handleDelete = (bookingId) => {
+    openConfirmation(
+      'Är du säker på att du vill ta bort bokningen?',
+      () => destroy(bookingId)
+    )
+  }
+  const handleDetails = (booking) => {
+    openViewBooking('Bokningsinformation', { booking });
+  };
+
+  
   return (
-    <BigPixels>
-      <GridContainer>
-        <GridItem fullWidth>
-          <TitleChooser
-            title={title}
-            choice={item}
-            setChoice={setItem}
-            categorizedChoices={categorizedItems}
-            label="name"
-            onChange={() => setAfterDate(getDate4WeeksAgo(new Date()))}
-          />
-        </GridItem>
-        {item && bookings && (
-          <>
-            <GridItem>
-              <ItemPanel
-                item={item}
-                bookings={bookings}
-                createBooking={create}
-                loadAllBookings={loadAllBookings}
-              />
-            </GridItem>
-            <GridItem>
-              <BookingPanel
-                bookings={bookings}
-                updateBooking={update}
-                destroyBooking={destroy}
-                confirmBooking={confirm}
-                denyBooking={deny}
-              />
-            </GridItem>
-          </>
-        )}
-      </GridContainer>
-    </BigPixels>
+    <div className={page}>
+      <h1>Bokningar</h1>
+      <div className={content}>
+
+        <div className={resourceSelector}>
+        <BookableResourceContainer items={sortedItemsWithIcons} selectedItem={selectedResource} onSelectedItemChange={handleSelectedResourceChange}/>
+        {isNarrow && (<p>{items?.find(item=>item.id === selectedResource)?.name}</p>)}
+        </div>
+
+        <div className={calendarPadding}>
+          <BookingCalendar bookings={bookings} />
+        </div>
+
+        <div className={bookingList}>
+          <h2>Mina bokningar</h2> 
+
+          <div className={infoBox}>
+            <p>Genom att boka {items?.find(item=>item.id === selectedResource)?.name} godkänner du <a href={items?.find(item=>item.id === selectedResource)?.terms}>bokningsavtalet</a>.</p>
+            <Button onClick={() => setVisible(!view)}>Mer info</Button>  
+          </div>
+         
+          {view && (
+            <div className={infoPopup}>
+              <div>
+                <h2>{resource}</h2>
+                <p>{items?.find(item=>item.id === selectedResource)?.description}</p>
+                <Button type="button" onClick={() => setVisible(false)}>Stäng</Button>
+              </div>
+              
+            </div>
+          )}
+
+          <BookingsList bookings={myBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/>
+                    
+          <CreateNewBooking selectedItemId={selectedResource} items={items} mutateBooking={mutate} bookings={bookings} validateBooking={validateBooking}/>
+          {user.privileges.booking_admin && <><h2>Ohanterade bokningar</h2><BookingsList bookings={unConfirmedBookings} deletable={true} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} onConfirm={confirm} onDeny={deny} validateBooking={validateBooking}/></>}
+          
+          <h2>Alla bokningar</h2>
+          <BookingsList bookings={otherBookings} deletable={false} onDetailsClick={handleDetails} onDeleteClick={handleDelete} onUpdate={update} validateBooking={validateBooking}/>
+        </div>
+
+      </div>
+    </div>
   )
 }
-
-export default BookingPage

@@ -1,0 +1,91 @@
+import React from 'react'
+import { format, differenceInMinutes } from 'date-fns'
+/**
+ *  calenderEvent
+ *
+ * @param {} start -
+ * @param {} end -
+ * @param {} color -
+ * @param {} user -
+ * @param {} onEventClick -
+ * @param {} isDraft -
+ * @param {} restricted_timeslot -
+ *
+ * @description
+ * This component
+ */
+
+export const CalendarEvent = ({
+  start,
+  end,
+  color,
+  user,
+  onEventClick,
+  isDraft,
+  restricted_timeslot,
+  index,
+  hasOverlap,
+  dayIndex,
+  totalDays,
+}) => {
+  const startDate = new Date(start)
+  const endDate = new Date(end)
+  const startHours = startDate.getHours() + startDate.getMinutes() / 60
+  const length =
+    (100 * differenceInMinutes(endDate, startDate)) / (24 * 60) + '%'
+  const xOffset = (100 * startHours) / 24 + '%'
+  const isMultiDay = dayIndex != undefined && totalDays != undefined && totalDays > 1
+
+  // make overlapping events 25% thinner
+  const width = hasOverlap ? 0.75 : 1
+  // if events overlap, offset every other by their width difference
+  const left = (1 - width) * (index % 2)
+
+  function getEventText() {
+    if (isMultiDay) {
+      const dayString = `(dag ${dayIndex + 1}/${totalDays})`;
+      if (dayIndex != 0 && dayIndex != (totalDays - 1))
+        return dayString;
+
+      return `${format(startDate, 'HH:mm')} ${format(endDate, 'HH:mm')} - ${dayString}`
+    }
+
+    return `${format(startDate, 'HH:mm')} ${format(endDate, 'HH:mm')}`
+  }
+
+  const styles = {
+    position: 'absolute',
+    top: restricted_timeslot ? `calc(${xOffset} - 32px)` : xOffset,
+    left: `calc(${left * 100}% - ${left / 2}rem)`,
+    height: restricted_timeslot ? `calc(${length} + 32px)` : length,
+    width: restricted_timeslot
+      ? 'calc(100% + 2px)'
+      : `calc(${100 * width}% - ${width / 2}rem)`,
+    backgroundColor: restricted_timeslot ? `rgb(${color.fill})` : color.fill,
+    border: restricted_timeslot
+      ? `1px solid rgb(${color.border})`
+      : `1px solid ${color.border}`,
+    cursor: 'pointer',
+    padding: '0.25rem',
+    fontSize: '0.75rem',
+    fontWeight: 'bold',
+    overflow: 'hidden',
+    pointerEvents: isDraft ? 'none' : 'auto',
+  }
+  if (restricted_timeslot) {
+    return (
+      <div className="wrapper" style={styles} onClick={onEventClick}>
+        <p style={{ color: '#B77C0D', marginTop: '32px' }}>Begränsad period</p>
+      </div>
+    )
+  } else {
+    return (
+      <div className="booking" style={styles} onClick={onEventClick}>
+        <p>
+          {getEventText()}
+        </p>
+        <p>{user.pretty_name}</p>
+      </div>
+    )
+  }
+}
