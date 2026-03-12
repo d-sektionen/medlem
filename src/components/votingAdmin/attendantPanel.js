@@ -3,33 +3,31 @@ import { FiTrash2 } from 'react-icons/fi'
 
 import { List, ListButton, ListItem } from '../ui/list'
 import { Button, ButtonGroup } from '../ui/buttons'
-import { del, post } from '../request'
 import useConfirmModal from '../modal/useConfirmModal'
 import { useCloseModal } from '../modal/useModal'
-import useSWR from 'swr'
+import backendService from '../request/backendService'
+import socket from '../request/socket'
 
-const getMemberAttendants = attendants => {
+const getMemberAttendants = (attendants) => {
   const memberAttendants = attendants.filter(
-    attendant => attendant.has_voting_rights
+    (attendant) => attendant.has_voting_rights
   )
   return memberAttendants
 }
 
 function AttendantCreationErrorLabel() {
   return (
-  <p style={{ color: 'red', fontSize: '14px'}}>
-    Det gick inte att lägga till användaren till mötet.
-  </p>
-  );
+    <p style={{ color: 'red', fontSize: '14px' }}>
+      Det gick inte att lägga till användaren till mötet.
+    </p>
+  )
 }
-
 
 const AttendantPanel = ({ currentMeeting }) => {
   const [input, setInput] = useState('')
   const [confirmModal] = useConfirmModal()
-  const [ showAttendantErrorLabel, setShowAttendantErroLabel] = useState(false)
+  const [showAttendantErrorLabel, setShowAttendantErroLabel] = useState(false)
   const closeModal = useCloseModal()
-
 
   async function handleFormSubmit(event) {
     event.preventDefault()
@@ -38,42 +36,66 @@ const AttendantPanel = ({ currentMeeting }) => {
     let newAttendant
 
     try {
-      newAttendant = await post('/voting/attendants/', {
+      setShowAttendantErroLabel(false)
+      newAttendant = await backendService.post('/voting/attendants/', {
         user_username: input,
         meeting_id: currentMeeting.id,
         has_voting_rights: true,
       })
-    }
-    catch (error) {
+    } catch (error) {
       setShowAttendantErroLabel(true)
-    }
-
-    if (newAttendant) {
-      setShowAttendantErroLabel(false)
-      mutate([...attendants, newAttendant])
     }
   }
 
-  const { data: attendants, mutate } = useSWR(
-    () => `/voting/attendants/?meeting_id=${currentMeeting.id}`,
-    { refreshInterval: 4000 }
-  )
+  const [attendants, setAttendants] = useState([])
+
+  async function handleMeetingChange() {
+    if (currentMeeting) {
+      const resp = await backendService.get(
+        `/voting/attendants/?meeting_id=${currentMeeting.id}`,
+        {
+          meeting_id: currentMeeting.id,
+        }
+      )
+      setAttendants(resp.data)
+    }
+  }
+
+  useEffect(() => {
+    handleMeetingChange()
+  }, [currentMeeting])
+
+  socket.emit('join', { room: `meeting_attendants_${currentMeeting.id}` })
+
+  socket.on('new_attendant', (data) => {
+    if (data.meeting_id === currentMeeting.id) {
+      if (attendants.find((a) => a.id === data.id)) {
+        return
+      }
+      attendants.push(data)
+      setAttendants([...attendants])
+    }
+  })
+
+  socket.on('delete_attendant', (data) => {
+    if (data.meeting_id === currentMeeting.id) {
+      const newAttendants = attendants.filter((a) => a.id !== data.attendant_id)
+      setAttendants(newAttendants)
+    }
+  })
 
   if (attendants === null) return <></>
-
 
   return (
     <div>
       <h2>Deltagare</h2>
-      <form
-        onSubmit={handleFormSubmit}
-        >
+      <form onSubmit={handleFormSubmit}>
         <input
           value={input}
           placeholder="LiU-ID"
-          onChange={e => setInput(e.target.value)}
-          />
-          {showAttendantErrorLabel && <AttendantCreationErrorLabel />}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        {showAttendantErrorLabel && <AttendantCreationErrorLabel />}
       </form>
       <div>
         <ButtonGroup>
@@ -85,11 +107,9 @@ const AttendantPanel = ({ currentMeeting }) => {
               confirmModal(
                 `Är du säker på att du vill ta bort alla deltagare?`,
                 async () => {
-                  await del(
+                  await backendService.delete(
                     `/voting/attendants/clear/?meeting_id=${currentMeeting.id}`
                   )
-
-                  mutate([])
                 },
                 closeModal
               )
@@ -101,17 +121,19 @@ const AttendantPanel = ({ currentMeeting }) => {
       </div>
       <List>
         {attendants &&
-          getMemberAttendants(attendants).map(attendant => (
+          getMemberAttendants(attendants).map((attendant) => (
             <ListItem
               title={attendant.user.pretty_name}
               key={attendant.id}
               buttons={[
                 <ListButton
                   onClick={async () => {
-                    await del(`/voting/attendants/${attendant.id}`, {
-                      meeting_id: currentMeeting.id,
-                    })
-                    mutate(attendants.filter(x => x.id !== attendant.id))
+                    await backendService.delete(
+                      `/voting/attendants/${attendant.id}`,
+                      {
+                        meeting_id: currentMeeting.id,
+                      }
+                    )
                   }}
                   iconComponent={FiTrash2}
                   text="Ta bort deltagare"
