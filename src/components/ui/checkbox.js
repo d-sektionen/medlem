@@ -11,12 +11,17 @@ import {
   slider,
 } from '../../scss/ui.module.scss'
 
-const Checkbox = ({ text, value, click, defaultChecked }) => (
+const Checkbox = ({
+  text = '',
+  value,
+  click = () => null,
+  defaultChecked = false,
+}) => (
   <div className={checkbox}>
     <label>
       <input
         type="checkbox"
-        onClick={e => click(e)}
+        onClick={(e) => click(e)}
         value={value}
         defaultChecked={defaultChecked}
       />
@@ -32,15 +37,8 @@ Checkbox.propTypes = {
   click: PropTypes.func,
 }
 
-Checkbox.defaultProps = {
-  text: '',
-  defaultChecked: false,
-  click: () => null,
-}
-
-
 // OBS! if switch is used again, it first needs to be changed to use framer-motion instead
-const Switch = ({ off, on, click, defaultToggled }) => {
+const Switch = ({ off, on, click = () => null, defaultToggled = false }) => {
   const [toggled, setToggled] = useState(defaultToggled)
 
   const Slider = posed.div({
@@ -79,12 +77,8 @@ Switch.propTypes = {
   defaultToggled: PropTypes.bool,
 }
 
-Switch.defaultProps = {
-  click: () => null,
-  defaultToggled: false,
-}
-
-export { Checkbox
+export {
+  Checkbox,
   // OBS! if switch is used again, it first needs to be changed to use framer-motion instead
-  // , Switch 
+  // , Switch
 }

@@ -39,9 +39,12 @@ Good to know:
 ### Getting started
 
 Download Node.js (which includes npm)
-IMPORTANT!!!: has to be node version 15
+IMPORTANT!!!: has to be node version 20
+Tip: Use `nvm` to manage multiple node versions.
 
 Clone the repository and view its directory in a terminal.
+
+Copy the `.env.example` file to `.env.development`.
 
 Run the following commands:
 

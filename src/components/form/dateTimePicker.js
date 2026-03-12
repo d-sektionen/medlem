@@ -8,11 +8,12 @@ import {
   format,
 } from 'date-fns'
 
-const DateTimePicker = ({ value, onChange }) => {
+const DateTimePicker = ({ value, onChange, required=false }) => {
   return (
     <div>
       <input
         type="date"
+        required={required}
         value={value ? format(value, 'yyyy-MM-dd') : ''}
         onChange={e => {
           const timeString = e.target.value
@@ -30,6 +31,7 @@ const DateTimePicker = ({ value, onChange }) => {
       />
       <input
         type="time"
+        required={required}
         value={value ? format(value, 'HH:mm') : ''}
         onChange={e => {
           const timeString = e.target.value
