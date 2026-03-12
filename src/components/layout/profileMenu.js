@@ -1,4 +1,5 @@
-import React, { useEffect, useContext } from 'react'
+import { navigate } from 'gatsby'
+import React, { useContext } from 'react'
 
 import { FiLogOut, FiSettings } from 'react-icons/fi'
 import { IoMdQrScanner } from 'react-icons/io'
@@ -8,37 +9,18 @@ import useModal, { useCloseModal } from '../modal/useModal'
 import QR from './qr'
 import { UserContext } from './layout'
 import { Button, ButtonGroup } from '../ui/buttons'
-
-const LogoutModal = () => {
-  const setUser = useContext(UserContext)[1]
-
-  useEffect(() => {
-    window.localStorage.removeItem('token')
-    setUser(null)
-  }, [])
-
-  return (
-    <iframe
-      title="Log out"
-      src={`${BASE_URL}/account/logout/`}
-      sandbox="allow-scripts"
-      style={{
-        width: '50rem',
-        maxWidth: '100%',
-        height: '30rem',
-        maxHeight: '100%',
-        border: 'none',
-        display: 'block',
-        marginBottom: 0,
-      }}
-    />
-  )
-}
+import backendService from '../request/backendService'
 
 const ProfileMenu = ({ user }) => {
+  const setUser = useContext(UserContext)[1]
   const [openModal] = useModal(QR)
-  const [openLogoutModal] = useModal(LogoutModal)
   const closeModal = useCloseModal()
+
+  const logout = async () => {
+    await backendService.post(`${BASE_URL}/oauth2/logout`)
+    closeModal()
+    setUser(null)
+  }
 
   return (
     <div>
@@ -52,9 +34,7 @@ const ProfileMenu = ({ user }) => {
           <FiSettings />
           Kontoinställningar
         </Button>
-        <Button
-          onClick={() => openLogoutModal('Loggar ut', {}, { noPadding: true })}
-        >
+        <Button onClick={logout}>
           <FiLogOut />
           Logga ut
         </Button>

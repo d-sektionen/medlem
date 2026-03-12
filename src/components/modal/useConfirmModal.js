@@ -6,7 +6,11 @@ import { Button } from '../ui/buttons'
 
 import { confirmation } from '../../scss/modal.module.scss'
 
-const Confirmation = ({ text, onAccept, onDecline }) => {
+const Confirmation = ({
+  text = 'Är du säker?',
+  onAccept = () => {},
+  onDecline = () => {},
+}) => {
   const close = useCloseModal()
   return (
     <div className={confirmation}>
@@ -35,12 +39,6 @@ Confirmation.propTypes = {
   text: PropTypes.string,
   onAccept: PropTypes.func,
   onDecline: PropTypes.func,
-}
-
-Confirmation.defaultProps = {
-  text: 'Är du säker?',
-  onAccept: () => {},
-  onDecline: () => {},
 }
 
 export default function useConfirmModal() {

@@ -15,10 +15,44 @@ const getMemberAttendants = attendants => {
   return memberAttendants
 }
 
+function AttendantCreationErrorLabel() {
+  return (
+  <p style={{ color: 'red', fontSize: '14px'}}>
+    Det gick inte att lägga till användaren till mötet.
+  </p>
+  );
+}
+
+
 const AttendantPanel = ({ currentMeeting }) => {
   const [input, setInput] = useState('')
   const [confirmModal] = useConfirmModal()
+  const [ showAttendantErrorLabel, setShowAttendantErroLabel] = useState(false)
   const closeModal = useCloseModal()
+
+
+  async function handleFormSubmit(event) {
+    event.preventDefault()
+    setInput('')
+
+    let newAttendant
+
+    try {
+      newAttendant = await post('/voting/attendants/', {
+        user_username: input,
+        meeting_id: currentMeeting.id,
+        has_voting_rights: true,
+      })
+    }
+    catch (error) {
+      setShowAttendantErroLabel(true)
+    }
+
+    if (newAttendant) {
+      setShowAttendantErroLabel(false)
+      mutate([...attendants, newAttendant])
+    }
+  }
 
   const { data: attendants, mutate } = useSWR(
     () => `/voting/attendants/?meeting_id=${currentMeeting.id}`,
@@ -27,26 +61,19 @@ const AttendantPanel = ({ currentMeeting }) => {
 
   if (attendants === null) return <></>
 
+
   return (
     <div>
       <h2>Deltagare</h2>
       <form
-        onSubmit={async e => {
-          e.preventDefault()
-          setInput('')
-          const { data: newAttendant } = await post('/voting/attendants/', {
-            user_username: input,
-            meeting_id: currentMeeting.id,
-            has_voting_rights: true,
-          })
-          mutate([...attendants, newAttendant])
-        }}
-      >
+        onSubmit={handleFormSubmit}
+        >
         <input
           value={input}
           placeholder="LiU-ID"
           onChange={e => setInput(e.target.value)}
-        />
+          />
+          {showAttendantErrorLabel && <AttendantCreationErrorLabel />}
       </form>
       <div>
         <ButtonGroup>

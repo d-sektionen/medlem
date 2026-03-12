@@ -4,44 +4,50 @@ import request, { options } from '../request'
 import AutoInput from './input'
 import { Button } from '../ui/buttons'
 
-const AutoForm = ({ endpoint, method, customFetcher, onSubmit, defaults }) => {
+const AutoForm = ({
+  endpoint,
+  method = 'POST',
+  customFetcher = null,
+  onSubmit = () => {},
+  defaults = {},
+}) => {
   const [fields, setFields] = useState()
   const [values, setValues] = useState(defaults)
   const [errors, setErrors] = useState({})
 
   const setValue = (field, value) => {
-    setValues(old => ({ ...old, [field]: value }))
+    setValues((old) => ({ ...old, [field]: value }))
   }
 
   const setError = (field, error) => {
-    setErrors(old => ({ ...old, [field]: error }))
+    setErrors((old) => ({ ...old, [field]: error }))
   }
 
   useEffect(() => {
     // request endpoint info from server
     options(endpoint)
-      .then(res => {
+      .then((res) => {
         const raw = res.data.actions.POST
 
         // object to array
-        const arrayified = Object.keys(raw).map(key => ({
+        const arrayified = Object.keys(raw).map((key) => ({
           key,
           ...raw[key],
         }))
-        const editable = arrayified.filter(f => !f.read_only)
+        const editable = arrayified.filter((f) => !f.read_only)
 
         setFields(editable)
       })
-      .catch(err => {})
+      .catch((err) => {})
   }, endpoint)
 
   return (
     <form
-      onSubmit={e => {
+      onSubmit={(e) => {
         e.preventDefault()
         onSubmit()
         if (customFetcher) {
-          customFetcher(values).catch(err => {
+          customFetcher(values).catch((err) => {
             if (err.response) {
               setErrors(err.response.data)
             }
@@ -52,11 +58,11 @@ const AutoForm = ({ endpoint, method, customFetcher, onSubmit, defaults }) => {
       }}
     >
       {fields &&
-        fields.map(field => (
+        fields.map((field) => (
           <React.Fragment key={field.key}>
             <AutoInput
               {...field}
-              onChange={newValue => {
+              onChange={(newValue) => {
                 setValue(field.key, newValue)
               }}
               value={values[field.key]}
@@ -71,13 +77,6 @@ const AutoForm = ({ endpoint, method, customFetcher, onSubmit, defaults }) => {
       </Button>
     </form>
   )
-}
-
-AutoForm.defaultProps = {
-  method: 'POST',
-  customFetcher: null,
-  onSubmit: () => {},
-  defaults: {},
 }
 
 AutoForm.propTypes = {

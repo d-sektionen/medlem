@@ -5,7 +5,7 @@ import ProfileMenu from './profileMenu'
 import { topBar } from '../../scss/layout.module.scss'
 import useModal from '../modal/useModal'
 
-const TopBar = ({ user, openMenu }) => {
+const TopBar = ({ user = null, openMenu }) => {
   const [openUserModal] = useModal(ProfileMenu)
 
   return (
@@ -14,10 +14,6 @@ const TopBar = ({ user, openMenu }) => {
       <FiUser onClick={() => openUserModal('Konto', { user })} />
     </div>
   )
-}
-
-TopBar.defaultProps = {
-  user: null,
 }
 
 TopBar.propTypes = {

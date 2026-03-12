@@ -18,7 +18,15 @@ const IconButton = ({ onClick, iconComponent: Icon, text, disabled }) => {
   )
 }
 
-const Button = ({ onClick, to, href, target, children, type, disabled }) => {
+const Button = ({
+  onClick,
+  to,
+  href,
+  target,
+  children,
+  type = 'button',
+  disabled,
+}) => {
   if (to)
     return (
       <Link className={button} to={to} onClick={onClick}>
@@ -48,9 +56,5 @@ const Button = ({ onClick, to, href, target, children, type, disabled }) => {
 const ButtonGroup = ({ children }) => (
   <div className={buttonGroup}>{children}</div>
 )
-
-Button.defaultProps = {
-  type: 'button',
-}
 
 export { IconButton, Button, ButtonGroup }
