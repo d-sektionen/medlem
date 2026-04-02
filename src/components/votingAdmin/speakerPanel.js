@@ -4,7 +4,7 @@ import backendService from '../request/backendService'
 import { FiTrash2 } from 'react-icons/fi'
 import { List, ListButton, ListItem } from '../ui/list'
 
-import socket from '../request/socket'
+import socket, { joinRoom } from '../request/socket'
 
 const SpeakerPanel = ({ meeting }) => {
   const [speakers, setSpeakers] = useState([])
@@ -22,7 +22,7 @@ const SpeakerPanel = ({ meeting }) => {
     handleMeetingChange()
   }, [meeting])
 
-  socket.emit('join', { room: `meeting_speker_${meeting.id}` })
+  joinRoom(`meeting_speker_${meeting.id}`)
 
   socket.on('new_speaker_request', (data) => {
     if (data.meeting_id === meeting.id) {

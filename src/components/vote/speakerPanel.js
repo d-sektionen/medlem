@@ -5,7 +5,7 @@ import { List, ListButton, ListItem } from '../ui/list'
 import { Button, ButtonGroup } from '../ui/buttons'
 import { UserContext } from '../layout/layout'
 
-import socket from '../request/socket'
+import socket, { joinRoom } from '../request/socket'
 import backendService from '../request/backendService'
 
 const SpeakerPanel = ({ meeting }) => {
@@ -22,7 +22,8 @@ const SpeakerPanel = ({ meeting }) => {
   useEffect(() => {
     handleMeetingChange()
   }, [meeting])
-  socket.emit('join', { room: `meeting_speker_${meeting.id}` })
+
+  joinRoom(`meeting_speker_${meeting.id}`)
 
   socket.on('new_speaker_request', (data) => {
     if (data.meeting_id === meeting.id) {

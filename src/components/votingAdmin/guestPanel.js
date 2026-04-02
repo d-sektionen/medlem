@@ -5,7 +5,7 @@ import { List, ListButton, ListItem } from '../ui/list'
 import { ButtonGroup } from '../ui/buttons'
 
 import backendService from '../request/backendService'
-import socket from '../request/socket'
+import socket, { joinRoom } from '../request/socket'
 
 const getGuestAttendants = (attendants) => {
   const guestAttendants = attendants.filter(
@@ -34,7 +34,7 @@ const GuestPanel = ({ currentMeeting }) => {
     handleMeetingChange()
   }, [currentMeeting])
 
-  socket.emit('join', { room: `meeting_attendants_${currentMeeting.id}` })
+  joinRoom(`meeting_attendants_${currentMeeting.id}`)
 
   socket.on('new_attendant', (data) => {
     if (data.meeting_id === currentMeeting.id) {

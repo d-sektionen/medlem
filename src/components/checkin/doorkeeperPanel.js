@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import { List, ListItem, ListButton } from '../ui/list'
 import backendService from '../request/backendService'
-import socket from '../request/socket'
+import socket, { joinRoom } from '../request/socket'
 
 const DoorkeeperPanel = ({ event }) => {
   const [input, setInput] = useState('')
@@ -25,7 +25,7 @@ const DoorkeeperPanel = ({ event }) => {
     handleEventChange()
   }, [event])
 
-  socket.emit('join', { room: `event_doorkeepers_${event.id}` })
+  joinRoom(`event_doorkeepers_${event.id}`)
 
   socket.on('new_doorkeeper', (data) => {
     if (data.event.id === event.id) {
