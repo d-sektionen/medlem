@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import VoteForm from './voteForm'
 import { formError } from '../../scss/vote.module.scss'
 import backendService from '../request/backendService'
-import socket, { joinRoom } from '../request/socket'
+import socket, { joinRoom, leaveRoom } from '../request/socket'
 
 const VotePanel = ({ meeting }) => {
   const [votes, setVotes] = useState([])
@@ -19,79 +19,89 @@ const VotePanel = ({ meeting }) => {
 
   useEffect(() => {
     fetchVotes()
-  }, [meeting])
 
-  joinRoom(`meeting_votes_${meeting.id}`)
+    socket.on('connect', () => {
+      fetchVotes()
+    })
 
-  socket.on('new_vote', (data) => {
-    if (data.meeting === meeting.id) {
+    joinRoom(`meeting_votes_${meeting.id}`)
+
+    socket.on('new_vote', (data) => {
+      console.log('Received new_vote event', data)
+      if (data.meeting !== meeting.id) return
+
       if (votes.find((v) => v.id === data.id)) {
         votes[votes.findIndex((v) => v.id === data.id)] = data
         setVotes([...votes])
         return
       }
+
       votes.push(data)
       setVotes([...votes])
-    }
-  })
+    })
 
-  socket.on('delete_vote', (data) => {
-    if (data.meeting === meeting.id) {
+    socket.on('delete_vote', (data) => {
+      if (data.meeting !== meeting.id) return
+
       const newVotes = votes.filter((v) => v.id !== data.id)
       setVotes(newVotes)
-    }
-  })
+    })
 
-  socket.on('delete_alternative', (data) => {
-    if (data.meeting === meeting.id) {
-      const newVotes = votes.map((v) => {
-        if (v.id === data.vote) {
-          return {
-            ...v,
-            alternatives: v.alternatives.filter((a) => a.id !== data.id),
-          }
-        }
-        return v
-      })
-      setVotes(newVotes)
-    }
-  })
+    socket.on('delete_alternative', (data) => {
+      if (data.meeting !== meeting.id) return
 
-  socket.on('new_alternative', (data) => {
-    if (data.meeting === meeting.id) {
-      const newVotes = votes.map((v) => {
-        if (v.id === data.vote) {
-          return {
-            ...v,
-            alternatives: [...v.alternatives, data],
-          }
-        }
-        return v
-      })
-      setVotes(newVotes)
-    }
-  })
+      setVotes((prev) =>
+        prev.map((v) =>
+          v.id === data.vote
+            ? {
+                ...v,
+                alternatives: v.alternatives.filter((a) => a.id !== data.id),
+              }
+            : v
+        )
+      )
+    })
 
-  socket.on('update_alternative', (data) => {
-    if (data.meeting === meeting.id) {
-      const newVotes = votes.map((v) => {
-        if (v.id === data.vote) {
-          return {
-            ...v,
-            alternatives: v.alternatives.map((a) =>
-              a.id === data.id ? data : a
-            ),
-          }
-        }
-        return v
-      })
-      setVotes(newVotes)
-    }
-  })
+    socket.on('new_alternative', (data) => {
+      if (data.meeting !== meeting.id) return
 
-  // const { data: votes = [], mutate } = useSWR(
-  //   `/voting/votes/?meeting_id=${meeting.id}`
-  // )
+      setVotes((prev) =>
+        prev.map((v) =>
+          v.id === data.vote
+            ? { ...v, alternatives: [...v.alternatives, data] }
+            : v
+        )
+      )
+    })
+
+    socket.on('update_alternative', (data) => {
+      if (data.meeting !== meeting.id) return
+
+      setVotes((prev) =>
+        prev.map((v) =>
+          v.id === data.vote
+            ? {
+                ...v,
+                alternatives: v.alternatives.map((a) =>
+                  a.id === data.id ? data : a
+                ),
+              }
+            : v
+        )
+      )
+    })
+
+    return () => {
+      socket.off('connect')
+      socket.off('new_vote')
+      socket.off('delete_vote')
+      socket.off('delete_alternative')
+      socket.off('new_alternative')
+      socket.off('update_alternative')
+
+      leaveRoom(`meeting_votes_${meeting.id}`)
+    }
+  }, [meeting.id])
 
   const [errors, setErrors] = useState({})
   const setFormErrors = (errors) => {
