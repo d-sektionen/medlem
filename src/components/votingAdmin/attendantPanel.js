@@ -12,11 +12,6 @@ const getMemberAttendants = (attendants) => {
   const memberAttendants = attendants.filter(
     (attendant) => attendant.has_voting_rights
   )
-  memberAttendants.push(...memberAttendants)
-  memberAttendants.push(...memberAttendants)
-  memberAttendants.push(...memberAttendants)
-  memberAttendants.push(...memberAttendants)
-  memberAttendants.push(...memberAttendants)
   return memberAttendants
 }
 
