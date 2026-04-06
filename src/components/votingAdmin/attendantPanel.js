@@ -6,7 +6,7 @@ import { Button, ButtonGroup } from '../ui/buttons'
 import useConfirmModal from '../modal/useConfirmModal'
 import { useCloseModal } from '../modal/useModal'
 import backendService from '../request/backendService'
-import socket, { joinRoom } from '../request/socket'
+import socket, { joinRoom, leaveRoom } from '../request/socket'
 
 const getMemberAttendants = (attendants) => {
   const memberAttendants = attendants.filter(
@@ -81,6 +81,13 @@ const AttendantPanel = ({ currentMeeting }) => {
 
       setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id))
     })
+
+    return () => {
+      socket.off('connect', handleMeetingChange)
+      socket.off('new_attendant')
+      socket.off('delete_attendant')
+      leaveRoom(`meeting_attendants_${currentMeeting.id}`)
+    }
   }, [currentMeeting.id])
 
   if (attendants === null) return <></>
