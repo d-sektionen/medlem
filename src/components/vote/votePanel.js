@@ -13,7 +13,6 @@ const VotePanel = ({ meeting }) => {
         `/voting/votes/?meeting_id=${meeting.id}`
       )
       setVotes(resp.data)
-      console.log('Fetched votes', resp.data)
     }
   }
 
