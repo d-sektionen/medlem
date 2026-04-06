@@ -50,7 +50,7 @@ const DoorkeeperPanel = ({ event }) => {
       socket.off('update_doorkeeper')
       leaveRoom(`event_doorkeepers_${event.id}`)
     }
-  }, [event])
+  }, [event.id])
 
   async function create(data) {
     await backendService.post('/checkin/doorkeepers/', data)

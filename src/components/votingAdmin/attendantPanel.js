@@ -63,26 +63,25 @@ const AttendantPanel = ({ currentMeeting }) => {
 
   useEffect(() => {
     handleMeetingChange()
-  }, [currentMeeting])
+    socket.on('connect', () => {
+      handleMeetingChange()
+    })
 
-  joinRoom(`meeting_attendants_${currentMeeting.id}`)
+    joinRoom(`meeting_attendants_${currentMeeting.id}`)
 
-  socket.on('new_attendant', (data) => {
-    if (data.meeting_id === currentMeeting.id) {
-      if (attendants.find((a) => a.id === data.id)) {
-        return
-      }
-      attendants.push(data)
-      setAttendants([...attendants])
-    }
-  })
+    socket.on('new_attendant', (data) => {
+      if (data.meeting_id !== currentMeeting.id) return
+      if (attendants.find((a) => a.id === data.id)) return
 
-  socket.on('delete_attendant', (data) => {
-    if (data.meeting_id === currentMeeting.id) {
-      const newAttendants = attendants.filter((a) => a.id !== data.attendant_id)
-      setAttendants(newAttendants)
-    }
-  })
+      setAttendants((prev) => [...prev, data])
+    })
+
+    socket.on('delete_attendant', (data) => {
+      if (data.meeting_id !== currentMeeting.id) return
+
+      setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id))
+    })
+  }, [currentMeeting.id])
 
   if (attendants === null) return <></>
 

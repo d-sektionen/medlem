@@ -52,7 +52,7 @@ const SpeakerPanel = ({ meeting }) => {
       socket.off('delete_speaker_request')
       leaveRoom(`meeting_speker_${meeting.id}`)
     }
-  }, [meeting])
+  }, [meeting.id])
 
   async function deleteSpeakerRequest(meetingId, prioritized) {
     const prioQS = prioritized ? '&prioritized' : ''
