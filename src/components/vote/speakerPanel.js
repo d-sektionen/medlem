@@ -29,11 +29,11 @@ const SpeakerPanel = ({ meeting }) => {
     socket.on('new_speaker_request', (data) => {
       if (data.meeting_id !== meeting.id) return
 
-      if (speakers.find((s) => s.id === data.speaker.id)) {
-        return
-      }
-
-      setSpeakers((prev) => [...prev, data.speaker])
+      setSpeakers((prev) =>
+        prev.some((s) => s.id === data.speaker.id)
+          ? prev
+          : [...prev, data.speaker]
+      )
     })
 
     socket.on('delete_speaker_request', (data) => {

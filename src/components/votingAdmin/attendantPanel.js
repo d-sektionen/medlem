@@ -52,10 +52,7 @@ const AttendantPanel = ({ currentMeeting }) => {
   async function handleMeetingChange() {
     if (currentMeeting) {
       const resp = await backendService.get(
-        `/voting/attendants/?meeting_id=${currentMeeting.id}`,
-        {
-          meeting_id: currentMeeting.id,
-        }
+        `/voting/attendants/?meeting_id=${currentMeeting.id}`
       )
       setAttendants(resp.data)
     }

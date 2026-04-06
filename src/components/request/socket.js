@@ -15,14 +15,13 @@ const socket = io(BASE_URL, {
 })
 
 socket.on('connect', () => {
-  console.log('Connected to WebSocket server')
   joinedRooms.forEach((room) => {
     socket.emit('join', { room })
   })
 })
 
 socket.on('disconnect', () => {
-  console.log('Disconnected from WebSocket server')
+  console.warn('Disconnected from WebSocket server')
 })
 
 export function joinRoom(room) {

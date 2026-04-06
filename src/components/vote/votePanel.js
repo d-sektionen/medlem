@@ -26,15 +26,15 @@ const VotePanel = ({ meeting }) => {
     socket.on('new_vote', (data) => {
       if (data.meeting !== meeting.id) return
 
-      if (votes.find((v) => v.id === data.id)) {
-        setVotes((prev) => {
+      setVotes((prev) => {
+        const existingIndex = prev.findIndex((v) => v.id === data.id)
+        if (existingIndex !== -1) {
           const newVotes = [...prev]
-          newVotes[newVotes.findIndex((v) => v.id === data.id)] = data
+          newVotes[existingIndex] = data
           return newVotes
-        })
-        return
-      }
-      setVotes((prev) => [...prev, data])
+        }
+        return [...prev, data]
+      })
     })
 
     socket.on('delete_vote', (data) => {

@@ -12,10 +12,7 @@ const DoorkeeperPanel = ({ event }) => {
   async function handleEventChange() {
     if (event) {
       const resp = await backendService.get(
-        `/checkin/doorkeepers/?event_id=${event.id}`,
-        {
-          event_id: event.id,
-        }
+        `/checkin/doorkeepers/?event_id=${event.id}`
       )
       setDoorkeepers(resp.data)
     }
@@ -31,9 +28,10 @@ const DoorkeeperPanel = ({ event }) => {
     socket.on('new_doorkeeper', (data) => {
       if (data.event.id !== event.id) return
 
-      if (doorkeepers.find((d) => d.id === data.id)) return
-
-      setDoorkeepers((prev) => [...prev, data])
+      setDoorkeepers((prev) => {
+        if (prev.find((d) => d.id === data.id)) return prev
+        return [...prev, data]
+      })
     })
 
     socket.on('delete_doorkeeper', (data) => {
@@ -45,7 +43,6 @@ const DoorkeeperPanel = ({ event }) => {
     return () => {
       socket.off('new_doorkeeper')
       socket.off('delete_doorkeeper')
-      socket.off('update_doorkeeper')
       leaveRoom(`event_doorkeepers_${event.id}`)
     }
   }, [event.id])
