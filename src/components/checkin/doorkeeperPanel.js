@@ -24,9 +24,7 @@ const DoorkeeperPanel = ({ event }) => {
   useEffect(() => {
     handleEventChange()
 
-    socket.on('connect', () => {
-      handleEventChange()
-    })
+    socket.on('connect', handleEventChange)
 
     joinRoom(`event_doorkeepers_${event.id}`)
 

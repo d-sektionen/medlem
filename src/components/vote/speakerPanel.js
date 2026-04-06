@@ -22,9 +22,7 @@ const SpeakerPanel = ({ meeting }) => {
   useEffect(() => {
     handleMeetingChange()
 
-    socket.on('connect', () => {
-      handleMeetingChange()
-    })
+    socket.on('connect', handleMeetingChange)
 
     joinRoom(`meeting_speker_${meeting.id}`)
 

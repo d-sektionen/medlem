@@ -63,17 +63,17 @@ const AttendantPanel = ({ currentMeeting }) => {
 
   useEffect(() => {
     handleMeetingChange()
-    socket.on('connect', () => {
-      handleMeetingChange()
-    })
+    socket.on('connect', handleMeetingChange)
 
     joinRoom(`meeting_attendants_${currentMeeting.id}`)
 
     socket.on('new_attendant', (data) => {
       if (data.meeting_id !== currentMeeting.id) return
-      if (attendants.find((a) => a.id === data.id)) return
 
-      setAttendants((prev) => [...prev, data])
+      setAttendants((prev) => {
+        if (prev.find((a) => a.id === data.id)) return prev
+        return [...prev, data]
+      })
     })
 
     socket.on('delete_attendant', (data) => {

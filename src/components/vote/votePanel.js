@@ -19,9 +19,7 @@ const VotePanel = ({ meeting }) => {
   useEffect(() => {
     fetchVotes()
 
-    socket.on('connect', () => {
-      fetchVotes()
-    })
+    socket.on('connect', fetchVotes)
 
     joinRoom(`meeting_votes_${meeting.id}`)
 
