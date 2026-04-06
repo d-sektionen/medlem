@@ -5,7 +5,7 @@ import { List, ListButton, ListItem } from '../ui/list'
 import { Button, ButtonGroup } from '../ui/buttons'
 import { UserContext } from '../layout/layout'
 
-import socket, { joinRoom } from '../request/socket'
+import socket, { joinRoom, leaveRoom } from '../request/socket'
 import backendService from '../request/backendService'
 
 const SpeakerPanel = ({ meeting }) => {
@@ -21,28 +21,38 @@ const SpeakerPanel = ({ meeting }) => {
 
   useEffect(() => {
     handleMeetingChange()
-  }, [meeting])
 
-  joinRoom(`meeting_speker_${meeting.id}`)
+    socket.on('connect', () => {
+      handleMeetingChange()
+    })
 
-  socket.on('new_speaker_request', (data) => {
-    if (data.meeting_id === meeting.id) {
+    joinRoom(`meeting_speker_${meeting.id}`)
+
+    socket.on('new_speaker_request', (data) => {
+      if (data.meeting_id !== meeting.id) return
+
       if (speakers.find((s) => s.id === data.speaker.id)) {
         return
       }
-      speakers.push(data.speaker)
-      setSpeakers([...speakers])
-    }
-  })
 
-  socket.on('delete_speaker_request', (data) => {
-    if (data.meeting_id === meeting.id) {
-      const newSpeakers = speakers.filter(
-        (s) => s.id !== data.speaker_request_id
+      setSpeakers((prev) => [...prev, data.speaker])
+    })
+
+    socket.on('delete_speaker_request', (data) => {
+      if (data.meeting_id !== meeting.id) return
+
+      setSpeakers((prev) =>
+        prev.filter((s) => s.id !== data.speaker_request_id)
       )
-      setSpeakers(newSpeakers)
+    })
+
+    return () => {
+      socket.off('connect')
+      socket.off('new_speaker_request')
+      socket.off('delete_speaker_request')
+      leaveRoom(`meeting_speker_${meeting.id}`)
     }
-  })
+  }, [meeting])
 
   async function deleteSpeakerRequest(meetingId, prioritized) {
     const prioQS = prioritized ? '&prioritized' : ''
