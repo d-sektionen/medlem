@@ -91,7 +91,7 @@ const VotePanel = ({ meeting }) => {
     })
 
     return () => {
-      socket.off('connect')
+      socket.off('connect', fetchVotes)
       socket.off('new_vote')
       socket.off('delete_vote')
       socket.off('delete_alternative')

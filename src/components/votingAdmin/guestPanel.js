@@ -5,7 +5,7 @@ import { List, ListButton, ListItem } from '../ui/list'
 import { ButtonGroup } from '../ui/buttons'
 
 import backendService from '../request/backendService'
-import socket, { joinRoom } from '../request/socket'
+import socket, { joinRoom, leaveRoom } from '../request/socket'
 
 const getGuestAttendants = (attendants) => {
   const guestAttendants = attendants.filter(
@@ -32,26 +32,34 @@ const GuestPanel = ({ currentMeeting }) => {
 
   useEffect(() => {
     handleMeetingChange()
-  }, [currentMeeting])
+    socket.on('connect', () => {
+      handleMeetingChange()
+    })
 
-  joinRoom(`meeting_attendants_${currentMeeting.id}`)
+    joinRoom(`meeting_attendants_${currentMeeting.id}`)
 
-  socket.on('new_attendant', (data) => {
-    if (data.meeting_id === currentMeeting.id) {
+    socket.on('new_attendant', (data) => {
+      if (data.meeting_id !== currentMeeting.id) return
+
       if (attendants.find((a) => a.id === data.id)) {
         return
       }
-      attendants.push(data)
-      setAttendants([...attendants])
-    }
-  })
+      setAttendants((prev) => [...prev, data])
+    })
 
-  socket.on('delete_attendant', (data) => {
-    if (data.meeting_id === currentMeeting.id) {
-      const newAttendants = attendants.filter((a) => a.id !== data.attendant_id)
-      setAttendants(newAttendants)
+    socket.on('delete_attendant', (data) => {
+      if (data.meeting_id !== currentMeeting.id) return
+
+      setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id))
+    })
+
+    return () => {
+      socket.off('connect', handleMeetingChange)
+      socket.off('new_attendant')
+      socket.off('delete_attendant')
+      leaveRoom(`meeting_attendants_${currentMeeting.id}`)
     }
-  })
+  }, [currentMeeting])
 
   if (attendants === null) return <></>
 
