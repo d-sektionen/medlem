@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 import { List, ListItem, ListButton } from '../ui/list'
 import backendService from '../request/backendService'
-import socket, { joinRoom } from '../request/socket'
+import socket, { joinRoom, leaveRoom } from '../request/socket'
 
 const DoorkeeperPanel = ({ event }) => {
   const [input, setInput] = useState('')
@@ -23,28 +23,34 @@ const DoorkeeperPanel = ({ event }) => {
 
   useEffect(() => {
     handleEventChange()
+
+    socket.on('connect', () => {
+      handleEventChange()
+    })
+
+    joinRoom(`event_doorkeepers_${event.id}`)
+
+    socket.on('new_doorkeeper', (data) => {
+      if (data.event.id !== event.id) return
+
+      if (doorkeepers.find((d) => d.id === data.id)) return
+
+      setDoorkeepers((prev) => [...prev, data])
+    })
+
+    socket.on('delete_doorkeeper', (data) => {
+      if (data.event.id !== event.id) return
+
+      setDoorkeepers((prev) => prev.filter((d) => d.id !== data.doorkeeper_id))
+    })
+
+    return () => {
+      socket.off('new_doorkeeper')
+      socket.off('delete_doorkeeper')
+      socket.off('update_doorkeeper')
+      leaveRoom(`event_doorkeepers_${event.id}`)
+    }
   }, [event])
-
-  joinRoom(`event_doorkeepers_${event.id}`)
-
-  socket.on('new_doorkeeper', (data) => {
-    if (data.event.id === event.id) {
-      if (doorkeepers.find((d) => d.id === data.id)) {
-        return
-      }
-      doorkeepers.push(data)
-      setDoorkeepers([...doorkeepers])
-    }
-  })
-
-  socket.on('delete_doorkeeper', (data) => {
-    if (data.event_id === event.id) {
-      const newDoorkeepers = doorkeepers.filter(
-        (d) => d.id !== data.doorkeeper_id
-      )
-      setDoorkeepers(newDoorkeepers)
-    }
-  })
 
   async function create(data) {
     await backendService.post('/checkin/doorkeepers/', data)
