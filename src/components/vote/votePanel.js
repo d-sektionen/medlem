@@ -26,24 +26,22 @@ const VotePanel = ({ meeting }) => {
     joinRoom(`meeting_votes_${meeting.id}`)
 
     socket.on('new_vote', (data) => {
-      console.log('Received new_vote event', data)
       if (data.meeting !== meeting.id) return
 
       if (votes.find((v) => v.id === data.id)) {
-        votes[votes.findIndex((v) => v.id === data.id)] = data
-        setVotes([...votes])
+        setVotes((prev) => {
+          const newVotes = [...prev]
+          newVotes[newVotes.findIndex((v) => v.id === data.id)] = data
+          return newVotes
+        })
         return
       }
-
-      votes.push(data)
-      setVotes([...votes])
+      setVotes((prev) => [...prev, data])
     })
 
     socket.on('delete_vote', (data) => {
       if (data.meeting !== meeting.id) return
-
-      const newVotes = votes.filter((v) => v.id !== data.id)
-      setVotes(newVotes)
+      setVotes((prev) => prev.filter((v) => v.id !== data.id))
     })
 
     socket.on('delete_alternative', (data) => {
