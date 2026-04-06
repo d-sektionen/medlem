@@ -95,7 +95,7 @@ const SpeakerPanel = ({ meeting }) => {
       ) : (
         <p>{errorMessage}</p>
       )}
-      <List>
+      <List maxHeight="260px">
         {speakers &&
           speakers.map((s) => (
             <ListItem

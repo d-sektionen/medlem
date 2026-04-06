@@ -12,6 +12,11 @@ const getMemberAttendants = (attendants) => {
   const memberAttendants = attendants.filter(
     (attendant) => attendant.has_voting_rights
   )
+  memberAttendants.push(...memberAttendants)
+  memberAttendants.push(...memberAttendants)
+  memberAttendants.push(...memberAttendants)
+  memberAttendants.push(...memberAttendants)
+  memberAttendants.push(...memberAttendants)
   return memberAttendants
 }
 
@@ -118,7 +123,7 @@ const AttendantPanel = ({ currentMeeting }) => {
           </Button>
         </ButtonGroup>
       </div>
-      <List>
+      <List maxHeight="200px">
         {attendants &&
           getMemberAttendants(attendants).map((attendant) => (
             <ListItem

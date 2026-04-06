@@ -57,7 +57,7 @@ const SpeakerPanel = ({ meeting }) => {
   return (
     <div>
       <h2>Talarlista</h2>
-      <List>
+      <List maxHeight="260px">
         {speakers &&
           speakers.map((s) => (
             <ListItem
