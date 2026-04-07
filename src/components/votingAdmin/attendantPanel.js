@@ -58,31 +58,35 @@ const AttendantPanel = ({ currentMeeting }) => {
     }
   }
 
+  function handleNewAttendant(data) {
+    if (data.meeting_id !== currentMeeting.id) return
+
+    setAttendants((prev) => {
+      if (prev.find((a) => a.id === data.id)) return prev
+      return [...prev, data]
+    })
+  }
+
+  function handleDeleteAttendant(data) {
+    if (data.meeting_id !== currentMeeting.id) return
+
+    setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id))
+  }
+
   useEffect(() => {
     handleMeetingChange()
     socket.on('connect', handleMeetingChange)
 
     joinRoom(`meeting_attendants_${currentMeeting.id}`)
 
-    socket.on('new_attendant', (data) => {
-      if (data.meeting_id !== currentMeeting.id) return
+    socket.on('new_attendant', handleNewAttendant)
 
-      setAttendants((prev) => {
-        if (prev.find((a) => a.id === data.id)) return prev
-        return [...prev, data]
-      })
-    })
-
-    socket.on('delete_attendant', (data) => {
-      if (data.meeting_id !== currentMeeting.id) return
-
-      setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id))
-    })
+    socket.on('delete_attendant', handleDeleteAttendant)
 
     return () => {
       socket.off('connect', handleMeetingChange)
-      socket.off('new_attendant')
-      socket.off('delete_attendant')
+      socket.off('new_attendant', handleNewAttendant)
+      socket.off('delete_attendant', handleDeleteAttendant)
       leaveRoom(`meeting_attendants_${currentMeeting.id}`)
     }
   }, [currentMeeting.id])

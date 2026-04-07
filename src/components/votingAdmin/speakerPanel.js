@@ -18,33 +18,35 @@ const SpeakerPanel = ({ meeting }) => {
     }
   }
 
+  function handleNewSpeakerRequest(data) {
+    if (data.meeting_id !== meeting.id) return
+
+    setSpeakers((prev) => {
+      if (prev.find((s) => s.id === data.speaker.id)) return prev
+      return [...prev, data.speaker]
+    })
+  }
+
+  function handleDeleteSpeakerRequest(data) {
+    if (data.meeting_id !== meeting.id) return
+
+    setSpeakers((prev) => prev.filter((s) => s.id !== data.speaker_request_id))
+  }
+
   useEffect(() => {
     handleMeetingChange()
     socket.on('connect', handleMeetingChange)
 
     joinRoom(`meeting_speaker_${meeting.id}`)
 
-    socket.on('new_speaker_request', (data) => {
-      if (data.meeting_id !== meeting.id) return
+    socket.on('new_speaker_request', handleNewSpeakerRequest)
 
-      setSpeakers((prev) => {
-        if (prev.find((s) => s.id === data.speaker.id)) return prev
-        return [...prev, data.speaker]
-      })
-    })
-
-    socket.on('delete_speaker_request', (data) => {
-      if (data.meeting_id !== meeting.id) return
-
-      setSpeakers((prev) =>
-        prev.filter((s) => s.id !== data.speaker_request_id)
-      )
-    })
+    socket.on('delete_speaker_request', handleDeleteSpeakerRequest)
 
     return () => {
       socket.off('connect', handleMeetingChange)
-      socket.off('new_speaker_request')
-      socket.off('delete_speaker_request')
+      socket.off('new_speaker_request', handleNewSpeakerRequest)
+      socket.off('delete_speaker_request', handleDeleteSpeakerRequest)
 
       leaveRoom(`meeting_speaker_${meeting.id}`)
     }

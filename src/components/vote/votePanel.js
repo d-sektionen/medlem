@@ -16,6 +16,69 @@ const VotePanel = ({ meeting }) => {
     }
   }
 
+  function handleNewVote(data) {
+    if (data.meeting !== meeting.id) return
+
+    setVotes((prev) => {
+      const existingIndex = prev.findIndex((v) => v.id === data.id)
+      if (existingIndex !== -1) {
+        const newVotes = [...prev]
+        newVotes[existingIndex] = data
+        return newVotes
+      }
+      return [...prev, data]
+    })
+  }
+
+  function handleDeleteVote(data) {
+    if (data.meeting !== meeting.id) return
+    setVotes((prev) => prev.filter((v) => v.id !== data.id))
+  }
+
+  function handleDeleteAlternative(data) {
+    if (data.meeting !== meeting.id) return
+
+    setVotes((prev) =>
+      prev.map((v) =>
+        v.id === data.vote
+          ? {
+              ...v,
+              alternatives: v.alternatives.filter((a) => a.id !== data.id),
+            }
+          : v
+      )
+    )
+  }
+
+  function handleNewAlternative(data) {
+    if (data.meeting !== meeting.id) return
+
+    setVotes((prev) =>
+      prev.map((v) =>
+        v.id === data.vote
+          ? { ...v, alternatives: [...v.alternatives, data] }
+          : v
+      )
+    )
+  }
+
+  function handleUpdateAlternative(data) {
+    if (data.meeting !== meeting.id) return
+
+    setVotes((prev) =>
+      prev.map((v) =>
+        v.id === data.vote
+          ? {
+              ...v,
+              alternatives: v.alternatives.map((a) =>
+                a.id === data.id ? data : a
+              ),
+            }
+          : v
+      )
+    )
+  }
+
   useEffect(() => {
     fetchVotes()
 
@@ -23,76 +86,23 @@ const VotePanel = ({ meeting }) => {
 
     joinRoom(`meeting_votes_${meeting.id}`)
 
-    socket.on('new_vote', (data) => {
-      if (data.meeting !== meeting.id) return
+    socket.on('new_vote', handleNewVote)
 
-      setVotes((prev) => {
-        const existingIndex = prev.findIndex((v) => v.id === data.id)
-        if (existingIndex !== -1) {
-          const newVotes = [...prev]
-          newVotes[existingIndex] = data
-          return newVotes
-        }
-        return [...prev, data]
-      })
-    })
+    socket.on('delete_vote', handleDeleteVote)
 
-    socket.on('delete_vote', (data) => {
-      if (data.meeting !== meeting.id) return
-      setVotes((prev) => prev.filter((v) => v.id !== data.id))
-    })
+    socket.on('delete_alternative', handleDeleteAlternative)
 
-    socket.on('delete_alternative', (data) => {
-      if (data.meeting !== meeting.id) return
+    socket.on('new_alternative', handleNewAlternative)
 
-      setVotes((prev) =>
-        prev.map((v) =>
-          v.id === data.vote
-            ? {
-                ...v,
-                alternatives: v.alternatives.filter((a) => a.id !== data.id),
-              }
-            : v
-        )
-      )
-    })
-
-    socket.on('new_alternative', (data) => {
-      if (data.meeting !== meeting.id) return
-
-      setVotes((prev) =>
-        prev.map((v) =>
-          v.id === data.vote
-            ? { ...v, alternatives: [...v.alternatives, data] }
-            : v
-        )
-      )
-    })
-
-    socket.on('update_alternative', (data) => {
-      if (data.meeting !== meeting.id) return
-
-      setVotes((prev) =>
-        prev.map((v) =>
-          v.id === data.vote
-            ? {
-                ...v,
-                alternatives: v.alternatives.map((a) =>
-                  a.id === data.id ? data : a
-                ),
-              }
-            : v
-        )
-      )
-    })
+    socket.on('update_alternative', handleUpdateAlternative)
 
     return () => {
       socket.off('connect', fetchVotes)
-      socket.off('new_vote')
-      socket.off('delete_vote')
-      socket.off('delete_alternative')
-      socket.off('new_alternative')
-      socket.off('update_alternative')
+      socket.off('new_vote', handleNewVote)
+      socket.off('delete_vote', handleDeleteVote)
+      socket.off('delete_alternative', handleDeleteAlternative)
+      socket.off('new_alternative', handleNewAlternative)
+      socket.off('update_alternative', handleUpdateAlternative)
 
       leaveRoom(`meeting_votes_${meeting.id}`)
     }

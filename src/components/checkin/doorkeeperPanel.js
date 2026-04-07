@@ -18,6 +18,21 @@ const DoorkeeperPanel = ({ event }) => {
     }
   }
 
+  function handleNewDoorkeeper(data) {
+    if (data.event.id !== event.id) return
+
+    setDoorkeepers((prev) => {
+      if (prev.find((d) => d.id === data.id)) return prev
+      return [...prev, data]
+    })
+  }
+
+  function handleDeleteDoorkeeper(data) {
+    if (data.event.id !== event.id) return
+
+    setDoorkeepers((prev) => prev.filter((d) => d.id !== data.doorkeeper_id))
+  }
+
   useEffect(() => {
     handleEventChange()
 
@@ -25,25 +40,14 @@ const DoorkeeperPanel = ({ event }) => {
 
     joinRoom(`event_doorkeepers_${event.id}`)
 
-    socket.on('new_doorkeeper', (data) => {
-      if (data.event.id !== event.id) return
+    socket.on('new_doorkeeper', handleNewDoorkeeper)
 
-      setDoorkeepers((prev) => {
-        if (prev.find((d) => d.id === data.id)) return prev
-        return [...prev, data]
-      })
-    })
-
-    socket.on('delete_doorkeeper', (data) => {
-      if (data.event.id !== event.id) return
-
-      setDoorkeepers((prev) => prev.filter((d) => d.id !== data.doorkeeper_id))
-    })
+    socket.on('delete_doorkeeper', handleDeleteDoorkeeper)
 
     return () => {
       socket.off('connect', handleEventChange)
-      socket.off('new_doorkeeper')
-      socket.off('delete_doorkeeper')
+      socket.off('new_doorkeeper', handleNewDoorkeeper)
+      socket.off('delete_doorkeeper', handleDeleteDoorkeeper)
       leaveRoom(`event_doorkeepers_${event.id}`)
     }
   }, [event.id])
