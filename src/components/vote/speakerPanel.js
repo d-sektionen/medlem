@@ -24,7 +24,7 @@ const SpeakerPanel = ({ meeting }) => {
 
     socket.on('connect', handleMeetingChange)
 
-    joinRoom(`meeting_speker_${meeting.id}`)
+    joinRoom(`meeting_speaker_${meeting.id}`)
 
     socket.on('new_speaker_request', (data) => {
       if (data.meeting_id !== meeting.id) return

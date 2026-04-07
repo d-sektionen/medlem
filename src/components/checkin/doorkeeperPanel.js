@@ -41,6 +41,7 @@ const DoorkeeperPanel = ({ event }) => {
     })
 
     return () => {
+      socket.off('connect', handleEventChange)
       socket.off('new_doorkeeper')
       socket.off('delete_doorkeeper')
       leaveRoom(`event_doorkeepers_${event.id}`)
