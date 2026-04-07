@@ -23,7 +23,7 @@ const VotePanel = ({ meeting }) => {
       const existingIndex = prev.findIndex((v) => v.id === data.id)
       if (existingIndex !== -1) {
         const newVotes = [...prev]
-        newVotes[existingIndex] = data
+        newVotes[existingIndex] = { ...newVotes[existingIndex], ...data }
         return newVotes
       }
       return [...prev, data]
