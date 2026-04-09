@@ -19,7 +19,7 @@ const getDate4WeeksAgo = (date) => {
 const BookingPage = ({ pageContext: { title } }) => {
   const [pool, setPool] = useState(null)
   const [afterDate, setAfterDate] = useState(getDate4WeeksAgo(new Date()))
-  const { data: pools } = useSWR('/booking/itemPools/')
+  const { data: pools } = useSWR('/booking/item-pools/')
 
   const { data: bookings, mutate } = useSWR(
     () =>
