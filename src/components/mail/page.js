@@ -45,7 +45,12 @@ const MailPage = () => {
       })
       .catch((error) => {
         setModalState(ModalState.FAIL)
-        setFailMessage(error.toString())
+        if (error.response?.data) {
+          const { data } = error.response
+          setFailMessage(typeof data === 'string' ? data : JSON.stringify(data, null, 2))
+        } else {
+          setFailMessage(error.message)
+        }
       })
   }
 
@@ -57,7 +62,12 @@ const MailPage = () => {
       })
       .catch((error) => {
         setModalState(ModalState.FAIL)
-        setFailMessage(error.toString())
+        if (error.response?.data) {
+          const { data } = error.response
+          setFailMessage(typeof data === 'string' ? data : JSON.stringify(data, null, 2))
+        } else {
+          setFailMessage(error.message)
+        }
       })
   }
 
