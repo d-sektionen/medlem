@@ -43,9 +43,9 @@ const MailPage = () => {
       .then(() => {
         setModalState(ModalState.SUCCESS)
       })
-      .catch((error) => {
+      .catch((err) => {
         setModalState(ModalState.FAIL)
-        setFailMessage(error.toString())
+        setFailMessage(err.response.data)
       })
   }
 
@@ -55,9 +55,9 @@ const MailPage = () => {
       .then(() => {
         setModalState(ModalState.SUCCESS)
       })
-      .catch((error) => {
+      .catch((err) => {
         setModalState(ModalState.FAIL)
-        setFailMessage(error.toString())
+        setFailMessage(err.response.data)
       })
   }
 
