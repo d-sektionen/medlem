@@ -88,7 +88,14 @@ const BookingPanel = ({
                       iconComponent={FiCheck}
                       text="Bekräfta bokning"
                       onClick={() => {
-                        openConfirmBooking('Bekräfta bokning', { booking, confirmBooking })
+                        if (booking.pool.items.length > 1) {
+                          openConfirmBooking('Bekräfta bokning', {
+                            booking,
+                            confirmBooking,
+                          })
+                        } else {
+                          confirmBooking(booking.id, { auto_assign: true })
+                        }
                       }}
                       key="confirm"
                     />,

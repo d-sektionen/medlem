@@ -15,63 +15,79 @@ const ConfirmBooking = ({ booking, confirmBooking }) => {
   const accessories = booking.pool.accessories
   const requiresAccessory = booking.pool.requires_accessory
 
-  const isSingleItem = items.length === 1 && !requiresAccessory
-
   const [selectedItems, setSelectedItems] = useState([])
   const [selectedAccessories, setSelectedAccessories] = useState([])
 
+  const [error, setError] = useState(null)
+
   const buttonDisabled =
-    !isSingleItem &&
-    (selectedItems.length !== booking.count ||
-      (requiresAccessory && selectedAccessories.length !== booking.count))
+    selectedItems.length !== booking.count ||
+    (requiresAccessory && selectedAccessories.length !== booking.count)
+
+  const confirm = (data) =>
+    confirmBooking(booking.id, data)
+      .then(() => close())
+      .catch((err) => {
+        console.error(err.response.data)
+        setError(
+          err.response.data?.detail ?? 'Ett fel inträffade, försök igen senare.'
+        )
+      })
 
   return (
     <>
       <p>Bokad av {user}.</p>
       <i>{description}</i>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      {!isSingleItem && (
-        <>
-          <h3>
-            Välj {booking.count} objekt {requiresAccessory && 'och tillbehör'}
-          </h3>
+      <>
+        <h3>
+          Välj {booking.count} objekt {requiresAccessory && 'och tillbehör'}
+        </h3>
 
-          <div className={confirmBookingChecklists}>
+        <div className={confirmBookingChecklists}>
+          <Checklist
+            items={items.map((item) => ({
+              ...item,
+              name: item.status ? `${item.name} (${item.status})` : item.name,
+            }))}
+            selected={selectedItems}
+            setSelected={setSelectedItems}
+            maxSelected={booking.count}
+          />
+
+          {requiresAccessory && (
             <Checklist
-              items={items.map((item) => ({
-                ...item,
-                name: item.status ? `${item.name} (${item.status})` : item.name,
-              }))}
-              selected={selectedItems}
-              setSelected={setSelectedItems}
+              items={accessories}
+              selected={selectedAccessories}
+              setSelected={setSelectedAccessories}
               maxSelected={booking.count}
             />
-
-            {requiresAccessory && (
-              <Checklist
-                items={accessories}
-                selected={selectedAccessories}
-                setSelected={setSelectedAccessories}
-                maxSelected={booking.count}
-              />
-            )}
-          </div>
-        </>
-      )}
-
+          )}
+        </div>
+      </>
       <Button
         disabled={buttonDisabled}
         onClick={() => {
           const data = {
-            items: isSingleItem ? [items[0].id] : selectedItems,
+            items: selectedItems,
             accessories: requiresAccessory ? selectedAccessories : [],
           }
 
-          confirmBooking(booking.id, data)
-          close()
+          confirm(data)
         }}
       >
         Bekräfta
+      </Button>
+
+      <p>eller</p>
+
+      <Button
+        onClick={() => {
+          confirm({ auto_assign: true })
+        }}
+      >
+        Välj automatiskt
       </Button>
     </>
   )
