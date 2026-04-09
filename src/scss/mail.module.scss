@@ -48,3 +48,13 @@
 .textFail {
   color: $dsek-cerise;
 }
+
+.failMessageClass {
+  background: $background-color-3;
+  padding: 10px;
+  border-radius: 12px;
+  color: $foreground-color-2;
+  border-style: dashed;
+  border-width: 3px;
+  border-color: $background-color-4;
+}

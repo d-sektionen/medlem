@@ -11,6 +11,7 @@ import {
   status,
   textSuccess,
   textFail,
+  failMessageClass,
 } from '../../scss/mail.module.scss'
 import AutoInput from '../form/input'
 import { Button } from '../ui/buttons'
@@ -34,6 +35,7 @@ const MailPage = () => {
   const [content, setContent] = useState('')
   const [rawMode, setRawMode] = useState(false)
   const [modalState, setModalState] = useState(ModalState.CLOSED)
+  const [failMessage, setFailMessage] = useState('')
 
   function sendMail() {
     setModalState(ModalState.SENDING)
@@ -41,8 +43,9 @@ const MailPage = () => {
       .then(() => {
         setModalState(ModalState.SUCCESS)
       })
-      .catch(() => {
+      .catch((error) => {
         setModalState(ModalState.FAIL)
+        setFailMessage(error.toString())
       })
   }
 
@@ -52,8 +55,9 @@ const MailPage = () => {
       .then(() => {
         setModalState(ModalState.SUCCESS)
       })
-      .catch(() => {
+      .catch((error) => {
         setModalState(ModalState.FAIL)
+        setFailMessage(error.toString())
       })
   }
 
@@ -115,6 +119,7 @@ const MailPage = () => {
           <div className={status}>
             <FiSlash size="9rem" className={textFail} />
             <h2 className={textFail}>Ett fel uppstod vid utskick av mailet.</h2>
+            <pre className={failMessageClass}>{failMessage}</pre>
           </div>
         ) : null}
       </Modal>
