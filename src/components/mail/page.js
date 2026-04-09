@@ -29,6 +29,14 @@ const ModalState = Object.freeze({
   FAIL: 'FAIL',
 })
 
+function formatErrorMessage(error) {
+  if (error.response?.data) {
+    const { data } = error.response
+    return typeof data === 'string' ? data : JSON.stringify(data, null, 2)
+  }
+  return error.message
+}
+
 const MailPage = () => {
   const [subject, setSubject] = useState('')
   const [infoChiefContent, setInfoChiefContent] = useState('')
@@ -45,12 +53,7 @@ const MailPage = () => {
       })
       .catch((error) => {
         setModalState(ModalState.FAIL)
-        if (error.response?.data) {
-          const { data } = error.response
-          setFailMessage(typeof data === 'string' ? data : JSON.stringify(data, null, 2))
-        } else {
-          setFailMessage(error.message)
-        }
+        setFailMessage(formatErrorMessage(error))
       })
   }
 
@@ -62,12 +65,7 @@ const MailPage = () => {
       })
       .catch((error) => {
         setModalState(ModalState.FAIL)
-        if (error.response?.data) {
-          const { data } = error.response
-          setFailMessage(typeof data === 'string' ? data : JSON.stringify(data, null, 2))
-        } else {
-          setFailMessage(error.message)
-        }
+        setFailMessage(formatErrorMessage(error))
       })
   }
 
