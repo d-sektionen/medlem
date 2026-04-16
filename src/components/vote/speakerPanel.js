@@ -4,6 +4,7 @@ import { FiTrash2 } from 'react-icons/fi'
 import { List, ListButton, ListItem } from '../ui/list'
 import { Button, ButtonGroup } from '../ui/buttons'
 import { UserContext } from '../layout/layout'
+import { speakerPanelList } from '../../scss/vote.module.scss'
 
 import socket, { joinRoom, leaveRoom } from '../request/socket'
 import backendService from '../request/backendService'
@@ -95,7 +96,7 @@ const SpeakerPanel = ({ meeting }) => {
       ) : (
         <p>{errorMessage}</p>
       )}
-      <List maxHeight="260px">
+      <List maxHeight="260px" className={speakerPanelList}>
         {speakers &&
           speakers.map((s) => (
             <ListItem
