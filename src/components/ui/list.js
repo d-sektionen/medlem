@@ -8,9 +8,9 @@ import {
   listButton,
 } from '../../scss/ui.module.scss'
 
-const List = ({ children, maxHeight }) => (
+const List = ({ children, maxHeight, className }) => (
   <ul
-    className={list}
+    className={`${list} ${className}`}
     style={maxHeight ? { maxHeight, overflowY: 'scroll' } : undefined}
   >
     {children}
