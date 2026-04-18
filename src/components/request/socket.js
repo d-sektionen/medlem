@@ -6,7 +6,7 @@ const joinedRooms = new Set()
 const socket = io(BASE_URL, {
   withCredentials: true,
   path: '/ws',
-
+  transports: ['websocket'],
   reconnection: true,
   reconnectionAttempts: Infinity,
   reconnectionDelay: 1_000,
