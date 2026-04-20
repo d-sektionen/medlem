@@ -2,24 +2,63 @@ import React, { useState, useEffect } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
 
 import { List, ListButton, ListItem } from '../ui/list'
-import { Button, ButtonGroup } from '../ui/buttons'
-import { del, post } from '../request'
-import useSWR from 'swr'
+import { ButtonGroup } from '../ui/buttons'
 
-const getGuestAttendants = attendants => {
+import backendService from '../request/backendService'
+import socket, { joinRoom, leaveRoom } from '../request/socket'
+
+const getGuestAttendants = (attendants) => {
   const guestAttendants = attendants.filter(
-    attendant => !attendant.has_voting_rights
+    (attendant) => !attendant.has_voting_rights
   )
   return guestAttendants
 }
 
 const GuestPanel = ({ currentMeeting }) => {
   const [input, setInput] = useState('')
+  const [attendants, setAttendants] = useState([])
 
-  const { data: attendants, mutate } = useSWR(
-    () => `/voting/attendants/?meeting_id=${currentMeeting.id}`,
-    { refreshInterval: 4000 }
-  )
+  async function handleMeetingChange() {
+    if (currentMeeting) {
+      const resp = await backendService.get(
+        `/voting/attendants/?meeting_id=${currentMeeting.id}`
+      )
+      setAttendants(resp.data)
+    }
+  }
+
+  function handleNewAttendant(data) {
+    if (data.meeting_id !== currentMeeting.id) return
+
+    setAttendants((prev) => {
+      if (prev.find((a) => a.id === data.id)) return prev
+      return [...prev, data]
+    })
+  }
+
+  function handleDeleteAttendant(data) {
+    if (data.meeting_id !== currentMeeting.id) return
+
+    setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id))
+  }
+
+  useEffect(() => {
+    handleMeetingChange()
+    socket.on('connect', handleMeetingChange)
+
+    joinRoom(`meeting_attendants_${currentMeeting.id}`)
+
+    socket.on('new_attendant', handleNewAttendant)
+
+    socket.on('delete_attendant', handleDeleteAttendant)
+
+    return () => {
+      socket.off('connect', handleMeetingChange)
+      socket.off('new_attendant', handleNewAttendant)
+      socket.off('delete_attendant', handleDeleteAttendant)
+      leaveRoom(`meeting_attendants_${currentMeeting.id}`)
+    }
+  }, [currentMeeting])
 
   if (attendants === null) return <></>
 
@@ -27,21 +66,20 @@ const GuestPanel = ({ currentMeeting }) => {
     <div>
       <h2>Gäster/adjungerade</h2>
       <form
-        onSubmit={async e => {
+        onSubmit={async (e) => {
           e.preventDefault()
           setInput('')
-          const { data: newAttendant } = await post('/voting/attendants/', {
+          await backendService.post('/voting/attendants/', {
             user_username: input,
             meeting_id: currentMeeting.id,
             has_voting_rights: false,
           })
-          mutate([...attendants, newAttendant])
         }}
       >
         <input
           value={input}
           placeholder="LiU-ID"
-          onChange={e => setInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value)}
         />
       </form>
       <div>
@@ -53,17 +91,16 @@ const GuestPanel = ({ currentMeeting }) => {
       </div>
       <List>
         {attendants &&
-          getGuestAttendants(attendants).map(attendant => (
+          getGuestAttendants(attendants).map((attendant) => (
             <ListItem
               title={attendant.user.pretty_name}
               key={attendant.id}
               buttons={[
                 <ListButton
                   onClick={async () => {
-                    await del(`/voting/attendants/${attendant.id}`, {
-                      meeting_id: currentMeeting.id,
-                    })
-                    mutate(attendants.filter(x => x.id !== attendant.id))
+                    await backendService.delete(
+                      `/voting/attendants/${attendant.id}`
+                    )
                   }}
                   iconComponent={FiTrash2}
                   text="Ta bort gäst"

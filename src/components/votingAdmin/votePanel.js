@@ -15,7 +15,7 @@ const VotePanel = ({ currentMeeting }) => {
     `/voting/admin-votes/?event_id=${currentMeeting.id}`
   )
 
-  const create = async data => {
+  const create = async (data) => {
     const { data: newVote } = await post('/voting/admin-votes/', data)
     mutate([...votes, newVote])
     return newVote
@@ -23,11 +23,11 @@ const VotePanel = ({ currentMeeting }) => {
 
   const update = async (id, data) => {
     const { data: updatedVote } = await put(`/voting/admin-votes/${id}/`, data)
-    mutate([...votes.filter(v => v.id !== id), updatedVote])
+    mutate([...votes.filter((v) => v.id !== id), updatedVote])
     return updatedVote
   }
 
-  const open = async vote => {
+  const open = async (vote) => {
     await closeModal()
     openChartModal(`Resultat av "${vote.question}"`, {
       voteId: vote.id,
@@ -57,11 +57,11 @@ const VotePanel = ({ currentMeeting }) => {
       >
         Ny omröstning
       </Button>
-      <List>
+      <List maxHeight="268px">
         {votes &&
           votes
-            .filter(vote => vote.meeting === currentMeeting.id)
-            .map(vote => (
+            .filter((vote) => vote.meeting === currentMeeting.id)
+            .map((vote) => (
               <ListItem
                 title={vote.question}
                 subtitle={vote.open ? 'Active' : undefined}
@@ -93,7 +93,7 @@ const VotePanel = ({ currentMeeting }) => {
                     onClick={() =>
                       confirmModal(
                         `Vill du se resultatet?`,
-                        function() {
+                        function () {
                           open(vote)
                         },
                         closeModal
