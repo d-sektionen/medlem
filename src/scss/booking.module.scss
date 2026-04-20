@@ -45,3 +45,10 @@
   flex-direction: row;
   gap: 12px;
 }
+
+.confirmBookingChecklists {
+  display: flex;
+  flex-direction: column;
+  gap: $base-padding;
+  margin-bottom: 2 * $base-padding;
+}
