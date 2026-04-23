@@ -16,6 +16,7 @@ class Preferences extends Component {
       liuCardId: props.user.profile.liu_card_id,
       firstName: props.user.first_name,
       lastName: props.user.last_name,
+      phoneNumber: props.user.profile.phone_number,
       errors: {},
     }
 
@@ -40,6 +41,7 @@ class Preferences extends Component {
       last_name: this.state.lastName,
       liu_card_id: this.state.liuCardId,
       infomail_subscriber: this.state.infomailSubscriber,
+      phone_number: this.state.phoneNumber,
     })
       .then(res => {
         setLoading(false)
@@ -54,6 +56,7 @@ class Preferences extends Component {
               ...prev.profile,
               liu_card_id: res.data.liu_card_id,
               infomail_subscriber: res.data.infomail_subscriber,
+              phone_number: res.data.phone_number,
             },
           }))
         }
@@ -63,7 +66,7 @@ class Preferences extends Component {
         setLoading(false)
         if (!err.response) this.setState({ error: 'Nätverksfel.' })
         else if (err.response.status === 400) {
-          this.getFormErrorText(err.response)
+          this.setState({ ...this.state, errors: this.getFormErrorText(err.response) })
         }
       })
     event.preventDefault()
@@ -75,15 +78,18 @@ class Preferences extends Component {
    * @returns Object - containing the error text.
    */
   getFormErrorText(response) {
+    let errorText = {}
+
     if (response.data?.liu_card_id) {
-      return {
-        errors: {
-          profile: { liu_card_id: 'Det angivna LiU IDt är för långt.' },
-        },
-      }
+      errorText.profile ??= {}
+      errorText.profile.liu_card_id = 'Det angivna LiU IDt är för långt.'
+    }
+    if (response.data?.phone_number) {
+      errorText.profile ??= {}
+      errorText.profile.phone_number = 'Det angivna telefonnumret stämmer inte (har du med +46?).'
     }
 
-    return { error: 'Något gick fel.' }
+    return errorText
   }
 
   render() {
@@ -93,6 +99,7 @@ class Preferences extends Component {
       lastName,
       liuCardId,
       infomailSubscriber,
+      phoneNumber,
       errors,
       error,
       success,
@@ -139,6 +146,18 @@ class Preferences extends Component {
           </label>
           {errors.profile && errors.profile.liu_card_id && (
             <div className={Error}>{errors.profile.liu_card_id}</div>
+          )}
+        </div>
+        <div>
+          <label className={inputLabel}>
+            Telefonnummer:
+            <input
+              value={phoneNumber}
+              onChange={e => this.handleChange('phoneNumber', e)}
+            />
+          </label>
+          {errors.profile && errors.profile.phone_number && (
+            <div className={Error}>{errors.profile.phone_number}</div>
           )}
         </div>
         <div>
