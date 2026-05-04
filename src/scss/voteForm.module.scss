@@ -27,8 +27,8 @@
   hyphens: auto;
 
   min-width: 100%;
-  
-  @media screen and (min-width: 996px) {
+
+  @media screen and (min-width: $large-mobile-breakpoint) {
     min-width: 30%;
   }
 

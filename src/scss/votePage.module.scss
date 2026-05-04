@@ -19,7 +19,7 @@
   grid-template-columns: repeat(var(--cols), 1fr);
   --cols: 1;
 
-  @media screen and (min-width: 994px) {
+  @media screen and (min-width: $large-mobile-breakpoint) {
     --cols: 2;
   }
 
