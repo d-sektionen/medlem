@@ -41,8 +41,7 @@ const VoteForm = ({ vote, setErrors }) => {
   return (
     <div>
       <h3 className={questionHeader}>
-        Fråga:&nbsp;
-        <strong>{vote.question}</strong>
+        Fråga: <strong>{vote.question}</strong>
       </h3>
       {vote.has_voted || successfullyVoted ? (
         <p>{alreadyVotedText}</p>
