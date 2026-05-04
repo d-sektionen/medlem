@@ -2,11 +2,16 @@
 
 .votesContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: $base-padding;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  --cols: 1;
 
-  &:has(> :nth-child(3)) {
-    grid-template-columns: 1fr 1fr 1fr;
+  @media screen and (min-width: $small-mobile-breakpoint) {
+    --cols: 2;
+
+    &:has(> :nth-child(3)) {
+      --cols: 3;
+    }
   }
 }
 

@@ -10,6 +10,7 @@ import VotePanel from './votePanel'
 import {
   currentMeetingContainer,
   votePanelContainer,
+  othersContainer,
 } from '../../scss/votePage.module.scss'
 
 export default function VotePage({ pageContext: { title } }) {
@@ -40,15 +41,17 @@ export default function VotePage({ pageContext: { title } }) {
             <div className={votePanelContainer}>
               <VotePanel meeting={currentMeeting} />
             </div>
-            <GridItem>
-              <MeetingInfoPanel
-                currentMeeting={currentMeeting}
-                setCurrentMeeting={setCurrentMeeting}
-              />
-            </GridItem>
-            <GridItem>
-              <SpeakerPanel meeting={currentMeeting} />
-            </GridItem>
+            <div className={othersContainer}>
+              <GridItem>
+                <MeetingInfoPanel
+                  currentMeeting={currentMeeting}
+                  setCurrentMeeting={setCurrentMeeting}
+                />
+              </GridItem>
+              <GridItem>
+                <SpeakerPanel meeting={currentMeeting} />
+              </GridItem>
+            </div>
           </div>
         )}
       </GridContainer>
