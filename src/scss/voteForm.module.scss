@@ -1,18 +1,10 @@
 @import 'vars';
 
 .votesContainer {
-  display: grid;
+  display: flex;
   gap: $base-padding;
-  grid-template-columns: repeat(var(--cols), 1fr);
-  --cols: 1;
-
-  @media screen and (min-width: $small-mobile-breakpoint) {
-    --cols: 2;
-
-    &:has(> :nth-child(3)) {
-      --cols: 3;
-    }
-  }
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .voteInput {
@@ -27,13 +19,18 @@
   text-align: center;
   font-size: 1.2em;
   padding: $base-padding calc($base-padding / 2);
-  transition: all 100ms;
   background-color: $background-color-4;
   cursor: pointer;
 
   word-break: normal;
   overflow-wrap: anywhere;
   hyphens: auto;
+
+  min-width: 100%;
+  
+  @media screen and (min-width: 996px) {
+    min-width: 30%;
+  }
 
   &:hover {
     background-color: $dsek-blue;
