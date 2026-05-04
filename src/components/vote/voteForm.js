@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react'
 import { post } from '../request'
-import { IconButton, Button, ButtonGroup } from '../ui/buttons'
+import { Button } from '../ui/buttons'
 import { MdOutlineHowToVote } from 'react-icons/md'
 import {
   questionHeader,
@@ -29,7 +29,10 @@ const VoteForm = ({ vote, setErrors }) => {
       .then(() => setSuccessfullyVoted(true))
       .catch((err) => {
         setSentVote(false)
-        setErrors({ voteError: err.response.data.error })
+        setErrors({
+          voteError:
+            err.response?.data?.error ?? 'Ett fel uppstod vid röstningen.',
+        })
       })
   }
   const votingDisabled = checkedId === -1
@@ -54,7 +57,7 @@ const VoteForm = ({ vote, setErrors }) => {
                   type="radio"
                   checked={checkedId === id}
                   onChange={() => setCheckedId(id)}
-                  class={voteInput}
+                  className={voteInput}
                 />
                 {` ${text}`}
               </label>

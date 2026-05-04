@@ -6,7 +6,7 @@ import {
   formError,
   votePanelHeader,
   noActiveVoting,
-} from '../../scss/votePage.module.scss'
+} from '../../scss/votePanel.module.scss'
 
 const VotePanel = ({ meeting }) => {
   const [votes, setVotes] = useState([])
@@ -121,7 +121,7 @@ const VotePanel = ({ meeting }) => {
   return (
     <div>
       <h2 className={votePanelHeader}>Rösta</h2>
-      {errors && <div className={formError}>{errors.voteError}</div>}
+      {errors.voteError && <div className={formError}>{errors.voteError}</div>}
       {votes && (
         <>
           {votes.length === 0 && (

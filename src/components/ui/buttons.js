@@ -29,14 +29,25 @@ const Button = ({
 }) => {
   if (to)
     return (
-      <Link className={button} to={to} onClick={onClick}>
+      <Link
+        className={button}
+        to={to}
+        onClick={onClick}
+        aria-disabled={disabled}
+      >
         {children}
       </Link>
     )
 
   if (href)
     return (
-      <a className={button} href={href} target={target} onClick={onClick}>
+      <a
+        className={button}
+        href={href}
+        target={target}
+        onClick={onClick}
+        aria-disabled={disabled}
+      >
         {children}
       </a>
     )
