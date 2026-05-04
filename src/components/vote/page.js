@@ -7,6 +7,10 @@ import TitleChooser from '../ui/titleChooser'
 import SpeakerPanel from './speakerPanel'
 import MeetingInfoPanel from './meetingInfoPanel'
 import VotePanel from './votePanel'
+import {
+  currentMeetingContainer,
+  votePanelContainer,
+} from '../../scss/votePage.module.scss'
 
 export default function VotePage({ pageContext: { title } }) {
   const [currentMeeting, setCurrentMeeting] = useState(null)
@@ -31,7 +35,10 @@ export default function VotePage({ pageContext: { title } }) {
           />
         </GridItem>
         {currentMeeting && (
-          <>
+          <div className={currentMeetingContainer}>
+            <div className={votePanelContainer}>
+              <VotePanel meeting={currentMeeting} />
+            </div>
             <GridItem>
               <MeetingInfoPanel
                 currentMeeting={currentMeeting}
@@ -41,10 +48,7 @@ export default function VotePage({ pageContext: { title } }) {
             <GridItem>
               <SpeakerPanel meeting={currentMeeting} />
             </GridItem>
-            <GridItem>
-              <VotePanel meeting={currentMeeting} />
-            </GridItem>
-          </>
+          </div>
         )}
       </GridContainer>
     </BigPixels>

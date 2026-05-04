@@ -1,5 +1,14 @@
 import React, { Component, useState } from 'react'
 import { post } from '../request'
+import { IconButton, Button, ButtonGroup } from '../ui/buttons'
+import { MdOutlineHowToVote } from 'react-icons/md'
+import {
+  questionHeader,
+  votesContainer,
+  voteInput,
+  voteLabel,
+  placeVoteContainer,
+} from '../../scss/voteForm.module.scss'
 
 const VoteForm = ({ vote, setErrors }) => {
   const [checkedId, setCheckedId] = useState(-1)
@@ -17,42 +26,50 @@ const VoteForm = ({ vote, setErrors }) => {
     }
 
     await post('/voting/made_votes/', voteData)
-    .then(() => setSuccessfullyVoted(true))
-    .catch(err => {
-      setSentVote(false)
-      setErrors({ voteError: err.response.data.error })
-    })
+      .then(() => setSuccessfullyVoted(true))
+      .catch((err) => {
+        setSentVote(false)
+        setErrors({ voteError: err.response.data.error })
+      })
   }
   const votingDisabled = checkedId === -1
-  const buttonText = votingDisabled ? 'Välj ett alternativ' : 'Rösta'
+  const placeVoteButtonText = votingDisabled ? 'Välj ett alternativ' : 'Rösta'
   const alreadyVotedText = successfullyVoted
     ? 'Tack för din röst!'
     : 'Du har röstat i omröstningen.'
 
   return (
     <div>
-      <strong>{vote.question}</strong>
+      <h3 className={questionHeader}>
+        Fråga:&nbsp;
+        <strong>{vote.question}</strong>
+      </h3>
       {vote.has_voted || successfullyVoted ? (
         <p>{alreadyVotedText}</p>
       ) : (
         <>
-          <ul>
+          <div className={votesContainer}>
             {vote.alternatives.map(({ text, id }) => (
-              <li key={id}>
-                <label>
-                  <input
-                    type="radio"
-                    checked={checkedId === id}
-                    onChange={() => setCheckedId(id)}
-                  />
-                  {` ${text}`}
-                </label>
-              </li>
+              <label key={id} className={voteLabel}>
+                <input
+                  type="radio"
+                  checked={checkedId === id}
+                  onChange={() => setCheckedId(id)}
+                  class={voteInput}
+                />
+                {` ${text}`}
+              </label>
             ))}
-          </ul>
-          <button type="button" disabled={votingDisabled || successfullyVoted || sentVote} onClick={placeVote}>
-            {buttonText}
-          </button>
+          </div>
+          <div className={placeVoteContainer}>
+            <Button
+              disabled={votingDisabled || successfullyVoted || sentVote}
+              onClick={placeVote}
+            >
+              <MdOutlineHowToVote />
+              {placeVoteButtonText}
+            </Button>
+          </div>
         </>
       )}
     </div>
