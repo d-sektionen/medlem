@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import { post } from '../request'
 import { Button } from '../ui/buttons'
 import { MdOutlineHowToVote } from 'react-icons/md'
