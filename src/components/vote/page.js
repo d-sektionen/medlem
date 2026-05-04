@@ -31,6 +31,7 @@ export default function VotePage({ pageContext: { title } }) {
             setChoice={setCurrentMeeting}
             choices={meetings}
             label="name"
+            hintLabel="Välj ett möte"
             noChoicesLabel="Det finns inga möten just nu."
           />
         </GridItem>
