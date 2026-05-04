@@ -42,15 +42,11 @@ export default function VotePage({ pageContext: { title } }) {
               <VotePanel meeting={currentMeeting} />
             </div>
             <div className={othersContainer}>
-              <GridItem>
-                <MeetingInfoPanel
-                  currentMeeting={currentMeeting}
-                  setCurrentMeeting={setCurrentMeeting}
-                />
-              </GridItem>
-              <GridItem>
-                <SpeakerPanel meeting={currentMeeting} />
-              </GridItem>
+              <MeetingInfoPanel
+                currentMeeting={currentMeeting}
+                setCurrentMeeting={setCurrentMeeting}
+              />
+              <SpeakerPanel meeting={currentMeeting} />
             </div>
           </div>
         )}

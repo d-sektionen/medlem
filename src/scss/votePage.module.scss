@@ -23,12 +23,15 @@
   grid-template-columns: repeat(var(--cols), 1fr);
   --cols: 1;
 
-  @media screen and (min-width: $small-mobile-breakpoint) {
+  @media screen and (min-width: 994px) {
     --cols: 2;
   }
 
-  background-color: $background-color-2;
   grid-column: 1 / -1;
-  gap: $base-padding * 2;
+  gap: $base-padding;
+}
+
+.othersContainer > * {
+  background-color: $background-color-2;
   padding: $base-padding;
 }
