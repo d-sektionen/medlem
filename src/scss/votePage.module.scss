@@ -1,0 +1,33 @@
+@import 'vars';
+
+.currentMeetingContainer {
+  grid-column: 1 / -1;
+  background-color: transparent;
+  display: grid;
+  gap: $base-padding;
+  grid-template-columns: 1fr 1fr;
+}
+
+.votePanelContainer {
+  background-color: $background-color-2;
+  grid-column: 1 / -1;
+  padding: $base-padding;
+}
+
+.othersContainer {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  --cols: 1;
+
+  @media screen and (min-width: $large-mobile-breakpoint) {
+    --cols: 2;
+  }
+
+  grid-column: 1 / -1;
+  gap: $base-padding;
+}
+
+.othersContainer > * {
+  background-color: $background-color-2;
+  padding: $base-padding;
+}

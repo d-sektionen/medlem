@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button } from '../ui/buttons'
 import { post, del } from '../request'
+import { FiLogOut, FiLogIn } from 'react-icons/fi'
 
 export default function MeetingInfoPanel({
   currentMeeting,
@@ -34,6 +35,7 @@ export default function MeetingInfoPanel({
                 }
               }}
             >
+              <FiLogOut />
               Lämna röstlängden
             </Button>
           ) : (
@@ -49,6 +51,7 @@ export default function MeetingInfoPanel({
                 }
               }}
             >
+              <FiLogIn />
               Gå med i röstlängden
             </Button>
           )}
