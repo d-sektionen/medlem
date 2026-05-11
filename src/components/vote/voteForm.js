@@ -8,6 +8,7 @@ import {
   voteInput,
   voteLabel,
   placeVoteContainer,
+  alreadyVotedClass,
 } from '../../scss/voteForm.module.scss'
 
 const VoteForm = ({ vote, setErrors }) => {
@@ -44,10 +45,10 @@ const VoteForm = ({ vote, setErrors }) => {
   return (
     <div>
       <h3 className={questionHeader}>
-        Fråga: <strong>{vote.question}</strong>
+        <strong>{vote.question}</strong>
       </h3>
       {vote.has_voted || successfullyVoted ? (
-        <p>{alreadyVotedText}</p>
+        <p className={alreadyVotedClass}>{alreadyVotedText}</p>
       ) : (
         <>
           <div className={votesContainer}>
