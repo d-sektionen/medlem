@@ -29,9 +29,7 @@ const ConfirmBooking = ({ booking, confirmBooking }) => {
       .then(() => close())
       .catch((err) => {
         console.error(err.response.data)
-        setError(
-          err.response.data?.detail ?? 'Ett fel inträffade, försök igen senare.'
-        )
+        setError(err.response.data)
       })
 
   return (
