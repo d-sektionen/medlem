@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // Breakpoints
 $small-mobile-breakpoint: 480px;
 $large-mobile-breakpoint: 996px; // chosen after deep considerations
@@ -26,10 +28,9 @@ $foreground-color-4: #fff;
 // $gray: #999;
 // $dark-gray: #555;
 // $very-dark-gray: #333;
-// $black: #000;
 
-$link-color: lighten($dsek-blue, 30%); //#428bca;
-$link-color-visited: lighten($dsek-blue, 15%);
+$link-color: color.adjust($dsek-blue, $lightness: 30%, $space: hsl);
+$link-color-visited: color.adjust($dsek-blue, $lightness: 15%, $space: hsl);
 $red: red;
 
 $dsek-colors: $dsek-brown, $dsek-cerise, $dsek-yellow, $dsek-green, $dsek-blue;
