@@ -15,6 +15,7 @@ const TitleChooser = ({
   choice = null,
   setChoice = () => {},
   label = '',
+  hintLabel = 'Välj ett objekt',
   action = null,
   actionLabel = '',
   noChoicesLabel = '',
@@ -91,7 +92,7 @@ const TitleChooser = ({
                   </optgroup>
                 ))}
             </select>
-            {choice === null && <div className={hint}>Välj ett objekt</div>}
+            {choice === null && <div className={hint}>{hintLabel}</div>}
           </div>
         ) : (
           <span>{noChoicesLabel}</span>
@@ -110,6 +111,7 @@ TitleChooser.propTypes = {
   choice: PropTypes.object,
   setChoice: PropTypes.func,
   label: PropTypes.string,
+  hintLabel: PropTypes.string,
   action: PropTypes.func,
   actionLabel: PropTypes.string,
   noChoicesLabel: PropTypes.string,

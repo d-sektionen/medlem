@@ -18,23 +18,63 @@ const IconButton = ({ onClick, iconComponent: Icon, text, disabled }) => {
   )
 }
 
-const Button = ({ onClick, to, href, target, children, type = 'button' }) => {
+const Button = ({
+  onClick,
+  to,
+  href,
+  target,
+  children,
+  disabled,
+  type = 'button',
+}) => {
   if (to)
     return (
-      <Link className={button} to={to} onClick={onClick}>
+      <Link
+        className={button}
+        to={disabled ? undefined : to}
+        onClick={
+          disabled
+            ? (e) => {
+                e.preventDefault()
+                e.stopPropagation()
+              }
+            : onClick
+        }
+        aria-disabled={disabled}
+        tabIndex={disabled ? -1 : undefined}
+      >
         {children}
       </Link>
     )
 
   if (href)
     return (
-      <a className={button} href={href} target={target} onClick={onClick}>
+      <a
+        className={button}
+        href={disabled ? undefined : href}
+        target={target}
+        onClick={
+          disabled
+            ? (e) => {
+                e.preventDefault()
+                e.stopPropagation()
+              }
+            : onClick
+        }
+        aria-disabled={disabled}
+        tabIndex={disabled ? -1 : undefined}
+      >
         {children}
       </a>
     )
 
   return (
-    <button className={button} type={type} onClick={onClick}>
+    <button
+      className={button}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   )

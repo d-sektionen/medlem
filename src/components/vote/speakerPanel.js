@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react'
 
+import { MdOutlineFrontHand } from 'react-icons/md'
+import { RiMegaphoneLine } from 'react-icons/ri'
 import { FiTrash2 } from 'react-icons/fi'
 import { List, ListButton, ListItem } from '../ui/list'
 import { Button, ButtonGroup } from '../ui/buttons'
 import { UserContext } from '../layout/layout'
-import { speakerPanelList } from '../../scss/vote.module.scss'
+import { speakerPanelList } from '../../scss/voteSpeakerPanel.module.scss'
 
 import socket, { joinRoom, leaveRoom } from '../request/socket'
 import backendService from '../request/backendService'
@@ -80,6 +82,7 @@ const SpeakerPanel = ({ meeting }) => {
               })
             }}
           >
+            <MdOutlineFrontHand />
             Jag vill tala!
           </Button>
           <Button
@@ -90,6 +93,7 @@ const SpeakerPanel = ({ meeting }) => {
               })
             }}
           >
+            <RiMegaphoneLine />
             Replik!
           </Button>
         </ButtonGroup>
@@ -101,7 +105,7 @@ const SpeakerPanel = ({ meeting }) => {
           speakers.map((s) => (
             <ListItem
               title={s.user.pretty_name}
-              subtitle={s.prioritized ? 'Replik' : null}
+              subtitle={s.prioritized ? 'Replik' : 'Tala'}
               key={s.id}
               buttons={[
                 <ListButton

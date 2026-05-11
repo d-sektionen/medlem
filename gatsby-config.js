@@ -4,7 +4,16 @@
 module.exports = {
   siteMetadata: {
     title: `medlem`,
-    siteUrl: `https://www.yourdomain.tld`
+    siteUrl: `https://medlem.d-sektionen.se`,
   },
-  plugins: ["gatsby-plugin-sass"]
-};
+  plugins: [
+    {
+      resolve: 'gatsby-plugin-sass',
+      options: {
+        sassOptions: {
+          silenceDeprecations: ['legacy-js-api', 'import'],
+        },
+      },
+    },
+  ],
+}

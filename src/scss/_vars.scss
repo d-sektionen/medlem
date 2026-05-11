@@ -1,5 +1,8 @@
+@use 'sass:color';
+
 // Breakpoints
 $small-mobile-breakpoint: 480px;
+$large-mobile-breakpoint: 996px; // chosen after deep considerations
 
 // Colors
 $dsek-brown: #754022;
@@ -25,10 +28,9 @@ $foreground-color-4: #fff;
 // $gray: #999;
 // $dark-gray: #555;
 // $very-dark-gray: #333;
-// $black: #000;
 
-$link-color: lighten($dsek-blue, 30%); //#428bca;
-$link-color-visited: lighten($dsek-blue, 15%);
+$link-color: color.adjust($dsek-blue, $lightness: 30%, $space: hsl);
+$link-color-visited: color.adjust($dsek-blue, $lightness: 15%, $space: hsl);
 $red: red;
 
 $dsek-colors: $dsek-brown, $dsek-cerise, $dsek-yellow, $dsek-green, $dsek-blue;
@@ -42,6 +44,9 @@ $base-animation-time: 0.3s;
 $dsek-font-order: 'Asap', Arial, sans-serif;
 
 // Shadows
-$box-shadow-default: 0 1px 3px rgba(0, 0, 0, 0.12),
+$box-shadow-default:
+  0 1px 3px rgba(0, 0, 0, 0.12),
   0 1px 2px rgba(0, 0, 0, 0.24);
-$box-shadow-raised: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$box-shadow-raised:
+  0 3px 6px rgba(0, 0, 0, 0.16),
+  0 3px 6px rgba(0, 0, 0, 0.23);

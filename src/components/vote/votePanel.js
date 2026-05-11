@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import VoteForm from './voteForm'
-import { formError } from '../../scss/vote.module.scss'
 import backendService from '../request/backendService'
 import socket, { joinRoom, leaveRoom } from '../request/socket'
+import {
+  formError,
+  votePanelHeader,
+  noActiveVoting,
+} from '../../scss/votePanel.module.scss'
 
 const VotePanel = ({ meeting }) => {
   const [votes, setVotes] = useState([])
@@ -116,11 +120,13 @@ const VotePanel = ({ meeting }) => {
 
   return (
     <div>
-      <h2>Rösta</h2>
-      {errors && <div className={formError}>{errors.voteError}</div>}
+      <h2 className={votePanelHeader}>Rösta</h2>
+      {errors.voteError && <div className={formError}>{errors.voteError}</div>}
       {votes && (
         <>
-          {votes.length === 0 && <p>Det finns ingen aktiv omröstning</p>}
+          {votes.length === 0 && (
+            <h3 className={noActiveVoting}>Det finns ingen aktiv omröstning</h3>
+          )}
           {votes.map((vote) => (
             <VoteForm key={vote.id} vote={vote} setErrors={setFormErrors} />
           ))}
