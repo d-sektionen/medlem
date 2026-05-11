@@ -31,9 +31,17 @@ const Button = ({
     return (
       <Link
         className={button}
-        to={to}
-        onClick={onClick}
+        to={disabled ? undefined : to}
+        onClick={
+          disabled
+            ? (e) => {
+                e.preventDefault()
+                e.stopPropagation()
+              }
+            : onClick
+        }
         aria-disabled={disabled}
+        tabIndex={disabled ? -1 : undefined}
       >
         {children}
       </Link>
@@ -43,10 +51,18 @@ const Button = ({
     return (
       <a
         className={button}
-        href={href}
+        href={disabled ? undefined : href}
         target={target}
-        onClick={onClick}
+        onClick={
+          disabled
+            ? (e) => {
+                e.preventDefault()
+                e.stopPropagation()
+              }
+            : onClick
+        }
         aria-disabled={disabled}
+        tabIndex={disabled ? -1 : undefined}
       >
         {children}
       </a>

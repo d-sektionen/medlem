@@ -111,6 +111,7 @@ TitleChooser.propTypes = {
   choice: PropTypes.object,
   setChoice: PropTypes.func,
   label: PropTypes.string,
+  hintLabel: PropTypes.string,
   action: PropTypes.func,
   actionLabel: PropTypes.string,
   noChoicesLabel: PropTypes.string,

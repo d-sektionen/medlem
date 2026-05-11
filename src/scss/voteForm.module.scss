@@ -1,10 +1,24 @@
 @import 'vars';
 
 .votesContainer {
-  display: flex;
+  display: grid;
   gap: $base-padding;
-  flex-wrap: wrap;
-  justify-content: center;
+  grid-template-columns: 1fr;
+
+  @media screen and (min-width: $large-mobile-breakpoint) {
+    grid-template-columns: 1fr 1fr;
+
+    &:has(> :nth-child(3)) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    // When a single item is alone in the last row of a 3-column grid
+    // (positions 4, 7, 10, … that are also the last child),
+    // shift it to column 2 so it sits centred under the second column.
+    > .voteLabel:nth-child(3n + 4):last-child {
+      grid-column: 2;
+    }
+  }
 }
 
 .voteInput {
@@ -25,12 +39,6 @@
   word-break: normal;
   overflow-wrap: anywhere;
   hyphens: auto;
-
-  min-width: 100%;
-
-  @media screen and (min-width: $large-mobile-breakpoint) {
-    min-width: 30%;
-  }
 
   &:hover {
     background-color: $dsek-blue;
