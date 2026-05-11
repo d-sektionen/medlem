@@ -40,7 +40,8 @@
   overflow-wrap: anywhere;
   hyphens: auto;
 
-  &:hover {
+  &:hover,
+  &:focus-within {
     background-color: $dsek-blue;
   }
 
