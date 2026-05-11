@@ -7,8 +7,8 @@ import {
   FaBatteryFull,
   FaBatteryEmpty,
 } from 'react-icons/fa'
-import bettan from '../images/bettan.png'
-import configura from '../images/configura-white.png'
+import erkan from '../images/erkan.png'
+import rumett from '../images/rumett.png'
 
 import {
   success,
@@ -70,7 +70,7 @@ const LockStatus = ({ batteryPercentage, lockOnline, lockUnlocked }) => {
   )
 }
 
-const LockItem = ({ logo, lockName }) => {
+const LockItem = ({ logo, displayName, lockName }) => {
   const [isRateLimited, setIsRateLimited] = useState(false)
   const [lockData, setLockData] = useState({
     message: '',
@@ -125,7 +125,6 @@ const LockItem = ({ logo, lockName }) => {
             })
           }
       }
-
     }
   }
 
@@ -138,14 +137,12 @@ const LockItem = ({ logo, lockName }) => {
     },
     {
       onSuccess: (data) => {
-        setLockData(
-          (prev) => {
-            return {
-              ...data,
-              message: data.message.length ? data.message : prev.message,
-            }
+        setLockData((prev) => {
+          return {
+            ...data,
+            message: data.message.length ? data.message : prev.message,
           }
-        )
+        })
         if (data.message.length) setMessageClass(success)
       },
       onError: (error) => {
@@ -160,9 +157,9 @@ const LockItem = ({ logo, lockName }) => {
   return (
     <GridItem>
       <div className={logoContainer}>
-        <img src={logo} alt={`${lockName} logo`} />
+        <img src={logo} alt={`${displayName} logo`} />
       </div>
-      <h2 className={roomTitle}>{lockName}</h2>
+      <h2 className={roomTitle}>{displayName}</h2>
       <LockStatus
         batteryPercentage={lockData.battery_percentage}
         lockOnline={lockData.online}
@@ -194,12 +191,14 @@ const BettanPage = () => {
       <GridContainer>
         <LockItem
           className={lockItemClass}
-          logo={bettan}
+          logo={erkan}
+          displayName="Erkan"
           lockName="Bettan"
         ></LockItem>
         <LockItem
           className={lockItemClass}
-          logo={configura}
+          logo={rumett}
+          displayName="RumEtt"
           lockName="Configura"
         ></LockItem>
       </GridContainer>
