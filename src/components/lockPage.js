@@ -7,8 +7,8 @@ import {
   FaBatteryFull,
   FaBatteryEmpty,
 } from 'react-icons/fa'
-import bettan from '../images/bettan.png'
-import configura from '../images/configura-white.png'
+import erkan from '../images/erkan.png'
+import rumett from '../images/rumett.png'
 
 import {
   success,
@@ -125,7 +125,6 @@ const LockItem = ({ logo, lockName }) => {
             })
           }
       }
-
     }
   }
 
@@ -138,14 +137,12 @@ const LockItem = ({ logo, lockName }) => {
     },
     {
       onSuccess: (data) => {
-        setLockData(
-          (prev) => {
-            return {
-              ...data,
-              message: data.message.length ? data.message : prev.message,
-            }
+        setLockData((prev) => {
+          return {
+            ...data,
+            message: data.message.length ? data.message : prev.message,
           }
-        )
+        })
         if (data.message.length) setMessageClass(success)
       },
       onError: (error) => {
@@ -194,13 +191,13 @@ const BettanPage = () => {
       <GridContainer>
         <LockItem
           className={lockItemClass}
-          logo={bettan}
-          lockName="Bettan"
+          logo={erkan}
+          lockName="Erkan"
         ></LockItem>
         <LockItem
           className={lockItemClass}
-          logo={configura}
-          lockName="Configura"
+          logo={rumett}
+          lockName="RumEtt"
         ></LockItem>
       </GridContainer>
     </BigPixels>
