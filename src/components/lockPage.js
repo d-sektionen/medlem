@@ -70,7 +70,7 @@ const LockStatus = ({ batteryPercentage, lockOnline, lockUnlocked }) => {
   )
 }
 
-const LockItem = ({ logo, lockName }) => {
+const LockItem = ({ logo, displayName, lockName }) => {
   const [isRateLimited, setIsRateLimited] = useState(false)
   const [lockData, setLockData] = useState({
     message: '',
@@ -157,9 +157,9 @@ const LockItem = ({ logo, lockName }) => {
   return (
     <GridItem>
       <div className={logoContainer}>
-        <img src={logo} alt={`${lockName} logo`} />
+        <img src={logo} alt={`${displayName} logo`} />
       </div>
-      <h2 className={roomTitle}>{lockName}</h2>
+      <h2 className={roomTitle}>{displayName}</h2>
       <LockStatus
         batteryPercentage={lockData.battery_percentage}
         lockOnline={lockData.online}
@@ -192,12 +192,14 @@ const BettanPage = () => {
         <LockItem
           className={lockItemClass}
           logo={erkan}
-          lockName="Erkan"
+          displayName="Erkan"
+          lockName="Bettan"
         ></LockItem>
         <LockItem
           className={lockItemClass}
           logo={rumett}
-          lockName="RumEtt"
+          displayName="RumEtt"
+          lockName="Configura"
         ></LockItem>
       </GridContainer>
     </BigPixels>
