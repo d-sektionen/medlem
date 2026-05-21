@@ -34,24 +34,45 @@ Good to know:
 - gatsby.js
 - sass (scss)
   - css modules
-- npm
+- pnpm
 
 ### Getting started
 
-Download Node.js (which includes npm)
-IMPORTANT!!!: has to be node version 20
-Tip: Use `nvm` to manage multiple node versions.
+Download Node.js version 20 from [the official website](https://nodejs.org/en/download/) or using a version manager like [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) .
+
+This project uses [pnpm](https://pnpm.io/) as package manager
+
+Install it using:
+```
+npm install -g pnpm
+```
+When adding new packages use
+```
+pnpm install package-name
+```
 
 Clone the repository and view its directory in a terminal.
 
 Copy the `.env.example` file to `.env.development`.
 
-Run the following commands:
+Install all the dependencies using:
 
 ```
-npm install
-npm start
+pnpm i
 ```
+
+Start the development server using:
+
+```
+pnpm run dev
+```
+
+or
+
+```
+pnpm dev
+```
+This will start the development server hosted at [http://localhost:4000](http://localhost:4000/).
 
 ### Project structure
 
@@ -94,7 +115,7 @@ Whenever possible css should be written in modules to avoid naming conflicts.
 
 ### Deploying
 
-Run `npm run deploy`
+Run `pnpm run deploy`
 
 Don't forget to also push your changes to git!
 
