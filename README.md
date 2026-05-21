@@ -40,7 +40,7 @@ Good to know:
 
 Download Node.js version 20 from [the official website](https://nodejs.org/en/download/) or using a version manager like [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) .
 
-This project uses pnpm as a package manger.
+This project uses [pnpm](https://pnpm.io/) as package manager
 
 Install it using:
 ```
