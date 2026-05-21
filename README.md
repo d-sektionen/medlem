@@ -72,7 +72,7 @@ or
 ```
 pnpm dev
 ```
-This will start the development server hosted at `http://localhost:4000/` and open it in your default browser.
+This will start the development server hosted at [http://localhost:4000](http://localhost:4000/).
 
 ### Project structure
 
