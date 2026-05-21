@@ -17,7 +17,7 @@ function newNiceDate(hourOffset = 0) {
   return date
 }
 
-const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
+const EditBooking = ({ booking, itemPool, createBooking, updateBooking }) => {
   const newBooking = booking === undefined
 
   const [user] = useContext(UserContext)
@@ -32,6 +32,7 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
   const [end, setEnd] = useState(
     booking ? new Date(booking.end) : newNiceDate(2)
   )
+  const [count, setCount] = useState(booking ? booking.count : 1)
 
   const [restrictedTimeslot, setRestrictedTimeslot] = useState(
     booking ? booking.restricted_timeslot : false
@@ -44,17 +45,19 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
   const saveBooking = () => {
     const request = newBooking
       ? createBooking({
-          item_id: item.id,
+          pool_id: itemPool.id,
           description,
           start,
           end,
+          count,
           restricted_timeslot: restrictedTimeslot,
         })
       : updateBooking(booking.id, {
-          item_id: booking.item.id,
+          pool_id: itemPool.id,
           description,
           start,
           end,
+          count,
           restricted_timeslot: restrictedTimeslot,
         })
 
@@ -62,7 +65,7 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
       .then(() => {
         close()
       })
-      .catch(err => {
+      .catch((err) => {
         setErrors(err.response.data)
         console.log(err.response.data)
       })
@@ -70,8 +73,22 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
 
   return (
     <>
-      <p>{`Bokning av ${item.name} för ${name}.`}</p>
+      <p>{`Bokning av ${itemPool.name} för ${name}.`}</p>
       <div className={editForm}>
+        {itemPool.items.length > 1 && (
+          <>
+            <h3>Antal</h3>
+            <div>{errors.count}</div>
+            <input
+              type="number"
+              value={count}
+              onChange={(e) => setCount(e.target.valueAsNumber)}
+              min="1"
+              max={itemPool.items.length}
+            />
+          </>
+        )}
+
         <h3>Startdatum</h3>
         <div>{errors.start}</div>
         <DateTimePicker value={start} onChange={setStart} />
@@ -86,14 +103,14 @@ const EditBooking = ({ booking, item, createBooking, updateBooking }) => {
         <textarea
           className={dScription}
           value={description}
-          onChange={e => setDescription(e.target.value)}
+          onChange={(e) => setDescription(e.target.value)}
         />
         <h3>
           {'Begränsad tidsperiod '}
           <input
             type="checkbox"
             checked={restrictedTimeslot}
-            onChange={e => setRestrictedTimeslot(e.target.checked)}
+            onChange={(e) => setRestrictedTimeslot(e.target.checked)}
           />
         </h3>
         <p>

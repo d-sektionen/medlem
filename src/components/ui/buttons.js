@@ -18,7 +18,15 @@ const IconButton = ({ onClick, iconComponent: Icon, text, disabled }) => {
   )
 }
 
-const Button = ({ onClick, to, href, target, children, type = 'button' }) => {
+const Button = ({
+  onClick,
+  to,
+  href,
+  target,
+  children,
+  type = 'button',
+  disabled,
+}) => {
   if (to)
     return (
       <Link className={button} to={to} onClick={onClick}>
@@ -34,7 +42,12 @@ const Button = ({ onClick, to, href, target, children, type = 'button' }) => {
     )
 
   return (
-    <button className={button} type={type} onClick={onClick}>
+    <button
+      className={button}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   )
