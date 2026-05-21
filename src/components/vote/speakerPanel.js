@@ -1,16 +1,66 @@
 import React, { useState, useEffect, useContext } from 'react'
-import useSWR from 'swr'
 
 import { FiTrash2 } from 'react-icons/fi'
 import { List, ListButton, ListItem } from '../ui/list'
 import { Button, ButtonGroup } from '../ui/buttons'
 import { UserContext } from '../layout/layout'
-import { post, del } from '../request'
+import { speakerPanelList } from '../../scss/vote.module.scss'
+
+import socket, { joinRoom, leaveRoom } from '../request/socket'
+import backendService from '../request/backendService'
 
 const SpeakerPanel = ({ meeting }) => {
-  const { data: speakers, mutate } = useSWR(
-    () => meeting && `/voting/speakers/?meeting_id=${meeting.id}`
-  )
+  const [speakers, setSpeakers] = useState([])
+  async function handleMeetingChange() {
+    if (meeting) {
+      const resp = await backendService.get(
+        `/voting/speakers/?meeting_id=${meeting.id}`
+      )
+      setSpeakers(resp.data)
+    }
+  }
+
+  function handleNewSpeakerRequest(data) {
+    if (data.meeting_id !== meeting.id) return
+
+    setSpeakers((prev) =>
+      prev.some((s) => s.id === data.speaker.id)
+        ? prev
+        : [...prev, data.speaker]
+    )
+  }
+
+  function handleDeleteSpeakerRequest(data) {
+    if (data.meeting_id !== meeting.id) return
+
+    setSpeakers((prev) => prev.filter((s) => s.id !== data.speaker_request_id))
+  }
+
+  useEffect(() => {
+    handleMeetingChange()
+
+    socket.on('connect', handleMeetingChange)
+
+    joinRoom(`meeting_speaker_${meeting.id}`)
+
+    socket.on('new_speaker_request', handleNewSpeakerRequest)
+
+    socket.on('delete_speaker_request', handleDeleteSpeakerRequest)
+
+    return () => {
+      socket.off('connect', handleMeetingChange)
+      socket.off('new_speaker_request', handleNewSpeakerRequest)
+      socket.off('delete_speaker_request', handleDeleteSpeakerRequest)
+      leaveRoom(`meeting_speker_${meeting.id}`)
+    }
+  }, [meeting.id])
+
+  async function deleteSpeakerRequest(meetingId, prioritized) {
+    const prioQS = prioritized ? '&prioritized' : ''
+    await backendService.delete(
+      `/voting/speakers/?meeting_id=${meetingId}${prioQS}`
+    )
+  }
 
   const [user] = useContext(UserContext)
 
@@ -25,21 +75,19 @@ const SpeakerPanel = ({ meeting }) => {
         <ButtonGroup>
           <Button
             onClick={async () => {
-              await post('/voting/speakers/', {
+              await backendService.post('/voting/speakers/', {
                 meeting_id: meeting.id,
               })
-              mutate()
             }}
           >
             Jag vill tala!
           </Button>
           <Button
             onClick={async () => {
-              await post('/voting/speakers/', {
+              await backendService.post('/voting/speakers/', {
                 meeting_id: meeting.id,
                 prioritized: true,
               })
-              mutate()
             }}
           >
             Replik!
@@ -48,7 +96,7 @@ const SpeakerPanel = ({ meeting }) => {
       ) : (
         <p>{errorMessage}</p>
       )}
-      <List>
+      <List maxHeight="260px" className={speakerPanelList}>
         {speakers &&
           speakers.map((s) => (
             <ListItem
@@ -58,13 +106,9 @@ const SpeakerPanel = ({ meeting }) => {
               buttons={[
                 <ListButton
                   shown={user.id === s.user.id}
-                  onClick={async () => {
-                    const prioQS = s.prioritized ? '&prioritized' : ''
-                    await del(
-                      `/voting/speakers/?meeting_id=${meeting.id}${prioQS}`
-                    )
-                    mutate(speakers.filter((x) => x.id !== s.id))
-                  }}
+                  onClick={() =>
+                    deleteSpeakerRequest(meeting.id, s.prioritized)
+                  }
                   iconComponent={FiTrash2}
                   text="Lämna talarlista"
                   key="remove"

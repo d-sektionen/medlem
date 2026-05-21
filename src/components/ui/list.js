@@ -8,7 +8,14 @@ import {
   listButton,
 } from '../../scss/ui.module.scss'
 
-const List = ({ children }) => <ul className={list}>{children}</ul>
+const List = ({ children, maxHeight, className }) => (
+  <ul
+    className={`${list} ${className}`}
+    style={maxHeight ? { maxHeight, overflowY: 'scroll' } : undefined}
+  >
+    {children}
+  </ul>
+)
 
 const ListItem = ({ title, subtitle, buttons, color = null }) => (
   <li className={color ? listItemColor : ''} style={{ borderColor: color }}>
