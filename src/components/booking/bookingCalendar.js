@@ -1,162 +1,268 @@
 import React, { useState } from 'react'
-
+import { useMemo } from 'react'
 import {
-  differenceInCalendarDays,
+  calendarHeader,
+  vertLine,
+  rightOverflow,
+  calendarContainer,
+  calendarContainerContainer,
+  extraLines,
+  gridLines,
+  line,
+  arrowButton,
+  weekButton,
+  column,
+  timeColumn,
+} from './bookingCalendar.module.scss'
+import { CalendarColumn } from './calendarColumn'
+import {
+  areIntervalsOverlapping,
+  getWeek,
+  eachDayOfInterval,
   startOfDay,
-  addDays,
   endOfDay,
-  getISODay,
-  differenceInMinutes,
-  startOfISOWeek,
-  getISOWeekYear,
-  getISOWeek,
-  subWeeks,
+  startOfWeek,
+  endOfWeek,
+  addDays,
   addWeeks,
-  endOfISOWeek,
-  isSameISOWeek,
 } from 'date-fns'
-
 import ViewBooking from './viewBooking'
 import useModal from '../modal/useModal'
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
+import { useMediaQuery } from '../ui/useMediaQuery'
+import { AlertBanner } from './alertBanner'
 
-import {
-  controls,
-  Booking,
-  restrictedTimeslot,
-  timeIndicators,
-  nowMarker,
-} from '../../scss/bookingCalendar.module.scss'
-import { Button } from '../ui/buttons'
+const splitMultiDayEvents = (event) => {
+  const start = new Date(event.start)
+  const end = new Date(event.end)
 
-const splitDateRangeByDay = (start, end) => {
-  const dayCount = differenceInCalendarDays(end, start)
-  const array = [[start, end]]
-  // When multiple days, split it up.
-  for (let i = 1; i <= dayCount; i += 1) {
-    const [prevStart, prevEnd] = array[i - 1]
-    array[i] = [startOfDay(addDays(prevStart, 1)), prevEnd]
-    // update the end of the previous day.
-    array[i - 1][1] = endOfDay(prevStart)
+  // Generate a list of all days within the interval
+  const days = eachDayOfInterval({
+    start: startOfDay(start),
+    end: startOfDay(end),
+  })
+
+  // Map each day to a single-day event
+  return days.map((day, index) => {
+    const isFirstDay = day.getTime() === startOfDay(start).getTime()
+    const isLastDay = day.getTime() === startOfDay(end).getTime()
+
+    return {
+      ...event,
+      dayIndex: index,
+      totalDays: days.length,
+      start: isFirstDay ? start : day,
+      end: isLastDay ? end : endOfDay(day),
+    }
+  })
+}
+
+// Colors generated for different users
+const colors = [
+  { fill: '#7C2070', border: '#CB34B7' },
+  { fill: '#20407C', border: '#3469CB' },
+  { fill: '#207C3F', border: '#34CB66' },
+  { fill: '#596885', border: '#8593AD' },
+  { fill: '#AF7848', border: '#D2B093' },
+]
+
+// Add different color if the booking isn't confirmed
+const unconfirmedColor = {
+  fill: '183 124 13 / 20%',
+  border: '183 124 13 / 20%',
+}
+
+export const BookingCalendar = ({ bookings }) => {
+  /* Vars and state */
+
+  const [openViewBooking] = useModal(ViewBooking)
+  const [selectedDateInterval, setSelectedDateInterval] = useState({
+    start: startOfWeek(new Date(), { weekStartsOn: 1 }),
+    end: endOfWeek(new Date(), { weekStartsOn: 1 }),
+  })
+  const isNarrow = useMediaQuery('(max-width: 600px)')
+
+  /* Input processing */
+
+  // Filter events that are within the current week
+  const eventsThisWeek = useMemo(
+    () =>
+      bookings?.filter((event) =>
+        areIntervalsOverlapping(selectedDateInterval, event)
+      ),
+    [bookings, selectedDateInterval]
+  )
+
+  const restrictedBooking = eventsThisWeek?.find(
+    (event) => event.restricted_timeslot
+  )
+
+  // Calculate whether another event overlaps with each event and store it
+  const eventsWithOverlap = useMemo(() => {
+    if (!eventsThisWeek?.length) return
+
+    eventsThisWeek.forEach((event) => {
+      const startA = new Date(event.start)
+      const endA = new Date(event.end)
+
+      for (const other of eventsThisWeek) {
+        if (other === event) continue
+        const startB = new Date(other.start)
+        const endB = new Date(other.end)
+
+        if (
+          areIntervalsOverlapping(
+            { start: startA, end: endA },
+            { start: startB, end: endB }
+          )
+        ) {
+          event.hasOverlap = true
+          return
+        }
+      }
+
+      event.hasOverlap = false
+    })
+
+    return eventsThisWeek
+  }, [eventsThisWeek])
+
+  console.log(eventsWithOverlap)
+
+  // Split multi-day events into single-day events
+  const processedEvents = useMemo(
+    () =>
+      eventsWithOverlap?.flatMap((event) => {
+        const eventStart = new Date(event.start)
+        const eventEnd = new Date(event.end)
+        return startOfDay(eventStart).getTime() ===
+          startOfDay(eventEnd).getTime()
+          ? [event]
+          : splitMultiDayEvents(event)
+      }) || [],
+    [eventsWithOverlap]
+  )
+
+  // Add colors and convert dates to Date objects
+  const uniqueUsers = [
+    ...new Set(processedEvents?.map((event) => event.user.id)),
+  ]
+
+  const getColorForUser = (userId) => {
+    const index = uniqueUsers.indexOf(userId) % colors.length
+    return colors.at(index)
   }
 
-  return array
-}
+  // change background if restricted period is set
+  const colorizedEvents = processedEvents.map((event) => {
+    return {
+      ...event,
+      color: !event.restricted_timeslot
+        ? getColorForUser(event.user.id)
+        : unconfirmedColor,
+      start: new Date(event.start),
+      end: new Date(event.end),
+    }
+  })
 
-// the y axis uses one pixel per six minutes (hence division by 6) this is 10 px per hour.
-const calculateX = date => getISODay(date) * 50
-const calculateY = date => differenceInMinutes(date, startOfDay(date)) / 6
+  // Get the start of the week and weekdays
+  const weekDays = Array.from({ length: 7 }, (_, i) =>
+    addDays(selectedDateInterval.start, i)
+  )
+  const hoursOfDay = Array.from({ length: 25 }, (_, i) => i)
 
-const calculateHeight = (start, end) => differenceInMinutes(end, start) / 6
+  // Group events by day
+  const eventsByDay = weekDays.map((day) => {
+    const dayStart = startOfDay(day)
+    const dayEnd = endOfDay(day)
+    return colorizedEvents.filter((event) => {
+      const eventStart = new Date(event.start)
+      return eventStart >= dayStart && eventStart < dayEnd
+    })
+  })
 
-const BookingCalendar = ({ bookings }) => {
-  const [openViewBooking] = useModal(ViewBooking)
-  const [page, setPage] = useState(startOfISOWeek(new Date())) // TODO: fix new year
+  /* Event handlers */
+  const handleChangeWeek = (direction) => {
+    setSelectedDateInterval({
+      start: addWeeks(selectedDateInterval.start, direction),
+      end: addWeeks(selectedDateInterval.end, direction),
+    })
+  }
 
-  const now = new Date()
-
-  const yearString =
-    getISOWeekYear(page) === getISOWeekYear(now)
-      ? ''
-      : `, ${getISOWeekYear(page)}`
+  const handleEventClick = (booking) => {
+    // We want to keep track of the original,
+    // to make sure the proper event details are shown when clicking on a multi-day event
+    const originalBooking = bookings.find((b) => b.id === booking.id)
+    openViewBooking('Bokningsinformation', { booking: originalBooking })
+  }
 
   return (
-    <div>
-      <div className={controls}>
-        <div>{`Vecka ${getISOWeek(page)}${yearString}`}</div>
-
-        <Button
-          type="button"
-          onClick={() => setPage(oldPage => subWeeks(oldPage, 1))}
+    <>
+      <AlertBanner
+        message="Restricted timeslot booking exists!"
+        restrictedTimeslot={restrictedBooking}
+      />
+      <div className={calendarHeader}>
+        <button className={arrowButton} onClick={() => handleChangeWeek(-1)}>
+          <FaAngleLeft />
+        </button>
+        <button
+          className={weekButton}
+          onClick={() =>
+            setSelectedDateInterval({
+              start: startOfWeek(new Date(), { weekStartsOn: 1 }),
+              end: endOfWeek(new Date(), { weekStartsOn: 1 }),
+            })
+          }
         >
-          -
-        </Button>
-        <Button
-          type="button"
-          onClick={() => setPage(startOfISOWeek(new Date()))}
-        >
-          nu
-        </Button>
-        <Button
-          type="button"
-          onClick={() => setPage(oldPage => addWeeks(oldPage, 1))}
-        >
-          +
-        </Button>
+          <p>{`Vecka ${getWeek(selectedDateInterval.start)}`}</p>
+        </button>
+        <button className={arrowButton} onClick={() => handleChangeWeek(1)}>
+          <FaAngleRight />
+        </button>
       </div>
-      <svg
-        version="1.1"
-        viewBox="0 0 400 240"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {bookings &&
-          bookings
-            // convert dates from string to date types.
-            .map(({ start, end, ...booking }) => ({
-              ...booking,
-              start: new Date(start),
-              end: new Date(end),
-            }))
-            // show only those in this week
-            .filter(
-              ({ start, end }) =>
-                start <= endOfISOWeek(page) && end >= startOfISOWeek(page)
-            )
-            .sort((a, b) => b.restricted_timeslot - a.restricted_timeslot)
-            .map(booking => {
-              const dayParts = splitDateRangeByDay(booking.start, booking.end)
-
-              return (
-                <g
-                  className={`${Booking} ${
-                    booking.restricted_timeslot ? restrictedTimeslot : ''
-                  }`}
-                  key={booking.id}
-                >
-                  {dayParts
-                    // Remove dayParts that are not in the visible week.
-                    .filter(([s]) => isSameISOWeek(s, page))
-                    .map(([s, e]) => (
-                      <rect
-                        key={`${booking.id}, ${getISODay(s)}`}
-                        x={calculateX(s)}
-                        y={calculateY(s)}
-                        width="50"
-                        height={calculateHeight(s, e)}
-                        onClick={() =>
-                          openViewBooking('Bokningsinformation', {
-                            booking,
-                          })
-                        }
-                      />
-                    ))}
-                </g>
-              )
-            })}
-        <g className={timeIndicators}>
-          {[6, 12, 18].map(hour => (
-            <g key={hour}>
-              <text x="0" y={hour * 10 - 2}>
-                {`0${hour}`.slice(-2)}
-                :00
-              </text>
-              <line x1="0" y1={hour * 10} x2="400" y2={hour * 10} />
-            </g>
+      <div className={calendarContainerContainer}>
+        <div className={extraLines}>
+          {weekDays.map((day) => (
+            <p>
+              {day.toLocaleDateString('sv-SE', {
+                weekday: isNarrow ? 'narrow' : 'short',
+                day: 'numeric',
+              })}
+            </p>
           ))}
-        </g>
-        {/* If current week show a current time marker. */}
-        {isSameISOWeek(now, page) && (
-          <line
-            x1={calculateX(now)}
-            x2={calculateX(now) + 50}
-            y1={calculateY(now)}
-            y2={calculateY(now)}
-            className={nowMarker}
-          />
-        )}
-        <line x1="50" y1="0" x2="50" y2="240" stroke="lightgray" />
-      </svg>
-    </div>
+        </div>
+        <div className={calendarContainer}>
+          <div className={column}>
+            {hoursOfDay.map((hour) => (
+              <div key={hour} className={line}>
+                <p className={`${timeColumn}`}>{`${hour
+                  .toString()
+                  .padStart(2, '0')}${isNarrow ? '' : ':00'}`}</p>
+              </div>
+            ))}
+          </div>
+          {weekDays.map((day, index) => (
+            <CalendarColumn
+              key={day}
+              day={day}
+              events={eventsByDay[index]}
+              onEventClick={(event) => handleEventClick(event)}
+            />
+          ))}
+          <div className={rightOverflow}></div>
+          <div className={gridLines}>
+            {hoursOfDay.map((hour) => (
+              <div key={hour} className={line}></div>
+            ))}
+          </div>
+        </div>
+        <div className={extraLines}>
+          {weekDays.map((day) => (
+            <div key={day} className={vertLine}></div>
+          ))}
+        </div>
+      </div>
+    </>
   )
 }
-
-export default BookingCalendar

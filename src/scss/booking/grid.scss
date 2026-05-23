@@ -1,0 +1,18 @@
+
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 30rem));
+    grid-gap: 32px;
+    padding: 32px;
+    justify-content: center;
+    z-index: 10;
+    position: relative;
+  
+    // @include small-mobile-only {
+    //   grid-gap: calc($base-padding / 4);
+    //   padding: 0;
+    //   background: $background-color-2;
+    //   border-bottom: $background-color-3 calc($base-padding / 4) solid;
+    // }
+  }

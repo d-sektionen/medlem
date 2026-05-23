@@ -13,3 +13,13 @@ const GridItem = ({ children, fullWidth = false }) => (
 )
 
 export { GridContainer, GridItem }
+
+// import {gridContainer, gridItem, gridFullWidth} from '../../scss/booking/grid.scss'
+
+// const Grid = ({ children }) => (
+//   <div className={gridContainer}>{children}</div>
+// )
+
+
+
+// export { Grid }
