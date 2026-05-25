@@ -2,7 +2,7 @@ import React from 'react'
 import { formatDistance } from 'date-fns'
 import { sv } from 'date-fns/locale'
 
-const formatDate = date =>
+const formatDate = (date) =>
   date.toLocaleDateString('sv-SE', {
     month: 'short',
     day: 'numeric',
@@ -12,7 +12,9 @@ const formatDate = date =>
 
 const ViewBooking = ({ booking }) => {
   const {
-    item: { name: item },
+    pool,
+    items,
+    accessories,
     user: { pretty_name: user },
     start,
     end,
@@ -21,9 +23,9 @@ const ViewBooking = ({ booking }) => {
   } = booking
 
   const bookingInfoText = booking.restricted_timeslot
-    ? `Begränsad tidsperiod för bokningar av ${item} utfärdad av ${user}.
+    ? `Begränsad tidsperiod för bokningar av ${pool.name} utfärdad av ${user}.
     Under en begränsad tidsperiod måste alla bokningar godkännas manuellt.`
-    : `Bokning av ${item} för ${user}.`
+    : `Bokning av ${pool.name} för ${user}.`
   return (
     <>
       <p>{bookingInfoText}</p>
@@ -36,6 +38,21 @@ const ViewBooking = ({ booking }) => {
         {`${formatDate(start)} - ${formatDate(end)}`}
         {` (${formatDistance(end, start, { locale: sv })})`}
       </p>
+      {pool.items.length > 1 && (
+        <>
+          <p>Bokade objekt:</p>
+          <ul>
+            {items.map((item) => (
+              <li key={item.id}>{item.name}</li>
+            ))}
+          </ul>
+          <ul>
+            {accessories.map((accessory) => (
+              <li key={accessory.id}>{accessory.name}</li>
+            ))}
+          </ul>
+        </>
+      )}
       <p>{description}</p>
     </>
   )
