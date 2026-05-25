@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmedlem=self.webpackChunkmedlem||[]).push([[277],{1570:function(e,l,n){n.r(l);var t=n(7294),a=n(746),u=n(1288);l.default=()=>t.createElement(a.Z,null,t.createElement(u.T,null,t.createElement(u.P,null,"fyra noll fyra")))}}]);
+//# sourceMappingURL=component---src-components-404-page-js-282c362d993ca0f65941.js.map
