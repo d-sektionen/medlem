@@ -198,7 +198,7 @@ const BettanPage = () => {
         <LockItem
           className={lockItemClass}
           logo={rumett}
-          displayName="RumEtt"
+          displayName="RumETT"
           lockName="Configura"
         ></LockItem>
       </GridContainer>
