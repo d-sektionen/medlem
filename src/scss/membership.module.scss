@@ -4,12 +4,22 @@
   margin: 1rem 0;
   display: block;
 
+  span {
+    font-size: 0.8rem;
+    color: #aaa
+  }
+
   input,
   textarea,
   select {
-    display: block;
     border: 1px $background-color-3 solid;
     padding: 0.5rem;
-    width: 100%;
+    &:not([type='checkbox']) {
+      display: block;
+      width: 100%;
+    }
+    &[type='checkbox'] {
+      margin-left: $base-padding;
+    }
   }
 }
