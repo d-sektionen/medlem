@@ -17,18 +17,20 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
   const { data: unorderedMeetings, mutate } = useSWR('/voting/admin-meetings/')
   const closeModal = useCloseModal()
 
-  const create = async data => {
+  const create = async (data) => {
     const { data: newMeeting } = await post('/voting/admin-meetings/', data)
     mutate([...unorderedMeetings, newMeeting])
   }
 
-  const updatePatch = async data => {
+  const updatePatch = async (data) => {
     const { data: updatedMeeting } = await patch(
       `/voting/admin-meetings/${currentMeeting.id}/`,
       data
     )
     mutate([
-      ...unorderedMeetings.filter(meeting => meeting.id !== currentMeeting.id),
+      ...unorderedMeetings.filter(
+        (meeting) => meeting.id !== currentMeeting.id
+      ),
       updatedMeeting,
     ])
   }
@@ -36,13 +38,10 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
   const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null
 
   // sync currentMeeting with updated meetings
-  useEffect(
-    () => {
-      if (currentMeeting)
-        setCurrentMeeting(meetings.find(m => m.id === currentMeeting.id))
-    },
-    [meetings]
-  )
+  useEffect(() => {
+    if (currentMeeting)
+      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id))
+  }, [meetings])
 
   return (
     <BigPixels>
@@ -54,6 +53,7 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
             setChoice={setCurrentMeeting}
             choices={meetings}
             label="name"
+            hintLabel="Välj ett möte"
             noChoicesLabel="Det finns inga möten just nu."
           />
         </GridItem>

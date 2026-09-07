@@ -14,8 +14,11 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
   )
   const [alternatives, setAlternatives] = useState(
     updateData
-      ? updateData.alternatives.map(alt => createAlternative(alt))
-      : [createAlternative({text: 'Vakant'}), createAlternative({text: 'Blankt'})]
+      ? updateData.alternatives.map((alt) => createAlternative(alt))
+      : [
+          createAlternative({ text: 'Vakant' }),
+          createAlternative({ text: 'Blankt' }),
+        ]
   )
   const [currentQuestion, setCurrentQuestion] = useState(
     updateData ? updateData.open : true
@@ -27,7 +30,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
         Fråga
         <input
           value={question}
-          onChange={e => {
+          onChange={(e) => {
             setQuestion(e.target.value)
           }}
         />
@@ -38,9 +41,9 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
           <li key={alt.key}>
             <input
               value={alt.text}
-              onChange={e => {
+              onChange={(e) => {
                 const newVal = e.target.value
-                setAlternatives(prev => [
+                setAlternatives((prev) => [
                   ...prev.slice(0, i),
                   { ...prev[i], text: newVal },
                   ...prev.slice(i + 1),
@@ -50,7 +53,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
             <button
               type="button"
               onClick={() => {
-                setAlternatives(prev => [
+                setAlternatives((prev) => [
                   ...prev.slice(0, i),
                   ...prev.slice(i + 1),
                 ])
@@ -64,7 +67,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
       <button
         type="button"
         onClick={() => {
-          setAlternatives(prev => [...prev, createAlternative()])
+          setAlternatives((prev) => [...prev, createAlternative()])
         }}
       >
         Lägg till alternativ
@@ -74,7 +77,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
         <input
           type="checkbox"
           checked={currentQuestion}
-          onChange={() => setCurrentQuestion(prev => !prev)}
+          onChange={() => setCurrentQuestion((prev) => !prev)}
         />
         Nuvarande frågan
       </label>
