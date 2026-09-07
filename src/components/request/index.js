@@ -1,4 +1,5 @@
 import backendService from './backendService'
+import axios from 'axios'
 
 /**
  * A wrapper of axios which automatically redirects to login
