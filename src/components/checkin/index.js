@@ -2,13 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { FiVideo } from 'react-icons/fi'
 
 import { TextField, CompatibilityTextField } from './textField'
-import {
-  container,
-  statusMessage,
-  controlContainer,
-  qrRegistration,
-  Feedback,
-} from '../../scss/checkin.module.scss'
+import styles from '../../scss/checkin.module.scss'
 import useFeedback from './useFeedback'
 import registerUser from './registerUser'
 import QrScanner from './qrScanner'
@@ -53,7 +47,7 @@ const Checkin = ({ events }) => {
     <div className={feedback && feedback.class}>
       <BigPixels>
         <GridContainer>
-          <div className={container}>
+          <div className={styles.container}>
             <h1>Bleep Bloop</h1>
 
             <label>
@@ -65,13 +59,13 @@ const Checkin = ({ events }) => {
               Kompatibilitetsläge
             </label>
 
-            <div className={statusMessage}>
+            <div className={styles.statusMessage}>
               <GridItem>
                 <p>{_statusMessage}</p>
               </GridItem>
             </div>
 
-            <div className={controlContainer}>
+            <div className={styles.controlContainer}>
               <select
                 onChange={e => {
                   setCurrentEvent(
@@ -110,7 +104,7 @@ const Checkin = ({ events }) => {
           </div>
 
           <GridItem>
-            <div className={qrRegistration}>
+            <div className={styles.qrRegistration}>
               <header>
                 <h2>QR Registrering</h2>
                 {showQrScanner && (
@@ -131,7 +125,7 @@ const Checkin = ({ events }) => {
             </div>
 
             {!showQrScanner && (
-              <div className={container}>
+              <div className={styles.container}>
                 <IconButton
                   iconComponent={FiVideo}
                   text="QR"
@@ -145,7 +139,7 @@ const Checkin = ({ events }) => {
         </GridContainer>
 
         <GridContainer>
-          <div className={Feedback}>
+          <div className={styles.Feedback}>
             {feedback && feedback.icon && (
               <GridItem>
                 <p>{feedback && feedback.text}</p>

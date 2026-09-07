@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Helmet } from 'react-helmet'
+import { useLocation } from 'react-router-dom'
 import { SWRConfig } from 'swr'
 
 import { get } from '../request'
 import '../../scss/general.scss'
 import { app, containerWrapper } from '../../scss/layout.module.scss'
 
-import { TITLE } from '../../config'
+import { TITLE, findPageByPath, pageContextFor } from '../../config'
 import ModalHandler from '../modal/modalHandler'
 import LayoutContent from './layoutContent'
 
@@ -19,9 +19,47 @@ export const LoadingContext = React.createContext({
 })
 export const UserContext = React.createContext({ user: null, set: () => {} })
 
-const Layout = ({ children, pageContext }) => {
+// Client side page metadata. (Replaces react-helmet, no SSR in a Vite SPA.)
+const usePageMeta = ({ title }) => {
+  useEffect(() => {
+    document.title = `${title} - ${TITLE}`
+    document.documentElement.lang = 'sv'
+
+    const updateMeta = (name, content) => {
+      let meta = document.querySelector(`meta[name="${name}"]`)
+      if (!meta) {
+        meta = document.createElement('meta')
+        meta.setAttribute('name', name)
+        document.head.appendChild(meta)
+      }
+      meta.setAttribute('content', content)
+    }
+
+    updateMeta(
+      'description',
+      `${title} på Datateknologsektionens medlemsportal`
+    )
+    updateMeta(
+      'keywords',
+      `${title}, medlem, d-sektionen, datateknologsektionen`
+    )
+  }, [title])
+}
+
+const Layout = ({ children }) => {
   const loadingContextValue = useState(true)
   const userContextValue = useState(null)
+
+  // Find the page configuration for the current URL. Layout stays mounted
+  // while routing, so only the page specific parts need to update.
+  const location = useLocation()
+  const page = useMemo(
+    () => findPageByPath(location.pathname),
+    [location.pathname]
+  )
+  const pageContext = useMemo(() => pageContextFor(page), [page])
+
+  usePageMeta(pageContext)
 
   return (
     <LoadingContext.Provider value={loadingContextValue}>
@@ -32,21 +70,6 @@ const Layout = ({ children, pageContext }) => {
             fetcher: (url) => get(url).then((res) => res.data),
           }}
         >
-          <Helmet
-            title={`${pageContext.title} - ${TITLE}`}
-            meta={[
-              {
-                name: 'description',
-                content: `${pageContext.title} på Datateknologsektionens medlemsportal`,
-              },
-              {
-                name: 'keywords',
-                content: `${pageContext.title}, medlem, d-sektionen, datateknologsektionen`,
-              },
-            ]}
-          >
-            <html lang="sv" />
-          </Helmet>
           <div className={app}>
             <DsektionSnowfall
               snowflakeCountDayIncrement={25}
@@ -73,14 +96,7 @@ const Layout = ({ children, pageContext }) => {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  location: PropTypes.shape({
-    origin: PropTypes.string,
-    pathname: PropTypes.string,
-  }).isRequired,
-  pageContext: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    requiredPrivileges: PropTypes.string,
-  }).isRequired,
 }
 
 export default Layout
+

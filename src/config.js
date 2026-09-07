@@ -9,15 +9,19 @@ BASE_URL='http://localhost:8000'
 
 The value in there will be prefered.
 
-.env.development will affect `npm start`
+.env.development will affect `npm run dev` and `npm start`
 .env.production will affect `npm run build` and `npm run deploy`
+
+`process.env.BASE_URL` is replaced at build time by Vite (see vite.config.js),
+which loads the value from the active .env file.
 */
-module.exports.BASE_URL =
+
+export const BASE_URL =
   process.env.BASE_URL || 'https://backend.d-sektionen.se'
 
-module.exports.TITLE = 'Medlem D-sektionen'
+export const TITLE = 'Medlem D-sektionen'
 
-module.exports.PAGES = [
+export const PAGES = [
   {
     path: '/404',
     title: 'Sidan kunde inte hittas',
@@ -107,3 +111,31 @@ module.exports.PAGES = [
     component: './src/components/mail/page.js',
   },
 ]
+
+/**
+ * Returns the configuration for a page without the internal routing keys
+ * (`path`, `component` and `alternativePaths`). This is what used to be
+ * passed to the page as the `pageContext` prop by gatsby-node.
+ */
+export const pageContextFor = page => {
+  const { path, component, alternativePaths, ...context } = page
+  return context
+}
+
+/**
+ * Finds the page configuration that matches a pathname, also taking
+ * alternativePaths (redirect targets) into account. Falls back to the 404
+ * page (defined first above) for unknown paths.
+ */
+export const findPageByPath = pathname => {
+  const normalized =
+    pathname === '/' ? pathname : pathname.replace(/\/+$/, '')
+
+  return (
+    PAGES.find(
+      page =>
+        page.path === normalized ||
+        (page.alternativePaths || []).includes(normalized)
+    ) || PAGES[0]
+  )
+}

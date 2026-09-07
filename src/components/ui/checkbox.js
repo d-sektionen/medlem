@@ -2,14 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 // import posed from 'react-pose'
 
-import {
-  checkbox,
-  switchy,
-  On,
-  blob,
-  Off,
-  slider,
-} from '../../scss/ui.module.scss'
+import styles from '../../scss/ui.module.scss'
 
 const Checkbox = ({
   text = '',
@@ -17,7 +10,7 @@ const Checkbox = ({
   click = () => null,
   defaultChecked = false,
 }) => (
-  <div className={checkbox}>
+  <div className={styles.checkbox}>
     <label>
       <input
         type="checkbox"
@@ -54,16 +47,16 @@ const Switch = ({ off, on, click = () => null, defaultToggled = false }) => {
   })
 
   return (
-    <div className={[switchy, toggled ? On : Off].join(' ')}>
+    <div className={[styles.switchy, toggled ? styles.On : styles.Off].join(' ')}>
       <Slider
-        className={slider}
+        className={styles.slider}
         pose={toggled ? 'on' : 'off'}
         onClick={() => {
           setToggled(!toggled)
           click(!toggled)
         }}
       >
-        <Blob className={blob} pose={toggled ? 'on' : 'off'} />
+        <Blob className={styles.blob} pose={toggled ? 'on' : 'off'} />
       </Slider>
       <p>{toggled ? on : off}</p>
     </div>

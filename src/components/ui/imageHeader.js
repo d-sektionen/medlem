@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { imageHeader, Image, gradient, Title } from '../../scss/ui.module.scss'
+import styles from '../../scss/ui.module.scss'
 import Pattern from './pattern'
 
 const ImageHeader = ({ TitleTag = 'h1', title = '', image = null }) => {
   return (
-    <div className={imageHeader}>
+    <div className={styles.imageHeader}>
       {image ? (
-        <div className={Image} style={{ backgroundImage: `url(${image})` }} />
+        <div className={styles.Image} style={{ backgroundImage: `url(${image})` }} />
       ) : (
         <Pattern seed={title} />
       )}
-      <div className={gradient} />
-      <TitleTag className={Title}>{title}</TitleTag>
+      <div className={styles.gradient} />
+      <TitleTag className={styles.Title}>{title}</TitleTag>
     </div>
   )
 }
