@@ -99,4 +99,11 @@ module.exports.PAGES = [
     menu: true,
     component: './src/components/keylogPage.js',
   },
+  {
+    path: '/mail',
+    title: 'Mailutskick',
+    requiredPrivileges: 'infomail_sender',
+    menu: true,
+    component: './src/components/mail/page.js',
+  },
 ]
