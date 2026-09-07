@@ -24,19 +24,46 @@ const Button = ({
   href,
   target,
   children,
-  type = 'button',
   disabled,
+  type = 'button',
 }) => {
   if (to)
     return (
-      <Link className={button} to={to} onClick={onClick}>
+      <Link
+        className={button}
+        to={disabled ? undefined : to}
+        onClick={
+          disabled
+            ? (e) => {
+                e.preventDefault()
+                e.stopPropagation()
+              }
+            : onClick
+        }
+        aria-disabled={disabled}
+        tabIndex={disabled ? -1 : undefined}
+      >
         {children}
       </Link>
     )
 
   if (href)
     return (
-      <a className={button} href={href} target={target} onClick={onClick}>
+      <a
+        className={button}
+        href={disabled ? undefined : href}
+        target={target}
+        onClick={
+          disabled
+            ? (e) => {
+                e.preventDefault()
+                e.stopPropagation()
+              }
+            : onClick
+        }
+        aria-disabled={disabled}
+        tabIndex={disabled ? -1 : undefined}
+      >
         {children}
       </a>
     )
