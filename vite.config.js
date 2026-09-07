@@ -22,15 +22,6 @@ export default defineConfig(({ mode }) => {
         localsConvention: 'camelCase',
       },
     },
-    // The codebase historically uses JSX inside .js files (Gatsby heritage).
-    // Make esbuild treat source .js files as JSX so they can be parsed and
-    // transformed in production builds (plugin-react's babel pass is only
-    // used during development).
-    esbuild: {
-      loader: 'jsx',
-      include: /[/\\]src[/\\].*\.[cm]?jsx?$/,
-      exclude: [],
-    },
     server: {
       port: 4000,
     },
