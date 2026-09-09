@@ -16,7 +16,6 @@
     "build": "vite build && node scripts/copy-404.mjs",
     "preview": "vite preview",
     "serve": "vite preview --port 4000",
-    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
