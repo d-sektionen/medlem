@@ -21,72 +21,71 @@ export const BASE_URL =
 
 export const TITLE = 'Medlem D-sektionen'
 
+/*
+Definitions of all pages in the app. 
+
+These are passed to React Router in the App.jsx component and used to generate the menubar in sideMenu.jsx.
+When a new page is added or deleted, make sure to update the PAGE_COMPONENTS object in App.jsx as well,
+so the router knows which component to actually render.
+
+If defined, `alternativePaths` is a list of paths that will redirect to th main `path`.
+The other properties can be accessed in components via the `usePageContext` hook, which
+will return the page configuration for the current URL.
+
+The 404Page.jsx is a special case and is not defined here, since it doesn't have a defined path.
+It is rendered by the router when no other page matches the current URL (see App.jsx).
+*/
 export const PAGES = [
-  {
-    path: '/404',
-    title: 'Sidan kunde inte hittas',
-    menu: false,
-    component: './src/components/404Page.jsx',
-  },
   {
     path: '/',
     title: 'Hem',
     menu: true,
-    component: './src/components/homePage.jsx',
   },
   {
     path: '/preferences',
     title: 'Kontoinställningar',
     menu: true,
-    component: './src/components/preferences/page.jsx',
   },
   {
     path: '/vote',
     title: 'D-cide',
     requiredPrivileges: 'member',
     menu: true,
-    component: './src/components/vote/page.jsx',
   },
   {
     path: '/voting-guest',
     title: 'D-cide Gäst',
     requiredPrivileges: 'not_member',
     menu: true,
-    component: './src/components/votingGuest/page.jsx',
   },
   {
     path: '/voting-admin',
     title: 'D-cide Admin',
     requiredPrivileges: 'voting_admin',
     menu: true,
-    component: './src/components/votingAdmin/page.jsx',
   },
   {
     path: '/voting-counter',
     title: 'D-cide Rösträknare',
     requiredPrivileges: 'voting_counter',
     menu: true,
-    component: './src/components/votingCounter/page.jsx',
   },
   {
     path: '/locks',
     title: 'Lås',
     requiredPrivileges: 'member',
     menu: true,
-    component: './src/components/lockPage.jsx',
   },
   {
     path: '/booking',
     title: 'Bokning',
     menu: true,
-    component: './src/components/booking/page.jsx',
   },
   {
     path: '/attendance',
     title: 'Närvarosystemet',
     requiredPrivileges: 'attendance_admin',
     menu: true,
-    component: './src/components/attendance/page.jsx',
   },
   {
     path: '/checkin',
@@ -94,48 +93,17 @@ export const PAGES = [
     title: 'Blippsystemet',
     requiredPrivileges: 'doorkeeper',
     menu: true,
-    component: './src/components/checkin/page.jsx',
   },
   {
     path: '/keylog',
     title: 'Nyckelloggbok',
     requiredPrivileges: 'staff',
     menu: true,
-    component: './src/components/keylogPage.jsx',
   },
   {
     path: '/mail',
     title: 'Mailutskick',
     requiredPrivileges: 'infomail_sender',
     menu: true,
-    component: './src/components/mail/page.jsx',
   },
 ]
-
-/**
- * Returns the configuration for a page without the internal routing keys
- * (`path`, `component` and `alternativePaths`). This is what used to be
- * passed to the page as the `pageContext` prop by gatsby-node.
- */
-export const pageContextFor = page => {
-  const { path, component, alternativePaths, ...context } = page
-  return context
-}
-
-/**
- * Finds the page configuration that matches a pathname, also taking
- * alternativePaths (redirect targets) into account. Falls back to the 404
- * page (defined first above) for unknown paths.
- */
-export const findPageByPath = pathname => {
-  const normalized =
-    pathname === '/' ? pathname : pathname.replace(/\/+$/, '')
-
-  return (
-    PAGES.find(
-      page =>
-        page.path === normalized ||
-        (page.alternativePaths || []).includes(normalized)
-    ) || PAGES[0]
-  )
-}

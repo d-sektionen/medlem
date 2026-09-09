@@ -10,7 +10,9 @@ import AddOccurrence from './addOccurrence'
 import useModal, { useCloseModal } from '../modal/useModal'
 import { post } from '../request'
 
-const AttendancePage = ({ pageContext: { title } }) => {
+const AttendancePage = () => {
+  const { title } = usePageContext()
+
   const [currentOccurrence, setCurrentOccurrence] = useState(null)
   const { data: unorderedOccurrences, mutate } = useSWR(
     '/attendance/occurrences/'

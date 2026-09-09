@@ -12,8 +12,11 @@ import {
   votePanelContainer,
   othersContainer,
 } from '../../scss/votePage.module.scss'
+import usePageContext from '../usePageContext'
 
-export default function VotePage({ pageContext: { title } }) {
+export default function VotePage() {
+  const { title } = usePageContext()
+
   const [currentMeeting, setCurrentMeeting] = useState(null)
   const { data: meetings } = useSWR('/voting/meetings/')
 

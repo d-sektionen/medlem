@@ -6,10 +6,13 @@ import { GridContainer, GridItem } from '../ui/grid'
 import TitleChooser from '../ui/titleChooser'
 import SpeakerPanel from './speakerPanel'
 import MeetingInfoPanel from './meetingInfoPanel'
+import usePageContext from '../usePageContext'
 
 //import { get } from '../request'
 
-const VotePage = ({ pageContext: { title } }) => {
+const VotePage = () => {
+  const { title } = usePageContext()
+
   const [currentMeeting, setCurrentMeeting] = useState(null)
   const { data: meetings } = useSWR('/voting/guest-meetings/')
 

@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
 import { SWRConfig } from 'swr'
 
 import { get } from '../request'
 import '../../scss/general.scss'
 import { app, containerWrapper } from '../../scss/layout.module.scss'
 
-import { TITLE, findPageByPath, pageContextFor } from '../../config'
+import { TITLE } from '../../config'
 import ModalHandler from '../modal/modalHandler'
 import LayoutContent from './layoutContent'
 
 import DsektionSnowfall from '../christmas/snowfall'
+import usePageContext from '../usePageContext'
 
 export const LoadingContext = React.createContext({
   status: true,
@@ -50,16 +50,9 @@ const Layout = ({ children }) => {
   const loadingContextValue = useState(true)
   const userContextValue = useState(null)
 
-  // Find the page configuration for the current URL. Layout stays mounted
-  // while routing, so only the page specific parts need to update.
-  const location = useLocation()
-  const page = useMemo(
-    () => findPageByPath(location.pathname),
-    [location.pathname]
-  )
-  const pageContext = useMemo(() => pageContextFor(page), [page])
+  const pageContext = usePageContext();
 
-  usePageMeta(pageContext)
+  usePageMeta({ title: pageContext.title });
 
   return (
     <LoadingContext.Provider value={loadingContextValue}>
@@ -81,7 +74,6 @@ const Layout = ({ children }) => {
                 <LayoutContent
                   loadingContextValue={loadingContextValue}
                   userContextValue={userContextValue}
-                  pageContext={pageContext}
                 >
                   {children}
                 </LayoutContent>

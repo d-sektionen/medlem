@@ -16,7 +16,9 @@ const getDate4WeeksAgo = (date) => {
   return subWeeks(startOfISOWeek(date), 4).toISOString()
 }
 
-const BookingPage = ({ pageContext: { title } }) => {
+const BookingPage = () => {
+  const { title } = usePageContext()
+
   const [pool, setPool] = useState(null)
   const [afterDate, setAfterDate] = useState(getDate4WeeksAgo(new Date()))
   const { data: pools } = useSWR('/booking/item-pools/')

@@ -11,8 +11,11 @@ import TitleChooser from '../ui/titleChooser'
 import useModal, { useCloseModal } from '../modal/useModal'
 import { post, patch } from '../request'
 import BigPixels from '../layout/bigPixels'
+import usePageContext from '../usePageContext'
 
-const VotingAdminPage = ({ pageContext: { title } }) => {
+const VotingAdminPage = () => {
+  const { title } = usePageContext();
+
   const [currentMeeting, setCurrentMeeting] = useState(null)
   const { data: unorderedMeetings, mutate } = useSWR('/voting/admin-meetings/')
   const closeModal = useCloseModal()

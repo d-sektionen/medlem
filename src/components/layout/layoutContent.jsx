@@ -10,13 +10,15 @@ import SideMenu from './sideMenu'
 import TopBar from './topBar'
 import LoginPage from './loginPage'
 import BackendService from '../request/backendService'
+import usePageContext from '../usePageContext'
 
 const LayoutContent = ({
   children,
   userContextValue,
   loadingContextValue,
-  pageContext,
 }) => {
+  const pageContext = usePageContext();
+
   const [user, setUser] = userContextValue
   const [loading, setLoading] = loadingContextValue
   const [sideMenuOpen, setSideMenuOpen] = useState(false)
@@ -117,7 +119,6 @@ LayoutContent.propTypes = {
   children: PropTypes.node.isRequired,
   userContextValue: PropTypes.array.isRequired,
   loadingContextValue: PropTypes.array.isRequired,
-  pageContext: PropTypes.object.isRequired,
 }
 
 export default LayoutContent

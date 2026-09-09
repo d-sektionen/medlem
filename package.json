@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "vite --port 4000",
     "start": "vite --port 4000",
-    "build": "vite build && node scripts/copy-404.mjs",
+    "build": "vite build",
     "preview": "vite preview",
     "serve": "vite preview --port 4000",
     "deploy": "npm run build && gh-pages -d dist"
