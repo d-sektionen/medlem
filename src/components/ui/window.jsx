@@ -1,26 +1,24 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 
-import {
-  window,
-  windowTitleBar,
-  windowControls,
-  windowControl,
-  windowContent,
-} from '../../scss/window.module.scss'
+/** 
+ * Destructuring this import causes a module-scoped binding named "window", which shadows the global window object.
+ * This in turn causes Vite's injected preamble to fail and break the application.
+ * We import it as a namespace object instead to avoid this.
+ */
+import * as styles from '../../scss/window.module.scss';
 
 const Window = ({ title, children }) => {
   return (
-    <div className={window}>
-      <div className={windowTitleBar}>
+    <div className={styles.window}>
+      <div className={styles.windowTitleBar}>
         <div>{title}</div>
-        <div className={windowControls}>
-          <div className={windowControl} />
-          <div className={windowControl} />
-          <div className={windowControl} />
+        <div className={styles.windowControls}>
+          <div className={styles.windowControl} />
+          <div className={styles.windowControl} />
+          <div className={styles.windowControl} />
         </div>
       </div>
-      <div className={windowContent}>{children}</div>
+      <div className={styles.windowContent}>{children}</div>
     </div>
   )
 }
