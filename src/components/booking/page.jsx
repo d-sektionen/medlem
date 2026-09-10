@@ -1,92 +1,92 @@
-import React, { useState } from 'react'
-import useSWR from 'swr'
+import React, { useState } from "react";
+import useSWR from "swr";
 
-import { GridContainer, GridItem } from '../ui/grid'
-import BigPixels from '../layout/bigPixels'
-import ItemPoolPanel from './itemPanel'
-import BookingPanel from './bookingPanel'
-import TitleChooser from '../ui/titleChooser'
-import { post, put, del } from '../request'
-import { startOfISOWeek, subWeeks } from 'date-fns'
-import usePageContext from '../usePageContext'
+import { GridContainer, GridItem } from "../ui/grid";
+import BigPixels from "../layout/bigPixels";
+import ItemPoolPanel from "./itemPanel";
+import BookingPanel from "./bookingPanel";
+import TitleChooser from "../ui/titleChooser";
+import { post, put, del } from "../request";
+import { startOfISOWeek, subWeeks } from "date-fns";
+import usePageContext from "../usePageContext";
 
 /*
  * Get the date 4 weeks ago relative to the start of the current week.
  **/
 const getDate4WeeksAgo = (date) => {
-  return subWeeks(startOfISOWeek(date), 4).toISOString()
-}
+  return subWeeks(startOfISOWeek(date), 4).toISOString();
+};
 
 const BookingPage = () => {
-  const { title } = usePageContext()
+  const { title } = usePageContext();
 
-  const [pool, setPool] = useState(null)
-  const [afterDate, setAfterDate] = useState(getDate4WeeksAgo(new Date()))
-  const { data: pools } = useSWR('/booking/item-pools/')
+  const [pool, setPool] = useState(null);
+  const [afterDate, setAfterDate] = useState(getDate4WeeksAgo(new Date()));
+  const { data: pools } = useSWR("/booking/item-pools/");
 
   const { data: bookings, mutate } = useSWR(
     () =>
       pool &&
       `/booking/bookings/?pool=${pool.id}${
-        afterDate ? '&after=' + afterDate : ''
-      }`
-  )
+        afterDate ? "&after=" + afterDate : ""
+      }`,
+  );
 
   const categorizedPools = pools
     ? pools.reduce((accumulator, itm) => {
-        const cat = itm.category || 'Okategoriserat'
+        const cat = itm.category || "Okategoriserat";
         if (Object.prototype.hasOwnProperty.call(accumulator, cat)) {
           return {
             ...accumulator,
             [cat]: [...accumulator[cat], itm],
-          }
+          };
         }
-        return { ...accumulator, [cat]: [itm] }
+        return { ...accumulator, [cat]: [itm] };
       }, {})
-    : {}
+    : {};
 
   const create = async (data) => {
-    const { data: newBooking } = await post('/booking/bookings/', data)
-    mutate([...bookings, newBooking])
-    return newBooking
-  }
+    const { data: newBooking } = await post("/booking/bookings/", data);
+    mutate([...bookings, newBooking]);
+    return newBooking;
+  };
 
   const update = async (bookingId, data) => {
     const { data: updatedBooking } = await put(
       `/booking/bookings/${bookingId}/`,
-      data
-    )
-    mutate([...bookings.filter((b) => b.id !== bookingId), updatedBooking])
-    return updatedBooking
-  }
+      data,
+    );
+    mutate([...bookings.filter((b) => b.id !== bookingId), updatedBooking]);
+    return updatedBooking;
+  };
 
   const destroy = async (bookingId) => {
-    await del(`/booking/bookings/${bookingId}/`)
-    mutate(bookings.filter((b) => b.id !== bookingId))
-  }
+    await del(`/booking/bookings/${bookingId}/`);
+    mutate(bookings.filter((b) => b.id !== bookingId));
+  };
 
   const confirm = async (bookingId, data) => {
-    await put(`/booking/bookings/${bookingId}/confirm/`, data)
+    await put(`/booking/bookings/${bookingId}/confirm/`, data);
     mutate(
       bookings.map((b) => {
-        if (bookingId !== b.id) return b
-        return { ...b, confirmed: true }
-      })
-    )
-  }
+        if (bookingId !== b.id) return b;
+        return { ...b, confirmed: true };
+      }),
+    );
+  };
 
   const deny = async (bookingId, data) => {
-    await post(`/booking/bookings/${bookingId}/deny/`, data)
+    await post(`/booking/bookings/${bookingId}/deny/`, data);
     mutate(
       bookings.filter((b) => {
-        return bookingId !== b.id
-      })
-    )
-  }
+        return bookingId !== b.id;
+      }),
+    );
+  };
   const loadAllBookings = async () => {
     // Removes the after parameter from the request, thus causing all bookings to load.
-    setAfterDate(null)
-  }
+    setAfterDate(null);
+  };
 
   return (
     <BigPixels>
@@ -124,7 +124,7 @@ const BookingPage = () => {
         )}
       </GridContainer>
     </BigPixels>
-  )
-}
+  );
+};
 
-export default BookingPage
+export default BookingPage;

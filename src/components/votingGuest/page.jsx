@@ -1,29 +1,26 @@
-import React, { useContext, useState, useEffect } from 'react'
-import useSWR from 'swr'
+import React, { useContext, useState, useEffect } from "react";
+import useSWR from "swr";
 
-import BigPixels from '../layout/bigPixels'
-import { GridContainer, GridItem } from '../ui/grid'
-import TitleChooser from '../ui/titleChooser'
-import SpeakerPanel from './speakerPanel'
-import MeetingInfoPanel from './meetingInfoPanel'
-import usePageContext from '../usePageContext'
+import BigPixels from "../layout/bigPixels";
+import { GridContainer, GridItem } from "../ui/grid";
+import TitleChooser from "../ui/titleChooser";
+import SpeakerPanel from "./speakerPanel";
+import MeetingInfoPanel from "./meetingInfoPanel";
+import usePageContext from "../usePageContext";
 
 //import { get } from '../request'
 
 const VotePage = () => {
-  const { title } = usePageContext()
+  const { title } = usePageContext();
 
-  const [currentMeeting, setCurrentMeeting] = useState(null)
-  const { data: meetings } = useSWR('/voting/guest-meetings/')
+  const [currentMeeting, setCurrentMeeting] = useState(null);
+  const { data: meetings } = useSWR("/voting/guest-meetings/");
 
   // sync currentMeeting with updated meetings
-  useEffect(
-    () => {
-      if (currentMeeting)
-        setCurrentMeeting(meetings.find(m => m.id === currentMeeting.id))
-    },
-    [meetings]
-  )
+  useEffect(() => {
+    if (currentMeeting)
+      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
+  }, [meetings]);
 
   return (
     <BigPixels>
@@ -41,9 +38,7 @@ const VotePage = () => {
         {currentMeeting && (
           <>
             <GridItem>
-              <MeetingInfoPanel
-                currentMeeting={currentMeeting}
-              />
+              <MeetingInfoPanel currentMeeting={currentMeeting} />
             </GridItem>
 
             {/* {currentMeeting.enable_speaker_requests && ( */}
@@ -55,6 +50,6 @@ const VotePage = () => {
         )}
       </GridContainer>
     </BigPixels>
-  )
-}
-export default VotePage
+  );
+};
+export default VotePage;

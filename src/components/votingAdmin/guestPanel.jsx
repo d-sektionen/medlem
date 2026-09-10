@@ -1,79 +1,79 @@
-import React, { useState, useEffect } from 'react'
-import { FiTrash2 } from 'react-icons/fi'
+import React, { useState, useEffect } from "react";
+import { FiTrash2 } from "react-icons/fi";
 
-import { List, ListButton, ListItem } from '../ui/list'
-import { ButtonGroup } from '../ui/buttons'
+import { List, ListButton, ListItem } from "../ui/list";
+import { ButtonGroup } from "../ui/buttons";
 
-import backendService from '../request/backendService'
-import socket, { joinRoom, leaveRoom } from '../request/socket'
+import backendService from "../request/backendService";
+import socket, { joinRoom, leaveRoom } from "../request/socket";
 
 const getGuestAttendants = (attendants) => {
   const guestAttendants = attendants.filter(
-    (attendant) => !attendant.has_voting_rights
-  )
-  return guestAttendants
-}
+    (attendant) => !attendant.has_voting_rights,
+  );
+  return guestAttendants;
+};
 
 const GuestPanel = ({ currentMeeting }) => {
-  const [input, setInput] = useState('')
-  const [attendants, setAttendants] = useState([])
+  const [input, setInput] = useState("");
+  const [attendants, setAttendants] = useState([]);
 
   async function handleMeetingChange() {
     if (currentMeeting) {
       const resp = await backendService.get(
-        `/voting/attendants/?meeting_id=${currentMeeting.id}`
-      )
-      setAttendants(resp.data)
+        `/voting/attendants/?meeting_id=${currentMeeting.id}`,
+      );
+      setAttendants(resp.data);
     }
   }
 
   function handleNewAttendant(data) {
-    if (data.meeting_id !== currentMeeting.id) return
+    if (data.meeting_id !== currentMeeting.id) return;
 
     setAttendants((prev) => {
-      if (prev.find((a) => a.id === data.id)) return prev
-      return [...prev, data]
-    })
+      if (prev.find((a) => a.id === data.id)) return prev;
+      return [...prev, data];
+    });
   }
 
   function handleDeleteAttendant(data) {
-    if (data.meeting_id !== currentMeeting.id) return
+    if (data.meeting_id !== currentMeeting.id) return;
 
-    setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id))
+    setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id));
   }
 
   useEffect(() => {
-    handleMeetingChange()
-    socket.on('connect', handleMeetingChange)
+    handleMeetingChange();
+    socket.on("connect", handleMeetingChange);
 
-    joinRoom(`meeting_attendants_${currentMeeting.id}`)
+    joinRoom(`meeting_attendants_${currentMeeting.id}`);
 
-    socket.on('new_attendant', handleNewAttendant)
+    socket.on("new_attendant", handleNewAttendant);
 
-    socket.on('delete_attendant', handleDeleteAttendant)
+    socket.on("delete_attendant", handleDeleteAttendant);
 
     return () => {
-      socket.off('connect', handleMeetingChange)
-      socket.off('new_attendant', handleNewAttendant)
-      socket.off('delete_attendant', handleDeleteAttendant)
-      leaveRoom(`meeting_attendants_${currentMeeting.id}`)
-    }
-  }, [currentMeeting])
+      socket.off("connect", handleMeetingChange);
+      socket.off("new_attendant", handleNewAttendant);
+      socket.off("delete_attendant", handleDeleteAttendant);
+      leaveRoom(`meeting_attendants_${currentMeeting.id}`);
+    };
+  }, [currentMeeting]);
 
-  if (attendants === null) return <></>
+  if (attendants === null) return <></>;
 
   return (
     <div>
       <h2>Gäster/adjungerade</h2>
       <form
         onSubmit={async (e) => {
-          e.preventDefault()
-          setInput('')
-          await backendService.post('/voting/attendants/', {
+          e.preventDefault();
+          setInput("");
+          await backendService.post("/voting/attendants/", {
             user_username: input,
             meeting_id: currentMeeting.id,
             has_voting_rights: false,
-          })
+          });
         }}
       >
         <input
@@ -99,8 +99,8 @@ const GuestPanel = ({ currentMeeting }) => {
                 <ListButton
                   onClick={async () => {
                     await backendService.delete(
-                      `/voting/attendants/${attendant.id}`
-                    )
+                      `/voting/attendants/${attendant.id}`,
+                    );
                   }}
                   iconComponent={FiTrash2}
                   text="Ta bort gäst"
@@ -111,7 +111,7 @@ const GuestPanel = ({ currentMeeting }) => {
           ))}
       </List>
     </div>
-  )
-}
+  );
+};
 
-export default GuestPanel
+export default GuestPanel;

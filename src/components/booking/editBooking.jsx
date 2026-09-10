@@ -1,46 +1,46 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from "react";
 
-import { Button } from '../ui/buttons'
-import DateTimePicker from '../form/dateTimePicker'
-import { UserContext } from '../layout/layout'
+import { Button } from "../ui/buttons";
+import DateTimePicker from "../form/dateTimePicker";
+import { UserContext } from "../layout/layout";
 
-import { editForm, dScription } from '../../scss/booking.module.scss'
-import { useCloseModal } from '../modal/useModal'
+import { editForm, dScription } from "../../scss/booking.module.scss";
+import { useCloseModal } from "../modal/useModal";
 
 function newNiceDate(hourOffset = 0) {
-  const date = new Date()
+  const date = new Date();
   date.setHours(
-    date.getHours() + 2 + hourOffset + Math.round(date.getMinutes() / 60)
-  )
-  date.setMinutes(0)
+    date.getHours() + 2 + hourOffset + Math.round(date.getMinutes() / 60),
+  );
+  date.setMinutes(0);
 
-  return date
+  return date;
 }
 
 const EditBooking = ({ booking, itemPool, createBooking, updateBooking }) => {
-  const newBooking = booking === undefined
+  const newBooking = booking === undefined;
 
-  const [user] = useContext(UserContext)
-  const close = useCloseModal()
+  const [user] = useContext(UserContext);
+  const close = useCloseModal();
 
   const [description, setDescription] = useState(
-    booking ? booking.description : ''
-  )
+    booking ? booking.description : "",
+  );
   const [start, setStart] = useState(
-    booking ? new Date(booking.start) : newNiceDate()
-  )
+    booking ? new Date(booking.start) : newNiceDate(),
+  );
   const [end, setEnd] = useState(
-    booking ? new Date(booking.end) : newNiceDate(2)
-  )
-  const [count, setCount] = useState(booking ? booking.count : 1)
+    booking ? new Date(booking.end) : newNiceDate(2),
+  );
+  const [count, setCount] = useState(booking ? booking.count : 1);
 
   const [restrictedTimeslot, setRestrictedTimeslot] = useState(
-    booking ? booking.restricted_timeslot : false
-  )
+    booking ? booking.restricted_timeslot : false,
+  );
 
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState({});
 
-  const name = booking ? booking.user.pretty_name : user.pretty_name
+  const name = booking ? booking.user.pretty_name : user.pretty_name;
 
   const saveBooking = () => {
     const request = newBooking
@@ -59,17 +59,17 @@ const EditBooking = ({ booking, itemPool, createBooking, updateBooking }) => {
           end,
           count,
           restricted_timeslot: restrictedTimeslot,
-        })
+        });
 
     request
       .then(() => {
-        close()
+        close();
       })
       .catch((err) => {
-        setErrors(err.response.data)
-        console.log(err.response.data)
-      })
-  }
+        setErrors(err.response.data);
+        console.log(err.response.data);
+      });
+  };
 
   return (
     <>
@@ -106,7 +106,7 @@ const EditBooking = ({ booking, itemPool, createBooking, updateBooking }) => {
           onChange={(e) => setDescription(e.target.value)}
         />
         <h3>
-          {'Begränsad tidsperiod '}
+          {"Begränsad tidsperiod "}
           <input
             type="checkbox"
             checked={restrictedTimeslot}
@@ -123,7 +123,7 @@ const EditBooking = ({ booking, itemPool, createBooking, updateBooking }) => {
       <p>{errors.non_field_errors}</p>
       <Button onClick={saveBooking}>Save</Button>
     </>
-  )
-}
+  );
+};
 
-export default EditBooking
+export default EditBooking;

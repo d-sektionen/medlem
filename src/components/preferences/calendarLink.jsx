@@ -1,7 +1,7 @@
-import React from 'react'
-import { Button } from '../ui/buttons'
+import React from "react";
+import { Button } from "../ui/buttons";
 
-import { calendarSubNotice } from '../../scss/preferences.module.scss'
+import { calendarSubNotice } from "../../scss/preferences.module.scss";
 
 const CalendarLink = ({ url }) => (
   <>
@@ -14,13 +14,13 @@ const CalendarLink = ({ url }) => (
       <Button
         onClick={() => {
           // TODO: Error handling???
-          navigator.clipboard.writeText(url)
+          navigator.clipboard.writeText(url);
         }}
       >
         Kopiera
       </Button>
     </div>
   </>
-)
+);
 
-export default CalendarLink
+export default CalendarLink;

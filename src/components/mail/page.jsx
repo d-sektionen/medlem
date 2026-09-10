@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import BigPixels from '../layout/bigPixels'
-import { GridContainer, GridItem } from '../ui/grid'
-import Textarea from '../ui/textarea'
+import React, { useState } from "react";
+import BigPixels from "../layout/bigPixels";
+import { GridContainer, GridItem } from "../ui/grid";
+import Textarea from "../ui/textarea";
 
 import {
   inputContainer,
@@ -12,69 +12,69 @@ import {
   textSuccess,
   textFail,
   failMessageClass,
-} from '../../scss/mail.module.scss'
-import AutoInput from '../form/input'
-import { Button } from '../ui/buttons'
-import { post } from '../request'
-import { FiSend, FiCheck, FiSlash, FiUpload, FiUser } from 'react-icons/fi'
-import RichText from '../ui/richText'
-import Modal from '../modal/modal'
-import Preview from './preview'
+} from "../../scss/mail.module.scss";
+import AutoInput from "../form/input";
+import { Button } from "../ui/buttons";
+import { post } from "../request";
+import { FiSend, FiCheck, FiSlash, FiUpload, FiUser } from "react-icons/fi";
+import RichText from "../ui/richText";
+import Modal from "../modal/modal";
+import Preview from "./preview";
 
 const ModalState = Object.freeze({
-  CLOSED: 'CLOSED',
-  SENDING: 'SENDING',
-  CONFIRMATION: 'CONFIRMATION',
-  SUCCESS: 'SUCCESS',
-  FAIL: 'FAIL',
-})
+  CLOSED: "CLOSED",
+  SENDING: "SENDING",
+  CONFIRMATION: "CONFIRMATION",
+  SUCCESS: "SUCCESS",
+  FAIL: "FAIL",
+});
 
 function formatErrorMessage(error) {
   if (error.response?.data) {
-    const { data } = error.response
-    return typeof data === 'string' ? data : JSON.stringify(data, null, 2)
+    const { data } = error.response;
+    return typeof data === "string" ? data : JSON.stringify(data, null, 2);
   }
-  return error.message
+  return error.message;
 }
 
 const MailPage = () => {
-  const [subject, setSubject] = useState('')
-  const [infoChiefContent, setInfoChiefContent] = useState('')
-  const [content, setContent] = useState('')
-  const [rawMode, setRawMode] = useState(false)
-  const [modalState, setModalState] = useState(ModalState.CLOSED)
-  const [failMessage, setFailMessage] = useState('')
+  const [subject, setSubject] = useState("");
+  const [infoChiefContent, setInfoChiefContent] = useState("");
+  const [content, setContent] = useState("");
+  const [rawMode, setRawMode] = useState(false);
+  const [modalState, setModalState] = useState(ModalState.CLOSED);
+  const [failMessage, setFailMessage] = useState("");
 
   function sendMail() {
-    setModalState(ModalState.SENDING)
-    post('/mail/send/', { subject, content, infoChiefContent })
+    setModalState(ModalState.SENDING);
+    post("/mail/send/", { subject, content, infoChiefContent })
       .then(() => {
-        setModalState(ModalState.SUCCESS)
+        setModalState(ModalState.SUCCESS);
       })
       .catch((error) => {
-        setModalState(ModalState.FAIL)
-        setFailMessage(formatErrorMessage(error))
-      })
+        setModalState(ModalState.FAIL);
+        setFailMessage(formatErrorMessage(error));
+      });
   }
 
   function sendMailToMyself() {
-    setModalState(ModalState.SENDING)
-    post('/mail/send-self/', { subject, content, infoChiefContent })
+    setModalState(ModalState.SENDING);
+    post("/mail/send-self/", { subject, content, infoChiefContent })
       .then(() => {
-        setModalState(ModalState.SUCCESS)
+        setModalState(ModalState.SUCCESS);
       })
       .catch((error) => {
-        setModalState(ModalState.FAIL)
-        setFailMessage(formatErrorMessage(error))
-      })
+        setModalState(ModalState.FAIL);
+        setFailMessage(formatErrorMessage(error));
+      });
   }
 
   function closeModal() {
-    setModalState(ModalState.CLOSED)
+    setModalState(ModalState.CLOSED);
   }
 
   function confirmEmail() {
-    setModalState(ModalState.CONFIRMATION)
+    setModalState(ModalState.CONFIRMATION);
   }
 
   return (
@@ -84,9 +84,9 @@ const MailPage = () => {
         isOpen={modalState !== ModalState.CLOSED}
         setOpen={(value) => {
           if (!value) {
-            setModalState(ModalState.CLOSED)
+            setModalState(ModalState.CLOSED);
           } else {
-            setModalState(ModalState.CONFIRMATION)
+            setModalState(ModalState.CONFIRMATION);
           }
         }}
         options={{}}
@@ -140,7 +140,7 @@ const MailPage = () => {
                   type="checkbox"
                   id="rawMode"
                   onChange={(e) => {
-                    setRawMode(e.target.checked)
+                    setRawMode(e.target.checked);
                   }}
                 ></input>
                 &nbsp; Skriv rå HTML
@@ -148,7 +148,7 @@ const MailPage = () => {
 
               <br />
 
-              <AutoInput label={'Ämne'} onChange={setSubject} value={subject} />
+              <AutoInput label={"Ämne"} onChange={setSubject} value={subject} />
 
               <br />
 
@@ -198,7 +198,7 @@ const MailPage = () => {
         </GridItem>
       </GridContainer>
     </BigPixels>
-  )
-}
+  );
+};
 
-export default MailPage
+export default MailPage;

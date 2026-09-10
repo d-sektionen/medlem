@@ -1,74 +1,74 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from "react";
 
-import { MdOutlineFrontHand } from 'react-icons/md'
-import { RiMegaphoneLine } from 'react-icons/ri'
-import { FiTrash2 } from 'react-icons/fi'
-import { List, ListButton, ListItem } from '../ui/list'
-import { Button, ButtonGroup } from '../ui/buttons'
-import { UserContext } from '../layout/layout'
-import { speakerPanelList } from '../../scss/voteSpeakerPanel.module.scss'
+import { MdOutlineFrontHand } from "react-icons/md";
+import { RiMegaphoneLine } from "react-icons/ri";
+import { FiTrash2 } from "react-icons/fi";
+import { List, ListButton, ListItem } from "../ui/list";
+import { Button, ButtonGroup } from "../ui/buttons";
+import { UserContext } from "../layout/layout";
+import { speakerPanelList } from "../../scss/voteSpeakerPanel.module.scss";
 
-import socket, { joinRoom, leaveRoom } from '../request/socket'
-import backendService from '../request/backendService'
+import socket, { joinRoom, leaveRoom } from "../request/socket";
+import backendService from "../request/backendService";
 
 const SpeakerPanel = ({ meeting }) => {
-  const [speakers, setSpeakers] = useState([])
+  const [speakers, setSpeakers] = useState([]);
   async function handleMeetingChange() {
     if (meeting) {
       const resp = await backendService.get(
-        `/voting/speakers/?meeting_id=${meeting.id}`
-      )
-      setSpeakers(resp.data)
+        `/voting/speakers/?meeting_id=${meeting.id}`,
+      );
+      setSpeakers(resp.data);
     }
   }
 
   function handleNewSpeakerRequest(data) {
-    if (data.meeting_id !== meeting.id) return
+    if (data.meeting_id !== meeting.id) return;
 
     setSpeakers((prev) =>
       prev.some((s) => s.id === data.speaker.id)
         ? prev
-        : [...prev, data.speaker]
-    )
+        : [...prev, data.speaker],
+    );
   }
 
   function handleDeleteSpeakerRequest(data) {
-    if (data.meeting_id !== meeting.id) return
+    if (data.meeting_id !== meeting.id) return;
 
-    setSpeakers((prev) => prev.filter((s) => s.id !== data.speaker_request_id))
+    setSpeakers((prev) => prev.filter((s) => s.id !== data.speaker_request_id));
   }
 
   useEffect(() => {
-    handleMeetingChange()
+    handleMeetingChange();
 
-    socket.on('connect', handleMeetingChange)
+    socket.on("connect", handleMeetingChange);
 
-    joinRoom(`meeting_speaker_${meeting.id}`)
+    joinRoom(`meeting_speaker_${meeting.id}`);
 
-    socket.on('new_speaker_request', handleNewSpeakerRequest)
+    socket.on("new_speaker_request", handleNewSpeakerRequest);
 
-    socket.on('delete_speaker_request', handleDeleteSpeakerRequest)
+    socket.on("delete_speaker_request", handleDeleteSpeakerRequest);
 
     return () => {
-      socket.off('connect', handleMeetingChange)
-      socket.off('new_speaker_request', handleNewSpeakerRequest)
-      socket.off('delete_speaker_request', handleDeleteSpeakerRequest)
-      leaveRoom(`meeting_speker_${meeting.id}`)
-    }
-  }, [meeting.id])
+      socket.off("connect", handleMeetingChange);
+      socket.off("new_speaker_request", handleNewSpeakerRequest);
+      socket.off("delete_speaker_request", handleDeleteSpeakerRequest);
+      leaveRoom(`meeting_speker_${meeting.id}`);
+    };
+  }, [meeting.id]);
 
   async function deleteSpeakerRequest(meetingId, prioritized) {
-    const prioQS = prioritized ? '&prioritized' : ''
+    const prioQS = prioritized ? "&prioritized" : "";
     await backendService.delete(
-      `/voting/speakers/?meeting_id=${meetingId}${prioQS}`
-    )
+      `/voting/speakers/?meeting_id=${meetingId}${prioQS}`,
+    );
   }
 
-  const [user] = useContext(UserContext)
+  const [user] = useContext(UserContext);
 
   const errorMessage = meeting.attending
-    ? 'Talarlista är inaktiverad för mötet.'
-    : 'Du måste vara registrerad på mötet för att kunna skriva upp dig på talarlistan.'
+    ? "Talarlista är inaktiverad för mötet."
+    : "Du måste vara registrerad på mötet för att kunna skriva upp dig på talarlistan.";
 
   return (
     <div>
@@ -77,9 +77,9 @@ const SpeakerPanel = ({ meeting }) => {
         <ButtonGroup>
           <Button
             onClick={async () => {
-              await backendService.post('/voting/speakers/', {
+              await backendService.post("/voting/speakers/", {
                 meeting_id: meeting.id,
-              })
+              });
             }}
           >
             <MdOutlineFrontHand />
@@ -87,10 +87,10 @@ const SpeakerPanel = ({ meeting }) => {
           </Button>
           <Button
             onClick={async () => {
-              await backendService.post('/voting/speakers/', {
+              await backendService.post("/voting/speakers/", {
                 meeting_id: meeting.id,
                 prioritized: true,
-              })
+              });
             }}
           >
             <RiMegaphoneLine />
@@ -105,7 +105,7 @@ const SpeakerPanel = ({ meeting }) => {
           speakers.map((s) => (
             <ListItem
               title={s.user.pretty_name}
-              subtitle={s.prioritized ? 'Replik' : 'Tala'}
+              subtitle={s.prioritized ? "Replik" : "Tala"}
               key={s.id}
               buttons={[
                 <ListButton
@@ -122,7 +122,7 @@ const SpeakerPanel = ({ meeting }) => {
           ))}
       </List>
     </div>
-  )
-}
+  );
+};
 
-export default SpeakerPanel
+export default SpeakerPanel;

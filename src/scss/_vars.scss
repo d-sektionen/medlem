@@ -1,4 +1,4 @@
-@use 'sass:color';
+@use "sass:color";
 
 // Breakpoints
 $small-mobile-breakpoint: 480px;
@@ -41,7 +41,7 @@ $base-padding: 12px;
 $base-animation-time: 0.3s;
 
 // Fonts
-$dsek-font-order: 'Asap', Arial, sans-serif;
+$dsek-font-order: "Asap", Arial, sans-serif;
 
 // Shadows
 $box-shadow-default:

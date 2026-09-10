@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 import {
   listItemColor,
@@ -6,26 +6,26 @@ import {
   listButtons,
   list,
   listButton,
-} from '../../scss/ui.module.scss'
+} from "../../scss/ui.module.scss";
 
 const List = ({ children, maxHeight, className }) => (
   <ul
     className={`${list} ${className}`}
-    style={maxHeight ? { maxHeight, overflowY: 'scroll' } : undefined}
+    style={maxHeight ? { maxHeight, overflowY: "scroll" } : undefined}
   >
     {children}
   </ul>
-)
+);
 
 const ListItem = ({ title, subtitle, buttons, color = null }) => (
-  <li className={color ? listItemColor : ''} style={{ borderColor: color }}>
+  <li className={color ? listItemColor : ""} style={{ borderColor: color }}>
     <div className={listText}>
       <h3>{title}</h3>
       <p>{subtitle}</p>
     </div>
     <div className={listButtons}>{buttons}</div>
   </li>
-)
+);
 
 const ListButton = ({
   href,
@@ -53,6 +53,6 @@ const ListButton = ({
     </>
   ) : (
     <></>
-  )
+  );
 
-export { List, ListItem, ListButton }
+export { List, ListItem, ListButton };

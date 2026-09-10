@@ -1,63 +1,63 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
-import { FiTrash2 } from 'react-icons/fi'
-import { List, ListItem, ListButton } from '../ui/list'
-import backendService from '../request/backendService'
-import socket, { joinRoom, leaveRoom } from '../request/socket'
+import { FiTrash2 } from "react-icons/fi";
+import { List, ListItem, ListButton } from "../ui/list";
+import backendService from "../request/backendService";
+import socket, { joinRoom, leaveRoom } from "../request/socket";
 
 const DoorkeeperPanel = ({ event }) => {
-  const [input, setInput] = useState('')
-  const [doorkeepers, setDoorkeepers] = useState([])
+  const [input, setInput] = useState("");
+  const [doorkeepers, setDoorkeepers] = useState([]);
 
   async function handleEventChange() {
     if (event) {
       const resp = await backendService.get(
-        `/checkin/doorkeepers/?event_id=${event.id}`
-      )
-      setDoorkeepers(resp.data)
+        `/checkin/doorkeepers/?event_id=${event.id}`,
+      );
+      setDoorkeepers(resp.data);
     }
   }
 
   function handleNewDoorkeeper(data) {
-    if (data.event.id !== event.id) return
+    if (data.event.id !== event.id) return;
 
     setDoorkeepers((prev) => {
-      if (prev.find((d) => d.id === data.id)) return prev
-      return [...prev, data]
-    })
+      if (prev.find((d) => d.id === data.id)) return prev;
+      return [...prev, data];
+    });
   }
 
   function handleDeleteDoorkeeper(data) {
-    if (data.event.id !== event.id) return
+    if (data.event.id !== event.id) return;
 
-    setDoorkeepers((prev) => prev.filter((d) => d.id !== data.doorkeeper_id))
+    setDoorkeepers((prev) => prev.filter((d) => d.id !== data.doorkeeper_id));
   }
 
   useEffect(() => {
-    handleEventChange()
+    handleEventChange();
 
-    socket.on('connect', handleEventChange)
+    socket.on("connect", handleEventChange);
 
-    joinRoom(`event_doorkeepers_${event.id}`)
+    joinRoom(`event_doorkeepers_${event.id}`);
 
-    socket.on('new_doorkeeper', handleNewDoorkeeper)
+    socket.on("new_doorkeeper", handleNewDoorkeeper);
 
-    socket.on('delete_doorkeeper', handleDeleteDoorkeeper)
+    socket.on("delete_doorkeeper", handleDeleteDoorkeeper);
 
     return () => {
-      socket.off('connect', handleEventChange)
-      socket.off('new_doorkeeper', handleNewDoorkeeper)
-      socket.off('delete_doorkeeper', handleDeleteDoorkeeper)
-      leaveRoom(`event_doorkeepers_${event.id}`)
-    }
-  }, [event.id])
+      socket.off("connect", handleEventChange);
+      socket.off("new_doorkeeper", handleNewDoorkeeper);
+      socket.off("delete_doorkeeper", handleDeleteDoorkeeper);
+      leaveRoom(`event_doorkeepers_${event.id}`);
+    };
+  }, [event.id]);
 
   async function create(data) {
-    await backendService.post('/checkin/doorkeepers/', data)
+    await backendService.post("/checkin/doorkeepers/", data);
   }
 
   async function destroy(id) {
-    await backendService.delete(`/checkin/doorkeepers/${id}/`)
+    await backendService.delete(`/checkin/doorkeepers/${id}/`);
   }
 
   return (
@@ -65,13 +65,13 @@ const DoorkeeperPanel = ({ event }) => {
       <h2>Dörrvakter</h2>
       <form
         onSubmit={(e) => {
-          e.preventDefault()
-          setInput('')
+          e.preventDefault();
+          setInput("");
 
           create({
             user_username: input,
             event_id: event.id,
-          })
+          });
         }}
       >
         <input
@@ -98,7 +98,7 @@ const DoorkeeperPanel = ({ event }) => {
           ))}
       </List>
     </div>
-  )
-}
+  );
+};
 
-export default DoorkeeperPanel
+export default DoorkeeperPanel;

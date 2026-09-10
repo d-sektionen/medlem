@@ -1,45 +1,43 @@
-import React, { useState } from 'react'
-import useSWR from 'swr'
-import { FiLink, FiTrash2 } from 'react-icons/fi'
-import { List, ListItem, ListButton } from '../ui/list'
-import useConfirmModal from '../modal/useConfirmModal'
-import { del, post } from '../request'
-import AddCalendarSubscription from './addCalendarSubscription'
-import useModal, { useCloseModal } from '../modal/useModal'
-import { Button } from '../ui/buttons'
-import CalendarLink from './calendarLink'
-
-
+import React, { useState } from "react";
+import useSWR from "swr";
+import { FiLink, FiTrash2 } from "react-icons/fi";
+import { List, ListItem, ListButton } from "../ui/list";
+import useConfirmModal from "../modal/useConfirmModal";
+import { del, post } from "../request";
+import AddCalendarSubscription from "./addCalendarSubscription";
+import useModal, { useCloseModal } from "../modal/useModal";
+import { Button } from "../ui/buttons";
+import CalendarLink from "./calendarLink";
 
 const CalendarSubscriptions = () => {
-  const [openCreateModal] = useModal(AddCalendarSubscription)
-  const [openLinkModal] = useModal(CalendarLink)
-  const [openConfirmation] = useConfirmModal()
-  const closeModal = useCloseModal()
-  const { data: subs, mutate } = useSWR('/account/calendar-subscriptions/')
-  const bookableItems = useSWR('/booking/items/')
-  const getTitle = sub => {
-    const parts = []
-    if (sub.include_bookings_by_user) parts.push('bokningar av användare')
+  const [openCreateModal] = useModal(AddCalendarSubscription);
+  const [openLinkModal] = useModal(CalendarLink);
+  const [openConfirmation] = useConfirmModal();
+  const closeModal = useCloseModal();
+  const { data: subs, mutate } = useSWR("/account/calendar-subscriptions/");
+  const bookableItems = useSWR("/booking/items/");
+  const getTitle = (sub) => {
+    const parts = [];
+    if (sub.include_bookings_by_user) parts.push("bokningar av användare");
     if (sub.include_bookable_items) {
-      sub.include_bookable_items.forEach(element => {
+      sub.include_bookable_items.forEach((element) => {
         if (!bookableItems.isLoading) {
-          const item = bookableItems.data.find(item => item.id === element)
-          const name = item?.name ?? "Gömt objekt"
+          const item = bookableItems.data.find((item) => item.id === element);
+          const name = item?.name ?? "Gömt objekt";
 
-          parts.push(name)
+          parts.push(name);
         }
       });
     }
-    const combined = parts.join(', ')
-    return combined.charAt(0).toUpperCase() + combined.substring(1)
-  }
+    const combined = parts.join(", ");
+    return combined.charAt(0).toUpperCase() + combined.substring(1);
+  };
   return (
     <div>
       <h2>Kalenderprenumerationer</h2>
       <List>
         {subs &&
-          subs.map(sub => (
+          subs.map((sub) => (
             <ListItem
               title={getTitle(sub)}
               key={sub.id}
@@ -48,9 +46,9 @@ const CalendarSubscriptions = () => {
                   iconComponent={FiLink}
                   text="Visa länk"
                   onClick={() => {
-                    openLinkModal('Prenumerationslänk', {
+                    openLinkModal("Prenumerationslänk", {
                       url: sub.url,
-                    })
+                    });
                   }}
                   key="view"
                 />,
@@ -59,12 +57,12 @@ const CalendarSubscriptions = () => {
                   text="Ta bort prenumeration"
                   onClick={() => {
                     openConfirmation(
-                      'Är du säker på att du vill ta bort prenumerationen?',
+                      "Är du säker på att du vill ta bort prenumerationen?",
                       async () => {
-                        await del(`/account/calendar-subscriptions/${sub.id}/`)
-                        mutate(subs.filter(s => s.id !== sub.id))
-                      }
-                    )
+                        await del(`/account/calendar-subscriptions/${sub.id}/`);
+                        mutate(subs.filter((s) => s.id !== sub.id));
+                      },
+                    );
                   }}
                   key="delete"
                 />,
@@ -74,22 +72,22 @@ const CalendarSubscriptions = () => {
       </List>
       <Button
         onClick={() => {
-          openCreateModal('Ny prenumeration', {
-            create: async data => {
+          openCreateModal("Ny prenumeration", {
+            create: async (data) => {
               const { data: newSub } = await post(
-                '/account/calendar-subscriptions/',
-                data
-              )
-              mutate([...subs, newSub])
-              closeModal()
+                "/account/calendar-subscriptions/",
+                data,
+              );
+              mutate([...subs, newSub]);
+              closeModal();
             },
-          })
+          });
         }}
       >
         Ny prenumeration
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default CalendarSubscriptions
+export default CalendarSubscriptions;

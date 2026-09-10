@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-import { put, patch } from '../request'
+import { put, patch } from "../request";
 
-import { inputLabel, Error, Success } from '../../scss/preferences.module.scss'
-import { Button } from '../ui/buttons'
+import { inputLabel, Error, Success } from "../../scss/preferences.module.scss";
+import { Button } from "../ui/buttons";
 
 class Preferences extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    if (!props.user.profile) props.user.profile = {}
+    if (!props.user.profile) props.user.profile = {};
 
     this.state = {
       infomailSubscriber: props.user.profile.infomail_subscriber,
@@ -17,36 +17,36 @@ class Preferences extends Component {
       firstName: props.user.first_name,
       lastName: props.user.last_name,
       errors: {},
-    }
+    };
 
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(field, event, checkbox = false) {
-    if (checkbox) this.setState({ [field]: event.target.checked })
-    else this.setState({ [field]: event.target.value })
+    if (checkbox) this.setState({ [field]: event.target.checked });
+    else this.setState({ [field]: event.target.value });
   }
 
   handleSubmit(event) {
-    const { setLoading, setUser } = this.props
+    const { setLoading, setUser } = this.props;
 
     // reset errors
-    this.setState({ error: undefined, success: undefined, errors: {} })
+    this.setState({ error: undefined, success: undefined, errors: {} });
 
-    setLoading(true)
-    put('/account/profile/me/', {
+    setLoading(true);
+    put("/account/profile/me/", {
       first_name: this.state.firstName,
       last_name: this.state.lastName,
       liu_card_id: this.state.liuCardId,
       infomail_subscriber: this.state.infomailSubscriber,
     })
-      .then(res => {
-        setLoading(false)
+      .then((res) => {
+        setLoading(false);
         if (res.status < 300) {
-          this.setState({ success: 'Ändringarna har sparats.' })
+          this.setState({ success: "Ändringarna har sparats." });
 
-          setUser(prev => ({
+          setUser((prev) => ({
             ...prev,
             first_name: res.data.firstName,
             last_name: res.data.lastName,
@@ -55,18 +55,18 @@ class Preferences extends Component {
               liu_card_id: res.data.liu_card_id,
               infomail_subscriber: res.data.infomail_subscriber,
             },
-          }))
+          }));
         }
       })
-      .catch(err => {
-        console.log(err)
-        setLoading(false)
-        if (!err.response) this.setState({ error: 'Nätverksfel.' })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        if (!err.response) this.setState({ error: "Nätverksfel." });
         else if (err.response.status === 400) {
-          this.getFormErrorText(err.response)
+          this.getFormErrorText(err.response);
         }
-      })
-    event.preventDefault()
+      });
+    event.preventDefault();
   }
 
   /**
@@ -78,16 +78,16 @@ class Preferences extends Component {
     if (response.data?.liu_card_id) {
       return {
         errors: {
-          profile: { liu_card_id: 'Det angivna LiU IDt är för långt.' },
+          profile: { liu_card_id: "Det angivna LiU IDt är för långt." },
         },
-      }
+      };
     }
 
-    return { error: 'Något gick fel.' }
+    return { error: "Något gick fel." };
   }
 
   render() {
-    const { user } = this.props
+    const { user } = this.props;
     const {
       firstName,
       lastName,
@@ -96,7 +96,7 @@ class Preferences extends Component {
       errors,
       error,
       success,
-    } = this.state
+    } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
         <h2>Profil</h2>
@@ -104,7 +104,7 @@ class Preferences extends Component {
           <strong>
             {user.membership
               ? `Du är sektionsmedlem.`
-              : 'Du saknar sektionsmedlemsskap.'}
+              : "Du saknar sektionsmedlemsskap."}
           </strong>
         </p>
         <div>
@@ -112,7 +112,7 @@ class Preferences extends Component {
             Förnamn:
             <input
               value={firstName}
-              onChange={e => this.handleChange('firstName', e)}
+              onChange={(e) => this.handleChange("firstName", e)}
             />
           </label>
           {errors.first_name && (
@@ -124,7 +124,7 @@ class Preferences extends Component {
             Efternamn:
             <input
               value={lastName}
-              onChange={e => this.handleChange('lastName', e)}
+              onChange={(e) => this.handleChange("lastName", e)}
             />
           </label>
           {errors.last_name && <div className={Error}>{errors.last_name}</div>}
@@ -134,7 +134,7 @@ class Preferences extends Component {
             LiU-kortnummer:
             <input
               value={liuCardId}
-              onChange={e => this.handleChange('liuCardId', e)}
+              onChange={(e) => this.handleChange("liuCardId", e)}
             />
           </label>
           {errors.profile && errors.profile.liu_card_id && (
@@ -147,7 +147,7 @@ class Preferences extends Component {
             <input
               type="checkbox"
               checked={infomailSubscriber}
-              onChange={e => this.handleChange('infomailSubscriber', e, true)}
+              onChange={(e) => this.handleChange("infomailSubscriber", e, true)}
             />
           </label>
           {errors.profile && errors.profile.infomail_subscriber && (
@@ -162,8 +162,8 @@ class Preferences extends Component {
           {success && <div className={Success}>{success}</div>}
         </div>
       </form>
-    )
+    );
   }
 }
 
-export default Preferences
+export default Preferences;

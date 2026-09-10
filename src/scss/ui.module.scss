@@ -1,5 +1,5 @@
-@import 'vars';
-@import 'mixins';
+@import "vars";
+@import "mixins";
 
 .button {
   text-decoration: none;
@@ -22,12 +22,12 @@
 
   cursor: pointer;
 
-  &:not([disabled]):not([aria-disabled='true']):hover {
+  &:not([disabled]):not([aria-disabled="true"]):hover {
     background-color: $dsek-blue;
   }
 
   &[disabled],
-  &[aria-disabled='true'] {
+  &[aria-disabled="true"] {
     cursor: not-allowed;
     opacity: 0.6;
   }
@@ -268,7 +268,7 @@
       position: absolute;
       top: -1.5 * $base-padding;
       right: 2 * $base-padding;
-      content: '';
+      content: "";
       border-left: $base-padding solid transparent;
       border-right: $base-padding solid transparent;
       border-bottom: 1.5 * $base-padding solid $dsek-blue;

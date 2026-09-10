@@ -1,52 +1,52 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
-import useModal, { useCloseModal } from './useModal'
-import { Button } from '../ui/buttons'
+import useModal, { useCloseModal } from "./useModal";
+import { Button } from "../ui/buttons";
 
-import { confirmation } from '../../scss/modal.module.scss'
+import { confirmation } from "../../scss/modal.module.scss";
 
 const Confirmation = ({
-  text = 'Är du säker?',
+  text = "Är du säker?",
   onAccept = () => {},
   onDecline = () => {},
 }) => {
-  const close = useCloseModal()
+  const close = useCloseModal();
   return (
     <div className={confirmation}>
       <p>{text}</p>
       <Button
         onClick={() => {
-          onDecline()
-          close()
+          onDecline();
+          close();
         }}
       >
         Nej
       </Button>
       <Button
         onClick={() => {
-          onAccept()
-          close()
+          onAccept();
+          close();
         }}
       >
         Ja
       </Button>
     </div>
-  )
-}
+  );
+};
 
 Confirmation.propTypes = {
   text: PropTypes.string,
   onAccept: PropTypes.func,
   onDecline: PropTypes.func,
-}
+};
 
 export default function useConfirmModal() {
-  const [openModal, isOpen] = useModal(Confirmation)
+  const [openModal, isOpen] = useModal(Confirmation);
 
   const open = (text, onAccept, onDecline) => {
-    openModal('', { text, onAccept, onDecline })
-  }
+    openModal("", { text, onAccept, onDecline });
+  };
 
-  return [open, isOpen]
+  return [open, isOpen];
 }

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useDeferredValue } from 'react'
-import DateTimePicker from './dateTimePicker'
+import React, { useState, useEffect, useDeferredValue } from "react";
+import DateTimePicker from "./dateTimePicker";
 
 const AutoInput = ({
   value,
@@ -12,36 +12,39 @@ const AutoInput = ({
   min_length,
   max_length,
 }) => {
-
-  const [initialOptions, setInitialOptions] = useState([])
+  const [initialOptions, setInitialOptions] = useState([]);
 
   // Set the initial options based on the first value received
   useEffect(() => {
     if (value) {
-      setInitialOptions(value)
+      setInitialOptions(value);
     }
-  }, []) // Run only once, when the component mounts
+  }, []); // Run only once, when the component mounts
 
-  const change = e => {
-    onChange(e.target.value)
-  }
-  
+  const change = (e) => {
+    onChange(e.target.value);
+  };
+
   const optionElementsCollection = initialOptions?.map((item) => (
     <option key={item.id} value={item.id}>
       {item.name}
     </option>
-  ))
+  ));
 
   const map = {
-    datetime: <DateTimePicker required={required} value={value} onChange={onChange} />,
-    date: <input type="date" required={required} value={value} onChange={change} />,
+    datetime: (
+      <DateTimePicker required={required} value={value} onChange={onChange} />
+    ),
+    date: (
+      <input type="date" required={required} value={value} onChange={change} />
+    ),
     boolean: (
       <input
         type="checkbox"
         required={required}
         checked={value}
-        onChange={e => {
-          onChange(e.target.checked)
+        onChange={(e) => {
+          onChange(e.target.checked);
         }}
       />
     ),
@@ -60,14 +63,16 @@ const AutoInput = ({
         multiple
         required={required}
         value={value}
-        onChange={e =>
-          onChange(Array.from(e.target.selectedOptions, option => option.value))
+        onChange={(e) =>
+          onChange(
+            Array.from(e.target.selectedOptions, (option) => option.value),
+          )
         }
       >
         {optionElementsCollection}
       </select>
-    )
-  }
+    ),
+  };
 
   const component = Object.prototype.hasOwnProperty.call(map, type) ? (
     map[type]
@@ -78,7 +83,7 @@ const AutoInput = ({
       maxLength={max_length}
       minLength={min_length}
     />
-  )
+  );
 
   return (
     <label>
@@ -86,6 +91,6 @@ const AutoInput = ({
       {required && <span>*</span>}
       <div>{component}</div>
     </label>
-  )
-}
-export default AutoInput
+  );
+};
+export default AutoInput;
