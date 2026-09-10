@@ -18,13 +18,16 @@ const findPageByPath = (pathname) => {
   )
 }
 
+/**
+ * Hook to access the current page's configuration (from the `PAGES` array in `src/config.js`).
+ */
 export default function usePageContext() {
   const location = useLocation()
   const page = useMemo(
     () => findPageByPath(location.pathname),
     [location.pathname]
   )
-  const { path, alternativePaths, ...pageContext } = page || {};
+  const { path, alternativePaths, ...pageContext } = page || {}
 
   return pageContext
 }
