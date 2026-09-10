@@ -1,14 +1,13 @@
+import { startOfISOWeek, subWeeks } from "date-fns";
 import React, { useState } from "react";
 import useSWR from "swr";
-
-import { GridContainer, GridItem } from "../ui/grid";
 import BigPixels from "../layout/bigPixels";
-import ItemPoolPanel from "./itemPanel";
-import BookingPanel from "./bookingPanel";
+import { del, post, put } from "../request";
+import { GridContainer, GridItem } from "../ui/grid";
 import TitleChooser from "../ui/titleChooser";
-import { post, put, del } from "../request";
-import { startOfISOWeek, subWeeks } from "date-fns";
 import usePageContext from "../usePageContext";
+import BookingPanel from "./bookingPanel";
+import ItemPoolPanel from "./itemPanel";
 
 /*
  * Get the date 4 weeks ago relative to the start of the current week.
@@ -35,7 +34,7 @@ const BookingPage = () => {
   const categorizedPools = pools
     ? pools.reduce((accumulator, itm) => {
         const cat = itm.category || "Okategoriserat";
-        if (Object.prototype.hasOwnProperty.call(accumulator, cat)) {
+        if (Object.hasOwn(accumulator, cat)) {
           return {
             ...accumulator,
             [cat]: [...accumulator[cat], itm],

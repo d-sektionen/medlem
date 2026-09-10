@@ -1,6 +1,6 @@
 import React from "react";
-import { ButtonGroup, Button } from "../ui/buttons";
 import { patch } from "../request";
+import { Button, ButtonGroup } from "../ui/buttons";
 
 const MeetingPanel = ({ currentMeeting, updatePatch }) => (
   <div>

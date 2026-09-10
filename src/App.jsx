@@ -1,22 +1,20 @@
 import React, { Fragment } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-
-import Layout from "./components/layout/layout";
 import NotFoundPage from "./components/404Page";
-import { PAGES } from "./config";
-
+import AttendancePage from "./components/attendance/page";
+import BookingPage from "./components/booking/page";
+import CheckinPage from "./components/checkin/page";
 import HomePage from "./components/homePage";
+import KeylogPage from "./components/keylogPage";
+import Layout from "./components/layout/layout";
+import LockPage from "./components/lockPage";
+import MailPage from "./components/mail/page";
 import PreferencesPage from "./components/preferences/page";
 import VotePage from "./components/vote/page";
-import VotingGuestPage from "./components/votingGuest/page";
 import VotingAdminPage from "./components/votingAdmin/page";
 import VotingCounterPage from "./components/votingCounter/page";
-import LockPage from "./components/lockPage";
-import BookingPage from "./components/booking/page";
-import AttendancePage from "./components/attendance/page";
-import CheckinPage from "./components/checkin/page";
-import KeylogPage from "./components/keylogPage";
-import MailPage from "./components/mail/page";
+import VotingGuestPage from "./components/votingGuest/page";
+import { PAGES } from "./config";
 
 /*
 A map from all `path` values in the `PAGES` configuration to the React component that should be rendered for that page.

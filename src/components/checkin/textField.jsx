@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { textField } from "../../scss/checkin.module.scss";
 
 const useTextField = (onEnter, elem) => {
   // State for keeping track of whether key is pressed
   const [text, setText] = useState("");
-  const regex = RegExp("^[A-Za-z0-9]+$");
+  const regex = /^[A-Za-z0-9]+$/;
 
   // If pressed key is our target key then set to true
   const downHandler = (e) => {
@@ -73,4 +73,4 @@ const CompatibilityTextField = ({ onSubmit }) => {
   );
 };
 
-export { TextField, CompatibilityTextField };
+export { CompatibilityTextField, TextField };

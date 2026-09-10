@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { confirmBookingChecklists } from "../../scss/booking.module.scss";
 import { useCloseModal } from "../modal/useModal";
 import { Button } from "../ui/buttons";
 import { Checklist } from "../ui/checklist";
-import { confirmBookingChecklists } from "../../scss/booking.module.scss";
 
 const ConfirmBooking = ({ booking, confirmBooking }) => {
   const close = useCloseModal();

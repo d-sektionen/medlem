@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import backendService from "../request/backendService";
-
+import React, { useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
-import { List, ListButton, ListItem } from "../ui/list";
-
+import backendService from "../request/backendService";
 import socket, { joinRoom, leaveRoom } from "../request/socket";
+import { List, ListButton, ListItem } from "../ui/list";
 
 const SpeakerPanel = ({ meeting }) => {
   const [speakers, setSpeakers] = useState([]);

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
-
-import { List, ListButton, ListItem } from "../ui/list";
-import { Button, ButtonGroup } from "../ui/buttons";
-import { del, post } from "../request";
 import useSWR from "swr";
+import { del, post } from "../request";
+import { Button, ButtonGroup } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
 
 const getMemberAttendants = (attendants) => {
   const memberAttendants = attendants.filter(

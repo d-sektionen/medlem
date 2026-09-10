@@ -1,20 +1,17 @@
-import React, { useState, useEffect, useContext, Fragment } from "react";
 import { formatRelative } from "date-fns";
 import { sv } from "date-fns/locale";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 
-import { FiTrash2, FiInfo, FiEdit, FiCheck, FiXCircle } from "react-icons/fi";
-
-import { List, ListItem, ListButton } from "../ui/list";
-
-import EditBooking from "./editBooking";
-import useModal from "../modal/useModal";
-import ViewBooking from "./viewBooking";
-import DenyBooking from "./denyBooking";
+import { FiCheck, FiEdit, FiInfo, FiTrash2, FiXCircle } from "react-icons/fi";
 import { UserContext } from "../layout/layout";
 import useConfirmModal from "../modal/useConfirmModal";
-
+import useModal from "../modal/useModal";
 import { Checkbox } from "../ui/checkbox";
+import { List, ListButton, ListItem } from "../ui/list";
 import ConfirmBooking from "./confirmBooking";
+import DenyBooking from "./denyBooking";
+import EditBooking from "./editBooking";
+import ViewBooking from "./viewBooking";
 
 const BookingPanel = ({
   bookings: unfilteredBookings,

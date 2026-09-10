@@ -1,8 +1,8 @@
 import React from "react";
 import { FiCheck, FiX } from "react-icons/fi";
-import { post } from "../request";
 import { fail, success } from "../../scss/checkin.module.scss";
 import iconMap from "../iconMap";
+import { post } from "../request";
 
 export default (setFeedback, setStatusMessage, eventId, identifier, action) => {
   const setFeedbackExtended = (text, icon, error) => {

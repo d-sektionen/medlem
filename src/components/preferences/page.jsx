@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import { UserContext, LoadingContext } from "../layout/layout";
-import Preferences from "./preferences";
 import BigPixels from "../layout/bigPixels";
+import { LoadingContext, UserContext } from "../layout/layout";
 import { GridContainer, GridItem } from "../ui/grid";
-import CalendarSubscriptions from "./calendarSubscriptions";
 import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
+import CalendarSubscriptions from "./calendarSubscriptions";
+import Preferences from "./preferences";
 
 const PreferencesPage = () => {
   const { title } = usePageContext();

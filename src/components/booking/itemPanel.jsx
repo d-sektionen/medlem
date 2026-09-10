@@ -1,14 +1,14 @@
 import React from "react";
 
 import {
-  itemDescription,
   bookingButtonContainer,
+  itemDescription,
 } from "../../scss/booking.module.scss";
-import { Button } from "../ui/buttons";
 import useModal from "../modal/useModal";
-import EditBooking from "./editBooking";
-import BookingCalendar from "./bookingCalendar";
+import { Button } from "../ui/buttons";
 import ImageHeader from "../ui/imageHeader";
+import BookingCalendar from "./bookingCalendar";
+import EditBooking from "./editBooking";
 
 const ItemPoolPanel = ({ pool, bookings, createBooking, loadAllBookings }) => {
   const [openModal] = useModal(EditBooking);

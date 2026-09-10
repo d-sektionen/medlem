@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-
-import AttendantPanel from "./attendantPanel";
 import DoorkeeperPanel from "../checkin/doorkeeperPanel";
-import { GridContainer, GridItem } from "../ui/grid";
 import BigPixels from "../layout/bigPixels";
-import TitleChooser from "../ui/titleChooser";
-import AddOccurrence from "./addOccurrence";
 import useModal, { useCloseModal } from "../modal/useModal";
 import { post } from "../request";
+import { GridContainer, GridItem } from "../ui/grid";
+import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
+import AddOccurrence from "./addOccurrence";
+import AttendantPanel from "./attendantPanel";
 
 const AttendancePage = () => {
   const { title } = usePageContext();

@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 
 import { contentWrapper } from "../../scss/layout.module.scss";
-
-import BigPixels from "./bigPixels";
-import { GridContainer, GridItem } from "../ui/grid";
+import BackendService from "../request/backendService";
 import { Button } from "../ui/buttons";
+import { GridContainer, GridItem } from "../ui/grid";
+import usePageContext from "../usePageContext";
+import BigPixels from "./bigPixels";
+import LoginPage from "./loginPage";
 import SideMenu from "./sideMenu";
 import TopBar from "./topBar";
-import LoginPage from "./loginPage";
-import BackendService from "../request/backendService";
-import usePageContext from "../usePageContext";
 
 const LayoutContent = ({ children, userContextValue, loadingContextValue }) => {
   const pageContext = usePageContext();

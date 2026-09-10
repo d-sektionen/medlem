@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
+import { FiExternalLink, FiLink } from "react-icons/fi";
 import useSWR from "swr";
-import { FiLink, FiExternalLink } from "react-icons/fi";
-
-import { UserContext } from "./layout/layout";
 import BigPixels from "./layout/bigPixels";
-import { GridContainer, GridItem } from "./ui/grid";
+import { UserContext } from "./layout/layout";
 import MembershipPanel from "./membershipPanel";
+import { GridContainer, GridItem } from "./ui/grid";
 import { List, ListButton, ListItem } from "./ui/list";
 
 const IndexPage = () => {

@@ -1,24 +1,23 @@
 import React, { useState } from "react";
-import BigPixels from "../layout/bigPixels";
-import { GridContainer, GridItem } from "../ui/grid";
-import Textarea from "../ui/textarea";
-
+import { FiCheck, FiSend, FiSlash, FiUpload, FiUser } from "react-icons/fi";
 import {
-  inputContainer,
-  inputButtons,
   confirmation,
   confirmationButtons,
-  status,
-  textSuccess,
-  textFail,
   failMessageClass,
+  inputButtons,
+  inputContainer,
+  status,
+  textFail,
+  textSuccess,
 } from "../../scss/mail.module.scss";
 import AutoInput from "../form/input";
-import { Button } from "../ui/buttons";
-import { post } from "../request";
-import { FiSend, FiCheck, FiSlash, FiUpload, FiUser } from "react-icons/fi";
-import RichText from "../ui/richText";
+import BigPixels from "../layout/bigPixels";
 import Modal from "../modal/modal";
+import { post } from "../request";
+import { Button } from "../ui/buttons";
+import { GridContainer, GridItem } from "../ui/grid";
+import RichText from "../ui/richText";
+import Textarea from "../ui/textarea";
 import Preview from "./preview";
 
 const ModalState = Object.freeze({

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
-import { motion, AnimatePresence } from "framer-motion";
 
 import {
   darknessOverlay,
-  modalWrapper,
   modal,
+  modalWrapper,
   NoPadding,
 } from "../../scss/modal.module.scss";
 

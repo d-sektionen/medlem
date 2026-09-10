@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useDeferredValue } from "react";
+import React, { useDeferredValue, useEffect, useState } from "react";
 import DateTimePicker from "./dateTimePicker";
 
 const AutoInput = ({
@@ -74,7 +74,7 @@ const AutoInput = ({
     ),
   };
 
-  const component = Object.prototype.hasOwnProperty.call(map, type) ? (
+  const component = Object.hasOwn(map, type) ? (
     map[type]
   ) : (
     <input

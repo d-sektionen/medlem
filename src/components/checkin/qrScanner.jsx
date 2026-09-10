@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-
 import { BrowserQRCodeReader } from "@zxing/library";
+import React, { useEffect, useRef, useState } from "react";
 
 const QrScanner = ({ onSubmit, refresh }) => {
   const videoElement = useRef(null);

@@ -1,32 +1,29 @@
-import React, { useMemo, useState } from "react";
-
 import {
-  differenceInCalendarDays,
-  startOfDay,
   addDays,
-  endOfDay,
-  getISODay,
-  differenceInMinutes,
-  startOfISOWeek,
-  getISOWeekYear,
-  getISOWeek,
-  subWeeks,
   addWeeks,
+  differenceInCalendarDays,
+  differenceInMinutes,
+  endOfDay,
   endOfISOWeek,
+  getISODay,
+  getISOWeek,
+  getISOWeekYear,
   isSameISOWeek,
+  startOfDay,
+  startOfISOWeek,
+  subWeeks,
 } from "date-fns";
-
-import ViewBooking from "./viewBooking";
-import useModal from "../modal/useModal";
-
+import React, { useMemo, useState } from "react";
 import {
-  controls,
   Booking,
+  controls,
+  nowMarker,
   restrictedTimeslot,
   timeIndicators,
-  nowMarker,
 } from "../../scss/bookingCalendar.module.scss";
+import useModal from "../modal/useModal";
 import { Button } from "../ui/buttons";
+import ViewBooking from "./viewBooking";
 
 const splitDateRangeByDay = (start, end) => {
   const dayCount = differenceInCalendarDays(end, start);

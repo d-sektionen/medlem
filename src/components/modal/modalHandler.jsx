@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-
-import ModalContext from "./modalContext";
+import React, { useCallback, useEffect, useState } from "react";
 import Modal from "./modal";
+import ModalContext from "./modalContext";
 
 const ModalHandler = ({ children }) => {
   const [isOpen, setOpen] = useState(false);

@@ -1,11 +1,11 @@
 import React from "react";
 import Snowfall from "react-snowfall";
-import whiteImage from "../../images/snowflake-white.webp";
 import blueImage from "../../images/dsek-blue.webp";
 import brownImage from "../../images/dsek-brown.webp";
 import ceriseImage from "../../images/dsek-cerise.webp";
 import greenImage from "../../images/dsek-green.webp";
 import yellowImage from "../../images/dsek-yellow.webp";
+import whiteImage from "../../images/snowflake-white.webp";
 
 // Check if the window object is defined, i.e. if the code is running in the browser
 const isBrowser = typeof window !== "undefined";

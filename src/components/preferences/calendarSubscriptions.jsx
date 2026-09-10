@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import useSWR from "swr";
 import { FiLink, FiTrash2 } from "react-icons/fi";
-import { List, ListItem, ListButton } from "../ui/list";
+import useSWR from "swr";
 import useConfirmModal from "../modal/useConfirmModal";
-import { del, post } from "../request";
-import AddCalendarSubscription from "./addCalendarSubscription";
 import useModal, { useCloseModal } from "../modal/useModal";
+import { del, post } from "../request";
 import { Button } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
+import AddCalendarSubscription from "./addCalendarSubscription";
 import CalendarLink from "./calendarLink";
 
 const CalendarSubscriptions = () => {

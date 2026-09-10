@@ -1,6 +1,6 @@
 import React from "react";
+import { del, post } from "../request";
 import { Button } from "../ui/buttons";
-import { post, del } from "../request";
 
 const MeetingInfoPanel = ({ currentMeeting }) => (
   <div>

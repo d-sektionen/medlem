@@ -1,9 +1,9 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 import { FiMenu, FiUser } from "react-icons/fi";
-import ProfileMenu from "./profileMenu";
 import { topBar } from "../../scss/layout.module.scss";
 import useModal from "../modal/useModal";
+import ProfileMenu from "./profileMenu";
 
 const TopBar = ({ user = null, openMenu }) => {
   const [openUserModal] = useModal(ProfileMenu);
