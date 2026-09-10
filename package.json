@@ -17,9 +17,9 @@
     "preview": "vite preview",
     "serve": "vite preview --port 4000",
     "deploy": "npm run build && gh-pages -d dist",
-    "format": "biome format --write && prettier --write \"**/*.scss\"",
-    "check": "biome check && prettier --write \"**.*.scss\"",
-    "fix": "biome check --write && prettier --write \"**.*.scss\""
+    "format": "biome format --write && prettier --write .",
+    "check": "biome check && prettier --check .",
+    "fix": "biome check --write && prettier --write ."
   },
   "dependencies": {
     "@zxing/library": "^0.20.0",
