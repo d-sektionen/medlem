@@ -19,6 +19,12 @@ export default defineConfig(({ mode }) => {
         // available on the default export object.
         localsConvention: 'camelCase',
       },
+      preprocessorOptions: {
+        scss: {
+          // Silence deprecation warnings about @import
+          silenceDeprecations: ['import'],
+        },
+      },
     },
     server: {
       port: 4000,
