@@ -6,21 +6,24 @@ import { GridContainer, GridItem } from '../ui/grid'
 import TitleChooser from '../ui/titleChooser'
 import SpeakerPanel from './speakerPanel'
 import MeetingInfoPanel from './meetingInfoPanel'
-import VotePanel from './votePanel'
-import {
-  currentMeetingContainer,
-  votePanelContainer,
-  othersContainer,
-} from '../../scss/votePage.module.scss'
+import usePageContext from '../usePageContext'
 
-export default function VotePage({ pageContext: { title } }) {
+//import { get } from '../request'
+
+const VotePage = () => {
+  const { title } = usePageContext()
+
   const [currentMeeting, setCurrentMeeting] = useState(null)
-  const { data: meetings } = useSWR('/voting/meetings/')
+  const { data: meetings } = useSWR('/voting/guest-meetings/')
 
-  useEffect(() => {
-    if (currentMeeting)
-      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id))
-  }, [meetings])
+  // sync currentMeeting with updated meetings
+  useEffect(
+    () => {
+      if (currentMeeting)
+        setCurrentMeeting(meetings.find(m => m.id === currentMeeting.id))
+    },
+    [meetings]
+  )
 
   return (
     <BigPixels>
@@ -32,25 +35,26 @@ export default function VotePage({ pageContext: { title } }) {
             setChoice={setCurrentMeeting}
             choices={meetings}
             label="name"
-            hintLabel="Välj ett möte"
-            noChoicesLabel="Det finns inga möten just nu."
+            noChoicesLabel="Det finns inga möten tillgängliga just nu. Du kan bara se möten du blivit inbjuden till."
           />
         </GridItem>
         {currentMeeting && (
-          <div className={currentMeetingContainer}>
-            <div className={votePanelContainer}>
-              <VotePanel meeting={currentMeeting} />
-            </div>
-            <div className={othersContainer}>
+          <>
+            <GridItem>
               <MeetingInfoPanel
                 currentMeeting={currentMeeting}
-                setCurrentMeeting={setCurrentMeeting}
               />
+            </GridItem>
+
+            {/* {currentMeeting.enable_speaker_requests && ( */}
+            <GridItem>
               <SpeakerPanel meeting={currentMeeting} />
-            </div>
-          </div>
+            </GridItem>
+            {/* )} */}
+          </>
         )}
       </GridContainer>
     </BigPixels>
   )
 }
+export default VotePage

@@ -4,7 +4,6 @@ import { FiVideo } from 'react-icons/fi'
 import { TextField, CompatibilityTextField } from './textField'
 import {
   container,
-  statusMessage,
   controlContainer,
   qrRegistration,
   Feedback,
@@ -65,7 +64,7 @@ const Checkin = ({ events }) => {
               Kompatibilitetsläge
             </label>
 
-            <div className={statusMessage}>
+            <div>
               <GridItem>
                 <p>{_statusMessage}</p>
               </GridItem>

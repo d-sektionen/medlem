@@ -3,11 +3,8 @@ import PropTypes from 'prop-types'
 // import posed from 'react-pose'
 
 import {
-  checkbox,
   switchy,
-  On,
   blob,
-  Off,
   slider,
 } from '../../scss/ui.module.scss'
 
@@ -17,7 +14,7 @@ const Checkbox = ({
   click = () => null,
   defaultChecked = false,
 }) => (
-  <div className={checkbox}>
+  <div>
     <label>
       <input
         type="checkbox"
@@ -54,7 +51,7 @@ const Switch = ({ off, on, click = () => null, defaultToggled = false }) => {
   })
 
   return (
-    <div className={[switchy, toggled ? On : Off].join(' ')}>
+    <div className={[switchy].join(' ')}>
       <Slider
         className={slider}
         pose={toggled ? 'on' : 'off'}

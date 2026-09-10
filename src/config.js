@@ -9,80 +9,78 @@ BASE_URL='http://localhost:8000'
 
 The value in there will be prefered.
 
-.env.development will affect `npm start`
-.env.production will affect `npm run build` and `npm run deploy`
+.env.development will affect `npm run dev`
+.env.production will affect `npm run build`, `npm run preview` and `npm run deploy`
 */
-module.exports.BASE_URL =
-  process.env.BASE_URL || 'https://backend.d-sektionen.se'
+export const BASE_URL = process.env.BASE_URL || 'https://backend.d-sektionen.se'
 
-module.exports.TITLE = 'Medlem D-sektionen'
+export const TITLE = 'Medlem D-sektionen'
 
-module.exports.PAGES = [
-  {
-    path: '/404',
-    title: 'Sidan kunde inte hittas',
-    menu: false,
-    component: './src/components/404Page.js',
-  },
+/*
+Definitions of all pages in the app. 
+
+These are passed to React Router in the App.jsx component and used to generate the menubar in sideMenu.jsx.
+When a new page is added or deleted, make sure to update the PAGE_COMPONENTS object in App.jsx as well,
+so the router knows which component to actually render.
+
+If defined, `alternativePaths` is a list of paths that will redirect to th main `path`.
+The other properties can be accessed in components via the `usePageContext` hook, which
+will return the page configuration for the current URL.
+
+The 404Page.jsx is a special case and is not defined here, since it doesn't have a defined path.
+It is rendered by the router when no other page matches the current URL (see App.jsx).
+*/
+export const PAGES = [
   {
     path: '/',
     title: 'Hem',
     menu: true,
-    component: './src/components/homePage.js',
   },
   {
     path: '/preferences',
     title: 'Kontoinställningar',
     menu: true,
-    component: './src/components/preferences/page.js',
   },
   {
     path: '/vote',
     title: 'D-cide',
     requiredPrivileges: 'member',
     menu: true,
-    component: './src/components/vote/page.js',
   },
   {
     path: '/voting-guest',
     title: 'D-cide Gäst',
     requiredPrivileges: 'not_member',
     menu: true,
-    component: './src/components/votingGuest/page.js',
   },
   {
     path: '/voting-admin',
     title: 'D-cide Admin',
     requiredPrivileges: 'voting_admin',
     menu: true,
-    component: './src/components/votingAdmin/page.js',
   },
   {
     path: '/voting-counter',
     title: 'D-cide Rösträknare',
     requiredPrivileges: 'voting_counter',
     menu: true,
-    component: './src/components/votingCounter/page.js',
   },
   {
     path: '/locks',
     title: 'Lås',
     requiredPrivileges: 'member',
     menu: true,
-    component: './src/components/lockPage.js',
   },
   {
     path: '/booking',
     title: 'Bokning',
     menu: true,
-    component: './src/components/booking/page.js',
   },
   {
     path: '/attendance',
     title: 'Närvarosystemet',
     requiredPrivileges: 'attendance_admin',
     menu: true,
-    component: './src/components/attendance/page.js',
   },
   {
     path: '/checkin',
@@ -90,20 +88,17 @@ module.exports.PAGES = [
     title: 'Blippsystemet',
     requiredPrivileges: 'doorkeeper',
     menu: true,
-    component: './src/components/checkin/page.js',
   },
   {
     path: '/keylog',
     title: 'Nyckelloggbok',
     requiredPrivileges: 'staff',
     menu: true,
-    component: './src/components/keylogPage.js',
   },
   {
     path: '/mail',
     title: 'Mailutskick',
     requiredPrivileges: 'infomail_sender',
     menu: true,
-    component: './src/components/mail/page.js',
   },
 ]

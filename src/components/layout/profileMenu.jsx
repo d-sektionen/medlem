@@ -1,4 +1,3 @@
-import { navigate } from 'gatsby'
 import React, { useContext } from 'react'
 
 import { FiLogOut, FiSettings } from 'react-icons/fi'

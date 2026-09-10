@@ -8,15 +8,16 @@ import AttendantPanel from './attendantPanel'
 import { GridContainer, GridItem } from '../ui/grid'
 import SpeakerPanel from './speakerPanel'
 import TitleChooser from '../ui/titleChooser'
-import AddMeeting from './addMeeting'
 import useModal, { useCloseModal } from '../modal/useModal'
 import { post, patch } from '../request'
 import BigPixels from '../layout/bigPixels'
+import usePageContext from '../usePageContext'
 
-const VotingAdminPage = ({ pageContext: { title } }) => {
+const VotingAdminPage = () => {
+  const { title } = usePageContext();
+
   const [currentMeeting, setCurrentMeeting] = useState(null)
   const { data: unorderedMeetings, mutate } = useSWR('/voting/admin-meetings/')
-  const [openCreateModal] = useModal(AddMeeting)
   const closeModal = useCloseModal()
 
   const create = async (data) => {
@@ -56,15 +57,6 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
             choices={meetings}
             label="name"
             hintLabel="Välj ett möte"
-            action={() => {
-              openCreateModal('Nytt möte', {
-                create: async (data) => {
-                  await create(data)
-                  closeModal()
-                },
-              })
-            }}
-            actionLabel="Nytt möte"
             noChoicesLabel="Det finns inga möten just nu."
           />
         </GridItem>
@@ -80,13 +72,7 @@ const VotingAdminPage = ({ pageContext: { title } }) => {
               <VotePanel currentMeeting={currentMeeting} />
             </GridItem>
             <GridItem>
-              <DoorkeeperPanel event={currentMeeting} />
-            </GridItem>
-            <GridItem>
               <AttendantPanel currentMeeting={currentMeeting} />
-            </GridItem>
-            <GridItem>
-              <SpeakerPanel meeting={currentMeeting} />
             </GridItem>
           </>
         )}
