@@ -8,6 +8,7 @@ import BookingPanel from './bookingPanel'
 import TitleChooser from '../ui/titleChooser'
 import { post, put, del } from '../request'
 import { startOfISOWeek, subWeeks } from 'date-fns'
+import usePageContext from '../usePageContext'
 
 /*
  * Get the date 4 weeks ago relative to the start of the current week.

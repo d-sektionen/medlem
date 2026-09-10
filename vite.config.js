@@ -25,8 +25,7 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 4000,
     },
-    // Make BASE_URL from the env file available to client code the same way
-    // it was under Gatsby (process.env.BASE_URL).
+    // Make BASE_URL from the env file available to client code.
     define: {
       'process.env.BASE_URL': JSON.stringify(
         env.BASE_URL || 'https://backend.d-sektionen.se'

@@ -19,7 +19,6 @@ export const LoadingContext = React.createContext({
 })
 export const UserContext = React.createContext({ user: null, set: () => {} })
 
-// Client side page metadata. (Replaces react-helmet, no SSR in a Vite SPA.)
 const usePageMeta = ({ title }) => {
   useEffect(() => {
     document.title = `${title} - ${TITLE}`
@@ -50,7 +49,7 @@ const Layout = ({ children }) => {
   const loadingContextValue = useState(true)
   const userContextValue = useState(null)
 
-  const pageContext = usePageContext();
+  const pageContext = usePageContext()
 
   usePageMeta({ title: pageContext.title });
 

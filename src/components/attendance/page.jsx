@@ -9,6 +9,7 @@ import TitleChooser from '../ui/titleChooser'
 import AddOccurrence from './addOccurrence'
 import useModal, { useCloseModal } from '../modal/useModal'
 import { post } from '../request'
+import usePageContext from '../usePageContext'
 
 const AttendancePage = () => {
   const { title } = usePageContext()

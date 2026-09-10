@@ -9,15 +9,10 @@ BASE_URL='http://localhost:8000'
 
 The value in there will be prefered.
 
-.env.development will affect `npm run dev` and `npm start`
-.env.production will affect `npm run build` and `npm run deploy`
-
-`process.env.BASE_URL` is replaced at build time by Vite (see vite.config.js),
-which loads the value from the active .env file.
+.env.development will affect `npm run dev`
+.env.production will affect `npm run build`, `npm run preview` and `npm run deploy`
 */
-
-export const BASE_URL =
-  process.env.BASE_URL || 'https://backend.d-sektionen.se'
+export const BASE_URL = process.env.BASE_URL || 'https://backend.d-sektionen.se'
 
 export const TITLE = 'Medlem D-sektionen'
 
