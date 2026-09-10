@@ -31,9 +31,5 @@ export default defineConfig(({ mode }) => {
         env.BASE_URL || 'https://backend.d-sektionen.se'
       ),
     },
-    build: {
-      // All the app's JS is built into a single file which exceeds Vite's default chunk size warning limit of 500kb.
-      chunkSizeWarningLimit: 1500,
-    },
   }
 })

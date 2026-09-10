@@ -7,8 +7,8 @@ import {
   FaBatteryFull,
   FaBatteryEmpty,
 } from 'react-icons/fa'
-import erkan from '../images/erkan.png'
-import rumett from '../images/rumett.png'
+import erkan from '../images/erkan.webp'
+import rumett from '../images/rumett.webp'
 
 import {
   success,

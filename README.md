@@ -70,11 +70,14 @@ files in this repository are changed.
 #### Pages
 
 All pages are defined in `./src/config.js` and have to follow the format used
-there. Routes are generated from this configuration in `./src/routes.js`, which
-maps every configured path to its React component. Each page component receives
-the non-routing part of its configuration (title, requiredPrivileges, ...) as a
-`pageContext` prop, the same way pages used to receive it when the project was
-built on Gatsby.
+there. Routes are generated from this configuration in `./src/App.jsx`, which
+maps every configured path to its React component via `PAGE_COMPONENTS`.
+
+The components in `PAGE_COMPONENTS` are loaded lazily (`React.lazy` + dynamic
+`import()`), so every route is built into its own chunk and is only downloaded
+when it is first visited. This keeps heavy, route-specific libraries out of the
+initial bundle: `@zxing/library` is only needed by `/checkin` and `quill` only
+by `/mail`. When adding a page, register it as `import('./components/<page>')`.
 
 The layout (`./src/components/layout/layout.js`) resolves the configuration for
 the current URL and uses it for the document title/meta tags and for privilege

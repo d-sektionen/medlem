@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom'
 import { FiX, FiGithub } from 'react-icons/fi'
 import { PAGES, BASE_URL } from '../../config'
 
-import webbu_logo from '../../images/webbu-logo-inverted.png'
+import webbu_logo from '../../images/webbu-logo-inverted.webp'
 import logo from '../../images/round.svg'
 import {
   darknessOverlay,
