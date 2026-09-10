@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link } from 'gatsby'
+import { NavLink } from 'react-router-dom'
 
 import { FiX, FiGithub } from 'react-icons/fi'
 import { PAGES, BASE_URL } from '../../config'
@@ -62,13 +62,15 @@ const SideMenu = ({ close, open }) => {
                 return [
                   ...links,
                   <li key={`menuitem-${pageData.path}`}>
-                    <Link
+                    <NavLink
                       to={pageData.path}
                       onClick={close}
-                      activeClassName={thisPage}
+                      className={({ isActive }) =>
+                        isActive ? thisPage : undefined
+                      }
                     >
                       {pageData.title}
-                    </Link>
+                    </NavLink>
                   </li>,
                 ]
               }, [])}

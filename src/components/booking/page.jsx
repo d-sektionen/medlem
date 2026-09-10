@@ -8,6 +8,7 @@ import BookingPanel from './bookingPanel'
 import TitleChooser from '../ui/titleChooser'
 import { post, put, del } from '../request'
 import { startOfISOWeek, subWeeks } from 'date-fns'
+import usePageContext from '../usePageContext'
 
 /*
  * Get the date 4 weeks ago relative to the start of the current week.
@@ -16,7 +17,9 @@ const getDate4WeeksAgo = (date) => {
   return subWeeks(startOfISOWeek(date), 4).toISOString()
 }
 
-const BookingPage = ({ pageContext: { title } }) => {
+const BookingPage = () => {
+  const { title } = usePageContext()
+
   const [pool, setPool] = useState(null)
   const [afterDate, setAfterDate] = useState(getDate4WeeksAgo(new Date()))
   const { data: pools } = useSWR('/booking/item-pools/')

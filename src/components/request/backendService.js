@@ -1,6 +1,15 @@
 import axios from 'axios'
 import { BASE_URL } from '../../config'
-import createAuthRefreshInterceptor from 'axios-auth-refresh'
+import createAuthRefreshInterceptorModule from 'axios-auth-refresh'
+
+// axios-auth-refresh ships a CommonJS/UMD build. Depending on the bundler's
+// CJS<->ESM interop, the default import is either the interceptor function
+// itself or the module object ({ default: fn }). Normalize it so both cases
+// work (under Vite/rolldown it is currently the module object).
+const createAuthRefreshInterceptor =
+  typeof createAuthRefreshInterceptorModule === 'function'
+    ? createAuthRefreshInterceptorModule
+    : createAuthRefreshInterceptorModule.default
 
 const backendService = axios.create({
   baseURL: `${BASE_URL}`,

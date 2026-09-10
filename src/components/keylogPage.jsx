@@ -6,8 +6,11 @@ import useSWR from 'swr'
 import { List, ListItem, ListButton } from './ui/list'
 
 import { FiTrash2, FiInfo, FiEdit } from 'react-icons/fi'
+import usePageContext from './usePageContext'
 
-const KeylogPage = ({ pageContext }) => {
+const KeylogPage = () => {
+  const { title } =  usePageContext();
+
   const { data: keys } = useSWR('/keylog/keys/')
 
   //console.log("====================");
@@ -19,7 +22,7 @@ const KeylogPage = ({ pageContext }) => {
     <BigPixels>
       <GridContainer>
         <GridItem>
-          <h1>{pageContext.title}</h1>
+          <h1>{title}</h1>
 
           {keys && (
             <List>

@@ -5,8 +5,11 @@ import BigPixels from '../layout/bigPixels'
 import { GridContainer, GridItem } from '../ui/grid'
 import CalendarSubscriptions from './calendarSubscriptions'
 import TitleChooser from '../ui/titleChooser'
+import usePageContext from '../usePageContext'
 
-const PreferencesPage = ({ pageContext: { title } }) => {
+const PreferencesPage = () => {
+  const { title } = usePageContext()
+
   const setLoading = useContext(LoadingContext)[1]
   const [user, setUser] = useContext(UserContext)
   return (
