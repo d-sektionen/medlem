@@ -111,7 +111,12 @@ const BookingCalendar = ({ bookings }) => {
             .sort((a, b) => b.restricted_timeslot - a.restricted_timeslot)
             .map((booking, i) => {
               const hasOverlapping = bookingsThisWeek.some((other) => {
-                if (other.id === booking.id) return false
+                if (other.id === booking.id) {
+                  return false
+                }
+                if (!other.restricted_timeslot && booking.restricted_timeslot) {
+                  return false
+                }
 
                 return (
                   (other.end > booking.start && other.end < booking.end) || // other ends inside booking
