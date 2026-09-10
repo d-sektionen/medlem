@@ -1,16 +1,16 @@
-import React from 'react'
-import BigPixels from './bigPixels'
-import { GridContainer, GridItem } from '../ui/grid'
+import React from "react";
+import BigPixels from "./bigPixels";
+import { GridContainer, GridItem } from "../ui/grid";
 
-import { Button } from '../ui/buttons'
-import { BASE_URL } from '../../config'
+import { Button } from "../ui/buttons";
+import { BASE_URL } from "../../config";
 
 const loginPage = () => {
   const loginHandler = () => {
-    const callbackUrl = `${window.location.href}`
-    const targetUrl = `${BASE_URL}/oauth2/login?next=${callbackUrl}`
-    window.location.replace(targetUrl)
-  }
+    const callbackUrl = `${window.location.href}`;
+    const targetUrl = `${BASE_URL}/oauth2/login?next=${callbackUrl}`;
+    window.location.replace(targetUrl);
+  };
 
   return (
     <BigPixels>
@@ -34,8 +34,8 @@ const loginPage = () => {
           </p>
           <div
             style={{
-              marginTop: '1.5rem',
-              borderTop: '1px solid white',
+              marginTop: "1.5rem",
+              borderTop: "1px solid white",
             }}
           >
             <p>
@@ -49,12 +49,12 @@ const loginPage = () => {
               src="https://www.youtube.com/embed/ppY8vcrYmKQ"
               allowFullScreen="1"
               style={{
-                width: '50rem',
-                maxWidth: '100%',
-                height: '30rem',
-                maxHeight: '100%',
-                border: 'none',
-                display: 'block',
+                width: "50rem",
+                maxWidth: "100%",
+                height: "30rem",
+                maxHeight: "100%",
+                border: "none",
+                display: "block",
                 marginBottom: 0,
               }}
             />
@@ -62,7 +62,7 @@ const loginPage = () => {
         </GridItem>
       </GridContainer>
     </BigPixels>
-  )
-}
+  );
+};
 
-export default loginPage
+export default loginPage;

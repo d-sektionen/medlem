@@ -1,19 +1,18 @@
-import React, { useRef, useEffect } from 'react'
-import useSWR from 'swr'
+import React, { useRef, useEffect } from "react";
+import useSWR from "swr";
 
 const VoteStats = ({ currentMeeting, voteId }) => {
-  const { data } = useSWR(() => voteId && `/voting/admin-votes/${voteId}/`)
+  const { data } = useSWR(() => voteId && `/voting/admin-votes/${voteId}/`);
 
-  const voteSum = (data
-    ? data.alternatives.map(alt => alt.num_votes)
-    : []
-  ).reduce((a, b) => a + b, 0)
+  const voteSum = (
+    data ? data.alternatives.map((alt) => alt.num_votes) : []
+  ).reduce((a, b) => a + b, 0);
 
   return (
     <div>
       <ul>
         {data &&
-          data.alternatives.map(alt => (
+          data.alternatives.map((alt) => (
             <li key={alt.text}>
               {`${alt.text}: ${alt.num_votes}`}
               {voteSum
@@ -22,16 +21,16 @@ const VoteStats = ({ currentMeeting, voteId }) => {
                       ? Math.round((1000 * alt.num_votes) / voteSum) / 10
                       : 0
                   }%)`
-                : ''}
+                : ""}
             </li>
           ))}
       </ul>
       <p>
-        {'Summa: '}
+        {"Summa: "}
         {voteSum}
       </p>
     </div>
-  )
-}
+  );
+};
 
-export default VoteStats
+export default VoteStats;

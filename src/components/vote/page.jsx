@@ -1,29 +1,29 @@
-import React, { useContext, useState, useEffect } from 'react'
-import useSWR from 'swr'
+import React, { useContext, useState, useEffect } from "react";
+import useSWR from "swr";
 
-import BigPixels from '../layout/bigPixels'
-import { GridContainer, GridItem } from '../ui/grid'
-import TitleChooser from '../ui/titleChooser'
-import SpeakerPanel from './speakerPanel'
-import MeetingInfoPanel from './meetingInfoPanel'
-import VotePanel from './votePanel'
+import BigPixels from "../layout/bigPixels";
+import { GridContainer, GridItem } from "../ui/grid";
+import TitleChooser from "../ui/titleChooser";
+import SpeakerPanel from "./speakerPanel";
+import MeetingInfoPanel from "./meetingInfoPanel";
+import VotePanel from "./votePanel";
 import {
   currentMeetingContainer,
   votePanelContainer,
   othersContainer,
-} from '../../scss/votePage.module.scss'
-import usePageContext from '../usePageContext'
+} from "../../scss/votePage.module.scss";
+import usePageContext from "../usePageContext";
 
 export default function VotePage() {
-  const { title } = usePageContext()
+  const { title } = usePageContext();
 
-  const [currentMeeting, setCurrentMeeting] = useState(null)
-  const { data: meetings } = useSWR('/voting/meetings/')
+  const [currentMeeting, setCurrentMeeting] = useState(null);
+  const { data: meetings } = useSWR("/voting/meetings/");
 
   useEffect(() => {
     if (currentMeeting)
-      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id))
-  }, [meetings])
+      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
+  }, [meetings]);
 
   return (
     <BigPixels>
@@ -55,5 +55,5 @@ export default function VotePage() {
         )}
       </GridContainer>
     </BigPixels>
-  )
+  );
 }

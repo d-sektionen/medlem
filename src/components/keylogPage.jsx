@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
-import BigPixels from './layout/bigPixels'
-import { GridContainer, GridItem } from './ui/grid'
-import useSWR from 'swr'
+import React, { useState } from "react";
+import BigPixels from "./layout/bigPixels";
+import { GridContainer, GridItem } from "./ui/grid";
+import useSWR from "swr";
 
-import { List, ListItem, ListButton } from './ui/list'
+import { List, ListItem, ListButton } from "./ui/list";
 
-import { FiTrash2, FiInfo, FiEdit } from 'react-icons/fi'
-import usePageContext from './usePageContext'
+import { FiTrash2, FiInfo, FiEdit } from "react-icons/fi";
+import usePageContext from "./usePageContext";
 
 const KeylogPage = () => {
-  const { title } =  usePageContext();
+  const { title } = usePageContext();
 
-  const { data: keys } = useSWR('/keylog/keys/')
+  const { data: keys } = useSWR("/keylog/keys/");
 
   //console.log("====================");
   //console.log(props);
@@ -26,13 +26,13 @@ const KeylogPage = () => {
 
           {keys && (
             <List>
-              {keys.map(key => (
+              {keys.map((key) => (
                 <ListItem
                   title={key.name}
                   subtitle={
                     key.status
                       ? `Upptagen (${key.status.taken_by.pretty_name})`
-                      : 'Tillgänglig'
+                      : "Tillgänglig"
                   }
                   buttons={[
                     <ListButton
@@ -51,7 +51,7 @@ const KeylogPage = () => {
         </GridItem>
       </GridContainer>
     </BigPixels>
-  )
-}
+  );
+};
 
-export default KeylogPage
+export default KeylogPage;

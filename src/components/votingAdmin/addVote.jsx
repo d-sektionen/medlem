@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
-let currentKey = 0
+let currentKey = 0;
 // creates an alternative with an unique key, do not manually create alternative objects
 // the key does not match the id later given by the server.
 const createAlternative = (existingData = {}) => {
-  currentKey += 1
-  return { text: '', ...existingData, key: currentKey }
-}
+  currentKey += 1;
+  return { text: "", ...existingData, key: currentKey };
+};
 
 const AddVote = ({ currentMeeting, create, updateData, update }) => {
   const [question, setQuestion] = useState(
-    updateData ? updateData.question : ''
-  )
+    updateData ? updateData.question : "",
+  );
   const [alternatives, setAlternatives] = useState(
     updateData
       ? updateData.alternatives.map((alt) => createAlternative(alt))
       : [
-          createAlternative({ text: 'Vakant' }),
-          createAlternative({ text: 'Blankt' }),
-        ]
-  )
+          createAlternative({ text: "Vakant" }),
+          createAlternative({ text: "Blankt" }),
+        ],
+  );
   const [currentQuestion, setCurrentQuestion] = useState(
-    updateData ? updateData.open : true
-  )
+    updateData ? updateData.open : true,
+  );
 
   return (
     <div>
@@ -31,7 +31,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
         <input
           value={question}
           onChange={(e) => {
-            setQuestion(e.target.value)
+            setQuestion(e.target.value);
           }}
         />
       </label>
@@ -42,12 +42,12 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
             <input
               value={alt.text}
               onChange={(e) => {
-                const newVal = e.target.value
+                const newVal = e.target.value;
                 setAlternatives((prev) => [
                   ...prev.slice(0, i),
                   { ...prev[i], text: newVal },
                   ...prev.slice(i + 1),
-                ])
+                ]);
               }}
             />
             <button
@@ -56,7 +56,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
                 setAlternatives((prev) => [
                   ...prev.slice(0, i),
                   ...prev.slice(i + 1),
-                ])
+                ]);
               }}
             >
               X
@@ -67,7 +67,7 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
       <button
         type="button"
         onClick={() => {
-          setAlternatives((prev) => [...prev, createAlternative()])
+          setAlternatives((prev) => [...prev, createAlternative()]);
         }}
       >
         Lägg till alternativ
@@ -91,21 +91,21 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
               open: currentQuestion,
               alternatives,
               meeting: currentMeeting.id,
-            })
+            });
           } else {
             create({
               question,
               open: currentQuestion,
               alternatives,
               meeting: currentMeeting.id,
-            })
+            });
           }
         }}
       >
-        {updateData ? 'Uppdatera omröstning' : 'Skapa ny omröstning'}
+        {updateData ? "Uppdatera omröstning" : "Skapa ny omröstning"}
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default AddVote
+export default AddVote;

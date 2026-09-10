@@ -1,46 +1,46 @@
-import React, { useState } from 'react'
-import { useCloseModal } from '../modal/useModal'
-import { Button } from '../ui/buttons'
-import { Checklist } from '../ui/checklist'
-import { confirmBookingChecklists } from '../../scss/booking.module.scss'
+import React, { useState } from "react";
+import { useCloseModal } from "../modal/useModal";
+import { Button } from "../ui/buttons";
+import { Checklist } from "../ui/checklist";
+import { confirmBookingChecklists } from "../../scss/booking.module.scss";
 
 const ConfirmBooking = ({ booking, confirmBooking }) => {
-  const close = useCloseModal()
+  const close = useCloseModal();
   const {
     user: { pretty_name: user },
     description,
-  } = booking
+  } = booking;
 
-  const items = booking.pool.items
-  const accessories = booking.pool.accessories
-  const requiresAccessory = booking.pool.requires_accessory
+  const items = booking.pool.items;
+  const accessories = booking.pool.accessories;
+  const requiresAccessory = booking.pool.requires_accessory;
 
-  const [selectedItems, setSelectedItems] = useState([])
-  const [selectedAccessories, setSelectedAccessories] = useState([])
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedAccessories, setSelectedAccessories] = useState([]);
 
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
 
   const buttonDisabled =
     selectedItems.length !== booking.count ||
-    (requiresAccessory && selectedAccessories.length !== booking.count)
+    (requiresAccessory && selectedAccessories.length !== booking.count);
 
   const confirm = (data) =>
     confirmBooking(booking.id, data)
       .then(() => close())
       .catch((err) => {
-        console.error(err.response.data)
-        setError(err.response.data)
-      })
+        console.error(err.response.data);
+        setError(err.response.data);
+      });
 
   return (
     <>
       <p>Bokad av {user}.</p>
       <i>{description}</i>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       <>
         <h3>
-          Välj {booking.count} objekt {requiresAccessory && 'och tillbehör'}
+          Välj {booking.count} objekt {requiresAccessory && "och tillbehör"}
         </h3>
 
         <div className={confirmBookingChecklists}>
@@ -70,9 +70,9 @@ const ConfirmBooking = ({ booking, confirmBooking }) => {
           const data = {
             items: selectedItems,
             accessories: requiresAccessory ? selectedAccessories : [],
-          }
+          };
 
-          confirm(data)
+          confirm(data);
         }}
       >
         Bekräfta
@@ -82,13 +82,13 @@ const ConfirmBooking = ({ booking, confirmBooking }) => {
 
       <Button
         onClick={() => {
-          confirm({ auto_assign: true })
+          confirm({ auto_assign: true });
         }}
       >
         Välj automatiskt
       </Button>
     </>
-  )
-}
+  );
+};
 
-export default ConfirmBooking
+export default ConfirmBooking;

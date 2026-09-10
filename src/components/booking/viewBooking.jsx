@@ -1,14 +1,14 @@
-import React from 'react'
-import { formatDistance } from 'date-fns'
-import { sv } from 'date-fns/locale'
+import React from "react";
+import { formatDistance } from "date-fns";
+import { sv } from "date-fns/locale";
 
 const formatDate = (date) =>
-  date.toLocaleDateString('sv-SE', {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-  })
+  date.toLocaleDateString("sv-SE", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  });
 
 const ViewBooking = ({ booking }) => {
   const {
@@ -20,19 +20,19 @@ const ViewBooking = ({ booking }) => {
     end,
     description,
     confirmed,
-  } = booking
+  } = booking;
 
   const bookingInfoText = booking.restricted_timeslot
     ? `Begränsad tidsperiod för bokningar av ${pool.name} utfärdad av ${user}.
     Under en begränsad tidsperiod måste alla bokningar godkännas manuellt.`
-    : `Bokning av ${pool.name} för ${user}.`
+    : `Bokning av ${pool.name} för ${user}.`;
   return (
     <>
       <p>{bookingInfoText}</p>
       <p>
         {confirmed
-          ? 'Bokningen är bekräftad.'
-          : 'Bokningen är inte bekräftad ännu.'}
+          ? "Bokningen är bekräftad."
+          : "Bokningen är inte bekräftad ännu."}
       </p>
       <p>
         {`${formatDate(start)} - ${formatDate(end)}`}
@@ -55,7 +55,7 @@ const ViewBooking = ({ booking }) => {
       )}
       <p>{description}</p>
     </>
-  )
-}
+  );
+};
 
-export default ViewBooking
+export default ViewBooking;

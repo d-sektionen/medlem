@@ -1,5 +1,5 @@
-import React from 'react'
-import AutoForm from '../form/form'
+import React from "react";
+import AutoForm from "../form/form";
 
 const AddMeeting = ({ create }) => (
   <AutoForm
@@ -8,6 +8,6 @@ const AddMeeting = ({ create }) => (
     // }}
     customFetcher={create}
   />
-)
+);
 
-export default AddMeeting
+export default AddMeeting;

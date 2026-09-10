@@ -1,47 +1,50 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { FiX } from 'react-icons/fi'
-import { motion, AnimatePresence } from 'framer-motion'
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { FiX } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 
 import {
   darknessOverlay,
   modalWrapper,
   modal,
   NoPadding,
-} from '../../scss/modal.module.scss'
+} from "../../scss/modal.module.scss";
 
 const Modal = ({ children, title, isOpen, options, setOpen }) => {
-  const close = () => setOpen(false)
+  const close = () => setOpen(false);
 
-  const { noPadding } = options
+  const { noPadding } = options;
 
   useEffect(() => {
     if (isOpen) {
-      const escClose = event => {
-        if (event.key === 'Escape') close()
-      }
+      const escClose = (event) => {
+        if (event.key === "Escape") close();
+      };
 
-      window.addEventListener('keydown', escClose, false)
+      window.addEventListener("keydown", escClose, false);
 
       return () => {
-        window.removeEventListener('keydown', escClose, false)
-      }
+        window.removeEventListener("keydown", escClose, false);
+      };
     }
-    return () => {}
-  }, [isOpen])
+    return () => {};
+  }, [isOpen]);
 
   return (
-    <AnimatePresence style={{ overflow: 'hidden' }}>
+    <AnimatePresence style={{ overflow: "hidden" }}>
       {isOpen && (
-        <motion.div 
+        <motion.div
           transition={{ duration: 0.2, delay: 0 }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className={darknessOverlay} onClick={close} key="overlay" />
+          className={darknessOverlay}
+          onClick={close}
+          key="overlay"
+        />
       )}
       {isOpen && (
-        <motion.div 
+        <motion.div
           transition={{ duration: 0.1 }}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -61,12 +64,12 @@ const Modal = ({ children, title, isOpen, options, setOpen }) => {
         </motion.div>
       )}
     </AnimatePresence>
-  )
-}
+  );
+};
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
-}
+};
 
-export default Modal
+export default Modal;

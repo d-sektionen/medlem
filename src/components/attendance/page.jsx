@@ -1,45 +1,45 @@
-import React, { useState, useEffect } from 'react'
-import useSWR from 'swr'
+import React, { useState, useEffect } from "react";
+import useSWR from "swr";
 
-import AttendantPanel from './attendantPanel'
-import DoorkeeperPanel from '../checkin/doorkeeperPanel'
-import { GridContainer, GridItem } from '../ui/grid'
-import BigPixels from '../layout/bigPixels'
-import TitleChooser from '../ui/titleChooser'
-import AddOccurrence from './addOccurrence'
-import useModal, { useCloseModal } from '../modal/useModal'
-import { post } from '../request'
-import usePageContext from '../usePageContext'
+import AttendantPanel from "./attendantPanel";
+import DoorkeeperPanel from "../checkin/doorkeeperPanel";
+import { GridContainer, GridItem } from "../ui/grid";
+import BigPixels from "../layout/bigPixels";
+import TitleChooser from "../ui/titleChooser";
+import AddOccurrence from "./addOccurrence";
+import useModal, { useCloseModal } from "../modal/useModal";
+import { post } from "../request";
+import usePageContext from "../usePageContext";
 
 const AttendancePage = () => {
-  const { title } = usePageContext()
+  const { title } = usePageContext();
 
-  const [currentOccurrence, setCurrentOccurrence] = useState(null)
+  const [currentOccurrence, setCurrentOccurrence] = useState(null);
   const { data: unorderedOccurrences, mutate } = useSWR(
-    '/attendance/occurrences/'
-  )
-  const [openCreateModal] = useModal(AddOccurrence)
-  const closeModal = useCloseModal()
+    "/attendance/occurrences/",
+  );
+  const [openCreateModal] = useModal(AddOccurrence);
+  const closeModal = useCloseModal();
 
-  const create = async data => {
-    const { data: newOccurrence } = await post('/attendance/occurrences/', data)
-    mutate([...unorderedOccurrences, newOccurrence])
-  }
+  const create = async (data) => {
+    const { data: newOccurrence } = await post(
+      "/attendance/occurrences/",
+      data,
+    );
+    mutate([...unorderedOccurrences, newOccurrence]);
+  };
 
   const occurrences = unorderedOccurrences
     ? [...unorderedOccurrences].reverse()
-    : null
+    : null;
 
   // sync currentOccurrence with updated occurrences
-  useEffect(
-    () => {
-      if (currentOccurrence)
-        setCurrentOccurrence(
-          unorderedOccurrences.find(m => m.id === currentOccurrence.id)
-        )
-    },
-    [unorderedOccurrences]
-  )
+  useEffect(() => {
+    if (currentOccurrence)
+      setCurrentOccurrence(
+        unorderedOccurrences.find((m) => m.id === currentOccurrence.id),
+      );
+  }, [unorderedOccurrences]);
 
   return (
     <BigPixels>
@@ -52,12 +52,12 @@ const AttendancePage = () => {
             choices={occurrences}
             label="name"
             action={() => {
-              openCreateModal('Ny händelse', {
-                create: async data => {
-                  await create(data)
-                  closeModal()
+              openCreateModal("Ny händelse", {
+                create: async (data) => {
+                  await create(data);
+                  closeModal();
                 },
-              })
+              });
             }}
             actionLabel="Ny händelse"
             noChoicesLabel="Det finns inga händelser just nu."
@@ -75,7 +75,7 @@ const AttendancePage = () => {
         )}
       </GridContainer>
     </BigPixels>
-  )
-}
+  );
+};
 
-export default AttendancePage
+export default AttendancePage;

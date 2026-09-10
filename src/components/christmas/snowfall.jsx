@@ -1,14 +1,14 @@
-import React from 'react'
-import Snowfall from 'react-snowfall'
-import whiteImage from '../../images/snowflake-white.webp'
-import blueImage from '../../images/dsek-blue.webp'
-import brownImage from '../../images/dsek-brown.webp'
-import ceriseImage from '../../images/dsek-cerise.webp'
-import greenImage from '../../images/dsek-green.webp'
-import yellowImage from '../../images/dsek-yellow.webp'
+import React from "react";
+import Snowfall from "react-snowfall";
+import whiteImage from "../../images/snowflake-white.webp";
+import blueImage from "../../images/dsek-blue.webp";
+import brownImage from "../../images/dsek-brown.webp";
+import ceriseImage from "../../images/dsek-cerise.webp";
+import greenImage from "../../images/dsek-green.webp";
+import yellowImage from "../../images/dsek-yellow.webp";
 
 // Check if the window object is defined, i.e. if the code is running in the browser
-const isBrowser = typeof window !== 'undefined'
+const isBrowser = typeof window !== "undefined";
 
 const DsektionSnowfall = ({
   snowflakeCountDayIncrement,
@@ -16,28 +16,28 @@ const DsektionSnowfall = ({
   dsektionSnowflakeCountBase,
 }) => {
   if (!isBrowser) {
-    return <></>
+    return <></>;
   }
 
-  const currentDate = new Date()
+  const currentDate = new Date();
 
   // If the current month is not december
   if (currentDate.getMonth() != 11) {
-    return <></>
+    return <></>;
   }
 
-  const snowflakeWhite = document.createElement('img')
-  snowflakeWhite.src = whiteImage
-  const snowflakeBlue = document.createElement('img')
-  snowflakeBlue.src = blueImage
-  const snowflakeBrown = document.createElement('img')
-  snowflakeBrown.src = brownImage
-  const snowflakeCerise = document.createElement('img')
-  snowflakeCerise.src = ceriseImage
-  const snowflakeGreen = document.createElement('img')
-  snowflakeGreen.src = greenImage
-  const snowflakeYellow = document.createElement('img')
-  snowflakeYellow.src = yellowImage
+  const snowflakeWhite = document.createElement("img");
+  snowflakeWhite.src = whiteImage;
+  const snowflakeBlue = document.createElement("img");
+  snowflakeBlue.src = blueImage;
+  const snowflakeBrown = document.createElement("img");
+  snowflakeBrown.src = brownImage;
+  const snowflakeCerise = document.createElement("img");
+  snowflakeCerise.src = ceriseImage;
+  const snowflakeGreen = document.createElement("img");
+  snowflakeGreen.src = greenImage;
+  const snowflakeYellow = document.createElement("img");
+  snowflakeYellow.src = yellowImage;
 
   const dsektionSnowflakeImages = [
     snowflakeBlue,
@@ -45,7 +45,7 @@ const DsektionSnowfall = ({
     snowflakeCerise,
     snowflakeGreen,
     snowflakeYellow,
-  ]
+  ];
 
   /*
   Formula for calulating max amount of dsektion color snow particles.
@@ -58,16 +58,16 @@ const DsektionSnowfall = ({
   Also round this value to a whole number.
   */
 
-  const date = currentDate.getDate()
-  const snowflakeCount = snowflakeCountBase + snowflakeCountDayIncrement * date
-  const dsektionSnowflakeAmount = dsektionSnowflakeImages.length
-  const maxDsektionSnowflakes = dsektionSnowflakeCountBase + date
+  const date = currentDate.getDate();
+  const snowflakeCount = snowflakeCountBase + snowflakeCountDayIncrement * date;
+  const dsektionSnowflakeAmount = dsektionSnowflakeImages.length;
+  const maxDsektionSnowflakes = dsektionSnowflakeCountBase + date;
   const whiteSnowflakeAmount = Math.floor(
-    dsektionSnowflakeAmount * (snowflakeCount / maxDsektionSnowflakes - 1)
-  )
+    dsektionSnowflakeAmount * (snowflakeCount / maxDsektionSnowflakes - 1),
+  );
 
-  const whiteSnowflakeImage = Array(whiteSnowflakeAmount).fill(snowflakeWhite)
-  const snowflakeImages = dsektionSnowflakeImages.concat(whiteSnowflakeImage)
+  const whiteSnowflakeImage = Array(whiteSnowflakeAmount).fill(snowflakeWhite);
+  const snowflakeImages = dsektionSnowflakeImages.concat(whiteSnowflakeImage);
 
   return (
     <Snowfall
@@ -79,7 +79,7 @@ const DsektionSnowfall = ({
       radius={[3.0, 7.0]}
       wind={[-1.0, 1.0]}
     />
-  )
-}
+  );
+};
 
-export default DsektionSnowfall
+export default DsektionSnowfall;

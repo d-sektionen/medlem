@@ -1,17 +1,17 @@
-import React, { useContext } from 'react'
-import { UserContext, LoadingContext } from '../layout/layout'
-import Preferences from './preferences'
-import BigPixels from '../layout/bigPixels'
-import { GridContainer, GridItem } from '../ui/grid'
-import CalendarSubscriptions from './calendarSubscriptions'
-import TitleChooser from '../ui/titleChooser'
-import usePageContext from '../usePageContext'
+import React, { useContext } from "react";
+import { UserContext, LoadingContext } from "../layout/layout";
+import Preferences from "./preferences";
+import BigPixels from "../layout/bigPixels";
+import { GridContainer, GridItem } from "../ui/grid";
+import CalendarSubscriptions from "./calendarSubscriptions";
+import TitleChooser from "../ui/titleChooser";
+import usePageContext from "../usePageContext";
 
 const PreferencesPage = () => {
-  const { title } = usePageContext()
+  const { title } = usePageContext();
 
-  const setLoading = useContext(LoadingContext)[1]
-  const [user, setUser] = useContext(UserContext)
+  const setLoading = useContext(LoadingContext)[1];
+  const [user, setUser] = useContext(UserContext);
   return (
     <BigPixels>
       <GridContainer>
@@ -26,7 +26,7 @@ const PreferencesPage = () => {
         </GridItem>
       </GridContainer>
     </BigPixels>
-  )
-}
+  );
+};
 
-export default PreferencesPage
+export default PreferencesPage;

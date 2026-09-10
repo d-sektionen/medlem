@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import { FiTrash2 } from 'react-icons/fi'
+import React, { useState, useEffect } from "react";
+import { FiTrash2 } from "react-icons/fi";
 
-import { List, ListButton, ListItem } from '../ui/list'
-import { Button, ButtonGroup } from '../ui/buttons'
-import { del, post } from '../request'
-import useSWR from 'swr'
+import { List, ListButton, ListItem } from "../ui/list";
+import { Button, ButtonGroup } from "../ui/buttons";
+import { del, post } from "../request";
+import useSWR from "swr";
 
-const getMemberAttendants = attendants => {
+const getMemberAttendants = (attendants) => {
   const memberAttendants = attendants.filter(
-    attendant => attendant.has_voting_rights
-  )
-  return memberAttendants
-}
+    (attendant) => attendant.has_voting_rights,
+  );
+  return memberAttendants;
+};
 
 const AttendantPanel = ({ currentMeeting }) => {
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState("");
 
   const { data: attendants, mutate } = useSWR(
     () => `/voting/attendants/?meeting_id=${currentMeeting.id}`,
-    { refreshInterval: 4000 }
-  )
+    { refreshInterval: 4000 },
+  );
 
-  if (attendants === null) return <></>
+  if (attendants === null) return <></>;
 
   return (
     <div>
@@ -33,7 +33,7 @@ const AttendantPanel = ({ currentMeeting }) => {
         }`}</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AttendantPanel
+export default AttendantPanel;
