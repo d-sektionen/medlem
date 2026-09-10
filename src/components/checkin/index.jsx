@@ -3,6 +3,7 @@ import { FiVideo } from 'react-icons/fi'
 
 import { TextField, CompatibilityTextField } from './textField'
 import {
+  container,
   controlContainer,
   qrRegistration,
   Feedback,

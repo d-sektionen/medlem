@@ -46,8 +46,8 @@ const App = () => (
 
         if (!Component) {
           throw new Error(
-            `No component registered for configured page "${page.path}". ` +
-              'Add it to PAGE_COMPONENTS in src/routes.js'
+            `No component registered for configured page "${path}". ` +
+              'Add it to PAGE_COMPONENTS in App.jsx'
           )
         }
 
