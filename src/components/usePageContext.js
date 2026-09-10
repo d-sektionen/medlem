@@ -27,7 +27,11 @@ export default function usePageContext() {
     () => findPageByPath(location.pathname),
     [location.pathname]
   )
-  const { path, alternativePaths, ...pageContext } = page || {}
 
+  if (!page) {
+    return { title: '404' }
+  }
+
+  const { path, alternativePaths, ...pageContext } = page
   return pageContext
 }

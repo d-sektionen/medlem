@@ -1,7 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Vite configuration
 export default defineConfig(({ mode }) => {
   // Load .env / .env.[mode] without requiring a VITE_ prefix.
   const env = loadEnv(mode, process.cwd(), '')
@@ -10,7 +9,6 @@ export default defineConfig(({ mode }) => {
     // Serve from the domain root (medlem.d-sektionen.se / custom domain via
     // static/CNAME on GitHub Pages).
     base: '/',
-    // Reuse the existing "static" folder as Vite's public directory.
     publicDir: 'static',
     plugins: [react()],
     css: {
@@ -26,6 +24,8 @@ export default defineConfig(({ mode }) => {
       port: 4000,
     },
     // Make BASE_URL from the env file available to client code.
+    // By default, Vite only exposes env vars prefixed with VITE_ to client code, but we want
+    // to use BASE_URL without the prefix.
     define: {
       'process.env.BASE_URL': JSON.stringify(
         env.BASE_URL || 'https://backend.d-sektionen.se'

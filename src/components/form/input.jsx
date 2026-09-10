@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useDeferredValue } from 'react'
 import DateTimePicker from './dateTimePicker'
 
-import styles from '../../scss/form.module.scss'
-
 const AutoInput = ({
   value,
   onChange,
@@ -83,10 +81,10 @@ const AutoInput = ({
   )
 
   return (
-    <label className={styles.Label}>
+    <label>
       {`${label}`}
-      {required && <span className={styles.Required}>*</span>}
-      <div className={styles.inputWrapper}>{component}</div>
+      {required && <span>*</span>}
+      <div>{component}</div>
     </label>
   )
 }
