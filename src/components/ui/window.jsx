@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
-/** 
+/**
  * Destructuring this import causes a module-scoped binding named "window", which shadows the global window object.
  * This in turn causes Vite's injected preamble to fail and break the application.
  * We import it as a namespace object instead to avoid this.
  */
-import * as styles from '../../scss/window.module.scss';
+import * as styles from "../../scss/window.module.scss";
 
 const Window = ({ title, children }) => {
   return (
@@ -20,16 +20,16 @@ const Window = ({ title, children }) => {
       </div>
       <div className={styles.windowContent}>{children}</div>
     </div>
-  )
-}
+  );
+};
 
 Window.defaultProps = {
-  title: '',
-}
+  title: "",
+};
 
 Window.propTypes = {
   title: PropTypes.string,
   children: PropTypes.node.isRequired,
-}
+};
 
-export default Window
+export default Window;

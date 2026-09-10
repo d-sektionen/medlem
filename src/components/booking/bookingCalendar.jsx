@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState } from "react";
 
 import {
   differenceInCalendarDays,
@@ -14,10 +14,10 @@ import {
   addWeeks,
   endOfISOWeek,
   isSameISOWeek,
-} from 'date-fns'
+} from "date-fns";
 
-import ViewBooking from './viewBooking'
-import useModal from '../modal/useModal'
+import ViewBooking from "./viewBooking";
+import useModal from "../modal/useModal";
 
 import {
   controls,
@@ -25,32 +25,32 @@ import {
   restrictedTimeslot,
   timeIndicators,
   nowMarker,
-} from '../../scss/bookingCalendar.module.scss'
-import { Button } from '../ui/buttons'
+} from "../../scss/bookingCalendar.module.scss";
+import { Button } from "../ui/buttons";
 
 const splitDateRangeByDay = (start, end) => {
-  const dayCount = differenceInCalendarDays(end, start)
-  const array = [[start, end]]
+  const dayCount = differenceInCalendarDays(end, start);
+  const array = [[start, end]];
   // When multiple days, split it up.
   for (let i = 1; i <= dayCount; i += 1) {
-    const [prevStart, prevEnd] = array[i - 1]
-    array[i] = [startOfDay(addDays(prevStart, 1)), prevEnd]
+    const [prevStart, prevEnd] = array[i - 1];
+    array[i] = [startOfDay(addDays(prevStart, 1)), prevEnd];
     // update the end of the previous day.
-    array[i - 1][1] = endOfDay(prevStart)
+    array[i - 1][1] = endOfDay(prevStart);
   }
 
-  return array
-}
+  return array;
+};
 
 // the y axis uses one pixel per six minutes (hence division by 6) this is 10 px per hour.
-const calculateX = (date) => getISODay(date) * 50
-const calculateY = (date) => differenceInMinutes(date, startOfDay(date)) / 6
+const calculateX = (date) => getISODay(date) * 50;
+const calculateY = (date) => differenceInMinutes(date, startOfDay(date)) / 6;
 
-const calculateHeight = (start, end) => differenceInMinutes(end, start) / 6
+const calculateHeight = (start, end) => differenceInMinutes(end, start) / 6;
 
 const BookingCalendar = ({ bookings }) => {
-  const [openViewBooking] = useModal(ViewBooking)
-  const [page, setPage] = useState(startOfISOWeek(new Date())) // TODO: fix new year
+  const [openViewBooking] = useModal(ViewBooking);
+  const [page, setPage] = useState(startOfISOWeek(new Date())); // TODO: fix new year
 
   const bookingsThisWeek = useMemo(() => {
     return (
@@ -65,17 +65,17 @@ const BookingCalendar = ({ bookings }) => {
         // show only those in this week
         .filter(
           ({ start, end }) =>
-            start <= endOfISOWeek(page) && end >= startOfISOWeek(page)
+            start <= endOfISOWeek(page) && end >= startOfISOWeek(page),
         )
-    )
-  }, [bookings, page])
+    );
+  }, [bookings, page]);
 
-  const now = new Date()
+  const now = new Date();
 
   const yearString =
     getISOWeekYear(page) === getISOWeekYear(now)
-      ? ''
-      : `, ${getISOWeekYear(page)}`
+      ? ""
+      : `, ${getISOWeekYear(page)}`;
 
   return (
     <div>
@@ -112,31 +112,31 @@ const BookingCalendar = ({ bookings }) => {
             .map((booking, i) => {
               const hasOverlapping = bookingsThisWeek.some((other) => {
                 if (other.id === booking.id) {
-                  return false
+                  return false;
                 }
                 if (!other.restricted_timeslot && booking.restricted_timeslot) {
-                  return false
+                  return false;
                 }
 
                 return (
                   (other.end > booking.start && other.end < booking.end) || // other ends inside booking
                   (other.start > booking.start && other.start < booking.end) || // other starts inside booking
                   (other.start <= booking.start && other.end >= booking.end) // booking is inside other
-                )
-              })
+                );
+              });
 
               // alternate overlap index between 0 and 1 to put overlapping bookings side by side
-              const overlapIndex = i % (hasOverlapping ? 2 : 1)
+              const overlapIndex = i % (hasOverlapping ? 2 : 1);
 
               // make overlapping bookings 1/3 thinner
-              const width = 50 / (hasOverlapping ? 1.5 : 1)
+              const width = 50 / (hasOverlapping ? 1.5 : 1);
 
-              const dayParts = splitDateRangeByDay(booking.start, booking.end)
+              const dayParts = splitDateRangeByDay(booking.start, booking.end);
 
               return (
                 <g
                   className={`${Booking} ${
-                    booking.restricted_timeslot ? restrictedTimeslot : ''
+                    booking.restricted_timeslot ? restrictedTimeslot : ""
                   }`}
                   key={booking.id}
                 >
@@ -151,14 +151,14 @@ const BookingCalendar = ({ bookings }) => {
                         width={width}
                         height={calculateHeight(s, e)}
                         onClick={() =>
-                          openViewBooking('Bokningsinformation', {
+                          openViewBooking("Bokningsinformation", {
                             booking,
                           })
                         }
                       />
                     ))}
                 </g>
-              )
+              );
             })}
         <g className={timeIndicators}>
           {[6, 12, 18].map((hour) => (
@@ -184,7 +184,7 @@ const BookingCalendar = ({ bookings }) => {
         <line x1="50" y1="0" x2="50" y2="240" stroke="lightgray" />
       </svg>
     </div>
-  )
-}
+  );
+};
 
-export default BookingCalendar
+export default BookingCalendar;

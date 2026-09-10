@@ -1,38 +1,38 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { FiVideo } from 'react-icons/fi'
+import React, { useState, useRef, useEffect } from "react";
+import { FiVideo } from "react-icons/fi";
 
-import { TextField, CompatibilityTextField } from './textField'
+import { TextField, CompatibilityTextField } from "./textField";
 import {
   container,
   controlContainer,
   qrRegistration,
   Feedback,
-} from '../../scss/checkin.module.scss'
-import useFeedback from './useFeedback'
-import registerUser from './registerUser'
-import QrScanner from './qrScanner'
-import { IconButton } from '../ui/buttons'
-import useLocalStorage from '../useLocalStorage'
-import { GridContainer, GridItem } from '../ui/grid'
-import BigPixels from '../layout/bigPixels'
-import { FiX } from 'react-icons/fi'
+} from "../../scss/checkin.module.scss";
+import useFeedback from "./useFeedback";
+import registerUser from "./registerUser";
+import QrScanner from "./qrScanner";
+import { IconButton } from "../ui/buttons";
+import useLocalStorage from "../useLocalStorage";
+import { GridContainer, GridItem } from "../ui/grid";
+import BigPixels from "../layout/bigPixels";
+import { FiX } from "react-icons/fi";
 
 const Checkin = ({ events }) => {
-  const [currentEvent, setCurrentEvent] = useState(events[0])
-  const [currentAction, setCurrentAction] = useState(0)
-  const [showQrScanner, setShowQrScanner] = useState(false)
-  const [feedback, setFeedback] = useFeedback()
-  const [_statusMessage, setStatusMessage] = useState('')
+  const [currentEvent, setCurrentEvent] = useState(events[0]);
+  const [currentAction, setCurrentAction] = useState(0);
+  const [showQrScanner, setShowQrScanner] = useState(false);
+  const [feedback, setFeedback] = useFeedback();
+  const [_statusMessage, setStatusMessage] = useState("");
   const [compatibilityMode, setCompatibilityMode] = useLocalStorage(
-    'checkin-compatibility-mode',
-    false
-  )
+    "checkin-compatibility-mode",
+    false,
+  );
 
   // TODO: event contains outdated data when switching back and forth between events
   useEffect(() => {
     if (currentEvent.status_message)
-      setStatusMessage(currentEvent.status_message)
-  }, [currentEvent])
+      setStatusMessage(currentEvent.status_message);
+  }, [currentEvent]);
 
   const textFieldOnSubmit = ({ text }) => {
     registerUser(
@@ -40,12 +40,12 @@ const Checkin = ({ events }) => {
       setStatusMessage,
       currentEvent.id,
       `auto:${text}`,
-      currentAction
-    )
-  }
+      currentAction,
+    );
+  };
 
   if (!currentEvent) {
-    return 'Du är inte dörrvakt på något evenemang.'
+    return "Du är inte dörrvakt på något evenemang.";
   }
 
   return (
@@ -59,7 +59,7 @@ const Checkin = ({ events }) => {
               <input
                 type="checkbox"
                 checked={compatibilityMode}
-                onChange={() => setCompatibilityMode(prev => !prev)}
+                onChange={() => setCompatibilityMode((prev) => !prev)}
               />
               Kompatibilitetsläge
             </label>
@@ -72,14 +72,16 @@ const Checkin = ({ events }) => {
 
             <div className={controlContainer}>
               <select
-                onChange={e => {
+                onChange={(e) => {
                   setCurrentEvent(
-                    events.filter(event => `${event.id}` === e.target.value)[0]
-                  )
+                    events.filter(
+                      (event) => `${event.id}` === e.target.value,
+                    )[0],
+                  );
                 }}
                 value={currentEvent.id}
               >
-                {events.map(event => (
+                {events.map((event) => (
                   <option key={event.id} value={event.id}>
                     {event.name}
                   </option>
@@ -92,8 +94,8 @@ const Checkin = ({ events }) => {
               )}
               {currentEvent.actions.length > 0 && (
                 <select
-                  onChange={e => {
-                    setCurrentAction(parseInt(e.target.value, 10))
+                  onChange={(e) => {
+                    setCurrentAction(parseInt(e.target.value, 10));
                   }}
                   value={currentAction}
                   disabled={currentEvent.actions.length < 2}
@@ -115,7 +117,7 @@ const Checkin = ({ events }) => {
                 {showQrScanner && (
                   <FiX
                     onClick={() => {
-                      setShowQrScanner(false)
+                      setShowQrScanner(false);
                     }}
                   />
                 )}
@@ -135,7 +137,7 @@ const Checkin = ({ events }) => {
                   iconComponent={FiVideo}
                   text="QR"
                   onClick={() => {
-                    setShowQrScanner(true)
+                    setShowQrScanner(true);
                   }}
                 />
               </div>
@@ -154,7 +156,7 @@ const Checkin = ({ events }) => {
         </GridContainer>
       </BigPixels>
     </div>
-  )
-}
+  );
+};
 
-export default Checkin
+export default Checkin;

@@ -1,13 +1,13 @@
-import React, { useEffect, useContext } from 'react'
-import PropTypes from 'prop-types'
-import { motion, AnimatePresence } from 'framer-motion'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect, useContext } from "react";
+import PropTypes from "prop-types";
+import { motion, AnimatePresence } from "framer-motion";
+import { NavLink } from "react-router-dom";
 
-import { FiX, FiGithub } from 'react-icons/fi'
-import { PAGES, BASE_URL } from '../../config'
+import { FiX, FiGithub } from "react-icons/fi";
+import { PAGES, BASE_URL } from "../../config";
 
-import webbu_logo from '../../images/webbu-logo-inverted.png'
-import logo from '../../images/round.svg'
+import webbu_logo from "../../images/webbu-logo-inverted.png";
+import logo from "../../images/round.svg";
 import {
   darknessOverlay,
   menu,
@@ -15,30 +15,41 @@ import {
   imgWrapper,
   pageList,
   thisPage,
-  footer
-} from '../../scss/sideMenu.module.scss'
-import { UserContext } from './layout'
+  footer,
+} from "../../scss/sideMenu.module.scss";
+import { UserContext } from "./layout";
 
 const SideMenu = ({ close, open }) => {
-  const [user] = useContext(UserContext)
+  const [user] = useContext(UserContext);
 
-  const escFunction = event => {
-    if (event.keyCode === 27) close()
-  }
+  const escFunction = (event) => {
+    if (event.keyCode === 27) close();
+  };
   useEffect(() => {
-    document.addEventListener('keydown', escFunction, false)
-    return () => document.removeEventListener('keydown', escFunction, false)
-  }, [])
+    document.addEventListener("keydown", escFunction, false);
+    return () => document.removeEventListener("keydown", escFunction, false);
+  }, []);
 
   return (
-    <AnimatePresence style={{ overflow: 'hidden' }}>
+    <AnimatePresence style={{ overflow: "hidden" }}>
       {open && [
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} 
-          exit={{ opacity: 0 }} transition={{ duration: 0.2, delay: 0 }}
-          className={darknessOverlay} onClick={close} key="overlay" />,
-        <motion.div exit={{ x: '-100%' }} initial={{ x: '-100%' }} 
-          animate={{ x: '0%' }} className={menu} key="menu" 
-          transition={{ x: { type: "spring", bounce: 0, duration: 0.2 }}}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2, delay: 0 }}
+          className={darknessOverlay}
+          onClick={close}
+          key="overlay"
+        />,
+        <motion.div
+          exit={{ x: "-100%" }}
+          initial={{ x: "-100%" }}
+          animate={{ x: "0%" }}
+          className={menu}
+          key="menu"
+          transition={{ x: { type: "spring", bounce: 0, duration: 0.2 } }}
+        >
           <div>
             <div>
               <FiX onClick={close} className={x} />
@@ -52,13 +63,13 @@ const SideMenu = ({ close, open }) => {
 
             <ul className={pageList}>
               {PAGES.reduce((links, current) => {
-                const pageData = current
+                const pageData = current;
                 if (
                   !pageData.menu ||
                   (pageData.requiredPrivileges &&
                     !user.privileges[pageData.requiredPrivileges])
                 )
-                  return links
+                  return links;
                 return [
                   ...links,
                   <li key={`menuitem-${pageData.path}`}>
@@ -72,9 +83,9 @@ const SideMenu = ({ close, open }) => {
                       {pageData.title}
                     </NavLink>
                   </li>,
-                ]
+                ];
               }, [])}
-              {user.privileges['staff'] && (
+              {user.privileges["staff"] && (
                 <li>
                   <a
                     href={`${BASE_URL}/admin`}
@@ -112,12 +123,12 @@ const SideMenu = ({ close, open }) => {
         </motion.div>,
       ]}
     </AnimatePresence>
-  )
-}
+  );
+};
 
 SideMenu.propTypes = {
   close: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-}
+};
 
-export default SideMenu
+export default SideMenu;

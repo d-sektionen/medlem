@@ -1,19 +1,19 @@
-import '../../scss/richText.module.scss'
+import "../../scss/richText.module.scss";
 
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
-import React from 'react'
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import React from "react";
 
 const RichText = ({ value, onChange }) => {
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link', 'image'],
-      ['clean', 'code-block'],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image"],
+      ["clean", "code-block"],
     ],
-  }
+  };
 
   return (
     <ReactQuill
@@ -22,7 +22,7 @@ const RichText = ({ value, onChange }) => {
       value={value}
       onChange={onChange}
     />
-  )
-}
+  );
+};
 
-export default RichText
+export default RichText;

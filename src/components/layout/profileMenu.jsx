@@ -1,31 +1,31 @@
-import React, { useContext } from 'react'
+import React, { useContext } from "react";
 
-import { FiLogOut, FiSettings } from 'react-icons/fi'
-import { IoMdQrScanner } from 'react-icons/io'
+import { FiLogOut, FiSettings } from "react-icons/fi";
+import { IoMdQrScanner } from "react-icons/io";
 
-import { BASE_URL } from '../../config'
-import useModal, { useCloseModal } from '../modal/useModal'
-import QR from './qr'
-import { UserContext } from './layout'
-import { Button, ButtonGroup } from '../ui/buttons'
-import backendService from '../request/backendService'
+import { BASE_URL } from "../../config";
+import useModal, { useCloseModal } from "../modal/useModal";
+import QR from "./qr";
+import { UserContext } from "./layout";
+import { Button, ButtonGroup } from "../ui/buttons";
+import backendService from "../request/backendService";
 
 const ProfileMenu = ({ user }) => {
-  const setUser = useContext(UserContext)[1]
-  const [openModal] = useModal(QR)
-  const closeModal = useCloseModal()
+  const setUser = useContext(UserContext)[1];
+  const [openModal] = useModal(QR);
+  const closeModal = useCloseModal();
 
   const logout = async () => {
-    await backendService.post(`${BASE_URL}/oauth2/logout`)
-    closeModal()
-    setUser(null)
-  }
+    await backendService.post(`${BASE_URL}/oauth2/logout`);
+    closeModal();
+    setUser(null);
+  };
 
   return (
     <div>
       <p>{`${user.pretty_name} (${user.username})`}</p>
       <ButtonGroup>
-        <Button onClick={() => openModal('QR-kod')}>
+        <Button onClick={() => openModal("QR-kod")}>
           <IoMdQrScanner />
           QR-kod
         </Button>
@@ -39,7 +39,7 @@ const ProfileMenu = ({ user }) => {
         </Button>
       </ButtonGroup>
     </div>
-  )
-}
+  );
+};
 
-export default ProfileMenu
+export default ProfileMenu;

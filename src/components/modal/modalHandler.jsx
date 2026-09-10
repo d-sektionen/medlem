@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect, useCallback } from "react";
+import PropTypes from "prop-types";
 
-import ModalContext from './modalContext'
-import Modal from './modal'
+import ModalContext from "./modalContext";
+import Modal from "./modal";
 
 const ModalHandler = ({ children }) => {
-  const [isOpen, setOpen] = useState(false)
-  const [content, setContent] = useState(<></>)
-  const [title, setTitle] = useState('')
-  const [options, setOptions] = useState({})
+  const [isOpen, setOpen] = useState(false);
+  const [content, setContent] = useState(<></>);
+  const [title, setTitle] = useState("");
+  const [options, setOptions] = useState({});
   return (
     <ModalContext.Provider
       value={{
@@ -33,11 +33,11 @@ const ModalHandler = ({ children }) => {
       </Modal>
       {children}
     </ModalContext.Provider>
-  )
-}
+  );
+};
 
 ModalHandler.propTypes = {
   children: PropTypes.node.isRequired,
-}
+};
 
-export default ModalHandler
+export default ModalHandler;

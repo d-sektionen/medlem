@@ -1,6 +1,6 @@
-@import 'vars';
-@import 'normalize';
-@import 'fonts';
+@import "vars";
+@import "normalize";
+@import "fonts";
 
 body {
   font-family: $dsek-font-order;
@@ -58,7 +58,7 @@ select {
   padding: $base-padding;
 }
 
-input[type='checkbox'] {
+input[type="checkbox"] {
   width: 0.8em;
   height: 0.8em;
 }

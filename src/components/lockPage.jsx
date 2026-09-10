@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import { FiLock, FiUnlock, FiWifi, FiWifiOff } from 'react-icons/fi'
+import React, { useState } from "react";
+import { FiLock, FiUnlock, FiWifi, FiWifiOff } from "react-icons/fi";
 import {
   FaBatteryHalf,
   FaBatteryQuarter,
   FaBatteryThreeQuarters,
   FaBatteryFull,
   FaBatteryEmpty,
-} from 'react-icons/fa'
-import erkan from '../images/erkan.png'
-import rumett from '../images/rumett.png'
+} from "react-icons/fa";
+import erkan from "../images/erkan.png";
+import rumett from "../images/rumett.png";
 
 import {
   success,
@@ -18,122 +18,122 @@ import {
   roomTitle,
   batteryContainer,
   lockItemClass,
-} from '../scss/lock.module.scss'
-import { post, get } from './request'
-import BigPixels from './layout/bigPixels'
-import { IconButton } from './ui/buttons'
-import { GridContainer, GridItem } from './ui/grid'
-import useSWR from 'swr'
+} from "../scss/lock.module.scss";
+import { post, get } from "./request";
+import BigPixels from "./layout/bigPixels";
+import { IconButton } from "./ui/buttons";
+import { GridContainer, GridItem } from "./ui/grid";
+import useSWR from "swr";
 
-const STATUS_REFRESH_INTERVAL = 2 * 1000 // 2 sec
-const CRITICAL_BATTERY_LEVEL = 15 // percentage
+const STATUS_REFRESH_INTERVAL = 2 * 1000; // 2 sec
+const CRITICAL_BATTERY_LEVEL = 15; // percentage
 
 const LockStatus = ({ batteryPercentage, lockOnline, lockUnlocked }) => {
   const BatteryIcon = () => {
-    if (batteryPercentage > 75) return <FaBatteryFull />
-    if (batteryPercentage > 50) return <FaBatteryThreeQuarters />
-    if (batteryPercentage > 25) return <FaBatteryHalf />
-    if (batteryPercentage > 0) return <FaBatteryQuarter />
+    if (batteryPercentage > 75) return <FaBatteryFull />;
+    if (batteryPercentage > 50) return <FaBatteryThreeQuarters />;
+    if (batteryPercentage > 25) return <FaBatteryHalf />;
+    if (batteryPercentage > 0) return <FaBatteryQuarter />;
 
-    return <FaBatteryEmpty />
-  }
+    return <FaBatteryEmpty />;
+  };
 
   const OnlineIcon = () => {
-    if (lockOnline) return <FiWifi />
+    if (lockOnline) return <FiWifi />;
 
-    return <FiWifiOff />
-  }
+    return <FiWifiOff />;
+  };
 
   const UnlockedIcon = () => {
-    if (lockUnlocked) return <FiUnlock />
+    if (lockUnlocked) return <FiUnlock />;
 
-    return <FiLock />
-  }
+    return <FiLock />;
+  };
 
   return (
     <div className={batteryContainer}>
-      <p className={batteryPercentage < CRITICAL_BATTERY_LEVEL ? error : ''}>
+      <p className={batteryPercentage < CRITICAL_BATTERY_LEVEL ? error : ""}>
         {`${Math.round(batteryPercentage)}%`}
       </p>
       <BatteryIcon />
       <p>&#x2022;</p>
       <p className={lockOnline ? success : error}>
-        {lockOnline ? 'Online' : 'Offline'}
+        {lockOnline ? "Online" : "Offline"}
       </p>
       <OnlineIcon />
       <p>&#x2022;</p>
       <p className={lockUnlocked ? success : error}>
-        {lockUnlocked ? 'Upplåst' : 'Låst'}
+        {lockUnlocked ? "Upplåst" : "Låst"}
       </p>
       <UnlockedIcon />
     </div>
-  )
-}
+  );
+};
 
 const LockItem = ({ logo, displayName, lockName }) => {
-  const [isRateLimited, setIsRateLimited] = useState(false)
+  const [isRateLimited, setIsRateLimited] = useState(false);
   const [lockData, setLockData] = useState({
-    message: '',
+    message: "",
     battery_percentage: 100,
     online: true,
     unlocked: false,
-  })
+  });
 
-  const [messageClass, setMessageClass] = useState(success)
-  const lock_base_url = `/locks/${lockName.toLowerCase()}`
+  const [messageClass, setMessageClass] = useState(success);
+  const lock_base_url = `/locks/${lockName.toLowerCase()}`;
 
   // Requests a lock/unlock request at backend.
   const request = async (command) => {
     try {
-      const { data } = await post(`${lock_base_url}/${command}/`)
+      const { data } = await post(`${lock_base_url}/${command}/`);
 
-      if (data.message.length) setMessageClass(success)
+      if (data.message.length) setMessageClass(success);
 
       setLockData((prev) => {
         return {
           ...data,
           message: data.message.length ? data.message : prev.message,
-        }
-      })
+        };
+      });
     } catch (err) {
-      setMessageClass(error)
+      setMessageClass(error);
 
       switch (err.response?.status) {
         case 429:
-          const wait_until = err.response.headers.get('retry-after')
+          const wait_until = err.response.headers.get("retry-after");
 
-          setIsRateLimited(true)
+          setIsRateLimited(true);
           setTimeout(() => {
-            setIsRateLimited(false)
-          }, wait_until * 1000)
+            setIsRateLimited(false);
+          }, wait_until * 1000);
 
           return setLockData((prev) => {
             return {
               ...prev,
               message: `Du har försökt låsa/låsa upp för många gånger, vänta ${wait_until} sekunder`,
-            }
-          })
+            };
+          });
         default:
           if (err.response?.data) {
-            setLockData(err.response.data)
+            setLockData(err.response.data);
           } else {
             setLockData({
-              message: 'Kunde inte kommunicera med servern.',
+              message: "Kunde inte kommunicera med servern.",
               battery_percentage: 0,
               online: false,
               unlocked: false,
-            })
+            });
           }
       }
     }
-  }
+  };
 
   // SWR to regularly update lock data variable and upon mount.
   useSWR(
     `${lock_base_url}/`,
     async (url) => {
-      const { data } = await get(url)
-      return data
+      const { data } = await get(url);
+      return data;
     },
     {
       onSuccess: (data) => {
@@ -141,18 +141,18 @@ const LockItem = ({ logo, displayName, lockName }) => {
           return {
             ...data,
             message: data.message.length ? data.message : prev.message,
-          }
-        })
-        if (data.message.length) setMessageClass(success)
+          };
+        });
+        if (data.message.length) setMessageClass(success);
       },
       onError: (error) => {
-        const data = error.response?.data ? error.response.data : error
-        setLockData(data)
-        setMessageClass(error)
+        const data = error.response?.data ? error.response.data : error;
+        setLockData(data);
+        setMessageClass(error);
       },
       refreshInterval: STATUS_REFRESH_INTERVAL,
-    }
-  )
+    },
+  );
 
   return (
     <GridItem>
@@ -170,19 +170,19 @@ const LockItem = ({ logo, displayName, lockName }) => {
         <IconButton
           iconComponent={FiLock}
           text="Lås"
-          onClick={() => request('lock')}
+          onClick={() => request("lock")}
           disabled={isRateLimited}
         />
         <IconButton
           iconComponent={FiUnlock}
           text="Lås upp"
-          onClick={() => request('unlock')}
+          onClick={() => request("unlock")}
           disabled={isRateLimited}
         />
       </div>
     </GridItem>
-  )
-}
+  );
+};
 
 const BettanPage = () => {
   return (
@@ -203,7 +203,7 @@ const BettanPage = () => {
         ></LockItem>
       </GridContainer>
     </BigPixels>
-  )
-}
+  );
+};
 
-export default BettanPage
+export default BettanPage;

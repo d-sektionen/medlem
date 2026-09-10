@@ -1,6 +1,6 @@
-import { textarea } from '../../scss/textarea.module.scss'
+import { textarea } from "../../scss/textarea.module.scss";
 
-import React from 'react'
+import React from "react";
 
 const TextArea = ({ value, onChange }) => {
   return (
@@ -9,7 +9,7 @@ const TextArea = ({ value, onChange }) => {
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />
-  )
-}
+  );
+};
 
-export default TextArea
+export default TextArea;

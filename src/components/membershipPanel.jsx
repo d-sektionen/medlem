@@ -1,42 +1,42 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
-import { get, post, del } from './request'
-import { Button } from './ui/buttons'
+import { get, post, del } from "./request";
+import { Button } from "./ui/buttons";
 
-import { inputLabel } from '../scss/membership.module.scss'
+import { inputLabel } from "../scss/membership.module.scss";
 
 const MembershipPanel = () => {
-  const [initiallyLoaded, setInitiallyLoaded] = useState(true)
-  const [sent, setSent] = useState(false)
-  const [startingYear, setStartingYear] = useState('')
-  const [program, setProgram] = useState('Empty')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [message, setMessage] = useState('')
-  const [errors, setErrors] = useState('')
+  const [initiallyLoaded, setInitiallyLoaded] = useState(true);
+  const [sent, setSent] = useState(false);
+  const [startingYear, setStartingYear] = useState("");
+  const [program, setProgram] = useState("Empty");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState("");
 
   useEffect(() => {
-    get('/membership/request/')
+    get("/membership/request/")
       .then(() => {
-        setSent(true)
-        setErrors(null)
-        setInitiallyLoaded(true)
+        setSent(true);
+        setErrors(null);
+        setInitiallyLoaded(true);
       })
-      .catch(err => {
-        setInitiallyLoaded(true)
+      .catch((err) => {
+        setInitiallyLoaded(true);
         if (err.response && err.response.status === 404) {
-          setSent(false)
-          setErrors(null)
+          setSent(false);
+          setErrors(null);
         } else if (err.response && err.response.data) {
-          setErrors(err.response.data)
+          setErrors(err.response.data);
         }
-      })
-  }, [])
+      });
+  }, []);
 
-  const submitRequest = e => {
-    e.preventDefault()
+  const submitRequest = (e) => {
+    e.preventDefault();
 
-    post('/membership/request/', {
+    post("/membership/request/", {
       first_name: firstName,
       last_name: lastName,
       program,
@@ -44,33 +44,33 @@ const MembershipPanel = () => {
       message,
     })
       .then(() => {
-        setErrors(null)
-        setSent(true)
+        setErrors(null);
+        setSent(true);
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.response && err.response.data) {
-          setErrors(err.response.data)
+          setErrors(err.response.data);
         }
-      })
-  }
+      });
+  };
 
   const removeRequest = () => {
     if (
       window.confirm(
-        'Är du säker på att du vill återkalla din medlemsförfrågan?'
+        "Är du säker på att du vill återkalla din medlemsförfrågan?",
       )
     )
-      del('/membership/request/')
+      del("/membership/request/")
         .then(() => {
-          setSent(false)
-          setErrors(null)
+          setSent(false);
+          setErrors(null);
         })
-        .catch(err => {
+        .catch((err) => {
           if (err.response && err.response.data) {
-            setErrors(err.response.data)
+            setErrors(err.response.data);
           }
-        })
-  }
+        });
+  };
 
   return (
     <>
@@ -99,8 +99,9 @@ const MembershipPanel = () => {
           <p>
             Med ansökan kommer du att prenumerera på vårt nyhetsbrev, där vi
             informerar om kommande evenemang och annan information som kan vara
-            av intresse för dig som student på D-sektionen.
-            För att avsluta prenumerationen kan du gå till profilinställningar efter att du har loggat in.
+            av intresse för dig som student på D-sektionen. För att avsluta
+            prenumerationen kan du gå till profilinställningar efter att du har
+            loggat in.
           </p>
 
           <form onSubmit={submitRequest}>
@@ -108,23 +109,23 @@ const MembershipPanel = () => {
               Förnamn
               <input
                 value={firstName}
-                onChange={e => setFirstName(e.target.value)}
+                onChange={(e) => setFirstName(e.target.value)}
               />
-              {errors && errors.first_name && errors.first_name.join(', ')}
+              {errors && errors.first_name && errors.first_name.join(", ")}
             </label>
             <label className={inputLabel}>
               Efternamn
               <input
                 value={lastName}
-                onChange={e => setLastName(e.target.value)}
+                onChange={(e) => setLastName(e.target.value)}
               />
-              {errors && errors.last_name && errors.last_name.join(', ')}
+              {errors && errors.last_name && errors.last_name.join(", ")}
             </label>
             <label className={inputLabel}>
               Program
               <select
                 value={program}
-                onChange={e => setProgram(e.target.value)}
+                onChange={(e) => setProgram(e.target.value)}
               >
                 <option value="Empty" />
                 <option value="D">Datateknik (D)</option>
@@ -134,26 +135,26 @@ const MembershipPanel = () => {
                 <option value="CS">Masterprogram Computer Science (CS)</option>
                 <option value="CY">Masterprogram Cybersecurity (CYS)</option>
               </select>
-              {errors && errors.program && errors.program.join(', ')}
+              {errors && errors.program && errors.program.join(", ")}
             </label>
             <label className={inputLabel}>
               Startår
               <input
                 type="number"
                 value={startingYear}
-                onChange={e => setStartingYear(parseInt(e.target.value, 10))}
+                onChange={(e) => setStartingYear(parseInt(e.target.value, 10))}
               />
               {errors &&
                 errors.starting_year &&
-                errors.starting_year.join(', ')}
+                errors.starting_year.join(", ")}
             </label>
             <label className={inputLabel}>
               Övrig information (kan lämnas tom)
               <textarea
                 value={message}
-                onChange={e => setMessage(e.target.value)}
+                onChange={(e) => setMessage(e.target.value)}
               />
-              {errors && errors.message && errors.message.join(', ')}
+              {errors && errors.message && errors.message.join(", ")}
             </label>
             <Button type="submit">Skicka förfrågan</Button>
           </form>
@@ -170,7 +171,7 @@ const MembershipPanel = () => {
       )}
       {errors && errors.detail}
     </>
-  )
-}
+  );
+};
 
-export default MembershipPanel
+export default MembershipPanel;

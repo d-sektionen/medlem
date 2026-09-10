@@ -1,18 +1,18 @@
-import React from 'react'
-import { checklist } from '../../scss/ui.module.scss'
+import React from "react";
+import { checklist } from "../../scss/ui.module.scss";
 
 export const Checklist = ({ items, selected, setSelected, maxSelected }) => {
   const toggleSelectedItem = (itemId) => {
     if (selected.includes(itemId)) {
-      setSelected(selected.filter((id) => id !== itemId))
+      setSelected(selected.filter((id) => id !== itemId));
     } else {
-      const newItems = [...selected, itemId]
+      const newItems = [...selected, itemId];
       if (newItems.length > maxSelected) {
-        newItems.shift()
+        newItems.shift();
       }
-      setSelected(newItems)
+      setSelected(newItems);
     }
-  }
+  };
 
   return (
     <div className={checklist}>
@@ -27,5 +27,5 @@ export const Checklist = ({ items, selected, setSelected, maxSelected }) => {
         </label>
       ))}
     </div>
-  )
-}
+  );
+};

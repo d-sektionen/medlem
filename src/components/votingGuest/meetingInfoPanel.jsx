@@ -1,6 +1,6 @@
-import React from 'react'
-import { Button } from '../ui/buttons'
-import { post, del } from '../request'
+import React from "react";
+import { Button } from "../ui/buttons";
+import { post, del } from "../request";
 
 const MeetingInfoPanel = ({ currentMeeting }) => (
   <div>
@@ -9,14 +9,14 @@ const MeetingInfoPanel = ({ currentMeeting }) => (
     <p>
       <strong>
         {currentMeeting.attending
-          ? 'Du deltar på mötet som gäst.'
-          : 'Du är inte registrerad på mötet.'}
+          ? "Du deltar på mötet som gäst."
+          : "Du är inte registrerad på mötet."}
       </strong>
     </p>
     {currentMeeting.description && (
-      <p style={{ whiteSpace: 'pre-line' }}>{currentMeeting.description}</p>
+      <p style={{ whiteSpace: "pre-line" }}>{currentMeeting.description}</p>
     )}
   </div>
-)
+);
 
-export default MeetingInfoPanel
+export default MeetingInfoPanel;

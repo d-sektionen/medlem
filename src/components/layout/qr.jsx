@@ -1,24 +1,24 @@
-import React, { useRef, useEffect, useState } from 'react'
-import QRCode from 'qrcode'
-import { Link } from 'react-router-dom'
-import useSWR from 'swr'
+import React, { useRef, useEffect, useState } from "react";
+import QRCode from "qrcode";
+import { Link } from "react-router-dom";
+import useSWR from "swr";
 
-import { qrWrapper1, qrWrapper2, qr } from '../../scss/qr.module.scss'
-import { useCloseModal } from '../modal/useModal'
+import { qrWrapper1, qrWrapper2, qr } from "../../scss/qr.module.scss";
+import { useCloseModal } from "../modal/useModal";
 
 const QR = () => {
-  const { data } = useSWR('/account/identification-token/')
-  const [error, setError] = useState(null)
-  const canvasRef = useRef(null)
-  const closeModal = useCloseModal()
+  const { data } = useSWR("/account/identification-token/");
+  const [error, setError] = useState(null);
+  const canvasRef = useRef(null);
+  const closeModal = useCloseModal();
 
   useEffect(() => {
     if (data && data.token) {
-      QRCode.toCanvas(canvasRef.current, data.token, { scale: 8 }, err => {
-        if (err) setError(err)
-      })
+      QRCode.toCanvas(canvasRef.current, data.token, { scale: 8 }, (err) => {
+        if (err) setError(err);
+      });
     }
-  }, [data])
+  }, [data]);
 
   return (
     <div>
@@ -45,7 +45,7 @@ const QR = () => {
         .
       </p>
     </div>
-  )
-}
+  );
+};
 
-export default QR
+export default QR;

@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
-import { LoadingContext } from './layout'
-import Pixels from './pixels'
-import { pixels } from '../../scss/layout.module.scss'
+import React, { useContext } from "react";
+import PropTypes from "prop-types";
+import { LoadingContext } from "./layout";
+import Pixels from "./pixels";
+import { pixels } from "../../scss/layout.module.scss";
 
 const BigPixels = ({ children = undefined }) => {
-  const [loading] = useContext(LoadingContext)
+  const [loading] = useContext(LoadingContext);
 
   return (
     <>
@@ -17,11 +17,11 @@ const BigPixels = ({ children = undefined }) => {
         <div className={content}>{children}</div>
       </div> */}
     </>
-  )
-}
+  );
+};
 
 BigPixels.propTypes = {
   children: PropTypes.node,
-}
+};
 
-export default BigPixels
+export default BigPixels;

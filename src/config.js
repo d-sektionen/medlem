@@ -12,9 +12,10 @@ The value in there will be prefered.
 .env.development will affect `npm run dev`
 .env.production will affect `npm run build`, `npm run preview` and `npm run deploy`
 */
-export const BASE_URL = process.env.BASE_URL || 'https://backend.d-sektionen.se'
+export const BASE_URL =
+  process.env.BASE_URL || "https://backend.d-sektionen.se";
 
-export const TITLE = 'Medlem D-sektionen'
+export const TITLE = "Medlem D-sektionen";
 
 /*
 Definitions of all pages in the app. 
@@ -32,73 +33,73 @@ It is rendered by the router when no other page matches the current URL (see App
 */
 export const PAGES = [
   {
-    path: '/',
-    title: 'Hem',
+    path: "/",
+    title: "Hem",
     menu: true,
   },
   {
-    path: '/preferences',
-    title: 'Kontoinställningar',
+    path: "/preferences",
+    title: "Kontoinställningar",
     menu: true,
   },
   {
-    path: '/vote',
-    title: 'D-cide',
-    requiredPrivileges: 'member',
+    path: "/vote",
+    title: "D-cide",
+    requiredPrivileges: "member",
     menu: true,
   },
   {
-    path: '/voting-guest',
-    title: 'D-cide Gäst',
-    requiredPrivileges: 'not_member',
+    path: "/voting-guest",
+    title: "D-cide Gäst",
+    requiredPrivileges: "not_member",
     menu: true,
   },
   {
-    path: '/voting-admin',
-    title: 'D-cide Admin',
-    requiredPrivileges: 'voting_admin',
+    path: "/voting-admin",
+    title: "D-cide Admin",
+    requiredPrivileges: "voting_admin",
     menu: true,
   },
   {
-    path: '/voting-counter',
-    title: 'D-cide Rösträknare',
-    requiredPrivileges: 'voting_counter',
+    path: "/voting-counter",
+    title: "D-cide Rösträknare",
+    requiredPrivileges: "voting_counter",
     menu: true,
   },
   {
-    path: '/locks',
-    title: 'Lås',
-    requiredPrivileges: 'member',
+    path: "/locks",
+    title: "Lås",
+    requiredPrivileges: "member",
     menu: true,
   },
   {
-    path: '/booking',
-    title: 'Bokning',
+    path: "/booking",
+    title: "Bokning",
     menu: true,
   },
   {
-    path: '/attendance',
-    title: 'Närvarosystemet',
-    requiredPrivileges: 'attendance_admin',
+    path: "/attendance",
+    title: "Närvarosystemet",
+    requiredPrivileges: "attendance_admin",
     menu: true,
   },
   {
-    path: '/checkin',
-    alternativePaths: ['/blipp'],
-    title: 'Blippsystemet',
-    requiredPrivileges: 'doorkeeper',
+    path: "/checkin",
+    alternativePaths: ["/blipp"],
+    title: "Blippsystemet",
+    requiredPrivileges: "doorkeeper",
     menu: true,
   },
   {
-    path: '/keylog',
-    title: 'Nyckelloggbok',
-    requiredPrivileges: 'staff',
+    path: "/keylog",
+    title: "Nyckelloggbok",
+    requiredPrivileges: "staff",
     menu: true,
   },
   {
-    path: '/mail',
-    title: 'Mailutskick',
-    requiredPrivileges: 'infomail_sender',
+    path: "/mail",
+    title: "Mailutskick",
+    requiredPrivileges: "infomail_sender",
     menu: true,
   },
-]
+];

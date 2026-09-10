@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
-import { iconButton, button, buttonGroup } from '../../scss/ui.module.scss'
+import { iconButton, button, buttonGroup } from "../../scss/ui.module.scss";
 
 const IconButton = ({ onClick, iconComponent: Icon, text, disabled }) => {
   // TODO: add anchor tag mode.
@@ -15,8 +15,8 @@ const IconButton = ({ onClick, iconComponent: Icon, text, disabled }) => {
       <Icon />
       <div>{text}</div>
     </button>
-  )
-}
+  );
+};
 
 const Button = ({
   onClick,
@@ -25,7 +25,7 @@ const Button = ({
   target,
   children,
   disabled,
-  type = 'button',
+  type = "button",
 }) => {
   if (to)
     return (
@@ -35,8 +35,8 @@ const Button = ({
         onClick={
           disabled
             ? (e) => {
-                e.preventDefault()
-                e.stopPropagation()
+                e.preventDefault();
+                e.stopPropagation();
               }
             : onClick
         }
@@ -45,7 +45,7 @@ const Button = ({
       >
         {children}
       </Link>
-    )
+    );
 
   if (href)
     return (
@@ -56,8 +56,8 @@ const Button = ({
         onClick={
           disabled
             ? (e) => {
-                e.preventDefault()
-                e.stopPropagation()
+                e.preventDefault();
+                e.stopPropagation();
               }
             : onClick
         }
@@ -66,7 +66,7 @@ const Button = ({
       >
         {children}
       </a>
-    )
+    );
 
   return (
     <button
@@ -77,11 +77,11 @@ const Button = ({
     >
       {children}
     </button>
-  )
-}
+  );
+};
 
 const ButtonGroup = ({ children }) => (
   <div className={buttonGroup}>{children}</div>
-)
+);
 
-export { IconButton, Button, ButtonGroup }
+export { IconButton, Button, ButtonGroup };

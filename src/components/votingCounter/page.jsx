@@ -1,50 +1,50 @@
-import React, { useState, useEffect } from 'react'
-import useSWR from 'swr'
+import React, { useState, useEffect } from "react";
+import useSWR from "swr";
 
-import MeetingPanel from './meetingPanel'
-import DoorkeeperPanel from '../checkin/doorkeeperPanel'
-import VotePanel from './votePanel'
-import AttendantPanel from './attendantPanel'
-import { GridContainer, GridItem } from '../ui/grid'
-import SpeakerPanel from './speakerPanel'
-import TitleChooser from '../ui/titleChooser'
-import useModal, { useCloseModal } from '../modal/useModal'
-import { post, patch } from '../request'
-import BigPixels from '../layout/bigPixels'
-import usePageContext from '../usePageContext'
+import MeetingPanel from "./meetingPanel";
+import DoorkeeperPanel from "../checkin/doorkeeperPanel";
+import VotePanel from "./votePanel";
+import AttendantPanel from "./attendantPanel";
+import { GridContainer, GridItem } from "../ui/grid";
+import SpeakerPanel from "./speakerPanel";
+import TitleChooser from "../ui/titleChooser";
+import useModal, { useCloseModal } from "../modal/useModal";
+import { post, patch } from "../request";
+import BigPixels from "../layout/bigPixels";
+import usePageContext from "../usePageContext";
 
 const VotingAdminPage = () => {
   const { title } = usePageContext();
 
-  const [currentMeeting, setCurrentMeeting] = useState(null)
-  const { data: unorderedMeetings, mutate } = useSWR('/voting/admin-meetings/')
-  const closeModal = useCloseModal()
+  const [currentMeeting, setCurrentMeeting] = useState(null);
+  const { data: unorderedMeetings, mutate } = useSWR("/voting/admin-meetings/");
+  const closeModal = useCloseModal();
 
   const create = async (data) => {
-    const { data: newMeeting } = await post('/voting/admin-meetings/', data)
-    mutate([...unorderedMeetings, newMeeting])
-  }
+    const { data: newMeeting } = await post("/voting/admin-meetings/", data);
+    mutate([...unorderedMeetings, newMeeting]);
+  };
 
   const updatePatch = async (data) => {
     const { data: updatedMeeting } = await patch(
       `/voting/admin-meetings/${currentMeeting.id}/`,
-      data
-    )
+      data,
+    );
     mutate([
       ...unorderedMeetings.filter(
-        (meeting) => meeting.id !== currentMeeting.id
+        (meeting) => meeting.id !== currentMeeting.id,
       ),
       updatedMeeting,
-    ])
-  }
+    ]);
+  };
 
-  const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null
+  const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null;
 
   // sync currentMeeting with updated meetings
   useEffect(() => {
     if (currentMeeting)
-      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id))
-  }, [meetings])
+      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
+  }, [meetings]);
 
   return (
     <BigPixels>
@@ -78,7 +78,7 @@ const VotingAdminPage = () => {
         )}
       </GridContainer>
     </BigPixels>
-  )
-}
+  );
+};
 
-export default VotingAdminPage
+export default VotingAdminPage;

@@ -1,12 +1,12 @@
-import React from 'react'
+import React from "react";
 
 export default React.createContext({
   isOpen: false,
   content: <></>,
-  title: '',
+  title: "",
   options: {},
   setOpen: () => {},
   setContent: () => {},
   setTitle: () => {},
   setOptions: () => {},
-})
+});

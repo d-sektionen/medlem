@@ -1,56 +1,52 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
-import { contentWrapper } from '../../scss/layout.module.scss'
+import { contentWrapper } from "../../scss/layout.module.scss";
 
-import BigPixels from './bigPixels'
-import { GridContainer, GridItem } from '../ui/grid'
-import { Button } from '../ui/buttons'
-import SideMenu from './sideMenu'
-import TopBar from './topBar'
-import LoginPage from './loginPage'
-import BackendService from '../request/backendService'
-import usePageContext from '../usePageContext'
+import BigPixels from "./bigPixels";
+import { GridContainer, GridItem } from "../ui/grid";
+import { Button } from "../ui/buttons";
+import SideMenu from "./sideMenu";
+import TopBar from "./topBar";
+import LoginPage from "./loginPage";
+import BackendService from "../request/backendService";
+import usePageContext from "../usePageContext";
 
-const LayoutContent = ({
-  children,
-  userContextValue,
-  loadingContextValue,
-}) => {
+const LayoutContent = ({ children, userContextValue, loadingContextValue }) => {
   const pageContext = usePageContext();
 
-  const [user, setUser] = userContextValue
-  const [loading, setLoading] = loadingContextValue
-  const [sideMenuOpen, setSideMenuOpen] = useState(false)
-  const [error, setError] = useState(null)
+  const [user, setUser] = userContextValue;
+  const [loading, setLoading] = loadingContextValue;
+  const [sideMenuOpen, setSideMenuOpen] = useState(false);
+  const [error, setError] = useState(null);
 
-  const requiredPrivileges = pageContext.requiredPrivileges
-  const [hasPrivileges, setHasPrivileges] = useState(false)
+  const requiredPrivileges = pageContext.requiredPrivileges;
+  const [hasPrivileges, setHasPrivileges] = useState(false);
 
   function handlePageChange() {
     setHasPrivileges(
-      requiredPrivileges == undefined || user?.privileges[requiredPrivileges]
-    )
+      requiredPrivileges == undefined || user?.privileges[requiredPrivileges],
+    );
   }
-  useEffect(handlePrivilegeChange, [user, requiredPrivileges])
+  useEffect(handlePrivilegeChange, [user, requiredPrivileges]);
 
   function handlePrivilegeChange() {
     setHasPrivileges(
-      requiredPrivileges == undefined || user?.privileges[requiredPrivileges]
-    )
+      requiredPrivileges == undefined || user?.privileges[requiredPrivileges],
+    );
   }
-  useEffect(handlePageChange, [pageContext])
+  useEffect(handlePageChange, [pageContext]);
 
-  const loggedIn = user !== null
+  const loggedIn = user !== null;
 
   async function getUser() {
     try {
-      setLoading(true)
-      const { data } = await BackendService.get('/account/me/')
-      setUser(data)
-      setError(null)
+      setLoading(true);
+      const { data } = await BackendService.get("/account/me/");
+      setUser(data);
+      setError(null);
     } catch (err) {
-      setUser(null)
+      setUser(null);
 
       if (!err.response) {
         setError(
@@ -59,21 +55,21 @@ const LayoutContent = ({
             <Button onClick={() => window.location.reload()}>
               Ladda om sidan
             </Button>
-          </>
-        )
+          </>,
+        );
       }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   useEffect(() => {
-    getUser()
-  }, [])
+    getUser();
+  }, []);
 
   // Page is loading
   if (loading) {
-    return <BigPixels />
+    return <BigPixels />;
   }
 
   return (
@@ -112,13 +108,13 @@ const LayoutContent = ({
         {!loggedIn && !error && <LoginPage></LoginPage>}
       </div>
     </>
-  )
-}
+  );
+};
 
 LayoutContent.propTypes = {
   children: PropTypes.node.isRequired,
   userContextValue: PropTypes.array.isRequired,
   loadingContextValue: PropTypes.array.isRequired,
-}
+};
 
-export default LayoutContent
+export default LayoutContent;
