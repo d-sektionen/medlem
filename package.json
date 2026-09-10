@@ -16,7 +16,9 @@
     "build": "vite build && cp dist/index.html dist/404.html",
     "preview": "vite preview",
     "serve": "vite preview --port 4000",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist",
+    "format": "prettier . --write",
+    "check": "prettier . --check"
   },
   "dependencies": {
     "@zxing/library": "^0.20.0",
@@ -42,6 +44,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^5.2.0",
     "gh-pages": "^6.1.1",
+    "prettier": "3.9.6",
     "vite": "^8.0.0"
   }
 }
