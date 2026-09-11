@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FiCheck, FiSend, FiSlash, FiUpload, FiUser } from "react-icons/fi";
 import {
   confirmation,
@@ -90,7 +90,7 @@ const MailPage = () => {
         }}
         options={{}}
       >
-        {modalState == ModalState.CONFIRMATION ? (
+        {modalState === ModalState.CONFIRMATION ? (
           <div className={confirmation}>
             <div>
               <h3>Är du säker på att du vill skicka ut detta infomail?</h3>
@@ -112,17 +112,17 @@ const MailPage = () => {
               </Button>
             </div>
           </div>
-        ) : modalState == ModalState.SENDING ? (
+        ) : modalState === ModalState.SENDING ? (
           <div className={status}>
             <FiUpload size="9rem" />
             <h2>Mailet skickas...</h2>
           </div>
-        ) : modalState == ModalState.SUCCESS ? (
+        ) : modalState === ModalState.SUCCESS ? (
           <div className={status}>
             <FiSend size="9rem" className={textSuccess} />
             <h2 className={textSuccess}>Mailet har skickats!</h2>
           </div>
-        ) : modalState == ModalState.FAIL ? (
+        ) : modalState === ModalState.FAIL ? (
           <div className={status}>
             <FiSlash size="9rem" className={textFail} />
             <h2 className={textFail}>Ett fel uppstod vid utskick av mailet.</h2>
@@ -151,15 +151,17 @@ const MailPage = () => {
 
               <br />
 
-              <label>
+              <label htmlFor="info-cheif-content">
                 Infochefens hörna
                 {rawMode ? (
                   <Textarea
+                    id="info-cheif-content"
                     value={infoChiefContent}
                     onChange={setInfoChiefContent}
                   />
                 ) : (
                   <RichText
+                    id="info-cheif-content"
                     value={infoChiefContent}
                     onChange={setInfoChiefContent}
                   />
@@ -168,12 +170,12 @@ const MailPage = () => {
 
               <br />
 
-              <label>
+              <label htmlFor="info-content">
                 Innehåll
                 {rawMode ? (
-                  <Textarea value={content} onChange={setContent} />
+                  <Textarea id="info-content" value={content} onChange={setContent} />
                 ) : (
-                  <RichText value={content} onChange={setContent} />
+                  <RichText id="info-content" value={content} onChange={setContent} />
                 )}
               </label>
             </div>
