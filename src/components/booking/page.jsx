@@ -1,5 +1,5 @@
 import { startOfISOWeek, subWeeks } from "date-fns";
-import React, { useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import BigPixels from "../layout/bigPixels";
 import { del, post, put } from "../request";
@@ -27,20 +27,21 @@ const BookingPage = () => {
     () =>
       pool &&
       `/booking/bookings/?pool=${pool.id}${
-        afterDate ? "&after=" + afterDate : ""
+        afterDate ? `&after=${afterDate}` : ""
       }`,
   );
 
   const categorizedPools = pools
-    ? pools.reduce((accumulator, itm) => {
-        const cat = itm.category || "Okategoriserat";
-        if (Object.hasOwn(accumulator, cat)) {
-          return {
-            ...accumulator,
-            [cat]: [...accumulator[cat], itm],
-          };
+    ? pools.reduce((accumulator, item) => {
+        const category = item.category || "Okategoriserat";
+
+        if (Object.hasOwn(accumulator, category)) {
+          accumulator[category].push(item);
+        } else {
+          accumulator[category] = [item];
         }
-        return { ...accumulator, [cat]: [itm] };
+
+        return accumulator;
       }, {})
     : {};
 

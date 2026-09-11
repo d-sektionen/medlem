@@ -1,6 +1,6 @@
 import { formatRelative } from "date-fns";
 import { sv } from "date-fns/locale";
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 
 import { FiCheck, FiEdit, FiInfo, FiTrash2, FiXCircle } from "react-icons/fi";
 import { UserContext } from "../layout/layout";
@@ -60,96 +60,95 @@ const BookingPanel = ({
         <Fragment key={name}>
           <h3>{name}</h3>
           <List>
-            {bookings &&
-              bookings.map((booking) => (
-                <ListItem
-                  // TODO: färger ska vara samma som i css!
-                  color={booking.confirmed ? "green" : "orange"}
-                  title={`${booking.user.pretty_name}`}
-                  subtitle={`${
-                    booking.confirmed ? "" : "Obekräftad bokning - "
-                  }${booking.count}st ${formatRelative(
-                    booking.start,
-                    new Date(),
-                    {
-                      locale: sv,
-                    },
-                  )}`}
-                  buttons={[
-                    <ListButton
-                      shown={
-                        !booking.confirmed &&
-                        // TODO: allow confirm if user has a restricted booking which overlaps.
-                        user.privileges.booking_admin
-                      }
-                      iconComponent={FiCheck}
-                      text="Bekräfta bokning"
-                      onClick={() => {
-                        if (booking.pool.items.length > 1) {
-                          openConfirmBooking("Bekräfta bokning", {
-                            booking,
-                            confirmBooking,
-                          });
-                        } else {
-                          confirmBooking(booking.id, { auto_assign: true });
-                        }
-                      }}
-                      key="confirm"
-                    />,
-                    <ListButton
-                      shown={user.privileges.booking_admin}
-                      iconComponent={FiXCircle}
-                      text="Neka bokning"
-                      onClick={() => {
-                        openDenyBooking("Neka bokning", {
+            {bookings?.bookings?.map((booking) => (
+              <ListItem
+                // TODO: färger ska vara samma som i css!
+                color={booking.confirmed ? "green" : "orange"}
+                title={`${booking.user.pretty_name}`}
+                subtitle={`${
+                  booking.confirmed ? "" : "Obekräftad bokning - "
+                }${booking.count}st ${formatRelative(
+                  booking.start,
+                  new Date(),
+                  {
+                    locale: sv,
+                  },
+                )}`}
+                buttons={[
+                  <ListButton
+                    shown={
+                      !booking.confirmed &&
+                      // TODO: allow confirm if user has a restricted booking which overlaps.
+                      user.privileges.booking_admin
+                    }
+                    iconComponent={FiCheck}
+                    text="Bekräfta bokning"
+                    onClick={() => {
+                      if (booking.pool.items.length > 1) {
+                        openConfirmBooking("Bekräfta bokning", {
                           booking,
-                          denyBooking,
+                          confirmBooking,
                         });
-                      }}
-                      key="deny"
-                    />,
-                    <ListButton
-                      shown={
-                        booking.user.username === user.username ||
-                        user.privileges.booking_admin
+                      } else {
+                        confirmBooking(booking.id, { auto_assign: true });
                       }
-                      iconComponent={FiTrash2}
-                      text="Ta bort bokning"
-                      onClick={() => {
-                        openConfirmation(
-                          "Är du säker på att du vill ta bort bokningen?",
-                          () => destroyBooking(booking.id),
-                        );
-                      }}
-                      key="delete"
-                    />,
-                    <ListButton
-                      shown={
-                        booking.user.username === user.username ||
-                        user.privileges.booking_admin
-                      }
-                      iconComponent={FiEdit}
-                      text="Redigera"
-                      onClick={() => {
-                        openEditBooking(
-                          `Redigera bokning av ${booking.pool.name}`,
-                          { booking, itemPool: booking.pool, updateBooking },
-                        );
-                      }}
-                      key="edit"
-                    />,
-                    <ListButton
-                      iconComponent={FiInfo}
-                      text="Mer information"
-                      onClick={() => {
-                        openViewBooking("Bokningsinformation", { booking });
-                      }}
-                      key="info"
-                    />,
-                  ]}
-                  key={booking.id}
-                />
-              ))}
+                    }}
+                    key="confirm"
+                  />,
+                  <ListButton
+                    shown={user.privileges.booking_admin}
+                    iconComponent={FiXCircle}
+                    text="Neka bokning"
+                    onClick={() => {
+                      openDenyBooking("Neka bokning", {
+                        booking,
+                        denyBooking,
+                      });
+                    }}
+                    key="deny"
+                  />,
+                  <ListButton
+                    shown={
+                      booking.user.username === user.username ||
+                      user.privileges.booking_admin
+                    }
+                    iconComponent={FiTrash2}
+                    text="Ta bort bokning"
+                    onClick={() => {
+                      openConfirmation(
+                        "Är du säker på att du vill ta bort bokningen?",
+                        () => destroyBooking(booking.id),
+                      );
+                    }}
+                    key="delete"
+                  />,
+                  <ListButton
+                    shown={
+                      booking.user.username === user.username ||
+                      user.privileges.booking_admin
+                    }
+                    iconComponent={FiEdit}
+                    text="Redigera"
+                    onClick={() => {
+                      openEditBooking(
+                        `Redigera bokning av ${booking.pool.name}`,
+                        { booking, itemPool: booking.pool, updateBooking },
+                      );
+                    }}
+                    key="edit"
+                  />,
+                  <ListButton
+                    iconComponent={FiInfo}
+                    text="Mer information"
+                    onClick={() => {
+                      openViewBooking("Bokningsinformation", { booking });
+                    }}
+                    key="info"
+                  />,
+                ]}
+                key={booking.id}
+              />
+            ))}
           </List>
         </Fragment>
       ))}

@@ -1,6 +1,5 @@
 import { formatDistance } from "date-fns";
 import { sv } from "date-fns/locale";
-import React from "react";
 
 const formatDate = (date) =>
   date.toLocaleDateString("sv-SE", {

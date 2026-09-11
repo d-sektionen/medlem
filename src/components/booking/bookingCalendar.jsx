@@ -13,7 +13,7 @@ import {
   startOfISOWeek,
   subWeeks,
 } from "date-fns";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Booking,
   controls,
@@ -51,10 +51,8 @@ const BookingCalendar = ({ bookings }) => {
 
   const bookingsThisWeek = useMemo(() => {
     return (
-      bookings &&
-      bookings
-        // convert dates from string to date types.
-        .map(({ start, end, ...booking }) => ({
+      bookings // convert dates from string to date types.
+        ?.map(({ start, end, ...booking }) => ({
           ...booking,
           start: new Date(start),
           end: new Date(end),
@@ -103,6 +101,7 @@ const BookingCalendar = ({ bookings }) => {
         viewBox="0 0 400 240"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <title>Week</title>
         {bookingsThisWeek &&
           [...bookingsThisWeek]
             .sort((a, b) => b.restricted_timeslot - a.restricted_timeslot)
@@ -136,6 +135,7 @@ const BookingCalendar = ({ bookings }) => {
                     booking.restricted_timeslot ? restrictedTimeslot : ""
                   }`}
                   key={booking.id}
+                  role="menu"
                 >
                   {dayParts
                     // Remove dayParts that are not in the visible week.
@@ -147,6 +147,7 @@ const BookingCalendar = ({ bookings }) => {
                         y={calculateY(s)}
                         width={width}
                         height={calculateHeight(s, e)}
+                        role="menuitem"
                         onClick={() =>
                           openViewBooking("Bokningsinformation", {
                             booking,
