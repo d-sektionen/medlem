@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { FiX } from "react-icons/fi";
 
 import {
@@ -11,14 +11,18 @@ import {
 } from "../../scss/modal.module.scss";
 
 const Modal = ({ children, title, isOpen, options, setOpen }) => {
-  const close = () => setOpen(false);
+  const close = useCallback(() => {
+    setOpen(false);
+  }, [setOpen])
 
   const { noPadding } = options;
 
   useEffect(() => {
     if (isOpen) {
       const escClose = (event) => {
-        if (event.key === "Escape") close();
+        if (event.key === "Escape") {
+          close();
+        }
       };
 
       window.addEventListener("keydown", escClose, false);
@@ -28,7 +32,7 @@ const Modal = ({ children, title, isOpen, options, setOpen }) => {
       };
     }
     return () => {};
-  }, [isOpen]);
+  }, [isOpen, close]);
 
   return (
     <AnimatePresence style={{ overflow: "hidden" }}>

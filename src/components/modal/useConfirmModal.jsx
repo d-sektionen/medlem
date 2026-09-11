@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import React from "react";
 import { confirmation } from "../../scss/modal.module.scss";
 import { Button } from "../ui/buttons";
 import useModal, { useCloseModal } from "./useModal";

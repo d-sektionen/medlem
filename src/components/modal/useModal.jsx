@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import ModalContext from "./modalContext";
 
 export default function useModal(Component) {
