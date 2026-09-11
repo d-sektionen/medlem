@@ -17,9 +17,9 @@
     "preview": "vite preview",
     "serve": "vite preview --port 4000",
     "deploy": "npm run build && gh-pages -d dist",
-    "format": "biome format --write",
-    "check": "biome check",
-    "fix": "biome check --write"
+    "format": "biome format --write && prettier --write .",
+    "check": "biome check && prettier --check .",
+    "fix": "biome check --write && prettier --write ."
   },
   "dependencies": {
     "@zxing/library": "^0.20.0",
@@ -46,6 +46,7 @@
     "@biomejs/biome": "2.5.13",
     "@vitejs/plugin-react": "^5.2.0",
     "gh-pages": "^6.1.1",
+    "prettier": "^3.9.6",
     "vite": "^8.0.0"
   },
   "allowScripts": {
