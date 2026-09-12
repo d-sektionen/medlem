@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { post } from "../request";
-import { Button } from "../ui/buttons";
 import { MdOutlineHowToVote } from "react-icons/md";
 import {
+  alreadyVotedClass,
+  placeVoteContainer,
   questionHeader,
-  votesContainer,
   voteInput,
   voteLabel,
-  placeVoteContainer,
-  alreadyVotedClass,
+  votesContainer,
 } from "../../scss/voteForm.module.scss";
+import { post } from "../request";
+import { Button } from "../ui/buttons";
 
 const VoteForm = ({ vote, setErrors }) => {
   const [checkedId, setCheckedId] = useState(-1);

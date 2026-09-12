@@ -1,7 +1,6 @@
 import React from "react";
-import { Button } from "../ui/buttons";
-
 import { calendarSubNotice } from "../../scss/preferences.module.scss";
+import { Button } from "../ui/buttons";
 
 const CalendarLink = ({ url }) => (
   <>

@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-
-import ModalContext from "./modalContext";
+import React, { useState } from "react";
 import Modal from "./modal";
+import ModalContext from "./modalContext";
 
 const ModalHandler = ({ children }) => {
   const [isOpen, setOpen] = useState(false);
-  const [content, setContent] = useState(<></>);
+  const [content, setContent] = useState(<React.Fragment />);
   const [title, setTitle] = useState("");
   const [options, setOptions] = useState({});
   return (

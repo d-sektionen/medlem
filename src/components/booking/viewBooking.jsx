@@ -1,4 +1,3 @@
-import React from "react";
 import { formatDistance } from "date-fns";
 import { sv } from "date-fns/locale";
 

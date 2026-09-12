@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
+import { FiBarChart2, FiEdit2, FiTrash2 } from "react-icons/fi";
 import useSWR from "swr";
-import { FiTrash2, FiBarChart2, FiEdit2 } from "react-icons/fi";
-
-import useModal, { useCloseModal } from "../modal/useModal";
 import useConfirmModal from "../modal/useConfirmModal";
+import useModal, { useCloseModal } from "../modal/useModal";
+import { del, post, put } from "../request";
+import { Button } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
 import AddVote from "./addVote";
 import VoteStats from "./voteStats";
-import { List, ListItem, ListButton } from "../ui/list";
-import { Button } from "../ui/buttons";
-import { del, post, put } from "../request";
 
 const VotePanel = ({ currentMeeting }) => {
   const { data: votes, mutate } = useSWR(
@@ -93,7 +92,7 @@ const VotePanel = ({ currentMeeting }) => {
                     onClick={() =>
                       confirmModal(
                         `Vill du se resultatet?`,
-                        function () {
+                        () => {
                           open(vote);
                         },
                         closeModal,

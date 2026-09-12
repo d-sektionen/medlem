@@ -1,29 +1,28 @@
 import React, { useState } from "react";
-import { FiLock, FiUnlock, FiWifi, FiWifiOff } from "react-icons/fi";
 import {
+  FaBatteryEmpty,
+  FaBatteryFull,
   FaBatteryHalf,
   FaBatteryQuarter,
   FaBatteryThreeQuarters,
-  FaBatteryFull,
-  FaBatteryEmpty,
 } from "react-icons/fa";
+import { FiLock, FiUnlock, FiWifi, FiWifiOff } from "react-icons/fi";
+import useSWR from "swr";
 import erkan from "../images/erkan.png";
 import rumett from "../images/rumett.png";
-
 import {
-  success,
-  error,
-  logoContainer,
-  buttons,
-  roomTitle,
   batteryContainer,
+  buttons,
+  error,
   lockItemClass,
+  logoContainer,
+  roomTitle,
+  success,
 } from "../scss/lock.module.scss";
-import { post, get } from "./request";
 import BigPixels from "./layout/bigPixels";
+import { get, post } from "./request";
 import { IconButton } from "./ui/buttons";
 import { GridContainer, GridItem } from "./ui/grid";
-import useSWR from "swr";
 
 const STATUS_REFRESH_INTERVAL = 2 * 1000; // 2 sec
 const CRITICAL_BATTERY_LEVEL = 15; // percentage
@@ -99,7 +98,7 @@ const LockItem = ({ logo, displayName, lockName }) => {
       setMessageClass(error);
 
       switch (err.response?.status) {
-        case 429:
+        case 429: {
           const wait_until = err.response.headers.get("retry-after");
 
           setIsRateLimited(true);
@@ -113,6 +112,7 @@ const LockItem = ({ logo, displayName, lockName }) => {
               message: `Du har försökt låsa/låsa upp för många gånger, vänta ${wait_until} sekunder`,
             };
           });
+        }
         default:
           if (err.response?.data) {
             setLockData(err.response.data);

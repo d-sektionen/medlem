@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-
-import { put, patch } from "../request";
-
-import { inputLabel, Error, Success } from "../../scss/preferences.module.scss";
+import { Error, inputLabel, Success } from "../../scss/preferences.module.scss";
+import { patch, put } from "../request";
 import { Button } from "../ui/buttons";
 
 class Preferences extends Component {

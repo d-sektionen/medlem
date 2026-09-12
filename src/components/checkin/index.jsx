@@ -1,21 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
-import { FiVideo } from "react-icons/fi";
-
-import { TextField, CompatibilityTextField } from "./textField";
+import React, { useEffect, useRef, useState } from "react";
+import { FiVideo, FiX } from "react-icons/fi";
 import {
   container,
   controlContainer,
-  qrRegistration,
   Feedback,
+  qrRegistration,
 } from "../../scss/checkin.module.scss";
-import useFeedback from "./useFeedback";
-import registerUser from "./registerUser";
-import QrScanner from "./qrScanner";
-import { IconButton } from "../ui/buttons";
-import useLocalStorage from "../useLocalStorage";
-import { GridContainer, GridItem } from "../ui/grid";
 import BigPixels from "../layout/bigPixels";
-import { FiX } from "react-icons/fi";
+import { IconButton } from "../ui/buttons";
+import { GridContainer, GridItem } from "../ui/grid";
+import useLocalStorage from "../useLocalStorage";
+import QrScanner from "./qrScanner";
+import registerUser from "./registerUser";
+import { CompatibilityTextField, TextField } from "./textField";
+import useFeedback from "./useFeedback";
 
 const Checkin = ({ events }) => {
   const [currentEvent, setCurrentEvent] = useState(events[0]);

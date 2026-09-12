@@ -1,21 +1,19 @@
-import React, { useEffect, useContext } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import PropTypes from "prop-types";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useContext, useEffect } from "react";
+import { FiGithub, FiX } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
-
-import { FiX, FiGithub } from "react-icons/fi";
-import { PAGES, BASE_URL } from "../../config";
-
-import webbu_logo from "../../images/webbu-logo-inverted.png";
+import { BASE_URL, PAGES } from "../../config";
 import logo from "../../images/round.svg";
+import webbu_logo from "../../images/webbu-logo-inverted.png";
 import {
   darknessOverlay,
-  menu,
-  x,
+  footer,
   imgWrapper,
+  menu,
   pageList,
   thisPage,
-  footer,
+  x,
 } from "../../scss/sideMenu.module.scss";
 import { UserContext } from "./layout";
 

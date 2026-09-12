@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useCloseModal } from "../modal/useModal";
 import { Button } from "../ui/buttons";
 

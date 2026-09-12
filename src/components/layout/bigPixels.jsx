@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
 import PropTypes from "prop-types";
+import { useContext } from "react";
+import { pixels } from "../../scss/layout.module.scss";
 import { LoadingContext } from "./layout";
 import Pixels from "./pixels";
-import { pixels } from "../../scss/layout.module.scss";
 
 const BigPixels = ({ children = undefined }) => {
   const [loading] = useContext(LoadingContext);

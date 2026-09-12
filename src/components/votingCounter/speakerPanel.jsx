@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
-import useSWR from "swr";
-
+import React, { useContext, useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
-import { List, ListButton, ListItem } from "../ui/list";
-import { Button } from "../ui/buttons";
+import useSWR from "swr";
 import { UserContext } from "../layout/layout";
-import { post, del } from "../request";
+import { del, post } from "../request";
+import { Button } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
 
 const SpeakerPanel = ({ meeting }) => {
   const { data: speakers, mutate } = useSWR(

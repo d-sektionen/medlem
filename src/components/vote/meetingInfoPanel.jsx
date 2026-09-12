@@ -1,7 +1,7 @@
 import React from "react";
+import { FiLogIn, FiLogOut } from "react-icons/fi";
+import { del, post } from "../request";
 import { Button } from "../ui/buttons";
-import { post, del } from "../request";
-import { FiLogOut, FiLogIn } from "react-icons/fi";
 
 export default function MeetingInfoPanel({
   currentMeeting,

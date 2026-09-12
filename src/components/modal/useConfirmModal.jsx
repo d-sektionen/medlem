@@ -1,10 +1,7 @@
-import React from "react";
 import PropTypes from "prop-types";
-
-import useModal, { useCloseModal } from "./useModal";
-import { Button } from "../ui/buttons";
-
 import { confirmation } from "../../scss/modal.module.scss";
+import { Button } from "../ui/buttons";
+import useModal, { useCloseModal } from "./useModal";
 
 const Confirmation = ({
   text = "Är du säker?",

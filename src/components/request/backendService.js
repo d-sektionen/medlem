@@ -1,6 +1,6 @@
 import axios from "axios";
-import { BASE_URL } from "../../config";
 import createAuthRefreshInterceptorModule from "axios-auth-refresh";
+import { BASE_URL } from "../../config";
 
 // axios-auth-refresh ships a CommonJS/UMD build. Depending on the bundler's
 // CJS<->ESM interop, the default import is either the interceptor function

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
+import { FiEdit, FiInfo, FiTrash2 } from "react-icons/fi";
+import useSWR from "swr";
 import BigPixels from "./layout/bigPixels";
 import { GridContainer, GridItem } from "./ui/grid";
-import useSWR from "swr";
-
-import { List, ListItem, ListButton } from "./ui/list";
-
-import { FiTrash2, FiInfo, FiEdit } from "react-icons/fi";
+import { List, ListButton, ListItem } from "./ui/list";
 import usePageContext from "./usePageContext";
 
 const KeylogPage = () => {
