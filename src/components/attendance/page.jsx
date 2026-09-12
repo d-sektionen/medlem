@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import DoorkeeperPanel from "../checkin/doorkeeperPanel";
 import BigPixels from "../layout/bigPixels";
@@ -38,7 +38,7 @@ const AttendancePage = () => {
       setCurrentOccurrence(
         unorderedOccurrences.find((m) => m.id === currentOccurrence.id),
       );
-  }, [unorderedOccurrences]);
+  }, [unorderedOccurrences, currentOccurrence]);
 
   return (
     <BigPixels>

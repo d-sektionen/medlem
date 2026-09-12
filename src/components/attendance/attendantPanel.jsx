@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from "react";
-
 const AttendantPanel = ({ currentOccurrence }) => {
   if (!currentOccurrence) return <></>;
 
