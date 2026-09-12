@@ -54,19 +54,19 @@ const AutoForm = ({
       }}
     >
       {fields?.map((field) => (
-          <React.Fragment key={field.key}>
-            <AutoInput
-              {...field}
-              onChange={(newValue) => {
-                setValue(field.key, newValue);
-              }}
-              value={values[field.key]}
-            />
-            {Object.hasOwn(errors, field.key) && (
-              <div>{errors[field.key].join(", ")}</div>
-            )}
-          </React.Fragment>
-        ))}
+        <React.Fragment key={field.key}>
+          <AutoInput
+            {...field}
+            onChange={(newValue) => {
+              setValue(field.key, newValue);
+            }}
+            value={values[field.key]}
+          />
+          {Object.hasOwn(errors, field.key) && (
+            <div>{errors[field.key].join(", ")}</div>
+          )}
+        </React.Fragment>
+      ))}
       <Button type="submit" onClick={() => {}}>
         Submit
       </Button>

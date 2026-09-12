@@ -78,7 +78,7 @@ const AutoInput = ({
     map[type]
   ) : (
     <input
-    id="input-input"
+      id="input-input"
       value={value}
       onChange={change}
       maxLength={max_length}
@@ -87,8 +87,7 @@ const AutoInput = ({
   );
 
   return (
-    <label
-      htmlFor="input-input">
+    <label htmlFor="input-input">
       {`${label}`}
       {required && <span>*</span>}
       <div>{component}</div>
