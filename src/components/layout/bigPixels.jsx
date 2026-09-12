@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { pixels } from "../../scss/layout.module.scss";
 import { LoadingContext } from "./layout";
 import Pixels from "./pixels";
