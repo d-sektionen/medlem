@@ -19,10 +19,6 @@ const AutoForm = ({
     setValues((old) => ({ ...old, [field]: value }));
   };
 
-  const setError = (field, error) => {
-    setErrors((old) => ({ ...old, [field]: error }));
-  };
-
   useEffect(() => {
     // request endpoint info from server
     options(endpoint)
@@ -38,8 +34,8 @@ const AutoForm = ({
 
         setFields(editable);
       })
-      .catch((err) => {});
-  }, endpoint);
+      .catch((_err) => {});
+  }, [endpoint]);
 
   return (
     <form
@@ -57,8 +53,7 @@ const AutoForm = ({
         }
       }}
     >
-      {fields &&
-        fields.map((field) => (
+      {fields?.map((field) => (
           <React.Fragment key={field.key}>
             <AutoInput
               {...field}
