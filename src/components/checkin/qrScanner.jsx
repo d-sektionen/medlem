@@ -15,7 +15,7 @@ const QrScanner = ({ onSubmit, refresh }) => {
   });
 
   useEffect(() => {
-    console.log({refresh});
+    console.log({ refresh });
     setTimeout(() => {
       codeReader
         .decodeOnceFromVideoDevice(undefined, videoElement.current)
