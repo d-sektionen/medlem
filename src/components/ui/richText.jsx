@@ -16,7 +16,7 @@ const RichText = ({ value, onChange, id }) => {
 
   return (
     <ReactQuill
-    id={id}
+      id={id}
       modules={modules}
       theme="snow"
       value={value}

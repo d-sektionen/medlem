@@ -13,7 +13,7 @@ import {
 const Modal = ({ children, title, isOpen, options, setOpen }) => {
   const close = useCallback(() => {
     setOpen(false);
-  }, [setOpen])
+  }, [setOpen]);
 
   const { noPadding } = options;
 

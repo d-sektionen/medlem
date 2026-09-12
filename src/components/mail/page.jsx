@@ -173,9 +173,17 @@ const MailPage = () => {
               <label htmlFor="info-content">
                 Innehåll
                 {rawMode ? (
-                  <Textarea id="info-content" value={content} onChange={setContent} />
+                  <Textarea
+                    id="info-content"
+                    value={content}
+                    onChange={setContent}
+                  />
                 ) : (
-                  <RichText id="info-content" value={content} onChange={setContent} />
+                  <RichText
+                    id="info-content"
+                    value={content}
+                    onChange={setContent}
+                  />
                 )}
               </label>
             </div>

@@ -15,13 +15,13 @@ const DsektionSnowfall = ({
   dsektionSnowflakeCountBase,
 }) => {
   if (!isBrowser) {
-    return ;
+    return;
   }
 
   const now = new Date();
   // If the current month is not december
   if (now.getMonth() !== 11) {
-    return ;
+    return;
   }
 
   const snowflakeWhite = document.createElement("img");
