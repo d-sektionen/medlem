@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { FiTrash2 } from "react-icons/fi";
 import backendService from "../request/backendService";
@@ -9,29 +9,29 @@ const DoorkeeperPanel = ({ event }) => {
   const [input, setInput] = useState("");
   const [doorkeepers, setDoorkeepers] = useState([]);
 
-  async function handleEventChange() {
+  const handleEventChange = useCallback(async () =>  {
     if (event) {
       const resp = await backendService.get(
         `/checkin/doorkeepers/?event_id=${event.id}`,
       );
       setDoorkeepers(resp.data);
     }
-  }
+  })
 
-  function handleNewDoorkeeper(data) {
+  const handleNewDoorkeeper = useCallback((data) => {
     if (data.event.id !== event.id) return;
 
     setDoorkeepers((prev) => {
       if (prev.find((d) => d.id === data.id)) return prev;
       return [...prev, data];
     });
-  }
+  });
 
-  function handleDeleteDoorkeeper(data) {
+  const handleDeleteDoorkeeper = useCallback((data) => {
     if (data.event.id !== event.id) return;
 
     setDoorkeepers((prev) => prev.filter((d) => d.id !== data.doorkeeper_id));
-  }
+  });
 
   useEffect(() => {
     handleEventChange();
@@ -50,7 +50,7 @@ const DoorkeeperPanel = ({ event }) => {
       socket.off("delete_doorkeeper", handleDeleteDoorkeeper);
       leaveRoom(`event_doorkeepers_${event.id}`);
     };
-  }, [event.id]);
+  }, [event.id, handleEventChange, handleNewDoorkeeper, handleDeleteDoorkeeper]);
 
   async function create(data) {
     await backendService.post("/checkin/doorkeepers/", data);
@@ -81,8 +81,7 @@ const DoorkeeperPanel = ({ event }) => {
         />
       </form>
       <List>
-        {doorkeepers &&
-          doorkeepers.map((doorkeeper) => (
+        {doorkeepers?.map((doorkeeper) => (
             <ListItem
               title={doorkeeper.user.pretty_name}
               key={doorkeeper.id}

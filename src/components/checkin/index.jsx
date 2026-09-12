@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FiVideo, FiX } from "react-icons/fi";
 import {
   container,
@@ -47,7 +47,7 @@ const Checkin = ({ events }) => {
   }
 
   return (
-    <div className={feedback && feedback.class}>
+    <div className={feedback?.class}>
       <BigPixels>
         <GridContainer>
           <div className={container}>
@@ -145,9 +145,9 @@ const Checkin = ({ events }) => {
 
         <GridContainer>
           <div className={Feedback}>
-            {feedback && feedback.icon && (
+            {feedback?.icon && (
               <GridItem>
-                <p>{feedback && feedback.text}</p>
+                <p>{feedback?.text}</p>
               </GridItem>
             )}
           </div>
