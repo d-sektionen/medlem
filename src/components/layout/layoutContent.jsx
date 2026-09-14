@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { contentWrapper } from "../../scss/layout.module.scss";
 import BackendService from "../request/backendService";
@@ -22,23 +22,22 @@ const LayoutContent = ({ children, userContextValue, loadingContextValue }) => {
   const requiredPrivileges = pageContext.requiredPrivileges;
   const [hasPrivileges, setHasPrivileges] = useState(false);
 
-  function handlePageChange() {
+  useEffect(() => {
     setHasPrivileges(
-      requiredPrivileges == undefined || user?.privileges[requiredPrivileges],
+      requiredPrivileges === undefined || user?.privileges[requiredPrivileges],
     );
-  }
-  useEffect(handlePrivilegeChange, [user, requiredPrivileges]);
+  }, [user, requiredPrivileges]);
 
-  function handlePrivilegeChange() {
+  useEffect(() => {
     setHasPrivileges(
-      requiredPrivileges == undefined || user?.privileges[requiredPrivileges],
+      requiredPrivileges === undefined || user?.privileges[requiredPrivileges],
     );
-  }
-  useEffect(handlePageChange, [pageContext]);
+  }, [user, requiredPrivileges]);
 
   const loggedIn = user !== null;
 
-  async function getUser() {
+  // Get the user data from the backend and set it in the context
+  useEffect(async () => {
     try {
       setLoading(true);
       const { data } = await BackendService.get("/account/me/");
@@ -60,11 +59,7 @@ const LayoutContent = ({ children, userContextValue, loadingContextValue }) => {
     } finally {
       setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    getUser();
-  }, []);
+  }, [setLoading, setUser]);
 
   // Page is loading
   if (loading) {
