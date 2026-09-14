@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { FiEdit, FiInfo, FiTrash2 } from "react-icons/fi";
+import { FiInfo } from "react-icons/fi";
 import useSWR from "swr";
 import BigPixels from "./layout/bigPixels";
 import { GridContainer, GridItem } from "./ui/grid";
