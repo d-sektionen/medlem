@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import PropTypes from "prop-types";
-import React, { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { FiGithub, FiX } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
 import { BASE_URL, PAGES } from "../../config";
@@ -20,13 +20,13 @@ import { UserContext } from "./layout";
 const SideMenu = ({ close, open }) => {
   const [user] = useContext(UserContext);
 
-  const escFunction = (event) => {
+  const escFunction = useCallback((event) => {
     if (event.keyCode === 27) close();
-  };
+  });
   useEffect(() => {
     document.addEventListener("keydown", escFunction, false);
     return () => document.removeEventListener("keydown", escFunction, false);
-  }, []);
+  }, [escFunction]);
 
   return (
     <AnimatePresence style={{ overflow: "hidden" }}>
@@ -66,10 +66,11 @@ const SideMenu = ({ close, open }) => {
                   !pageData.menu ||
                   (pageData.requiredPrivileges &&
                     !user.privileges[pageData.requiredPrivileges])
-                )
+                ) {
                   return links;
-                return [
-                  ...links,
+                }
+
+                links.push(
                   <li key={`menuitem-${pageData.path}`}>
                     <NavLink
                       to={pageData.path}
@@ -81,9 +82,10 @@ const SideMenu = ({ close, open }) => {
                       {pageData.title}
                     </NavLink>
                   </li>,
-                ];
+                );
+                return links;
               }, [])}
-              {user.privileges["staff"] && (
+              {user.privileges.staff && (
                 <li>
                   <a
                     href={`${BASE_URL}/admin`}
