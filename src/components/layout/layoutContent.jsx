@@ -37,28 +37,30 @@ const LayoutContent = ({ children, userContextValue, loadingContextValue }) => {
   const loggedIn = user !== null;
 
   // Get the user data from the backend and set it in the context
-  useEffect(async () => {
-    try {
-      setLoading(true);
-      const { data } = await BackendService.get("/account/me/");
-      setUser(data);
-      setError(null);
-    } catch (err) {
-      setUser(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const { data } = await BackendService.get("/account/me/");
+        setUser(data);
+        setError(null);
+      } catch (err) {
+        setUser(null);
 
-      if (!err.response) {
-        setError(
-          <>
-            <p>Kommunikation med servern kunde inte etableras.</p>
-            <Button onClick={() => window.location.reload()}>
-              Ladda om sidan
-            </Button>
-          </>,
-        );
+        if (!err.response) {
+          setError(
+            <>
+              <p>Kommunikation med servern kunde inte etableras.</p>
+              <Button onClick={() => window.location.reload()}>
+                Ladda om sidan
+              </Button>
+            </>,
+          );
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
+    })();
   }, [setLoading, setUser]);
 
   // Page is loading
