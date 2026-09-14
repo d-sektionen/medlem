@@ -1,29 +1,27 @@
-import { useCallback, useEffect, useState } from "react";
-import {
-  formError,
-  noActiveVoting,
-  votePanelHeader,
-} from "../../scss/votePanel.module.scss";
+import React, { useEffect, useState } from "react";
+import VoteForm from "./voteForm";
 import backendService from "../request/backendService";
 import socket, { joinRoom, leaveRoom } from "../request/socket";
-import VoteForm from "./voteForm";
+import {
+  formError,
+  votePanelHeader,
+  noActiveVoting,
+} from "../../scss/votePanel.module.scss";
 
 const VotePanel = ({ meeting }) => {
   const [votes, setVotes] = useState([]);
 
-  const fetchVotes = useCallback(async () => {
+  async function fetchVotes() {
     if (meeting) {
       const resp = await backendService.get(
         `/voting/votes/?meeting_id=${meeting.id}`,
       );
       setVotes(resp.data);
     }
-  });
+  }
 
-  const handleNewVote = useCallback((data) => {
-    if (data.meeting !== meeting.id) {
-      return;
-    }
+  function handleNewVote(data) {
+    if (data.meeting !== meeting.id) return;
 
     setVotes((prev) => {
       const existingIndex = prev.findIndex((v) => v.id === data.id);
@@ -34,20 +32,15 @@ const VotePanel = ({ meeting }) => {
       }
       return [...prev, data];
     });
-  });
+  }
 
-  const handleDeleteVote = useCallback((data) => {
-    if (data.meeting !== meeting.id) {
-      return;
-    }
-
+  function handleDeleteVote(data) {
+    if (data.meeting !== meeting.id) return;
     setVotes((prev) => prev.filter((v) => v.id !== data.id));
-  });
+  }
 
-  const handleDeleteAlternative = useCallback((data) => {
-    if (data.meeting !== meeting.id) {
-      return;
-    }
+  function handleDeleteAlternative(data) {
+    if (data.meeting !== meeting.id) return;
 
     setVotes((prev) =>
       prev.map((v) =>
@@ -59,12 +52,10 @@ const VotePanel = ({ meeting }) => {
           : v,
       ),
     );
-  });
+  }
 
-  const handleNewAlternative = useCallback((data) => {
-    if (data.meeting !== meeting.id) {
-      return;
-    }
+  function handleNewAlternative(data) {
+    if (data.meeting !== meeting.id) return;
 
     setVotes((prev) =>
       prev.map((v) =>
@@ -73,12 +64,10 @@ const VotePanel = ({ meeting }) => {
           : v,
       ),
     );
-  });
+  }
 
-  const handleUpdateAlternative = useCallback((data) => {
-    if (data.meeting !== meeting.id) {
-      return;
-    }
+  function handleUpdateAlternative(data) {
+    if (data.meeting !== meeting.id) return;
 
     setVotes((prev) =>
       prev.map((v) =>
@@ -92,7 +81,7 @@ const VotePanel = ({ meeting }) => {
           : v,
       ),
     );
-  });
+  }
 
   useEffect(() => {
     fetchVotes();
@@ -121,15 +110,7 @@ const VotePanel = ({ meeting }) => {
 
       leaveRoom(`meeting_votes_${meeting.id}`);
     };
-  }, [
-    meeting.id,
-    fetchVotes,
-    handleNewVote,
-    handleDeleteVote,
-    handleDeleteAlternative,
-    handleNewAlternative,
-    handleUpdateAlternative,
-  ]);
+  }, [meeting.id]);
 
   const [errors, setErrors] = useState({});
   const setFormErrors = (errors) => {
