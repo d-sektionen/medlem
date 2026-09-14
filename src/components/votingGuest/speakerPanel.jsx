@@ -48,20 +48,20 @@ const SpeakerPanel = ({ meeting }) => {
         <p>{errorMessage}</p>
       )}
       <List>
-        {speakers?.map((s) => (
+        {speakers?.map((speaker, i) => (
             <ListItem
-              title={s.user.pretty_name}
-              subtitle={s.prioritized ? "Replik" : null}
-              key={s.id}
+              title={speaker?.user?.pretty_name}
+              subtitle={speaker.prioritized ? "Replik" : null}
+              key={`speaker-${speaker.id}` ?? `index-${i}`}
               buttons={[
                 <ListButton
-                  shown={user.id === s.user.id}
+                  shown={user?.id === speaker?.user?.id}
                   onClick={async () => {
-                    const prioQS = s.prioritized ? "&prioritized" : "";
+                    const prioQS = speaker.prioritized ? "&prioritized" : "";
                     await del(
                       `/voting/speakers/?meeting_id=${meeting.id}${prioQS}`,
                     );
-                    mutate(speakers.filter((x) => x.id !== s.id));
+                    mutate(speakers.filter((x) => x.id !== speaker.id));
                   }}
                   iconComponent={FiTrash2}
                   text="Lämna talarlista"
