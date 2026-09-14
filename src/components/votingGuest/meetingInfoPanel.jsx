@@ -1,7 +1,3 @@
-import React from "react";
-import { del, post } from "../request";
-import { Button } from "../ui/buttons";
-
 const MeetingInfoPanel = ({ currentMeeting }) => (
   <div>
     <h2>Mötesinfo</h2>

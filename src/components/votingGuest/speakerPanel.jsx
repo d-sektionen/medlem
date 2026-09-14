@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import useSWR from "swr";
 import { UserContext } from "../layout/layout";
@@ -48,8 +48,7 @@ const SpeakerPanel = ({ meeting }) => {
         <p>{errorMessage}</p>
       )}
       <List>
-        {speakers &&
-          speakers.map((s) => (
+        {speakers?.map((s) => (
             <ListItem
               title={s.user.pretty_name}
               subtitle={s.prioritized ? "Replik" : null}

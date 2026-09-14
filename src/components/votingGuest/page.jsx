@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 import BigPixels from "../layout/bigPixels";
@@ -18,9 +18,10 @@ const VotePage = () => {
 
   // sync currentMeeting with updated meetings
   useEffect(() => {
-    if (currentMeeting)
+    if (currentMeeting) {
       setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
-  }, [meetings]);
+    }
+  }, [meetings, currentMeeting]);
 
   return (
     <BigPixels>
