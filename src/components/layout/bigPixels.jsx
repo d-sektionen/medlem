@@ -13,9 +13,6 @@ const BigPixels = ({ children = undefined }) => {
         <Pixels loading={loading.status} />
       </div>
       {children}
-      {/* <div className={container}>
-        <div className={content}>{children}</div>
-      </div> */}
     </>
   );
 };
