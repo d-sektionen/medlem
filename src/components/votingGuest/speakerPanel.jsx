@@ -49,27 +49,27 @@ const SpeakerPanel = ({ meeting }) => {
       )}
       <List>
         {speakers?.map((speaker, i) => (
-            <ListItem
-              title={speaker?.user?.pretty_name}
-              subtitle={speaker.prioritized ? "Replik" : null}
-              key={`speaker-${speaker.id}` ?? `index-${i}`}
-              buttons={[
-                <ListButton
-                  shown={user?.id === speaker?.user?.id}
-                  onClick={async () => {
-                    const prioQS = speaker.prioritized ? "&prioritized" : "";
-                    await del(
-                      `/voting/speakers/?meeting_id=${meeting.id}${prioQS}`,
-                    );
-                    mutate(speakers.filter((x) => x.id !== speaker.id));
-                  }}
-                  iconComponent={FiTrash2}
-                  text="Lämna talarlista"
-                  key="remove"
-                />,
-              ]}
-            />
-          ))}
+          <ListItem
+            title={speaker?.user?.pretty_name}
+            subtitle={speaker.prioritized ? "Replik" : null}
+            key={`speaker-${speaker.id}` ?? `index-${i}`}
+            buttons={[
+              <ListButton
+                shown={user?.id === speaker?.user?.id}
+                onClick={async () => {
+                  const prioQS = speaker.prioritized ? "&prioritized" : "";
+                  await del(
+                    `/voting/speakers/?meeting_id=${meeting.id}${prioQS}`,
+                  );
+                  mutate(speakers.filter((x) => x.id !== speaker.id));
+                }}
+                iconComponent={FiTrash2}
+                text="Lämna talarlista"
+                key="remove"
+              />,
+            ]}
+          />
+        ))}
       </List>
     </div>
   );
