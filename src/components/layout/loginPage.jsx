@@ -1,9 +1,8 @@
 import React from "react";
-import BigPixels from "./bigPixels";
-import { GridContainer, GridItem } from "../ui/grid";
-
-import { Button } from "../ui/buttons";
 import { BASE_URL } from "../../config";
+import { Button } from "../ui/buttons";
+import { GridContainer, GridItem } from "../ui/grid";
+import BigPixels from "./bigPixels";
 
 const loginPage = () => {
   const loginHandler = () => {

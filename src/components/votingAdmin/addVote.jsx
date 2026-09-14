@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 let currentKey = 0;
 // creates an alternative with an unique key, do not manually create alternative objects

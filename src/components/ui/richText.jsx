@@ -2,9 +2,8 @@ import "../../scss/richText.module.scss";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import React from "react";
 
-const RichText = ({ value, onChange }) => {
+const RichText = ({ value, onChange, id }) => {
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
@@ -17,6 +16,7 @@ const RichText = ({ value, onChange }) => {
 
   return (
     <ReactQuill
+      id={id}
       modules={modules}
       theme="snow"
       value={value}

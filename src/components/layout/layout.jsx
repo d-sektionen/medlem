@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import { SWRConfig } from "swr";
 
 import { get } from "../request";
 import "../../scss/general.scss";
-import { app, containerWrapper } from "../../scss/layout.module.scss";
 
 import { TITLE } from "../../config";
-import ModalHandler from "../modal/modalHandler";
-import LayoutContent from "./layoutContent";
-
+import { app, containerWrapper } from "../../scss/layout.module.scss";
 import DsektionSnowfall from "../christmas/snowfall";
+import ModalHandler from "../modal/modalHandler";
 import usePageContext from "../usePageContext";
+import LayoutContent from "./layoutContent";
 
 export const LoadingContext = React.createContext({
   status: true,

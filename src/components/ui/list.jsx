@@ -1,11 +1,11 @@
 import React from "react";
 
 import {
-  listItemColor,
-  listText,
-  listButtons,
   list,
   listButton,
+  listButtons,
+  listItemColor,
+  listText,
 } from "../../scss/ui.module.scss";
 
 const List = ({ children, maxHeight, className }) => (
@@ -55,4 +55,4 @@ const ListButton = ({
     <></>
   );
 
-export { List, ListItem, ListButton };
+export { List, ListButton, ListItem };

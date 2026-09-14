@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { iconButton, button, buttonGroup } from "../../scss/ui.module.scss";
+import { button, buttonGroup, iconButton } from "../../scss/ui.module.scss";
 
 const IconButton = ({ onClick, iconComponent: Icon, text, disabled }) => {
   // TODO: add anchor tag mode.
@@ -84,4 +84,4 @@ const ButtonGroup = ({ children }) => (
   <div className={buttonGroup}>{children}</div>
 );
 
-export { IconButton, Button, ButtonGroup };
+export { Button, ButtonGroup, IconButton };

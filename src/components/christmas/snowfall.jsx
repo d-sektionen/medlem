@@ -1,11 +1,10 @@
-import React from "react";
 import Snowfall from "react-snowfall";
-import whiteImage from "../../images/snowflake-white.webp";
 import blueImage from "../../images/dsek-blue.webp";
 import brownImage from "../../images/dsek-brown.webp";
 import ceriseImage from "../../images/dsek-cerise.webp";
 import greenImage from "../../images/dsek-green.webp";
 import yellowImage from "../../images/dsek-yellow.webp";
+import whiteImage from "../../images/snowflake-white.webp";
 
 // Check if the window object is defined, i.e. if the code is running in the browser
 const isBrowser = typeof window !== "undefined";
@@ -16,14 +15,13 @@ const DsektionSnowfall = ({
   dsektionSnowflakeCountBase,
 }) => {
   if (!isBrowser) {
-    return <></>;
+    return;
   }
 
-  const currentDate = new Date();
-
+  const now = new Date();
   // If the current month is not december
-  if (currentDate.getMonth() != 11) {
-    return <></>;
+  if (now.getMonth() !== 11) {
+    return;
   }
 
   const snowflakeWhite = document.createElement("img");
@@ -58,7 +56,7 @@ const DsektionSnowfall = ({
   Also round this value to a whole number.
   */
 
-  const date = currentDate.getDate();
+  const date = now.getDate();
   const snowflakeCount = snowflakeCountBase + snowflakeCountDayIncrement * date;
   const dsektionSnowflakeAmount = dsektionSnowflakeImages.length;
   const maxDsektionSnowflakes = dsektionSnowflakeCountBase + date;

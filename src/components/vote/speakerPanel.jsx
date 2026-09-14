@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
-
+import React, { useContext, useEffect, useState } from "react";
+import { FiTrash2 } from "react-icons/fi";
 import { MdOutlineFrontHand } from "react-icons/md";
 import { RiMegaphoneLine } from "react-icons/ri";
-import { FiTrash2 } from "react-icons/fi";
-import { List, ListButton, ListItem } from "../ui/list";
-import { Button, ButtonGroup } from "../ui/buttons";
-import { UserContext } from "../layout/layout";
 import { speakerPanelList } from "../../scss/voteSpeakerPanel.module.scss";
-
-import socket, { joinRoom, leaveRoom } from "../request/socket";
+import { UserContext } from "../layout/layout";
 import backendService from "../request/backendService";
+import socket, { joinRoom, leaveRoom } from "../request/socket";
+import { Button, ButtonGroup } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
 
 const SpeakerPanel = ({ meeting }) => {
   const [speakers, setSpeakers] = useState([]);

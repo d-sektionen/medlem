@@ -1,8 +1,7 @@
-import React from "react";
 import { FiCheck, FiX } from "react-icons/fi";
-import { post } from "../request";
 import { fail, success } from "../../scss/checkin.module.scss";
 import iconMap from "../iconMap";
+import { post } from "../request";
 
 export default (setFeedback, setStatusMessage, eventId, identifier, action) => {
   const setFeedbackExtended = (text, icon, error) => {
@@ -41,8 +40,9 @@ export default (setFeedback, setStatusMessage, eventId, identifier, action) => {
       let icon;
       let statusMessage;
 
-      if (err.response && err.response.data)
+      if (err.response?.data) {
         ({ detail, icon, status_message: statusMessage } = err.response.data);
+      }
 
       setFeedbackExtended(detail, icon, true);
       if (statusMessage) setStatusMessage(statusMessage);

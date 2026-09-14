@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useDeferredValue } from "react";
+import { useEffect, useState } from "react";
 import DateTimePicker from "./dateTimePicker";
 
 const AutoInput = ({
@@ -19,7 +19,7 @@ const AutoInput = ({
     if (value) {
       setInitialOptions(value);
     }
-  }, []); // Run only once, when the component mounts
+  }, [value]); // Run only once, when the component mounts
 
   const change = (e) => {
     onChange(e.target.value);
@@ -74,10 +74,11 @@ const AutoInput = ({
     ),
   };
 
-  const component = Object.prototype.hasOwnProperty.call(map, type) ? (
+  const component = Object.hasOwn(map, type) ? (
     map[type]
   ) : (
     <input
+      id="input-input"
       value={value}
       onChange={change}
       maxLength={max_length}
@@ -86,7 +87,7 @@ const AutoInput = ({
   );
 
   return (
-    <label>
+    <label htmlFor="input-input">
       {`${label}`}
       {required && <span>*</span>}
       <div>{component}</div>

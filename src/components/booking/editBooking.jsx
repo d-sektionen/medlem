@@ -1,11 +1,9 @@
-import React, { useState, useContext } from "react";
-
-import { Button } from "../ui/buttons";
+import { useContext, useState } from "react";
+import { dScription, editForm } from "../../scss/booking.module.scss";
 import DateTimePicker from "../form/dateTimePicker";
 import { UserContext } from "../layout/layout";
-
-import { editForm, dScription } from "../../scss/booking.module.scss";
 import { useCloseModal } from "../modal/useModal";
+import { Button } from "../ui/buttons";
 
 function newNiceDate(hourOffset = 0) {
   const date = new Date();

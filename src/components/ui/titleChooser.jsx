@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
 import PropTypes from "prop-types";
+import React, { useEffect } from "react";
 import {
   actions,
-  titleChooser,
-  selectContainer,
   hint,
+  selectContainer,
+  titleChooser,
 } from "../../scss/ui.module.scss";
 import { Button } from "./buttons";
 

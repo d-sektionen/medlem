@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { confirmBookingChecklists } from "../../scss/booking.module.scss";
 import { useCloseModal } from "../modal/useModal";
 import { Button } from "../ui/buttons";
 import { Checklist } from "../ui/checklist";
-import { confirmBookingChecklists } from "../../scss/booking.module.scss";
 
 const ConfirmBooking = ({ booking, confirmBooking }) => {
   const close = useCloseModal();
@@ -38,32 +38,30 @@ const ConfirmBooking = ({ booking, confirmBooking }) => {
       <i>{description}</i>
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <>
-        <h3>
-          Välj {booking.count} objekt {requiresAccessory && "och tillbehör"}
-        </h3>
+      <h3>
+        Välj {booking.count} objekt {requiresAccessory && "och tillbehör"}
+      </h3>
 
-        <div className={confirmBookingChecklists}>
+      <div className={confirmBookingChecklists}>
+        <Checklist
+          items={items.map((item) => ({
+            ...item,
+            name: item.status ? `${item.name} (${item.status})` : item.name,
+          }))}
+          selected={selectedItems}
+          setSelected={setSelectedItems}
+          maxSelected={booking.count}
+        />
+
+        {requiresAccessory && (
           <Checklist
-            items={items.map((item) => ({
-              ...item,
-              name: item.status ? `${item.name} (${item.status})` : item.name,
-            }))}
-            selected={selectedItems}
-            setSelected={setSelectedItems}
+            items={accessories}
+            selected={selectedAccessories}
+            setSelected={setSelectedAccessories}
             maxSelected={booking.count}
           />
-
-          {requiresAccessory && (
-            <Checklist
-              items={accessories}
-              selected={selectedAccessories}
-              setSelected={setSelectedAccessories}
-              maxSelected={booking.count}
-            />
-          )}
-        </div>
-      </>
+        )}
+      </div>
       <Button
         disabled={buttonDisabled}
         onClick={() => {

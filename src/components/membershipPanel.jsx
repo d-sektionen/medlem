@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
-
-import { get, post, del } from "./request";
-import { Button } from "./ui/buttons";
-
+import React, { useEffect, useState } from "react";
 import { inputLabel } from "../scss/membership.module.scss";
+import { del, get, post } from "./request";
+import { Button } from "./ui/buttons";
 
 const MembershipPanel = () => {
   const [initiallyLoaded, setInitiallyLoaded] = useState(true);

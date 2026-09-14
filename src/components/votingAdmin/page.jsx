@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-
-import MeetingPanel from "./meetingPanel";
 import DoorkeeperPanel from "../checkin/doorkeeperPanel";
-import VotePanel from "./votePanel";
-import AttendantPanel from "./attendantPanel";
-import { GridContainer, GridItem } from "../ui/grid";
-import SpeakerPanel from "./speakerPanel";
-import TitleChooser from "../ui/titleChooser";
-import AddMeeting from "./addMeeting";
-import useModal, { useCloseModal } from "../modal/useModal";
-import { post, patch } from "../request";
 import BigPixels from "../layout/bigPixels";
+import useModal, { useCloseModal } from "../modal/useModal";
+import { patch, post } from "../request";
+import { GridContainer, GridItem } from "../ui/grid";
+import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
+import AddMeeting from "./addMeeting";
+import AttendantPanel from "./attendantPanel";
+import MeetingPanel from "./meetingPanel";
+import SpeakerPanel from "./speakerPanel";
+import VotePanel from "./votePanel";
 
 const VotingAdminPage = () => {
   const { title } = usePageContext();

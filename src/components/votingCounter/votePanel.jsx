@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import useSWR from "swr";
 import { FiBarChart2, FiEdit2 } from "react-icons/fi";
+import useSWR from "swr";
 
 import useModal, { useCloseModal } from "../modal/useModal";
-import VoteStats from "./voteStats";
-import { List, ListItem, ListButton } from "../ui/list";
-import { Button } from "../ui/buttons";
 import { post, put } from "../request";
+import { Button } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
+import VoteStats from "./voteStats";
 
 const VotePanel = ({ currentMeeting }) => {
   const { data: votes, mutate } = useSWR(
