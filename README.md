@@ -1,7 +1,8 @@
 # Medlem
 
-This project was created using with [Gatsby](https://www.gatsbyjs.org/).
-Check out their documentation a more in depth understanding of the project structure.
+This project is a single page application built with
+[React](https://react.dev/), [Vite](https://vitejs.dev/) and
+[React Router](https://reactrouter.com/).
 
 ## Usage
 
@@ -31,7 +32,8 @@ Must know:
 
 Good to know:
 
-- gatsby.js
+- Vite
+- React Router
 - sass (scss)
   - css modules
 - npm
@@ -39,7 +41,7 @@ Good to know:
 ### Getting started
 
 Download Node.js (which includes npm)
-IMPORTANT!!!: has to be node version 20
+IMPORTANT!!!: has to be node version 20 or later
 Tip: Use `nvm` to manage multiple node versions.
 
 Clone the repository and view its directory in a terminal.
@@ -55,21 +57,33 @@ npm start
 
 ### Project structure
 
-This project is based on Gatsby.js, although it is mostly used as groundwork.
-While not prohibited, it is discouraged to use the GraphQL features of Gatsby for this project.
-Instead the file `./src/config.js` should be used and imported from where needed.
+Routing and the build are handled by Vite and React Router. There is no SSR
+and no GraphQL layer. All environment configuration lives in `.env` files
+(see `vite.config.js` for how they are loaded).
 
 Data fetching should be done using API calls. Mostly to our backend server.
 This can easily be done using the request helpers in `./src/components/request`.
 
-The project should not have to be rebuilt based on data sources, only when files in this repository are changed.
+The project should not have to be rebuilt based on data sources, only when
+files in this repository are changed.
 
 #### Pages
 
-Pages are slightly differently implemented in this project if you are used to other gatsby projects.
-All pages should be defined in `./src/config.js` and have to follow the format used there.
-These pages (as well as the layout) will recieve the page configuration as attributes in the `pageContext` prop.
-This excludes `path` and `component` which are for internal use.
+All pages are defined in `./src/config.js` and have to follow the format used
+there. Routes are generated from this configuration in `./src/routes.js`, which
+maps every configured path to its React component. Each page component receives
+the non-routing part of its configuration (title, requiredPrivileges, ...) as a
+`pageContext` prop, the same way pages used to receive it when the project was
+built on Gatsby.
+
+The layout (`./src/components/layout/layout.js`) resolves the configuration for
+the current URL and uses it for the document title/meta tags and for privilege
+checks. Redirect paths (`alternativePaths`, e.g. `/blipp` for `/checkin`) are
+set up as React Router redirects. The wildcard route shows the 404 page.
+
+When navigating between pages use `Link`/`NavLink`/`useNavigate` from
+`react-router-dom` instead of plain `<a href>` tags, so navigation happens
+client side.
 
 #### UI components
 
@@ -80,7 +94,8 @@ This is currently very much a work in progress, so many files will not have adop
 
 #### Layout
 
-The base layout files can be found in `./src/components/request` and will wrap all pages created.
+The base layout files can be found in `./src/components/layout` and wraps all
+routes rendered in `./src/App.jsx`.
 
 #### Scss
 
@@ -95,6 +110,12 @@ Whenever possible css should be written in modules to avoid naming conflicts.
 ### Deploying
 
 Run `npm run deploy`
+
+The build output ends up in `dist/` and is deployed to GitHub Pages with
+`gh-pages`. The `static/` folder (public assets, including the `CNAME`) is
+copied into the build output. `dist/404.html` is a copy of `index.html` so that
+unknown paths are served the SPA entry point and React Router can resolve deep
+links.
 
 Don't forget to also push your changes to git!
 
