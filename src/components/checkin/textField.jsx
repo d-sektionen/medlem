@@ -35,7 +35,7 @@ const useTextField = (onEnter, elem) => {
       };
     }
     return () => {};
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  }, [elem, downHandler]);
 
   return text;
 };
