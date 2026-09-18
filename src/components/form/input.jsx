@@ -19,7 +19,7 @@ const AutoInput = ({
     if (value) {
       setInitialOptions(value);
     }
-  }, [value]); // Run only once, when the component mounts
+  }, []); // Run only once, when the component mounts
 
   const change = (e) => {
     onChange(e.target.value);
