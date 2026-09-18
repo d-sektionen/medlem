@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 import {
   actions,
-  titleChooser,
-  selectContainer,
   hint,
+  selectContainer,
+  titleChooser,
 } from "../../scss/ui.module.scss";
 import { Button } from "./buttons";
 
@@ -24,13 +24,7 @@ const TitleChooser = ({
   const allChoices = [
     ...(choices || []),
     // merge all categorized choices to single array.
-    ...Object.keys(categorizedChoices).reduce(
-      (accumulator, category) => [
-        ...accumulator,
-        ...categorizedChoices[category],
-      ],
-      [],
-    ),
+    ...Object.values(categorizedChoices).flat(),
   ];
 
   // Re-select the previously selected choice if there is one

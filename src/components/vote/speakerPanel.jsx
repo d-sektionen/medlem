@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import { FiTrash2 } from "react-icons/fi";
 import { MdOutlineFrontHand } from "react-icons/md";
 import { RiMegaphoneLine } from "react-icons/ri";
-import { FiTrash2 } from "react-icons/fi";
-import { List, ListButton, ListItem } from "../ui/list";
-import { Button, ButtonGroup } from "../ui/buttons";
-import { UserContext } from "../layout/layout";
 import { speakerPanelList } from "../../scss/voteSpeakerPanel.module.scss";
-
-import socket, { joinRoom, leaveRoom } from "../request/socket";
+import { UserContext } from "../layout/layout";
 import backendService from "../request/backendService";
+import socket, { joinRoom, leaveRoom } from "../request/socket";
+import { Button, ButtonGroup } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
 
 const SpeakerPanel = ({ meeting }) => {
   const [speakers, setSpeakers] = useState([]);
@@ -101,25 +99,22 @@ const SpeakerPanel = ({ meeting }) => {
         <p>{errorMessage}</p>
       )}
       <List maxHeight="260px" className={speakerPanelList}>
-        {speakers &&
-          speakers.map((s) => (
-            <ListItem
-              title={s.user.pretty_name}
-              subtitle={s.prioritized ? "Replik" : "Tala"}
-              key={s.id}
-              buttons={[
-                <ListButton
-                  shown={user.id === s.user.id}
-                  onClick={() =>
-                    deleteSpeakerRequest(meeting.id, s.prioritized)
-                  }
-                  iconComponent={FiTrash2}
-                  text="Lämna talarlista"
-                  key="remove"
-                />,
-              ]}
-            />
-          ))}
+        {speakers?.map((s) => (
+          <ListItem
+            title={s.user.pretty_name}
+            subtitle={s.prioritized ? "Replik" : "Tala"}
+            key={s.id}
+            buttons={[
+              <ListButton
+                shown={user.id === s.user.id}
+                onClick={() => deleteSpeakerRequest(meeting.id, s.prioritized)}
+                iconComponent={FiTrash2}
+                text="Lämna talarlista"
+                key="remove"
+              />,
+            ]}
+          />
+        ))}
       </List>
     </div>
   );

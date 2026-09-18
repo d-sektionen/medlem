@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { path } from "../../scss/pixels.module.scss";
 
 /**
@@ -67,10 +67,10 @@ class Pixels extends Component {
 
   setRandomColors() {
     this.setState({
-      pixels: Object.keys(this.originalPixels).reduce(
-        (newState, key) => ({ ...newState, [key]: this.randomColor() }),
-        {},
-      ),
+      pixels: Object.keys(this.originalPixels).reduce((newState, key) => {
+        newState[key] = this.randomColor();
+        return newState;
+      }, {}),
     });
   }
 
@@ -94,6 +94,7 @@ class Pixels extends Component {
     const { pixels } = this.state;
     return (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 154.68 166.116">
+        <title>D-sektionens backdrop logo</title>
         <defs>
           <clipPath id="a">
             <path d="M0 226.77h850.39V0H0z" />

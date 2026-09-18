@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
 import QRCode from "qrcode";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 
-import { qrWrapper1, qrWrapper2, qr } from "../../scss/qr.module.scss";
+import { qr, qrWrapper1, qrWrapper2 } from "../../scss/qr.module.scss";
 import { useCloseModal } from "../modal/useModal";
 
 const QR = () => {
@@ -13,7 +13,7 @@ const QR = () => {
   const closeModal = useCloseModal();
 
   useEffect(() => {
-    if (data && data.token) {
+    if (data?.token) {
       QRCode.toCanvas(canvasRef.current, data.token, { scale: 8 }, (err) => {
         if (err) setError(err);
       });

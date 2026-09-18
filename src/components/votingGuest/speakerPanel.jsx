@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
-import useSWR from "swr";
-
+import { useContext } from "react";
 import { FiTrash2 } from "react-icons/fi";
-import { List, ListButton, ListItem } from "../ui/list";
-import { Button, ButtonGroup } from "../ui/buttons";
+import useSWR from "swr";
 import { UserContext } from "../layout/layout";
-import { post, del } from "../request";
+import { del, post } from "../request";
+import { Button, ButtonGroup } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
 
 const SpeakerPanel = ({ meeting }) => {
   const { data: speakers, mutate } = useSWR(
@@ -49,29 +48,28 @@ const SpeakerPanel = ({ meeting }) => {
         <p>{errorMessage}</p>
       )}
       <List>
-        {speakers &&
-          speakers.map((s) => (
-            <ListItem
-              title={s.user.pretty_name}
-              subtitle={s.prioritized ? "Replik" : null}
-              key={s.id}
-              buttons={[
-                <ListButton
-                  shown={user.id === s.user.id}
-                  onClick={async () => {
-                    const prioQS = s.prioritized ? "&prioritized" : "";
-                    await del(
-                      `/voting/speakers/?meeting_id=${meeting.id}${prioQS}`,
-                    );
-                    mutate(speakers.filter((x) => x.id !== s.id));
-                  }}
-                  iconComponent={FiTrash2}
-                  text="Lämna talarlista"
-                  key="remove"
-                />,
-              ]}
-            />
-          ))}
+        {speakers?.map((speaker, i) => (
+          <ListItem
+            title={speaker?.user?.pretty_name}
+            subtitle={speaker.prioritized ? "Replik" : null}
+            key={`speaker-${speaker.id}` ?? `index-${i}`}
+            buttons={[
+              <ListButton
+                shown={user?.id === speaker?.user?.id}
+                onClick={async () => {
+                  const prioQS = speaker.prioritized ? "&prioritized" : "";
+                  await del(
+                    `/voting/speakers/?meeting_id=${meeting.id}${prioQS}`,
+                  );
+                  mutate(speakers.filter((x) => x.id !== speaker.id));
+                }}
+                iconComponent={FiTrash2}
+                text="Lämna talarlista"
+                key="remove"
+              />,
+            ]}
+          />
+        ))}
       </List>
     </div>
   );

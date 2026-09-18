@@ -1,4 +1,3 @@
-import React from "react";
 import AutoForm from "../form/form";
 
 const AddOccurrence = ({ create }) => (

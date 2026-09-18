@@ -1,6 +1,8 @@
+# Let Biome format most of the files
 *.*
 !*/
 
+# Format file types Biome doesn't support with prettier
 !**/*.yml
 !**/*.yaml
 !**/*.scss

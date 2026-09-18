@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
-
-import { List, ListButton, ListItem } from "../ui/list";
-import { Button, ButtonGroup } from "../ui/buttons";
 import useConfirmModal from "../modal/useConfirmModal";
 import { useCloseModal } from "../modal/useModal";
 import backendService from "../request/backendService";
 import socket, { joinRoom, leaveRoom } from "../request/socket";
+import { Button, ButtonGroup } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
 
 const getMemberAttendants = (attendants) => {
   const memberAttendants = attendants.filter(
@@ -33,16 +32,14 @@ const AttendantPanel = ({ currentMeeting }) => {
     event.preventDefault();
     setInput("");
 
-    let newAttendant;
-
     try {
       setShowAttendantErroLabel(false);
-      newAttendant = await backendService.post("/voting/attendants/", {
+      const _newAttendant = await backendService.post("/voting/attendants/", {
         user_username: input,
         meeting_id: currentMeeting.id,
         has_voting_rights: true,
       });
-    } catch (error) {
+    } catch (_error) {
       setShowAttendantErroLabel(true);
     }
   }
@@ -91,7 +88,7 @@ const AttendantPanel = ({ currentMeeting }) => {
     };
   }, [currentMeeting.id]);
 
-  if (attendants === null) return <></>;
+  if (attendants === null) return;
 
   return (
     <div>

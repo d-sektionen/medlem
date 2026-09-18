@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 import { FiLogOut, FiSettings } from "react-icons/fi";
 import { IoMdQrScanner } from "react-icons/io";
 
 import { BASE_URL } from "../../config";
 import useModal, { useCloseModal } from "../modal/useModal";
-import QR from "./qr";
-import { UserContext } from "./layout";
-import { Button, ButtonGroup } from "../ui/buttons";
 import backendService from "../request/backendService";
+import { Button, ButtonGroup } from "../ui/buttons";
+import { UserContext } from "./layout";
+import QR from "./qr";
 
 const ProfileMenu = ({ user }) => {
   const setUser = useContext(UserContext)[1];

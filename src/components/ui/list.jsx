@@ -1,11 +1,9 @@
-import React from "react";
-
 import {
-  listItemColor,
-  listText,
-  listButtons,
   list,
   listButton,
+  listButtons,
+  listItemColor,
+  listText,
 } from "../../scss/ui.module.scss";
 
 const List = ({ children, maxHeight, className }) => (
@@ -33,26 +31,23 @@ const ListButton = ({
   iconComponent: Icon,
   text,
   shown = true,
-}) =>
-  shown ? (
-    <>
-      {href ? (
-        <a className={listButton} href={href} onClick={onClick} title={text}>
-          <Icon />
-        </a>
-      ) : (
-        <button
-          className={listButton}
-          type="button"
-          onClick={onClick}
-          title={text}
-        >
-          <Icon />
-        </button>
-      )}
-    </>
-  ) : (
-    <></>
-  );
+}) => {
+  if (shown) {
+    return href ? (
+      <a className={listButton} href={href} onClick={onClick} title={text}>
+        <Icon />
+      </a>
+    ) : (
+      <button
+        className={listButton}
+        type="button"
+        onClick={onClick}
+        title={text}
+      >
+        <Icon />
+      </button>
+    );
+  }
+};
 
-export { List, ListItem, ListButton };
+export { List, ListButton, ListItem };

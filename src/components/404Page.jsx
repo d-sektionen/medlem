@@ -1,4 +1,3 @@
-import React from "react";
 import BigPixels from "./layout/bigPixels";
 import { GridContainer, GridItem } from "./ui/grid";
 

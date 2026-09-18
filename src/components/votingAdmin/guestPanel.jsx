@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
-
-import { List, ListButton, ListItem } from "../ui/list";
-import { ButtonGroup } from "../ui/buttons";
-
 import backendService from "../request/backendService";
 import socket, { joinRoom, leaveRoom } from "../request/socket";
+import { ButtonGroup } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
 
 const getGuestAttendants = (attendants) => {
   const guestAttendants = attendants.filter(
@@ -60,7 +58,7 @@ const GuestPanel = ({ currentMeeting }) => {
     };
   }, [currentMeeting]);
 
-  if (attendants === null) return <></>;
+  if (attendants === null) return;
 
   return (
     <div>

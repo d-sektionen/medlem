@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
+import { FiExternalLink } from "react-icons/fi";
 import useSWR from "swr";
-import { FiLink, FiExternalLink } from "react-icons/fi";
-
-import { UserContext } from "./layout/layout";
 import BigPixels from "./layout/bigPixels";
-import { GridContainer, GridItem } from "./ui/grid";
+import { UserContext } from "./layout/layout";
 import MembershipPanel from "./membershipPanel";
+import { GridContainer, GridItem } from "./ui/grid";
 import { List, ListButton, ListItem } from "./ui/list";
 
 const IndexPage = () => {
@@ -35,22 +34,21 @@ const IndexPage = () => {
             <a href="https://d-sektionen.se">d-sektionen.se</a>
           </h2>
           <List>
-            {data &&
-              data.map((post) => (
-                <ListItem
-                  key={post.id}
-                  title={post.title.rendered}
-                  subtitle={new Date(post.date).toLocaleDateString()}
-                  buttons={[
-                    <ListButton
-                      key="link"
-                      text="Läs mer"
-                      iconComponent={FiExternalLink}
-                      href={post.link}
-                    />,
-                  ]}
-                />
-              ))}
+            {data?.map((post) => (
+              <ListItem
+                key={post.id}
+                title={post.title.rendered}
+                subtitle={new Date(post.date).toLocaleDateString()}
+                buttons={[
+                  <ListButton
+                    key="link"
+                    text="Läs mer"
+                    iconComponent={FiExternalLink}
+                    href={post.link}
+                  />,
+                ]}
+              />
+            ))}
           </List>
         </GridItem>
       </GridContainer>

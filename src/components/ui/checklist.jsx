@@ -1,4 +1,3 @@
-import React from "react";
 import { checklist } from "../../scss/ui.module.scss";
 
 export const Checklist = ({ items, selected, setSelected, maxSelected }) => {

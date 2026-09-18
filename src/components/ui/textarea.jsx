@@ -1,7 +1,5 @@
 import { textarea } from "../../scss/textarea.module.scss";
 
-import React from "react";
-
 const TextArea = ({ value, onChange }) => {
   return (
     <textarea
