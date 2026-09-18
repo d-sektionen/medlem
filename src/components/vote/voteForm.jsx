@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MdOutlineHowToVote } from "react-icons/md";
 import {
   alreadyVotedClass,

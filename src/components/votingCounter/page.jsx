@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
-import DoorkeeperPanel from "../checkin/doorkeeperPanel";
 import BigPixels from "../layout/bigPixels";
-import useModal, { useCloseModal } from "../modal/useModal";
-import { patch, post } from "../request";
+import { patch } from "../request";
 import { GridContainer, GridItem } from "../ui/grid";
 import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
 import AttendantPanel from "./attendantPanel";
 import MeetingPanel from "./meetingPanel";
-import SpeakerPanel from "./speakerPanel";
 import VotePanel from "./votePanel";
 
 const VotingAdminPage = () => {
@@ -17,12 +14,6 @@ const VotingAdminPage = () => {
 
   const [currentMeeting, setCurrentMeeting] = useState(null);
   const { data: unorderedMeetings, mutate } = useSWR("/voting/admin-meetings/");
-  const closeModal = useCloseModal();
-
-  const create = async (data) => {
-    const { data: newMeeting } = await post("/voting/admin-meetings/", data);
-    mutate([...unorderedMeetings, newMeeting]);
-  };
 
   const updatePatch = async (data) => {
     const { data: updatedMeeting } = await patch(

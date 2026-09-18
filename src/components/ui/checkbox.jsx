@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
-// import posed from 'react-pose'
+import { useState } from "react";
 
 import { blob, slider, switchy } from "../../scss/ui.module.scss";
 

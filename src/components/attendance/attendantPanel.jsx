@@ -1,5 +1,5 @@
 const AttendantPanel = ({ currentOccurrence }) => {
-  if (!currentOccurrence) return <></>;
+  if (!currentOccurrence) return;
 
   const {
     attendants,

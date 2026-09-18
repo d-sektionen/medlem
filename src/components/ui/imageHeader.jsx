@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
 
 import { gradient, Image, imageHeader } from "../../scss/ui.module.scss";
 import Pattern from "./pattern";

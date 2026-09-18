@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 import { FiLogOut, FiSettings } from "react-icons/fi";
 import { IoMdQrScanner } from "react-icons/io";

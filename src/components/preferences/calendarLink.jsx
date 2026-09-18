@@ -1,4 +1,3 @@
-import React from "react";
 import { calendarSubNotice } from "../../scss/preferences.module.scss";
 import { Button } from "../ui/buttons";
 

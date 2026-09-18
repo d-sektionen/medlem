@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { inputLabel } from "../scss/membership.module.scss";
 import { del, get, post } from "./request";
 import { Button } from "./ui/buttons";
@@ -22,10 +22,10 @@ const MembershipPanel = () => {
       })
       .catch((err) => {
         setInitiallyLoaded(true);
-        if (err.response && err.response.status === 404) {
+        if (err.response?.status === 404) {
           setSent(false);
           setErrors(null);
-        } else if (err.response && err.response.data) {
+        } else if (err.response?.data) {
           setErrors(err.response.data);
         }
       });
@@ -46,7 +46,7 @@ const MembershipPanel = () => {
         setSent(true);
       })
       .catch((err) => {
-        if (err.response && err.response.data) {
+        if (err.response?.data) {
           setErrors(err.response.data);
         }
       });
@@ -64,7 +64,7 @@ const MembershipPanel = () => {
           setErrors(null);
         })
         .catch((err) => {
-          if (err.response && err.response.data) {
+          if (err.response?.data) {
             setErrors(err.response.data);
           }
         });
@@ -109,7 +109,7 @@ const MembershipPanel = () => {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
-              {errors && errors.first_name && errors.first_name.join(", ")}
+              {errors?.first_name?.join(", ")}
             </label>
             <label className={inputLabel}>
               Efternamn
@@ -117,7 +117,7 @@ const MembershipPanel = () => {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
-              {errors && errors.last_name && errors.last_name.join(", ")}
+              {errors?.last_name?.join(", ")}
             </label>
             <label className={inputLabel}>
               Program
@@ -133,7 +133,7 @@ const MembershipPanel = () => {
                 <option value="CS">Masterprogram Computer Science (CS)</option>
                 <option value="CY">Masterprogram Cybersecurity (CYS)</option>
               </select>
-              {errors && errors.program && errors.program.join(", ")}
+              {errors?.program?.join(", ")}
             </label>
             <label className={inputLabel}>
               Startår
@@ -142,9 +142,7 @@ const MembershipPanel = () => {
                 value={startingYear}
                 onChange={(e) => setStartingYear(parseInt(e.target.value, 10))}
               />
-              {errors &&
-                errors.starting_year &&
-                errors.starting_year.join(", ")}
+              {errors?.starting_year?.join(", ")}
             </label>
             <label className={inputLabel}>
               Övrig information (kan lämnas tom)
@@ -152,7 +150,7 @@ const MembershipPanel = () => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
-              {errors && errors.message && errors.message.join(", ")}
+              {errors?.message?.join(", ")}
             </label>
             <Button type="submit">Skicka förfrågan</Button>
           </form>
@@ -167,7 +165,7 @@ const MembershipPanel = () => {
           <Button onClick={removeRequest}>Återkalla medlemsförfrågan</Button>
         </>
       )}
-      {errors && errors.detail}
+      {errors?.detail}
     </>
   );
 };

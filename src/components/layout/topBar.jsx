@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import React from "react";
 import { FiMenu, FiUser } from "react-icons/fi";
 import { topBar } from "../../scss/layout.module.scss";
 import useModal from "../modal/useModal";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import backendService from "../request/backendService";
 import socket, { joinRoom, leaveRoom } from "../request/socket";
@@ -58,7 +58,7 @@ const GuestPanel = ({ currentMeeting }) => {
     };
   }, [currentMeeting]);
 
-  if (attendants === null) return <></>;
+  if (attendants === null) return;
 
   return (
     <div>

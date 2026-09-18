@@ -1,4 +1,3 @@
-import React from "react";
 import { BASE_URL } from "../../config";
 import { Button } from "../ui/buttons";
 import { GridContainer, GridItem } from "../ui/grid";

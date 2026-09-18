@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
   list,
   listButton,
@@ -33,26 +31,23 @@ const ListButton = ({
   iconComponent: Icon,
   text,
   shown = true,
-}) =>
-  shown ? (
-    <>
-      {href ? (
-        <a className={listButton} href={href} onClick={onClick} title={text}>
-          <Icon />
-        </a>
-      ) : (
-        <button
-          className={listButton}
-          type="button"
-          onClick={onClick}
-          title={text}
-        >
-          <Icon />
-        </button>
-      )}
-    </>
-  ) : (
-    <></>
-  );
+}) => {
+  if (shown) {
+    return href ? (
+      <a className={listButton} href={href} onClick={onClick} title={text}>
+        <Icon />
+      </a>
+    ) : (
+      <button
+        className={listButton}
+        type="button"
+        onClick={onClick}
+        title={text}
+      >
+        <Icon />
+      </button>
+    );
+  }
+};
 
 export { List, ListButton, ListItem };

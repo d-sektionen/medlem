@@ -1,5 +1,5 @@
 import GeoPattern from "geopattern";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Ppattern } from "../../scss/ui.module.scss";
 

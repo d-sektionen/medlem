@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { FiLink, FiTrash2 } from "react-icons/fi";
 import useSWR from "swr";
 import useConfirmModal from "../modal/useConfirmModal";
@@ -36,39 +35,38 @@ const CalendarSubscriptions = () => {
     <div>
       <h2>Kalenderprenumerationer</h2>
       <List>
-        {subs &&
-          subs.map((sub) => (
-            <ListItem
-              title={getTitle(sub)}
-              key={sub.id}
-              buttons={[
-                <ListButton
-                  iconComponent={FiLink}
-                  text="Visa länk"
-                  onClick={() => {
-                    openLinkModal("Prenumerationslänk", {
-                      url: sub.url,
-                    });
-                  }}
-                  key="view"
-                />,
-                <ListButton
-                  iconComponent={FiTrash2}
-                  text="Ta bort prenumeration"
-                  onClick={() => {
-                    openConfirmation(
-                      "Är du säker på att du vill ta bort prenumerationen?",
-                      async () => {
-                        await del(`/account/calendar-subscriptions/${sub.id}/`);
-                        mutate(subs.filter((s) => s.id !== sub.id));
-                      },
-                    );
-                  }}
-                  key="delete"
-                />,
-              ]}
-            />
-          ))}
+        {subs?.map((sub) => (
+          <ListItem
+            title={getTitle(sub)}
+            key={sub.id}
+            buttons={[
+              <ListButton
+                iconComponent={FiLink}
+                text="Visa länk"
+                onClick={() => {
+                  openLinkModal("Prenumerationslänk", {
+                    url: sub.url,
+                  });
+                }}
+                key="view"
+              />,
+              <ListButton
+                iconComponent={FiTrash2}
+                text="Ta bort prenumeration"
+                onClick={() => {
+                  openConfirmation(
+                    "Är du säker på att du vill ta bort prenumerationen?",
+                    async () => {
+                      await del(`/account/calendar-subscriptions/${sub.id}/`);
+                      mutate(subs.filter((s) => s.id !== sub.id));
+                    },
+                  );
+                }}
+                key="delete"
+              />,
+            ]}
+          />
+        ))}
       </List>
       <Button
         onClick={() => {

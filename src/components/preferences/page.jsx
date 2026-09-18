@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import BigPixels from "../layout/bigPixels";
 import { LoadingContext, UserContext } from "../layout/layout";
 import { GridContainer, GridItem } from "../ui/grid";

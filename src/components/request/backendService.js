@@ -17,12 +17,8 @@ const backendService = axios.create({
   withCredentials: true,
 });
 
-async function refreshAuth(failedRequest) {
-  try {
-    await backendService.post("/oauth2/login/refresh");
-  } catch (err) {
-    throw err;
-  }
+async function refreshAuth(_failedRequest) {
+  await backendService.post("/oauth2/login/refresh");
 }
 
 createAuthRefreshInterceptor(backendService, refreshAuth, {

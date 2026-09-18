@@ -1,9 +1,8 @@
-import React from "react";
 import useSWR from "swr";
 import AutoForm from "../form/form";
 
 const AddCalendarSubscription = ({ create }) => {
-  const { data, mutate } = useSWR("/booking/items/");
+  const { data, mutate: _ } = useSWR("/booking/items/");
 
   const defaults = {
     include_bookings: false,

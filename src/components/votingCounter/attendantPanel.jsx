@@ -1,9 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { FiTrash2 } from "react-icons/fi";
 import useSWR from "swr";
-import { del, post } from "../request";
-import { Button, ButtonGroup } from "../ui/buttons";
-import { List, ListButton, ListItem } from "../ui/list";
 
 const getMemberAttendants = (attendants) => {
   const memberAttendants = attendants.filter(
@@ -13,14 +8,12 @@ const getMemberAttendants = (attendants) => {
 };
 
 const AttendantPanel = ({ currentMeeting }) => {
-  const [input, setInput] = useState("");
-
-  const { data: attendants, mutate } = useSWR(
+  const { data: attendants, mutate: _ } = useSWR(
     () => `/voting/attendants/?meeting_id=${currentMeeting.id}`,
     { refreshInterval: 4000 },
   );
 
-  if (attendants === null) return <></>;
+  if (attendants === null) return;
 
   return (
     <div>

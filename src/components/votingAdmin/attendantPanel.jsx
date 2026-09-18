@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import useConfirmModal from "../modal/useConfirmModal";
 import { useCloseModal } from "../modal/useModal";
@@ -32,16 +32,14 @@ const AttendantPanel = ({ currentMeeting }) => {
     event.preventDefault();
     setInput("");
 
-    let newAttendant;
-
     try {
       setShowAttendantErroLabel(false);
-      newAttendant = await backendService.post("/voting/attendants/", {
+      const _newAttendant = await backendService.post("/voting/attendants/", {
         user_username: input,
         meeting_id: currentMeeting.id,
         has_voting_rights: true,
       });
-    } catch (error) {
+    } catch (_error) {
       setShowAttendantErroLabel(true);
     }
   }
@@ -90,7 +88,7 @@ const AttendantPanel = ({ currentMeeting }) => {
     };
   }, [currentMeeting.id]);
 
-  if (attendants === null) return <></>;
+  if (attendants === null) return;
 
   return (
     <div>

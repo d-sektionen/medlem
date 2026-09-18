@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import { MdOutlineFrontHand } from "react-icons/md";
 import { RiMegaphoneLine } from "react-icons/ri";
@@ -99,25 +99,22 @@ const SpeakerPanel = ({ meeting }) => {
         <p>{errorMessage}</p>
       )}
       <List maxHeight="260px" className={speakerPanelList}>
-        {speakers &&
-          speakers.map((s) => (
-            <ListItem
-              title={s.user.pretty_name}
-              subtitle={s.prioritized ? "Replik" : "Tala"}
-              key={s.id}
-              buttons={[
-                <ListButton
-                  shown={user.id === s.user.id}
-                  onClick={() =>
-                    deleteSpeakerRequest(meeting.id, s.prioritized)
-                  }
-                  iconComponent={FiTrash2}
-                  text="Lämna talarlista"
-                  key="remove"
-                />,
-              ]}
-            />
-          ))}
+        {speakers?.map((s) => (
+          <ListItem
+            title={s.user.pretty_name}
+            subtitle={s.prioritized ? "Replik" : "Tala"}
+            key={s.id}
+            buttons={[
+              <ListButton
+                shown={user.id === s.user.id}
+                onClick={() => deleteSpeakerRequest(meeting.id, s.prioritized)}
+                iconComponent={FiTrash2}
+                text="Lämna talarlista"
+                key="remove"
+              />,
+            ]}
+          />
+        ))}
       </List>
     </div>
   );

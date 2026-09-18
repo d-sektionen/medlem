@@ -1,4 +1,3 @@
-import React from "react";
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 import { del, post } from "../request";
 import { Button } from "../ui/buttons";

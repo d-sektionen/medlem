@@ -1,8 +1,4 @@
-import React from "react";
-import { patch } from "../request";
-import { Button, ButtonGroup } from "../ui/buttons";
-
-const MeetingPanel = ({ currentMeeting, updatePatch }) => (
+const MeetingPanel = ({ currentMeeting, _updatePatch }) => (
   <div>
     <h2>Mötesinfo</h2>
     <h3>{currentMeeting.name}</h3>

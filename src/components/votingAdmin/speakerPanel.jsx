@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import backendService from "../request/backendService";
 import socket, { joinRoom, leaveRoom } from "../request/socket";
@@ -58,22 +58,21 @@ const SpeakerPanel = ({ meeting }) => {
     <div>
       <h2>Talarlista</h2>
       <List maxHeight="260px">
-        {speakers &&
-          speakers.map((s) => (
-            <ListItem
-              title={s.user.pretty_name}
-              subtitle={s.prioritized ? "Replik" : null}
-              key={s.id}
-              buttons={[
-                <ListButton
-                  onClick={() => deleteSpeaker(s.id)}
-                  iconComponent={FiTrash2}
-                  text="Ta bort från talarlista"
-                  key="remove"
-                />,
-              ]}
-            />
-          ))}
+        {speakers?.map((s) => (
+          <ListItem
+            title={s.user.pretty_name}
+            subtitle={s.prioritized ? "Replik" : null}
+            key={s.id}
+            buttons={[
+              <ListButton
+                onClick={() => deleteSpeaker(s.id)}
+                iconComponent={FiTrash2}
+                text="Ta bort från talarlista"
+                key="remove"
+              />,
+            ]}
+          />
+        ))}
       </List>
     </div>
   );

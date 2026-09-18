@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { FiBarChart2, FiEdit2, FiTrash2 } from "react-icons/fi";
 import useSWR from "swr";
 import useConfirmModal from "../modal/useConfirmModal";
@@ -57,66 +57,64 @@ const VotePanel = ({ currentMeeting }) => {
         Ny omröstning
       </Button>
       <List maxHeight="268px">
-        {votes &&
-          votes
-            .filter((vote) => vote.meeting === currentMeeting.id)
-            .map((vote) => (
-              <ListItem
-                title={vote.question}
-                subtitle={vote.open ? "Active" : undefined}
-                key={vote.id}
-                buttons={[
-                  <ListButton
-                    onClick={() =>
-                      confirmModal(
-                        `Vill du ta bort omröstningen?`,
-                        async () => {
-                          console.log(vote);
-                          await del(`/voting/admin-votes/${vote.id}`, {
-                            params: {
-                              meeting_id: currentMeeting.id,
-                              vote_id: vote.id,
-                            },
-                          });
+        {votes
+          ?.filter((vote) => vote.meeting === currentMeeting.id)
+          .map((vote) => (
+            <ListItem
+              title={vote.question}
+              subtitle={vote.open ? "Active" : undefined}
+              key={vote.id}
+              buttons={[
+                <ListButton
+                  onClick={() =>
+                    confirmModal(
+                      `Vill du ta bort omröstningen?`,
+                      async () => {
+                        await del(`/voting/admin-votes/${vote.id}`, {
+                          params: {
+                            meeting_id: currentMeeting.id,
+                            vote_id: vote.id,
+                          },
+                        });
 
-                          mutate([]);
-                        },
-                        closeModal,
-                      )
-                    }
-                    iconComponent={FiTrash2}
-                    text="Ta bort"
-                    key="remove"
-                  />,
-                  <ListButton
-                    onClick={() =>
-                      confirmModal(
-                        `Vill du se resultatet?`,
-                        () => {
-                          open(vote);
-                        },
-                        closeModal,
-                      )
-                    }
-                    iconComponent={FiBarChart2}
-                    text="Resultat"
-                    key="results"
-                  />,
-                  <ListButton
-                    onClick={() =>
-                      openCreateModal(`Uppdatera "${vote.question}"`, {
-                        currentMeeting,
-                        update,
-                        updateData: vote,
-                      })
-                    }
-                    iconComponent={FiEdit2}
-                    text="Uppdatera omröstning"
-                    key="update"
-                  />,
-                ]}
-              />
-            ))}
+                        mutate([]);
+                      },
+                      closeModal,
+                    )
+                  }
+                  iconComponent={FiTrash2}
+                  text="Ta bort"
+                  key="remove"
+                />,
+                <ListButton
+                  onClick={() =>
+                    confirmModal(
+                      `Vill du se resultatet?`,
+                      () => {
+                        open(vote);
+                      },
+                      closeModal,
+                    )
+                  }
+                  iconComponent={FiBarChart2}
+                  text="Resultat"
+                  key="results"
+                />,
+                <ListButton
+                  onClick={() =>
+                    openCreateModal(`Uppdatera "${vote.question}"`, {
+                      currentMeeting,
+                      update,
+                      updateData: vote,
+                    })
+                  }
+                  iconComponent={FiEdit2}
+                  text="Uppdatera omröstning"
+                  key="update"
+                />,
+              ]}
+            />
+          ))}
       </List>
     </div>
   );
