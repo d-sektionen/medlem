@@ -24,13 +24,7 @@ const TitleChooser = ({
   const allChoices = [
     ...(choices || []),
     // merge all categorized choices to single array.
-    ...Object.keys(categorizedChoices).reduce(
-      (accumulator, category) => [
-        ...accumulator,
-        ...categorizedChoices[category],
-      ],
-      [],
-    ),
+    ...Object.values(categorizedChoices).flat(),
   ];
 
   // Re-select the previously selected choice if there is one
