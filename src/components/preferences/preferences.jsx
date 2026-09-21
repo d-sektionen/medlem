@@ -48,8 +48,8 @@ class Preferences extends Component {
 
           setUser((prev) => ({
             ...prev,
-            first_name: res.data.firstName,
-            last_name: res.data.lastName,
+            first_name: res.data.first_name,
+            last_name: res.data.last_name,
             profile: {
               ...prev.profile,
               liu_card_id: res.data.liu_card_id,
