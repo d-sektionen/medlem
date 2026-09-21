@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function useKeyPress(targetKey) {
   // State for keeping track of whether key is pressed
