@@ -72,6 +72,7 @@ class Preferences extends Component {
           this.setState({ errors: this.getFormErrorText(err.response) })
         }
       });
+
     event.preventDefault();
   }
 
@@ -96,6 +97,8 @@ class Preferences extends Component {
   }
 
   render() {
+    console.log(this.state.errors)
+
     const { user } = this.props;
     const {
       firstName,
