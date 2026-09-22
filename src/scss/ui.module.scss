@@ -1,12 +1,11 @@
-@import 'vars';
-@import 'mixins';
+@import "vars";
+@import "mixins";
 
 .button {
   text-decoration: none;
   border: none;
   background-color: $background-color-3;
   color: $foreground-color-3;
-  cursor: pointer;
   padding: $base-padding $base-padding * 2;
   margin-bottom: $base-padding;
 
@@ -16,10 +15,30 @@
   justify-content: center;
   gap: calc($base-padding / 2);
 
-  &:hover {
+  > svg {
+    height: calc(1.5 * $base-padding);
+    width: calc(1.5 * $base-padding);
+  }
+
+  cursor: pointer;
+
+  &:not([disabled]):not([aria-disabled="true"]):hover {
     background-color: $dsek-blue;
   }
 
+  &[disabled],
+  &[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &:enabled {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $dsek-blue;
+    }
+  }
   &:focus {
     outline-width: 0;
     box-shadow: 0 0 2px 2px $dsek-blue;
@@ -41,8 +60,8 @@
 
 .iconButton {
   border: none;
-  height: 8 * $base-padding;
-  width: 8 * $base-padding;
+  height: calc(8 * $base-padding);
+  width: calc(8 * $base-padding);
   background-color: $background-color-3;
   color: $foreground-color-3;
   border-radius: 50%;
@@ -89,7 +108,6 @@
 .gridItem {
   background-color: rgba($background-color-2, 0.95);
   padding: $base-padding;
-  // z-index: 10;
   backdrop-filter: blur(5px);
 }
 
@@ -119,7 +137,7 @@
 
   h3 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   p {
     font-size: 0.9rem;
@@ -250,7 +268,7 @@
       position: absolute;
       top: -1.5 * $base-padding;
       right: 2 * $base-padding;
-      content: '';
+      content: "";
       border-left: $base-padding solid transparent;
       border-right: $base-padding solid transparent;
       border-bottom: 1.5 * $base-padding solid $dsek-blue;
@@ -293,11 +311,22 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.6) 0%,
-        rgba(0, 0, 0, 0) 100%
-      ),
+    background:
+      linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%),
       linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 30%);
+  }
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: $base-padding;
+  padding: $base-padding calc(2 * $base-padding);
+  background-color: $background-color-3;
+
+  label {
+    input {
+      margin-right: calc($base-padding / 2);
+    }
   }
 }

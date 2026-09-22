@@ -1,0 +1,87 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
+import { iconButton, button, buttonGroup } from "../../scss/ui.module.scss";
+
+const IconButton = ({ onClick, iconComponent: Icon, text, disabled }) => {
+  // TODO: add anchor tag mode.
+  return (
+    <button
+      type="button"
+      className={iconButton}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      <Icon />
+      <div>{text}</div>
+    </button>
+  );
+};
+
+const Button = ({
+  onClick,
+  to,
+  href,
+  target,
+  children,
+  disabled,
+  type = "button",
+}) => {
+  if (to)
+    return (
+      <Link
+        className={button}
+        to={disabled ? undefined : to}
+        onClick={
+          disabled
+            ? (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+            : onClick
+        }
+        aria-disabled={disabled}
+        tabIndex={disabled ? -1 : undefined}
+      >
+        {children}
+      </Link>
+    );
+
+  if (href)
+    return (
+      <a
+        className={button}
+        href={disabled ? undefined : href}
+        target={target}
+        onClick={
+          disabled
+            ? (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+            : onClick
+        }
+        aria-disabled={disabled}
+        tabIndex={disabled ? -1 : undefined}
+      >
+        {children}
+      </a>
+    );
+
+  return (
+    <button
+      className={button}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  );
+};
+
+const ButtonGroup = ({ children }) => (
+  <div className={buttonGroup}>{children}</div>
+);
+
+export { IconButton, Button, ButtonGroup };
