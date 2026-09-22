@@ -48,8 +48,8 @@ class Preferences extends Component {
 
           setUser((prev) => ({
             ...prev,
-            first_name: res.data.firstName,
-            last_name: res.data.lastName,
+            first_name: res.data.first_name,
+            last_name: res.data.last_name,
             profile: {
               ...prev.profile,
               liu_card_id: res.data.liu_card_id,
@@ -112,7 +112,8 @@ class Preferences extends Component {
             Förnamn:
             <input
               value={firstName}
-              onChange={(e) => this.handleChange("firstName", e)}
+              title="För- och efternamn hämtas från LiU och kan ej redigeras från medlemstjänsten."
+              disabled
             />
           </label>
           {errors.first_name && (
@@ -124,7 +125,8 @@ class Preferences extends Component {
             Efternamn:
             <input
               value={lastName}
-              onChange={(e) => this.handleChange("lastName", e)}
+              title="För- och efternamn hämtas från LiU och kan ej redigeras från medlemstjänsten."
+              disabled
             />
           </label>
           {errors.last_name && <div className={Error}>{errors.last_name}</div>}
