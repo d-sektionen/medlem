@@ -25,8 +25,11 @@ class Preferences extends Component {
   }
 
   handleChange(field, event, checkbox = false) {
-    if (checkbox) this.setState({ [field]: event.target.checked });
-    else this.setState({ [field]: event.target.value });
+    if (checkbox) {
+      this.setState({ [field]: event.target.checked });
+    } else {
+      this.setState({ [field]: event.target.value });
+    }
   }
 
   handleSubmit(event) {
@@ -146,7 +149,7 @@ class Preferences extends Component {
               onChange={(e) => this.handleChange("liuCardId", e)}
             />
           </label>
-          {errors.profile && errors.profile.liu_card_id && (
+          {errors.profile?.liu_card_id && (
             <div className={Error}>{errors.profile.liu_card_id}</div>
           )}
         </div>
@@ -158,7 +161,7 @@ class Preferences extends Component {
               onChange={e => this.handleChange('phoneNumber', e)}
             />
           </label>
-          {errors.profile && errors.profile.phone_number && (
+          {errors.profile?.phone_number && (
             <div className={Error}>{errors.profile.phone_number}</div>
           )}
         </div>
@@ -171,7 +174,7 @@ class Preferences extends Component {
               onChange={(e) => this.handleChange("infomailSubscriber", e, true)}
             />
           </label>
-          {errors.profile && errors.profile.infomail_subscriber && (
+          {errors.profil?.infomail_subscriber && (
             <div className={Error}>{errors.profile.infomail_subscriber}</div>
           )}
         </div>
