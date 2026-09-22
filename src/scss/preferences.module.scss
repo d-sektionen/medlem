@@ -33,6 +33,28 @@
   margin: 1rem 0;
 }
 
+.submitRow {
+  display: flex;
+  align-items: center;
+  gap: $base-padding;
+}
+
+.loadingSpinner {
+  font-size: 1.5em;
+  color: $foreground-color-2;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: $base-padding;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .calendarSubNotice {
   display: grid;
   grid-template-columns: 1fr auto;

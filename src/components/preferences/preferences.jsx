@@ -1,8 +1,15 @@
 import React, { Component } from "react";
+import { FiLoader } from "react-icons/fi";
 
 import { put, patch } from "../request";
 
-import { inputLabel, Error, Success } from "../../scss/preferences.module.scss";
+import {
+  inputLabel,
+  Error,
+  Success,
+  submitRow,
+  loadingSpinner,
+} from "../../scss/preferences.module.scss";
 import { Button } from "../ui/buttons";
 
 class Preferences extends Component {
@@ -17,6 +24,9 @@ class Preferences extends Component {
       firstName: props.user.first_name,
       lastName: props.user.last_name,
       phoneNumber: props.user.profile.phone_number,
+      // local loading state; the layout loading state remounts this component
+      // and thus can't be used
+      is_loading: false,
       errors: {},
     };
 
@@ -33,12 +43,12 @@ class Preferences extends Component {
   }
 
   handleSubmit(event) {
-    const { setLoading, setUser } = this.props;
+    const { setUser } = this.props;
 
     // reset errors
     this.setState({ error: undefined, success: undefined, errors: {} });
 
-    setLoading(true);
+    this.setState({ is_loading: true });
     put("/account/profile/me/", {
       first_name: this.state.firstName,
       last_name: this.state.lastName,
@@ -47,7 +57,7 @@ class Preferences extends Component {
       phone_number: this.state.phoneNumber,
     })
       .then((res) => {
-        setLoading(false);
+        this.setState({ is_loading: false })
         if (res.status < 300) {
           this.setState({ success: "Ändringarna har sparats." });
 
@@ -66,7 +76,7 @@ class Preferences extends Component {
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
+        this.setState({ is_loading: false });
         if (!err.response) this.setState({ error: "Nätverksfel." });
         else if (err.response.status === 400) {
           this.setState({ errors: this.getFormErrorText(err.response) })
@@ -109,6 +119,7 @@ class Preferences extends Component {
       errors,
       error,
       success,
+      is_loading,
     } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
@@ -181,8 +192,17 @@ class Preferences extends Component {
             <div className={Error}>{errors.profile.infomail_subscriber}</div>
           )}
         </div>
-        <div>
-          <Button type="submit">Spara</Button>
+        <div className={submitRow}>
+          <Button type="submit" disabled={is_loading}>
+            Spara
+          </Button>
+          {is_loading && (
+            <FiLoader
+              className={loadingSpinner}
+              role="status"
+              aria-label="Sparar ändringarna"
+            />
+          )}
         </div>
         <div>
           {error && <div className={Error}>{error}</div>}
