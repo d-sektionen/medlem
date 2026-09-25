@@ -2,7 +2,7 @@ import useSWR from "swr";
 import AutoForm from "../form/form";
 
 const AddCalendarSubscription = ({ create }) => {
-  const { data, mutate } = useSWR("/booking/item-pools/");
+  const { data, mutate: _ } = useSWR("/booking/item-pools/");
 
   const defaults = {
     include_bookings: false,
