@@ -38,9 +38,6 @@ const VotePanel = ({ currentMeeting }) => {
   const closeModal = useCloseModal();
   const [confirmModal] = useConfirmModal();
 
-  // Close modal when a vote is created
-  useEffect(closeModal, [votes]);
-
   // if (votes === null) return <></>
 
   return (
