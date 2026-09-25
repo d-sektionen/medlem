@@ -20,9 +20,10 @@ export default function VotePage() {
   const { data: meetings } = useSWR("/voting/meetings/");
 
   useEffect(() => {
-    if (currentMeeting)
+    if (currentMeeting) {
       setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
-  }, [meetings]);
+    }
+  }, [meetings, currentMeeting]);
 
   return (
     <BigPixels>
