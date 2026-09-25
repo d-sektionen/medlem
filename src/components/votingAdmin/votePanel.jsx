@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FiBarChart2, FiEdit2, FiTrash2 } from "react-icons/fi";
 import useSWR from "swr";
 import useConfirmModal from "../modal/useConfirmModal";
@@ -26,7 +27,7 @@ const VotePanel = ({ currentMeeting }) => {
   };
 
   const open = async (vote) => {
-    closeModal();
+    await closeModal();
     openChartModal(`Resultat av "${vote.question}"`, {
       voteId: vote.id,
     });
@@ -36,6 +37,9 @@ const VotePanel = ({ currentMeeting }) => {
   const [openChartModal] = useModal(VoteStats);
   const closeModal = useCloseModal();
   const [confirmModal] = useConfirmModal();
+
+  // Close modal when a vote is created
+  useEffect(closeModal, [votes]);
 
   // if (votes === null) return <></>
 
