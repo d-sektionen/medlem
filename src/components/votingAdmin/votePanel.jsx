@@ -26,7 +26,8 @@ const VotePanel = ({ currentMeeting }) => {
   };
 
   const open = async (vote) => {
-    closeModal();
+    // Defer opening until Confirmation's trailing close() has completed, so it doesn't immediately close the new modal.
+    await closeModal();
     openChartModal(`Resultat av "${vote.question}"`, {
       voteId: vote.id,
     });
