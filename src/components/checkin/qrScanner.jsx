@@ -17,14 +17,18 @@ const QrScanner = ({ onSubmit, refresh }) => {
     let controls;
     let reloadTimeout;
 
-    const startTimeout = setTimeout(() => {
-      codeReader
-        .decodeOnceFromVideoDevice(undefined, videoElement.current)
-        .then((result) => {
+    const startTimeout = setTimeout(async () => {
+      controls = await codeReader.decodeFromVideoDevice(
+        undefined,
+        videoElement.current,
+        (result, error, scanControls) => {
+          if (!result) return;
+
+          scanControls.stop();
           onSubmit({ text: result.getText() });
           reloadTimeout = reloadQrScanner();
-        })
-        .catch((err) => console.error(err));
+        }
+      );
     }, 500);
 
     return () => {
