@@ -32,9 +32,10 @@ const VotingAdminPage = () => {
 
   // sync currentMeeting with updated meetings
   useEffect(() => {
-    if (currentMeeting)
+    if (currentMeeting) {
       setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
-  }, [meetings]);
+    }
+  }, [meetings, currentMeeting]);
 
   return (
     <BigPixels>
