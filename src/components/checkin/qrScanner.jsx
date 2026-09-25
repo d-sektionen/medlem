@@ -5,7 +5,7 @@ import { BrowserQRCodeReader } from "@zxing/browser";
 const QrScanner = ({ onSubmit, refresh }) => {
   const videoElement = useRef(null);
   const [qrScannerState, setQrScannerState] = useState(false);
-  const codeReader = new BrowserQRCodeReader();
+  const codeReader = useRef(new BrowserQRCodeReader());
 
   const reloadQrScanner = () => {
     return setTimeout(() => {
@@ -14,24 +14,30 @@ const QrScanner = ({ onSubmit, refresh }) => {
   };
 
   useEffect(() => {
+    let cancelled = false;
     let controls;
     let reloadTimeout;
 
     const startTimeout = setTimeout(async () => {
-      controls = await codeReader.decodeFromVideoDevice(
+      controls = await codeReader.current.decodeFromVideoDevice(
         undefined,
         videoElement.current,
         (result, error, scanControls) => {
-          if (!result) return;
+          if (!result || cancelled) return;
 
           scanControls.stop();
           onSubmit({ text: result.getText() });
           reloadTimeout = reloadQrScanner();
         }
       );
+
+      if (cancelled) {
+        controls.stop();
+      }
     }, 500);
 
     return () => {
+      cancelled = true;
       clearTimeout(startTimeout);
       clearTimeout(reloadTimeout);
       controls?.stop();
