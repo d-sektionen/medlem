@@ -7,13 +7,14 @@ import {
   setYear,
 } from "date-fns";
 
-const DateTimePicker = ({ value, onChange, required = false }) => {
+const DateTimePicker = ({ value, onChange, id, required = false }) => {
   return (
     <div>
       <input
         type="date"
         required={required}
         value={value ? format(value, "yyyy-MM-dd") : ""}
+        aria-label="Date picker"
         onChange={(e) => {
           const timeString = e.target.value;
           const year = parseInt(timeString.slice(0, 4), 10);
@@ -32,6 +33,7 @@ const DateTimePicker = ({ value, onChange, required = false }) => {
         type="time"
         required={required}
         value={value ? format(value, "HH:mm") : ""}
+        aria-label="Time picker"
         onChange={(e) => {
           const timeString = e.target.value;
           const hour = parseInt(timeString.slice(0, 2), 10);
