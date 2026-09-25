@@ -98,8 +98,14 @@ const AutoInput = ({
     />
   );
 
+  let htmlFor = id;
+  if (["datetime"].contains(type)) {
+    // DateTime does not support id
+    htmlFor = undefined;
+  }
+
   return (
-    <label htmlFor={id}>
+    <label htmlFor={htmlFor}>
       {`${label}`}
       {required && <span>*</span>}
       <div>{component}</div>
