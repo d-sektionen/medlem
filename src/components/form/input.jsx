@@ -15,11 +15,12 @@ const AutoInput = ({
   const [initialOptions, setInitialOptions] = useState([]);
 
   // Set the initial options based on the first value received
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <Run only once, when the component mounts>
   useEffect(() => {
     if (value) {
       setInitialOptions(value);
     }
-  }, []); // Run only once, when the component mounts
+  }, []);
 
   const change = (e) => {
     onChange(e.target.value);
