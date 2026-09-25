@@ -14,7 +14,7 @@ const CalendarSubscriptions = () => {
   const [openConfirmation] = useConfirmModal();
   const closeModal = useCloseModal();
   const { data: subs, mutate } = useSWR("/account/calendar-subscriptions/");
-  const bookableItems = useSWR("/booking/items/");
+  const bookableItems = useSWR("/booking/item-pools/");
   const getTitle = (sub) => {
     const parts = [];
     if (sub.include_bookings_by_user) parts.push("bokningar av användare");
