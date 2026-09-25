@@ -74,6 +74,7 @@ const AutoInput = ({
         multiple
         required={required}
         value={value}
+        id={id}
         onChange={(e) =>
           onChange(
             Array.from(e.target.selectedOptions, (option) => option.value),
