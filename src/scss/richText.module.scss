@@ -1,118 +1,163 @@
 @import "vars";
 
-:global {
-  // Change color to match colorscheme
-  .quill {
-    background-color: $background-color-3 !important;
-  }
-  /* .ql-container {
-    height: inherit !important;
-    background-color: #333;
-  } */
-  .ql-toolbar .ql-stroke {
-    fill: none !important;
-    stroke: $foreground-color-2 !important;
-  }
-  .ql-toolbar .ql-fill {
-    fill: $foreground-color-2 !important;
-    stroke: none;
-  }
-  .ql-toolbar .ql-picker {
-    color: $foreground-color-2 !important;
-  }
-  .ql-picker-item {
-    color: $background-color-3 !important;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  color: $foreground-color-2;
+  background-color: $background-color-3;
+  border-radius: 4px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background-color: $background-color-4;
+}
+
+.toolbarDivider {
+  align-self: stretch;
+  width: 1px;
+  margin: 3px 4px;
+  background-color: $background-color-2;
+}
+
+.toolbarButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  font-size: 18px;
+  color: $foreground-color-2;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover:not(:disabled) {
+    color: $dsek-cerise;
+    background-color: $background-color-3;
+    transform: scale(1.03); // visual emphasis without changing layout
   }
 
-  // Remove borders
-  .ql-toolbar.ql-snow {
-    background-color: $background-color-4 !important;
-    border: none !important;
+  // A focused button must not look like an active one; only
+  // .toolbarButtonActive (aria-pressed) marks the active formatting.
+  &:focus-visible {
+    outline: 2px solid $dsek-cerise;
+    outline-offset: 1px;
   }
 
-  .ql-container.ql-snow {
-    border: none !important;
+  &:disabled {
+    color: $background-color-2;
+    cursor: default;
   }
+}
 
-  // Active colors
-  .ql-snow.ql-toolbar button:hover,
-  .ql-snow .ql-toolbar button:hover,
-  .ql-snow.ql-toolbar button:focus,
-  .ql-snow .ql-toolbar button:focus,
-  .ql-snow.ql-toolbar button.ql-active,
-  .ql-snow .ql-toolbar button.ql-active,
-  .ql-snow.ql-toolbar .ql-picker-label:hover,
-  .ql-snow .ql-toolbar .ql-picker-label:hover,
-  .ql-snow.ql-toolbar .ql-picker-label.ql-active,
-  .ql-snow .ql-toolbar .ql-picker-label.ql-active,
-  .ql-snow.ql-toolbar .ql-picker-item:hover,
-  .ql-snow .ql-toolbar .ql-picker-item:hover,
-  .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
-  .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
-    color: $dsek-cerise !important;
-    transition: transform 0.2s ease !important;
-    transform: scale(
-      1.03
-    ) !important; /* visual emphasis without changing layout */
-  }
-  .ql-snow.ql-toolbar button:hover .ql-fill,
-  .ql-snow .ql-toolbar button:hover .ql-fill,
-  .ql-snow.ql-toolbar button:focus .ql-fill,
-  .ql-snow .ql-toolbar button:focus .ql-fill,
-  .ql-snow.ql-toolbar button.ql-active .ql-fill,
-  .ql-snow .ql-toolbar button.ql-active .ql-fill,
-  .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill,
-  .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill,
-  .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill,
-  .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill,
-  .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill,
-  .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill,
-  .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill,
-  .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill,
-  .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill,
-  .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill,
-  .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill,
-  .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill,
-  .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill,
-  .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill,
-  .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,
-  .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,
-  .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,
-  .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,
-  .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
-  .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
-  .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
-  .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {
-    fill: $dsek-cerise !important;
-  }
-  .ql-snow.ql-toolbar button:hover .ql-stroke,
-  .ql-snow .ql-toolbar button:hover .ql-stroke,
-  .ql-snow.ql-toolbar button:focus .ql-stroke,
-  .ql-snow .ql-toolbar button:focus .ql-stroke,
-  .ql-snow.ql-toolbar button.ql-active .ql-stroke,
-  .ql-snow .ql-toolbar button.ql-active .ql-stroke,
-  .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke,
-  .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke,
-  .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke,
-  .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke,
-  .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke,
-  .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke,
-  .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
-  .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
-  .ql-snow.ql-toolbar button:hover .ql-stroke-miter,
-  .ql-snow .ql-toolbar button:hover .ql-stroke-miter,
-  .ql-snow.ql-toolbar button:focus .ql-stroke-miter,
-  .ql-snow .ql-toolbar button:focus .ql-stroke-miter,
-  .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter,
-  .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter,
-  .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
-  .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
-  .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
-  .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
-  .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
-  .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
-  .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
-  .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
-    stroke: $dsek-cerise !important;
+.toolbarButtonActive {
+  color: $dsek-cerise;
+  background-color: $background-color-3;
+}
+
+.editorContent {
+  :global(.ProseMirror) {
+    min-height: 220px;
+    max-height: 60vh;
+    padding: $base-padding;
+    overflow-y: auto;
+    color: $foreground-color-2;
+    outline: none;
+    word-break: break-word;
+
+    > * + * {
+      margin-top: 0.75em;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: $foreground-color-3;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 1.8em;
+    }
+
+    h2 {
+      font-size: 1.5em;
+    }
+
+    h3 {
+      font-size: 1.25em;
+    }
+
+    a {
+      color: $link-color;
+      text-decoration: underline;
+    }
+
+    // The <hr> element inserted by the horizontal rule toolbar button.
+    hr {
+      height: 0;
+      margin: 1em 0;
+      border: none;
+      border-top: 2px solid $background-color-4;
+    }
+
+    // Selected horizontal rules / images get a visible outline.
+    // "ProseMirror-selectednode" is added at runtime, so it must stay global.
+    :global(hr.ProseMirror-selectednode),
+    :global(img.ProseMirror-selectednode) {
+      outline: 2px solid $dsek-cerise;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    blockquote {
+      padding-left: 1em;
+      font-style: italic;
+      border-left: 3px solid $dsek-cerise;
+    }
+
+    pre {
+      padding: $base-padding;
+      overflow-x: auto;
+      font-family: monospace;
+      background-color: $background-color-2;
+      border-radius: 4px;
+    }
+
+    code {
+      padding: 0 0.25em;
+      font-family: monospace;
+      background-color: $background-color-2;
+      border-radius: 4px;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.5em;
+    }
+
+    ul {
+      list-style: disc;
+    }
+
+    ol {
+      list-style: decimal;
+    }
   }
 }
