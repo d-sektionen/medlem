@@ -30,11 +30,13 @@ import {
   wrapper,
 } from "../../scss/richText.module.scss";
 
+const HEADING_LEVELS = [1, 2, 3];
+
 // Defined outside of the component so the extensions (and with them the whole
 // schema) are only created once instead of on every render.
 const extensions = [
   StarterKit.configure({
-    heading: { levels: [1, 2, 3] },
+    heading: { levels: HEADING_LEVELS },
     link: {
       openOnClick: false,
       autolink: true,
@@ -46,7 +48,7 @@ const extensions = [
 ];
 
 const headingLevel = (editor) =>
-  [1, 2, 3].find((level) => editor?.isActive("heading", { level })) ?? 0;
+  HEADING_LEVELS.find((level) => editor?.isActive("heading", { level })) ?? 0;
 
 const ToolbarButton = ({
   label,
