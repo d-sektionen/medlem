@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { textField } from "../../scss/checkin.module.scss";
 
 const useTextField = (onEnter, elem) => {
   // State for keeping track of whether key is pressed
   const [text, setText] = useState("");
-  const regex = RegExp("^[A-Za-z0-9]+$");
+  const regex = /^[A-Za-z0-9]+$/;
 
   // If pressed key is our target key then set to true
-  const downHandler = (e) => {
+  const downHandler = useCallback((e) => {
     const keyChar = String.fromCharCode(e.keyCode);
     if (e.key === "Enter") {
       setText((prev) => {
@@ -22,7 +22,7 @@ const useTextField = (onEnter, elem) => {
       // console.log(keyCode + ' - ' + key + ' - ' + String.fromCharCode(keyCode))
       setText((prev) => (prev.length > 20 ? prev : `${prev}${keyChar}`));
     }
-  };
+  });
 
   // Add event listeners
   useEffect(() => {
@@ -35,7 +35,7 @@ const useTextField = (onEnter, elem) => {
       };
     }
     return () => {};
-  }, [onEnter, elem]); // Empty array ensures that effect is only run on mount and unmount
+  }, [elem, downHandler]);
 
   return text;
 };
@@ -45,7 +45,7 @@ const TextField = ({ onSubmit }) => {
   const text = useTextField(onSubmit, elem);
 
   return (
-    <div ref={elem} tabIndex={0} className={textField}>
+    <div ref={elem} role="menu" tabIndex={0} className={textField}>
       {text}
     </div>
   );
@@ -73,4 +73,4 @@ const CompatibilityTextField = ({ onSubmit }) => {
   );
 };
 
-export { TextField, CompatibilityTextField };
+export { CompatibilityTextField, TextField };

@@ -1,11 +1,10 @@
-import React, { useState } from "react";
 import {
-  setYear,
-  setMonth,
-  setDate,
-  setMinutes,
-  setHours,
   format,
+  setDate,
+  setHours,
+  setMinutes,
+  setMonth,
+  setYear,
 } from "date-fns";
 
 const DateTimePicker = ({ value, onChange, required = false }) => {
@@ -15,6 +14,7 @@ const DateTimePicker = ({ value, onChange, required = false }) => {
         type="date"
         required={required}
         value={value ? format(value, "yyyy-MM-dd") : ""}
+        aria-label="Date picker"
         onChange={(e) => {
           const timeString = e.target.value;
           const year = parseInt(timeString.slice(0, 4), 10);
@@ -33,6 +33,7 @@ const DateTimePicker = ({ value, onChange, required = false }) => {
         type="time"
         required={required}
         value={value ? format(value, "HH:mm") : ""}
+        aria-label="Time picker"
         onChange={(e) => {
           const timeString = e.target.value;
           const hour = parseInt(timeString.slice(0, 2), 10);

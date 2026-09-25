@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+/*
+  GuestPanel component
+  OBS: This component is unused
+*/
+
+import { useCallback, useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
-
-import { List, ListButton, ListItem } from "../ui/list";
-import { ButtonGroup } from "../ui/buttons";
-
 import backendService from "../request/backendService";
 import socket, { joinRoom, leaveRoom } from "../request/socket";
+import { ButtonGroup } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
 
 const getGuestAttendants = (attendants) => {
   const guestAttendants = attendants.filter(
@@ -18,29 +21,35 @@ const GuestPanel = ({ currentMeeting }) => {
   const [input, setInput] = useState("");
   const [attendants, setAttendants] = useState([]);
 
-  async function handleMeetingChange() {
+  const handleMeetingChange = useCallback(async () => {
     if (currentMeeting) {
       const resp = await backendService.get(
         `/voting/attendants/?meeting_id=${currentMeeting.id}`,
       );
       setAttendants(resp.data);
     }
-  }
+  }, [currentMeeting]);
 
-  function handleNewAttendant(data) {
-    if (data.meeting_id !== currentMeeting.id) return;
+  const handleNewAttendant = useCallback(
+    (data) => {
+      if (data.meeting_id !== currentMeeting.id) return;
 
-    setAttendants((prev) => {
-      if (prev.find((a) => a.id === data.id)) return prev;
-      return [...prev, data];
-    });
-  }
+      setAttendants((prev) => {
+        if (prev.find((a) => a.id === data.id)) return prev;
+        return [...prev, data];
+      });
+    },
+    [currentMeeting.id],
+  );
 
-  function handleDeleteAttendant(data) {
-    if (data.meeting_id !== currentMeeting.id) return;
+  const handleDeleteAttendant = useCallback(
+    (data) => {
+      if (data.meeting_id !== currentMeeting.id) return;
 
-    setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id));
-  }
+      setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id));
+    },
+    [currentMeeting.id],
+  );
 
   useEffect(() => {
     handleMeetingChange();
@@ -58,9 +67,14 @@ const GuestPanel = ({ currentMeeting }) => {
       socket.off("delete_attendant", handleDeleteAttendant);
       leaveRoom(`meeting_attendants_${currentMeeting.id}`);
     };
-  }, [currentMeeting]);
+  }, [
+    currentMeeting,
+    handleMeetingChange,
+    handleNewAttendant,
+    handleDeleteAttendant,
+  ]);
 
-  if (attendants === null) return <></>;
+  if (attendants === null) return;
 
   return (
     <div>

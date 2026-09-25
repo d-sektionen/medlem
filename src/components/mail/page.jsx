@@ -1,24 +1,23 @@
-import React, { useState } from "react";
-import BigPixels from "../layout/bigPixels";
-import { GridContainer, GridItem } from "../ui/grid";
-import Textarea from "../ui/textarea";
-
+import { useId, useState } from "react";
+import { FiCheck, FiSend, FiSlash, FiUpload, FiUser } from "react-icons/fi";
 import {
-  inputContainer,
-  inputButtons,
   confirmation,
   confirmationButtons,
-  status,
-  textSuccess,
-  textFail,
   failMessageClass,
+  inputButtons,
+  inputContainer,
+  status,
+  textFail,
+  textSuccess,
 } from "../../scss/mail.module.scss";
 import AutoInput from "../form/input";
-import { Button } from "../ui/buttons";
-import { post } from "../request";
-import { FiSend, FiCheck, FiSlash, FiUpload, FiUser } from "react-icons/fi";
-import RichText from "../ui/richText";
+import BigPixels from "../layout/bigPixels";
 import Modal from "../modal/modal";
+import { post } from "../request";
+import { Button } from "../ui/buttons";
+import { GridContainer, GridItem } from "../ui/grid";
+import RichText from "../ui/richText";
+import Textarea from "../ui/textarea";
 import Preview from "./preview";
 
 const ModalState = Object.freeze({
@@ -44,6 +43,9 @@ const MailPage = () => {
   const [rawMode, setRawMode] = useState(false);
   const [modalState, setModalState] = useState(ModalState.CLOSED);
   const [failMessage, setFailMessage] = useState("");
+
+  const infoContentId = useId();
+  const infoChiefContentId = useId();
 
   function sendMail() {
     setModalState(ModalState.SENDING);
@@ -91,7 +93,7 @@ const MailPage = () => {
         }}
         options={{}}
       >
-        {modalState == ModalState.CONFIRMATION ? (
+        {modalState === ModalState.CONFIRMATION ? (
           <div className={confirmation}>
             <div>
               <h3>Är du säker på att du vill skicka ut detta infomail?</h3>
@@ -113,17 +115,17 @@ const MailPage = () => {
               </Button>
             </div>
           </div>
-        ) : modalState == ModalState.SENDING ? (
+        ) : modalState === ModalState.SENDING ? (
           <div className={status}>
             <FiUpload size="9rem" />
             <h2>Mailet skickas...</h2>
           </div>
-        ) : modalState == ModalState.SUCCESS ? (
+        ) : modalState === ModalState.SUCCESS ? (
           <div className={status}>
             <FiSend size="9rem" className={textSuccess} />
             <h2 className={textSuccess}>Mailet har skickats!</h2>
           </div>
-        ) : modalState == ModalState.FAIL ? (
+        ) : modalState === ModalState.FAIL ? (
           <div className={status}>
             <FiSlash size="9rem" className={textFail} />
             <h2 className={textFail}>Ett fel uppstod vid utskick av mailet.</h2>
@@ -152,15 +154,17 @@ const MailPage = () => {
 
               <br />
 
-              <label>
+              <label htmlFor={infoChiefContentId}>
                 Infochefens hörna
                 {rawMode ? (
                   <Textarea
+                    id={infoChiefContentId}
                     value={infoChiefContent}
                     onChange={setInfoChiefContent}
                   />
                 ) : (
                   <RichText
+                    id={infoChiefContentId}
                     value={infoChiefContent}
                     onChange={setInfoChiefContent}
                   />
@@ -169,12 +173,20 @@ const MailPage = () => {
 
               <br />
 
-              <label>
+              <label htmlFor={infoContentId}>
                 Innehåll
                 {rawMode ? (
-                  <Textarea value={content} onChange={setContent} />
+                  <Textarea
+                    id={infoContentId}
+                    value={content}
+                    onChange={setContent}
+                  />
                 ) : (
-                  <RichText value={content} onChange={setContent} />
+                  <RichText
+                    id={infoContentId}
+                    value={content}
+                    onChange={setContent}
+                  />
                 )}
               </label>
             </div>

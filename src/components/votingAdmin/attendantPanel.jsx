@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
-
-import { List, ListButton, ListItem } from "../ui/list";
-import { Button, ButtonGroup } from "../ui/buttons";
 import useConfirmModal from "../modal/useConfirmModal";
 import { useCloseModal } from "../modal/useModal";
 import backendService from "../request/backendService";
 import socket, { joinRoom, leaveRoom } from "../request/socket";
+import { Button, ButtonGroup } from "../ui/buttons";
+import { List, ListButton, ListItem } from "../ui/list";
 
 const getMemberAttendants = (attendants) => {
   const memberAttendants = attendants.filter(
@@ -29,49 +28,56 @@ const AttendantPanel = ({ currentMeeting }) => {
   const [showAttendantErrorLabel, setShowAttendantErroLabel] = useState(false);
   const closeModal = useCloseModal();
 
-  async function handleFormSubmit(event) {
-    event.preventDefault();
-    setInput("");
+  const handleFormSubmit = useCallback(
+    async (event) => {
+      event.preventDefault();
+      setInput("");
 
-    let newAttendant;
-
-    try {
-      setShowAttendantErroLabel(false);
-      newAttendant = await backendService.post("/voting/attendants/", {
-        user_username: input,
-        meeting_id: currentMeeting.id,
-        has_voting_rights: true,
-      });
-    } catch (error) {
-      setShowAttendantErroLabel(true);
-    }
-  }
+      try {
+        setShowAttendantErroLabel(false);
+        const _newAttendant = await backendService.post("/voting/attendants/", {
+          user_username: input,
+          meeting_id: currentMeeting.id,
+          has_voting_rights: true,
+        });
+      } catch (_error) {
+        setShowAttendantErroLabel(true);
+      }
+    },
+    [input, currentMeeting.id],
+  );
 
   const [attendants, setAttendants] = useState([]);
 
-  async function handleMeetingChange() {
+  const handleMeetingChange = useCallback(async () => {
     if (currentMeeting) {
       const resp = await backendService.get(
         `/voting/attendants/?meeting_id=${currentMeeting.id}`,
       );
       setAttendants(resp.data);
     }
-  }
+  }, [currentMeeting]);
 
-  function handleNewAttendant(data) {
-    if (data.meeting_id !== currentMeeting.id) return;
+  const handleNewAttendant = useCallback(
+    (data) => {
+      if (data.meeting_id !== currentMeeting.id) return;
 
-    setAttendants((prev) => {
-      if (prev.find((a) => a.id === data.id)) return prev;
-      return [...prev, data];
-    });
-  }
+      setAttendants((prev) => {
+        if (prev.find((a) => a.id === data.id)) return prev;
+        return [...prev, data];
+      });
+    },
+    [currentMeeting.id],
+  );
 
-  function handleDeleteAttendant(data) {
-    if (data.meeting_id !== currentMeeting.id) return;
+  const handleDeleteAttendant = useCallback(
+    (data) => {
+      if (data.meeting_id !== currentMeeting.id) return;
 
-    setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id));
-  }
+      setAttendants((prev) => prev.filter((a) => a.id !== data.attendant_id));
+    },
+    [currentMeeting.id],
+  );
 
   useEffect(() => {
     handleMeetingChange();
@@ -80,7 +86,6 @@ const AttendantPanel = ({ currentMeeting }) => {
     joinRoom(`meeting_attendants_${currentMeeting.id}`);
 
     socket.on("new_attendant", handleNewAttendant);
-
     socket.on("delete_attendant", handleDeleteAttendant);
 
     return () => {
@@ -89,9 +94,14 @@ const AttendantPanel = ({ currentMeeting }) => {
       socket.off("delete_attendant", handleDeleteAttendant);
       leaveRoom(`meeting_attendants_${currentMeeting.id}`);
     };
-  }, [currentMeeting.id]);
+  }, [
+    currentMeeting.id,
+    handleMeetingChange,
+    handleNewAttendant,
+    handleDeleteAttendant,
+  ]);
 
-  if (attendants === null) return <></>;
+  if (attendants === null) return;
 
   return (
     <div>

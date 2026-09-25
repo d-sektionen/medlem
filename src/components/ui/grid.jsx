@@ -1,9 +1,7 @@
-import React from "react";
-
 import {
   gridContainer,
-  gridItem,
   gridFullWidth,
+  gridItem,
 } from "../../scss/ui.module.scss";
 
 const GridContainer = ({ children }) => (

@@ -1,37 +1,47 @@
-import React, { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { FiTrash2 } from "react-icons/fi";
-import { List, ListItem, ListButton } from "../ui/list";
 import backendService from "../request/backendService";
 import socket, { joinRoom, leaveRoom } from "../request/socket";
+import { List, ListButton, ListItem } from "../ui/list";
 
 const DoorkeeperPanel = ({ event }) => {
   const [input, setInput] = useState("");
   const [doorkeepers, setDoorkeepers] = useState([]);
 
-  async function handleEventChange() {
+  const handleEventChange = useCallback(async () => {
     if (event) {
       const resp = await backendService.get(
         `/checkin/doorkeepers/?event_id=${event.id}`,
       );
       setDoorkeepers(resp.data);
     }
-  }
+  }, [event]);
 
-  function handleNewDoorkeeper(data) {
-    if (data.event.id !== event.id) return;
+  const handleNewDoorkeeper = useCallback(
+    (data) => {
+      if (data.event.id !== event.id) {
+        return;
+      }
 
-    setDoorkeepers((prev) => {
-      if (prev.find((d) => d.id === data.id)) return prev;
-      return [...prev, data];
-    });
-  }
+      setDoorkeepers((prev) => {
+        if (prev.find((d) => d.id === data.id)) return prev;
+        return [...prev, data];
+      });
+    },
+    [event],
+  );
 
-  function handleDeleteDoorkeeper(data) {
-    if (data.event.id !== event.id) return;
+  const handleDeleteDoorkeeper = useCallback(
+    (data) => {
+      if (data.event.id !== event.id) {
+        return;
+      }
 
-    setDoorkeepers((prev) => prev.filter((d) => d.id !== data.doorkeeper_id));
-  }
+      setDoorkeepers((prev) => prev.filter((d) => d.id !== data.doorkeeper_id));
+    },
+    [event],
+  );
 
   useEffect(() => {
     handleEventChange();
@@ -50,7 +60,12 @@ const DoorkeeperPanel = ({ event }) => {
       socket.off("delete_doorkeeper", handleDeleteDoorkeeper);
       leaveRoom(`event_doorkeepers_${event.id}`);
     };
-  }, [event.id]);
+  }, [
+    event.id,
+    handleEventChange,
+    handleNewDoorkeeper,
+    handleDeleteDoorkeeper,
+  ]);
 
   async function create(data) {
     await backendService.post("/checkin/doorkeepers/", data);
@@ -81,21 +96,20 @@ const DoorkeeperPanel = ({ event }) => {
         />
       </form>
       <List>
-        {doorkeepers &&
-          doorkeepers.map((doorkeeper) => (
-            <ListItem
-              title={doorkeeper.user.pretty_name}
-              key={doorkeeper.id}
-              buttons={[
-                <ListButton
-                  onClick={() => destroy(doorkeeper.id)}
-                  iconComponent={FiTrash2}
-                  text="Ta bort dörrvakt"
-                  key="remove"
-                />,
-              ]}
-            />
-          ))}
+        {doorkeepers?.map((doorkeeper) => (
+          <ListItem
+            title={doorkeeper.user.pretty_name}
+            key={doorkeeper.id}
+            buttons={[
+              <ListButton
+                onClick={() => destroy(doorkeeper.id)}
+                iconComponent={FiTrash2}
+                text="Ta bort dörrvakt"
+                key="remove"
+              />,
+            ]}
+          />
+        ))}
       </List>
     </div>
   );

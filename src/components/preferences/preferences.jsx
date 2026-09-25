@@ -1,8 +1,10 @@
-import React, { Component } from "react";
-
-import { put, patch } from "../request";
-
-import { inputLabel, Error, Success } from "../../scss/preferences.module.scss";
+import { Component } from "react";
+import {
+  Failure,
+  inputLabel,
+  Success,
+} from "../../scss/preferences.module.scss";
+import { put } from "../request";
 import { Button } from "../ui/buttons";
 
 class Preferences extends Component {
@@ -117,7 +119,7 @@ class Preferences extends Component {
             />
           </label>
           {errors.first_name && (
-            <div className={Error}>{errors.first_name}</div>
+            <div className={Failure}>{errors.first_name}</div>
           )}
         </div>
         <div>
@@ -129,7 +131,9 @@ class Preferences extends Component {
               disabled
             />
           </label>
-          {errors.last_name && <div className={Error}>{errors.last_name}</div>}
+          {errors.last_name && (
+            <div className={Failure}>{errors.last_name}</div>
+          )}
         </div>
         <div>
           <label className={inputLabel}>
@@ -139,8 +143,8 @@ class Preferences extends Component {
               onChange={(e) => this.handleChange("liuCardId", e)}
             />
           </label>
-          {errors.profile && errors.profile.liu_card_id && (
-            <div className={Error}>{errors.profile.liu_card_id}</div>
+          {errors.profile?.liu_card_id && (
+            <div className={Failure}>{errors.profile.liu_card_id}</div>
           )}
         </div>
         <div>
@@ -152,15 +156,15 @@ class Preferences extends Component {
               onChange={(e) => this.handleChange("infomailSubscriber", e, true)}
             />
           </label>
-          {errors.profile && errors.profile.infomail_subscriber && (
-            <div className={Error}>{errors.profile.infomail_subscriber}</div>
+          {errors.profile?.infomail_subscriber && (
+            <div className={Failure}>{errors.profile.infomail_subscriber}</div>
           )}
         </div>
         <div>
           <Button type="submit">Spara</Button>
         </div>
         <div>
-          {error && <div className={Error}>{error}</div>}
+          {error && <div className={Failure}>{error}</div>}
           {success && <div className={Success}>{success}</div>}
         </div>
       </form>

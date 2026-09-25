@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 
 import { contentWrapper } from "../../scss/layout.module.scss";
-
-import BigPixels from "./bigPixels";
-import { GridContainer, GridItem } from "../ui/grid";
+import BackendService from "../request/backendService";
 import { Button } from "../ui/buttons";
+import { GridContainer, GridItem } from "../ui/grid";
+import usePageContext from "../usePageContext";
+import BigPixels from "./bigPixels";
+import LoginPage from "./loginPage";
 import SideMenu from "./sideMenu";
 import TopBar from "./topBar";
-import LoginPage from "./loginPage";
-import BackendService from "../request/backendService";
-import usePageContext from "../usePageContext";
 
 const LayoutContent = ({ children, userContextValue, loadingContextValue }) => {
   const pageContext = usePageContext();
@@ -23,49 +22,46 @@ const LayoutContent = ({ children, userContextValue, loadingContextValue }) => {
   const requiredPrivileges = pageContext.requiredPrivileges;
   const [hasPrivileges, setHasPrivileges] = useState(false);
 
-  function handlePageChange() {
+  useEffect(() => {
     setHasPrivileges(
-      requiredPrivileges == undefined || user?.privileges[requiredPrivileges],
+      requiredPrivileges === undefined || user?.privileges[requiredPrivileges],
     );
-  }
-  useEffect(handlePrivilegeChange, [user, requiredPrivileges]);
+  }, [user, requiredPrivileges]);
 
-  function handlePrivilegeChange() {
+  useEffect(() => {
     setHasPrivileges(
-      requiredPrivileges == undefined || user?.privileges[requiredPrivileges],
+      requiredPrivileges === undefined || user?.privileges[requiredPrivileges],
     );
-  }
-  useEffect(handlePageChange, [pageContext]);
+  }, [user, requiredPrivileges]);
 
   const loggedIn = user !== null;
 
-  async function getUser() {
-    try {
-      setLoading(true);
-      const { data } = await BackendService.get("/account/me/");
-      setUser(data);
-      setError(null);
-    } catch (err) {
-      setUser(null);
-
-      if (!err.response) {
-        setError(
-          <>
-            <p>Kommunikation med servern kunde inte etableras.</p>
-            <Button onClick={() => window.location.reload()}>
-              Ladda om sidan
-            </Button>
-          </>,
-        );
-      }
-    } finally {
-      setLoading(false);
-    }
-  }
-
+  // Get the user data from the backend and set it in the context
   useEffect(() => {
-    getUser();
-  }, []);
+    (async () => {
+      try {
+        setLoading(true);
+        const { data } = await BackendService.get("/account/me/");
+        setUser(data);
+        setError(null);
+      } catch (err) {
+        setUser(null);
+
+        if (!err.response) {
+          setError(
+            <>
+              <p>Kommunikation med servern kunde inte etableras.</p>
+              <Button onClick={() => window.location.reload()}>
+                Ladda om sidan
+              </Button>
+            </>,
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [setLoading, setUser]);
 
   // Page is loading
   if (loading) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useDeferredValue } from "react";
+import { useEffect, useId, useState } from "react";
 import DateTimePicker from "./dateTimePicker";
 
 const AutoInput = ({
@@ -15,15 +15,18 @@ const AutoInput = ({
   const [initialOptions, setInitialOptions] = useState([]);
 
   // Set the initial options based on the first value received
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <Run only once, when the component mounts>
   useEffect(() => {
     if (value) {
       setInitialOptions(value);
     }
-  }, []); // Run only once, when the component mounts
+  }, []);
 
   const change = (e) => {
     onChange(e.target.value);
   };
+
+  const id = useId();
 
   const optionElementsCollection = initialOptions?.map((item) => (
     <option key={item.id} value={item.id}>
@@ -36,11 +39,18 @@ const AutoInput = ({
       <DateTimePicker required={required} value={value} onChange={onChange} />
     ),
     date: (
-      <input type="date" required={required} value={value} onChange={change} />
+      <input
+        type="date"
+        id={id}
+        required={required}
+        value={value}
+        onChange={change}
+      />
     ),
     boolean: (
       <input
         type="checkbox"
+        id={id}
         required={required}
         checked={value}
         onChange={(e) => {
@@ -51,6 +61,7 @@ const AutoInput = ({
     integer: (
       <input
         type="number"
+        id={id}
         required={required}
         value={value}
         onChange={change}
@@ -63,6 +74,7 @@ const AutoInput = ({
         multiple
         required={required}
         value={value}
+        id={id}
         onChange={(e) =>
           onChange(
             Array.from(e.target.selectedOptions, (option) => option.value),
@@ -74,10 +86,11 @@ const AutoInput = ({
     ),
   };
 
-  const component = Object.prototype.hasOwnProperty.call(map, type) ? (
+  const component = Object.hasOwn(map, type) ? (
     map[type]
   ) : (
     <input
+      id={id}
       value={value}
       onChange={change}
       maxLength={max_length}
@@ -85,8 +98,14 @@ const AutoInput = ({
     />
   );
 
+  let htmlFor = id;
+  if (type === "datetime") {
+    // DateTime does not support id
+    htmlFor = undefined;
+  }
+
   return (
-    <label>
+    <label htmlFor={htmlFor}>
       {`${label}`}
       {required && <span>*</span>}
       <div>{component}</div>

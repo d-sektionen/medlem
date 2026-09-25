@@ -1,87 +1,102 @@
-import React, { useEffect, useState } from "react";
-import VoteForm from "./voteForm";
-import backendService from "../request/backendService";
-import socket, { joinRoom, leaveRoom } from "../request/socket";
+import { useCallback, useEffect, useState } from "react";
 import {
   formError,
-  votePanelHeader,
   noActiveVoting,
+  votePanelHeader,
 } from "../../scss/votePanel.module.scss";
+import backendService from "../request/backendService";
+import socket, { joinRoom, leaveRoom } from "../request/socket";
+import VoteForm from "./voteForm";
 
 const VotePanel = ({ meeting }) => {
   const [votes, setVotes] = useState([]);
 
-  async function fetchVotes() {
+  const fetchVotes = useCallback(async () => {
     if (meeting) {
       const resp = await backendService.get(
         `/voting/votes/?meeting_id=${meeting.id}`,
       );
       setVotes(resp.data);
     }
-  }
+  }, [meeting]);
 
-  function handleNewVote(data) {
-    if (data.meeting !== meeting.id) return;
+  const handleNewVote = useCallback(
+    (data) => {
+      if (data.meeting !== meeting.id) return;
 
-    setVotes((prev) => {
-      const existingIndex = prev.findIndex((v) => v.id === data.id);
-      if (existingIndex !== -1) {
-        const newVotes = [...prev];
-        newVotes[existingIndex] = { ...newVotes[existingIndex], ...data };
-        return newVotes;
-      }
-      return [...prev, data];
-    });
-  }
+      setVotes((prev) => {
+        const existingIndex = prev.findIndex((v) => v.id === data.id);
+        if (existingIndex !== -1) {
+          const newVotes = [...prev];
+          newVotes[existingIndex] = { ...newVotes[existingIndex], ...data };
+          return newVotes;
+        }
+        return [...prev, data];
+      });
+    },
+    [meeting.id],
+  );
 
-  function handleDeleteVote(data) {
-    if (data.meeting !== meeting.id) return;
-    setVotes((prev) => prev.filter((v) => v.id !== data.id));
-  }
+  const handleDeleteVote = useCallback(
+    (data) => {
+      if (data.meeting !== meeting.id) return;
+      setVotes((prev) => prev.filter((v) => v.id !== data.id));
+    },
+    [meeting.id],
+  );
 
-  function handleDeleteAlternative(data) {
-    if (data.meeting !== meeting.id) return;
+  const handleDeleteAlternative = useCallback(
+    (data) => {
+      if (data.meeting !== meeting.id) return;
 
-    setVotes((prev) =>
-      prev.map((v) =>
-        v.id === data.vote
-          ? {
-              ...v,
-              alternatives: v.alternatives.filter((a) => a.id !== data.id),
-            }
-          : v,
-      ),
-    );
-  }
+      setVotes((prev) =>
+        prev.map((v) =>
+          v.id === data.vote
+            ? {
+                ...v,
+                alternatives: v.alternatives.filter((a) => a.id !== data.id),
+              }
+            : v,
+        ),
+      );
+    },
+    [meeting.id],
+  );
 
-  function handleNewAlternative(data) {
-    if (data.meeting !== meeting.id) return;
+  const handleNewAlternative = useCallback(
+    (data) => {
+      if (data.meeting !== meeting.id) return;
 
-    setVotes((prev) =>
-      prev.map((v) =>
-        v.id === data.vote
-          ? { ...v, alternatives: [...v.alternatives, data] }
-          : v,
-      ),
-    );
-  }
+      setVotes((prev) =>
+        prev.map((v) =>
+          v.id === data.vote
+            ? { ...v, alternatives: [...v.alternatives, data] }
+            : v,
+        ),
+      );
+    },
+    [meeting.id],
+  );
 
-  function handleUpdateAlternative(data) {
-    if (data.meeting !== meeting.id) return;
+  const handleUpdateAlternative = useCallback(
+    (data) => {
+      if (data.meeting !== meeting.id) return;
 
-    setVotes((prev) =>
-      prev.map((v) =>
-        v.id === data.vote
-          ? {
-              ...v,
-              alternatives: v.alternatives.map((a) =>
-                a.id === data.id ? data : a,
-              ),
-            }
-          : v,
-      ),
-    );
-  }
+      setVotes((prev) =>
+        prev.map((v) =>
+          v.id === data.vote
+            ? {
+                ...v,
+                alternatives: v.alternatives.map((a) =>
+                  a.id === data.id ? data : a,
+                ),
+              }
+            : v,
+        ),
+      );
+    },
+    [meeting.id],
+  );
 
   useEffect(() => {
     fetchVotes();
@@ -110,7 +125,15 @@ const VotePanel = ({ meeting }) => {
 
       leaveRoom(`meeting_votes_${meeting.id}`);
     };
-  }, [meeting.id]);
+  }, [
+    meeting.id,
+    handleNewVote,
+    handleNewAlternative,
+    handleUpdateAlternative,
+    handleDeleteAlternative,
+    handleDeleteVote,
+    fetchVotes,
+  ]);
 
   const [errors, setErrors] = useState({});
   const setFormErrors = (errors) => {
