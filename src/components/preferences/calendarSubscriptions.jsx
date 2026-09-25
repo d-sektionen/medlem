@@ -21,7 +21,7 @@ const CalendarSubscriptions = () => {
     if (sub.include_bookable_items) {
       sub.include_bookable_items.forEach((element) => {
         if (!bookableItems.isLoading) {
-          const item = bookableItems.data.find((item) => item.id === element);
+          const item = bookableItems?.data?.find((item) => item.id === element);
           const name = item?.name ?? "Gömt objekt";
 
           parts.push(name);
