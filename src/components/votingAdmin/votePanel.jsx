@@ -27,7 +27,7 @@ const VotePanel = ({ currentMeeting }) => {
   };
 
   const open = async (vote) => {
-    await closeModal();
+    closeModal();
     openChartModal(`Resultat av "${vote.question}"`, {
       voteId: vote.id,
     });
