@@ -38,8 +38,6 @@ const VotePanel = ({ currentMeeting }) => {
   const closeModal = useCloseModal();
   const [confirmModal] = useConfirmModal();
 
-  // if (votes === null) return <></>
-
   return (
     <div>
       <h2>Omröstningar</h2>
