@@ -1,32 +1,37 @@
 import React, { useState, useRef, useEffect } from "react";
 
-import { BrowserQRCodeReader } from "@zxing/library";
+import { BrowserQRCodeReader } from "@zxing/browser";
 
 const QrScanner = ({ onSubmit, refresh }) => {
   const videoElement = useRef(null);
   const [qrScannerState, setQrScannerState] = useState(false);
-  // TODO: Swap zxing/library for zxing/browser as this class was moved there.
   const codeReader = new BrowserQRCodeReader();
 
   const reloadQrScanner = () => {
-    setTimeout(() => {
-      codeReader.reset();
-      setQrScannerState(!qrScannerState);
+    return setTimeout(() => {
+      setQrScannerState((state) => !state);
     }, 1500);
   };
 
   useEffect(() => {
-    setTimeout(() => {
+    let controls;
+    let reloadTimeout;
+
+    const startTimeout = setTimeout(() => {
       codeReader
         .decodeOnceFromVideoDevice(undefined, videoElement.current)
         .then((result) => {
-          onSubmit({ text: result.text });
-          reloadQrScanner();
+          onSubmit({ text: result.getText() });
+          reloadTimeout = reloadQrScanner();
         })
         .catch((err) => console.error(err));
     }, 500);
 
-    return () => codeReader.reset();
+    return () => {
+      clearTimeout(startTimeout);
+      clearTimeout(reloadTimeout);
+      controls?.stop();
+    };
   }, [qrScannerState, refresh]);
 
   return (
