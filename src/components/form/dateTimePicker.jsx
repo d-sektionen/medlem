@@ -7,7 +7,7 @@ import {
   setYear,
 } from "date-fns";
 
-const DateTimePicker = ({ value, onChange, id, required = false }) => {
+const DateTimePicker = ({ value, onChange, required = false }) => {
   return (
     <div>
       <input
