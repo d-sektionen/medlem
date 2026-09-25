@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
   actions,
   hint,
@@ -21,11 +21,11 @@ const TitleChooser = ({
   noChoicesLabel = "",
   onChange = () => {},
 }) => {
-  const allChoices = [
+  const allChoices = useMemo(() => [
     ...(choices || []),
     // merge all categorized choices to single array.
     ...Object.values(categorizedChoices).flat(),
-  ];
+  ]);
 
   // Re-select the previously selected choice if there is one
   useEffect(() => {
@@ -40,7 +40,7 @@ const TitleChooser = ({
     if (selectedItem) {
       setChoice(selectedItem);
     }
-  }, [choices, categorizedChoices]);
+  }, [allChoices, setChoice, title]);
 
   return (
     <div className={titleChooser}>
