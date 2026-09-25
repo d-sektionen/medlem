@@ -16,22 +16,32 @@ const DoorkeeperPanel = ({ event }) => {
       );
       setDoorkeepers(resp.data);
     }
-  });
+  }, [event]);
 
-  const handleNewDoorkeeper = useCallback((data) => {
-    if (data.event.id !== event.id) return;
+  const handleNewDoorkeeper = useCallback(
+    (data) => {
+      if (data.event.id !== event.id) {
+        return;
+      }
 
-    setDoorkeepers((prev) => {
-      if (prev.find((d) => d.id === data.id)) return prev;
-      return [...prev, data];
-    });
-  });
+      setDoorkeepers((prev) => {
+        if (prev.find((d) => d.id === data.id)) return prev;
+        return [...prev, data];
+      });
+    },
+    [event],
+  );
 
-  const handleDeleteDoorkeeper = useCallback((data) => {
-    if (data.event.id !== event.id) return;
+  const handleDeleteDoorkeeper = useCallback(
+    (data) => {
+      if (data.event.id !== event.id) {
+        return;
+      }
 
-    setDoorkeepers((prev) => prev.filter((d) => d.id !== data.doorkeeper_id));
-  });
+      setDoorkeepers((prev) => prev.filter((d) => d.id !== data.doorkeeper_id));
+    },
+    [event],
+  );
 
   useEffect(() => {
     handleEventChange();
