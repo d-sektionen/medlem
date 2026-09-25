@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { SWRConfig } from "swr";
 
 import { get } from "../request";
-import "../../scss/general.scss";
-import { app, containerWrapper } from "../../scss/layout.module.scss";
+import "../../css/general.css";
+import { app, containerWrapper } from "../../css/layout.module.css";
 
 import { TITLE } from "../../config";
 import ModalHandler from "../modal/modalHandler";

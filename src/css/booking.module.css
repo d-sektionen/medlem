@@ -1,0 +1,31 @@
+/* from create booking form. */
+.dScription {
+  width: 100%;
+  resize: vertical;
+  min-height: 4rem;
+}
+
+.itemDescription {
+  white-space: pre-line;
+}
+
+.editForm {
+  & h3 {
+    margin: calc(0.5 * var(--base-padding)) 0 0 0;
+    font-weight: normal;
+    font-size: 1.25rem;
+  }
+}
+
+.bookingButtonContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.confirmBookingChecklists {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base-padding);
+  margin-bottom: calc(2 * var(--base-padding));
+}

@@ -1,21 +1,21 @@
-@import "vars";
-
 .votesContainer {
   display: grid;
-  gap: $base-padding;
+  gap: var(--base-padding);
   grid-template-columns: 1fr;
 
-  @media screen and (min-width: $large-mobile-breakpoint) {
+  /* Breakpoint: keep the 967px literal in sync with the breakpoint
+     documentation in variables.css. */
+  @media screen and (min-width: 967px) {
     grid-template-columns: 1fr 1fr;
 
     &:has(> :nth-child(3)) {
       grid-template-columns: 1fr 1fr 1fr;
     }
 
-    // When a single item is alone in the last row of a 3-column grid
-    // (positions 4, 7, 10, … that are also the last child),
-    // shift it to column 2 so it sits centred under the second column.
-    > .voteLabel:nth-child(3n + 4):last-child {
+    /* When a single item is alone in the last row of a 3-column grid
+       (positions 4, 7, 10, … that are also the last child),
+       shift it to column 2 so it sits centred under the second column. */
+    & > .voteLabel:nth-child(3n + 4):last-child {
       grid-column: 2;
     }
   }
@@ -32,8 +32,8 @@
 .voteLabel {
   text-align: center;
   font-size: 1.2em;
-  padding: $base-padding calc($base-padding / 2);
-  background-color: $background-color-4;
+  padding: var(--base-padding) calc(var(--base-padding) / 2);
+  background-color: var(--background-color-4);
   cursor: pointer;
 
   word-break: normal;
@@ -42,12 +42,12 @@
 
   &:hover,
   &:focus-within {
-    background-color: $dsek-blue;
+    background-color: var(--dsek-blue);
   }
 
   &:has(.voteInput:checked) {
-    background-color: $dsek-green !important;
-    color: $background-color-2;
+    background-color: var(--dsek-green) !important;
+    color: var(--background-color-2);
     font-weight: 800;
   }
 }
@@ -56,7 +56,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: $base-padding;
+  padding-top: var(--base-padding);
 }
 
 .questionHeader {

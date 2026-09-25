@@ -6,7 +6,7 @@ import { FiTrash2 } from "react-icons/fi";
 import { List, ListButton, ListItem } from "../ui/list";
 import { Button, ButtonGroup } from "../ui/buttons";
 import { UserContext } from "../layout/layout";
-import { speakerPanelList } from "../../scss/voteSpeakerPanel.module.scss";
+import { speakerPanelList } from "../../css/voteSpeakerPanel.module.css";
 
 import socket, { joinRoom, leaveRoom } from "../request/socket";
 import backendService from "../request/backendService";

@@ -1,23 +1,21 @@
-@import "vars";
-
 .controlContainer {
-  padding: 2 * $base-padding;
+  padding: calc(2 * var(--base-padding));
   width: 100%;
   max-width: 60rem;
 
-  select {
-    color: $foreground-color-2;
-    background: $background-color-2;
-    border: 3px solid $background-color-3;
-    padding: $base-padding;
+  & select {
+    color: var(--foreground-color-2);
+    background: var(--background-color-2);
+    border: 3px solid var(--background-color-3);
+    padding: var(--base-padding);
     outline: none;
     min-width: 45%;
     max-width: 90%;
 
-    > option {
-      padding: $base-padding;
-      background: $background-color-3;
-      color: $foreground-color-3;
+    & > option {
+      padding: var(--base-padding);
+      background: var(--background-color-3);
+      color: var(--foreground-color-3);
     }
 
     &:first-of-type {
@@ -31,20 +29,20 @@
       border-radius: 0px 0px 12px 12px;
     }
   }
-  > * {
+  & > * {
     &:focus {
       outline-width: 0;
-      box-shadow: 0 0 2px 1px $dsek-blue;
+      box-shadow: 0 0 2px 1px var(--dsek-blue);
     }
   }
 }
 
 .fail {
-  background: rgba($red, 0.3);
+  background: rgb(255 0 0 / 0.3);
 }
 
 .success {
-  background: rgba($dsek-green, 0.3);
+  background: rgb(112 189 68 / 0.3);
 }
 
 .textField {
@@ -52,18 +50,18 @@
   height: 6rem;
   font-size: 2rem;
   text-align: center;
-  background: $background-color-2;
+  background: var(--background-color-2);
   line-height: 6rem;
   border-radius: 0px 12px;
-  border: 3px solid $background-color-3;
+  border: 3px solid var(--background-color-3);
 
   &:not(:focus) {
-    background: rgba($red, 0.3);
+    background: rgb(255 0 0 / 0.3);
   }
 }
 
 .shiftDown {
-  border-color: $red;
+  border-color: var(--red);
 }
 
 .container {
@@ -73,32 +71,32 @@
   justify-content: center;
   flex-grow: 1;
 
-  padding: $base-padding * 2;
+  padding: calc(2 * var(--base-padding));
   transition: background-color 0.3s ease;
 
-  h1 {
+  & h1 {
     margin: 0;
   }
 
-  > label {
-    margin-bottom: $base-padding;
+  & > label {
+    margin-bottom: var(--base-padding);
   }
 }
 
 .Feedback {
   height: 10rem;
   text-align: center;
-  svg {
+  & svg {
     height: 4rem;
     width: 4rem;
   }
-  p {
+  & p {
     font-size: 1.5em;
   }
 }
 
 .qrRegistration {
-  background-color: rgba($background-color-2, 0.9);
+  background-color: rgb(34 34 34 / 0.9);
   margin: auto;
 
   max-width: 800px;
@@ -110,41 +108,41 @@
   grid-template-rows: auto 1fr;
   pointer-events: initial;
 
-  > video {
+  & > video {
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     flex-grow: 1;
 
-    padding: $base-padding;
+    padding: var(--base-padding);
   }
 
-  > header {
-    // background: rgba($background-color-2, 0.5);
-    border-bottom: 2px $foreground-color-1 solid;
-    color: $foreground-color-1;
+  & > header {
+    /* background: rgb(34 34 34 / 0.5); */
+    border-bottom: 2px var(--foreground-color-1) solid;
+    color: var(--foreground-color-1);
     display: flex;
     justify-content: space-between;
 
-    h2 {
-      margin: $base-padding;
-      height: 2 * $base-padding;
+    & h2 {
+      margin: var(--base-padding);
+      height: calc(2 * var(--base-padding));
       line-height: 1;
       font-weight: normal;
-      color: $foreground-color-1;
+      color: var(--foreground-color-1);
     }
 
-    svg {
-      height: 2 * $base-padding;
-      width: 2 * $base-padding;
+    & svg {
+      height: calc(2 * var(--base-padding));
+      width: calc(2 * var(--base-padding));
       box-sizing: content-box;
-      padding: $base-padding;
+      padding: var(--base-padding);
       cursor: pointer;
-      color: $foreground-color-1;
+      color: var(--foreground-color-1);
 
       &:hover {
-        color: $dsek-cerise;
+        color: var(--dsek-cerise);
       }
     }
   }

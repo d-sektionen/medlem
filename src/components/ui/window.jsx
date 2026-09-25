@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
  * This in turn causes Vite's injected preamble to fail and break the application.
  * We import it as a namespace object instead to avoid this.
  */
-import * as styles from "../../scss/window.module.scss";
+import * as styles from "../../css/window.module.css";
 
 const Window = ({ title, children }) => {
   return (

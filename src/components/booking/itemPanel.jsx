@@ -3,7 +3,7 @@ import React from "react";
 import {
   itemDescription,
   bookingButtonContainer,
-} from "../../scss/booking.module.scss";
+} from "../../css/booking.module.css";
 import { Button } from "../ui/buttons";
 import useModal from "../modal/useModal";
 import EditBooking from "./editBooking";

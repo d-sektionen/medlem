@@ -1,5 +1,3 @@
-@import "vars";
-
 .previewFrame {
   width: 100%;
   height: 600px;
@@ -13,21 +11,21 @@
 }
 
 .errorTitle {
-  color: $dsek-cerise;
+  color: var(--dsek-cerise);
 }
 
 .errorBody {
-  color: $foreground-color-2;
+  color: var(--foreground-color-2);
 }
 
 .errorMessageClass {
-  background: $background-color-3;
+  background: var(--background-color-3);
   padding: 10px;
   border-radius: 12px;
-  color: $foreground-color-2;
+  color: var(--foreground-color-2);
   border-style: dashed;
   border-width: 3px;
-  border-color: $background-color-4;
+  border-color: var(--background-color-4);
 }
 
 .loadingContainer {
@@ -48,7 +46,7 @@
 
   padding: 1em;
   border-radius: 1em;
-  background-color: rgba($background-color-1, 0.7);
+  background-color: rgb(17 17 17 / 0.7);
 }
 
 .loadingSpinner {

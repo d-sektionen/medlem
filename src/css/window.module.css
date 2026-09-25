@@ -1,18 +1,16 @@
-@import "vars";
-
 .window {
   position: relative;
   border-radius: 0.5em;
   overflow: hidden;
   border-style: solid;
-  border-color: $background-color-3;
+  border-color: var(--background-color-3);
   border-width: 1.5px;
 
-  box-shadow: $box-shadow-raised;
+  box-shadow: var(--box-shadow-raised);
 }
 
 .windowTitleBar {
-  background-color: $background-color-3;
+  background-color: var(--background-color-3);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,7 +31,7 @@
   width: 1em;
   height: 1em;
   border-radius: 50%;
-  background-color: $background-color-4;
+  background-color: var(--background-color-4);
 
   margin-left: 0.5em;
 }
