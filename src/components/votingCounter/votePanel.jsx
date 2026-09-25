@@ -1,8 +1,7 @@
-import { useEffect } from "react";
 import { FiBarChart2 } from "react-icons/fi";
 import useSWR from "swr";
 
-import useModal, { useCloseModal } from "../modal/useModal";
+import useModal from "../modal/useModal";
 import { post, put } from "../request";
 import { List, ListButton, ListItem } from "../ui/list";
 import VoteStats from "./voteStats";
