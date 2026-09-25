@@ -60,7 +60,7 @@ const BookingPanel = ({
         <Fragment key={name}>
           <h3>{name}</h3>
           <List>
-            {bookings?.bookings?.map((booking) => (
+            {bookings?.map((booking) => (
               <ListItem
                 // TODO: färger ska vara samma som i css!
                 color={booking.confirmed ? "green" : "orange"}
