@@ -26,8 +26,10 @@ const AutoInput = ({
     onChange(e.target.value);
   };
 
+  const id = useId();
+
   const optionElementsCollection = initialOptions?.map((item) => (
-    <option key={item.id} value={item.id}>
+    <option id={id} key={item.id} value={item.id}>
       {item.name}
     </option>
   ));
@@ -37,11 +39,18 @@ const AutoInput = ({
       <DateTimePicker required={required} value={value} onChange={onChange} />
     ),
     date: (
-      <input type="date" required={required} value={value} onChange={change} />
+      <input
+        type="date"
+        id={id}
+        required={required}
+        value={value}
+        onChange={change}
+      />
     ),
     boolean: (
       <input
         type="checkbox"
+        id={id}
         required={required}
         checked={value}
         onChange={(e) => {
@@ -52,6 +61,7 @@ const AutoInput = ({
     integer: (
       <input
         type="number"
+        id={id}
         required={required}
         value={value}
         onChange={change}
@@ -64,6 +74,7 @@ const AutoInput = ({
         multiple
         required={required}
         value={value}
+        id={id}
         onChange={(e) =>
           onChange(
             Array.from(e.target.selectedOptions, (option) => option.value),
@@ -75,13 +86,11 @@ const AutoInput = ({
     ),
   };
 
-  const inputId = useId();
-
   const component = Object.hasOwn(map, type) ? (
     map[type]
   ) : (
     <input
-      id={inputId}
+      id={id}
       value={value}
       onChange={change}
       maxLength={max_length}
@@ -90,7 +99,7 @@ const AutoInput = ({
   );
 
   return (
-    <label htmlFor={inputId}>
+    <label htmlFor={id}>
       {`${label}`}
       {required && <span>*</span>}
       <div>{component}</div>
