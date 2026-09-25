@@ -5,30 +5,27 @@ import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
 import {
-  MdCode,
-  MdFormatBold,
-  MdFormatClear,
-  MdFormatItalic,
-  MdFormatListBulleted,
-  MdFormatListNumbered,
-  MdFormatQuote,
-  MdFormatUnderlined,
-  MdHorizontalRule,
-  MdImage,
-  MdLink,
-  MdLooks3,
-  MdLooksOne,
-  MdLooksTwo,
-  MdRedo,
-  MdStrikethroughS,
-  MdUndo,
-} from "react-icons/md";
+  FiBold,
+  FiCode,
+  FiCornerUpLeft,
+  FiCornerUpRight,
+  FiImage,
+  FiItalic,
+  FiLink,
+  FiList,
+  FiMessageSquare,
+  FiMinus,
+  FiUnderline,
+  FiFile
+} from "react-icons/fi";
+import { MdStrikethroughS } from "react-icons/md";
 
 import {
   editorContent,
   toolbar,
   toolbarButton,
   toolbarButtonActive,
+  toolbarButtonText,
   toolbarDivider,
   wrapper,
 } from "../../scss/richText.module.scss";
@@ -74,6 +71,12 @@ const ToolbarButton = ({
 );
 
 const ToolbarDivider = () => <span className={toolbarDivider} />;
+
+// Feather has no glyph for heading levels or numbered lists, so those buttons
+// carry the same short text labels other editors use.
+const ToolbarText = ({ children }) => (
+  <span className={toolbarButtonText}>{children}</span>
+);
 
 const RichText = ({ value, onChange }) => {
   const html = value ?? "";
@@ -155,21 +158,21 @@ const RichText = ({ value, onChange }) => {
           isActive={state.heading === 1}
           onClick={() => setHeading(1)}
         >
-          <MdLooksOne />
+          <ToolbarText>H1</ToolbarText>
         </ToolbarButton>
         <ToolbarButton
           label="Rubrik 2"
           isActive={state.heading === 2}
           onClick={() => setHeading(2)}
         >
-          <MdLooksTwo />
+          <ToolbarText>H2</ToolbarText>
         </ToolbarButton>
         <ToolbarButton
           label="Rubrik 3"
           isActive={state.heading === 3}
           onClick={() => setHeading(3)}
         >
-          <MdLooks3 />
+          <ToolbarText>H3</ToolbarText>
         </ToolbarButton>
 
         <ToolbarDivider />
@@ -179,21 +182,21 @@ const RichText = ({ value, onChange }) => {
           isActive={state.bold}
           onClick={() => editor.chain().focus().toggleBold().run()}
         >
-          <MdFormatBold />
+          <FiBold />
         </ToolbarButton>
         <ToolbarButton
           label="Kursiv"
           isActive={state.italic}
           onClick={() => editor.chain().focus().toggleItalic().run()}
         >
-          <MdFormatItalic />
+          <FiItalic />
         </ToolbarButton>
         <ToolbarButton
           label="Understruken"
           isActive={state.underline}
           onClick={() => editor.chain().focus().toggleUnderline().run()}
         >
-          <MdFormatUnderlined />
+          <FiUnderline />
         </ToolbarButton>
         <ToolbarButton
           label="Genomstruken"
@@ -210,14 +213,14 @@ const RichText = ({ value, onChange }) => {
           isActive={state.blockquote}
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
         >
-          <MdFormatQuote />
+          <FiMessageSquare />
         </ToolbarButton>
         <ToolbarButton
           label="Kodblock"
           isActive={state.codeBlock}
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         >
-          <MdCode />
+          <FiCode />
         </ToolbarButton>
 
         <ToolbarDivider />
@@ -227,29 +230,29 @@ const RichText = ({ value, onChange }) => {
           isActive={state.bulletList}
           onClick={() => editor.chain().focus().toggleBulletList().run()}
         >
-          <MdFormatListBulleted />
+          <FiList />
         </ToolbarButton>
         <ToolbarButton
           label="Numrerad lista"
           isActive={state.orderedList}
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
         >
-          <MdFormatListNumbered />
+          <ToolbarText>1.</ToolbarText>
         </ToolbarButton>
 
         <ToolbarDivider />
 
         <ToolbarButton label="Länk" isActive={state.link} onClick={promptLink}>
-          <MdLink />
+          <FiLink />
         </ToolbarButton>
         <ToolbarButton label="Bild" onClick={promptImage}>
-          <MdImage />
+          <FiImage />
         </ToolbarButton>
         <ToolbarButton
           label="Horisontell linje"
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
         >
-          <MdHorizontalRule />
+          <FiMinus />
         </ToolbarButton>
 
         <ToolbarDivider />
@@ -259,20 +262,20 @@ const RichText = ({ value, onChange }) => {
           disabled={!state.canUndo}
           onClick={() => editor.chain().focus().undo().run()}
         >
-          <MdUndo />
+          <FiCornerUpLeft />
         </ToolbarButton>
         <ToolbarButton
           label="Gör om"
           disabled={!state.canRedo}
           onClick={() => editor.chain().focus().redo().run()}
         >
-          <MdRedo />
+          <FiCornerUpRight />
         </ToolbarButton>
 
         <ToolbarDivider />
 
         <ToolbarButton label="Rensa formatering" onClick={clearFormatting}>
-          <MdFormatClear />
+          <FiFile />
         </ToolbarButton>
       </div>
 

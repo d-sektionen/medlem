@@ -63,6 +63,15 @@
   }
 }
 
+// Feather has no glyph for heading levels or numbered lists, so those buttons
+// use short text labels instead (swapped in at icon size).
+.toolbarButtonText {
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
 .toolbarButtonActive {
   color: $dsek-cerise;
   background-color: $background-color-3;
