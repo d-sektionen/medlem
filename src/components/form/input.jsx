@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import DateTimePicker from "./dateTimePicker";
 
 const AutoInput = ({
@@ -75,11 +75,13 @@ const AutoInput = ({
     ),
   };
 
+  const inputId = useId();
+
   const component = Object.hasOwn(map, type) ? (
     map[type]
   ) : (
     <input
-      id="input-input"
+      id={inputId}
       value={value}
       onChange={change}
       maxLength={max_length}
@@ -88,7 +90,7 @@ const AutoInput = ({
   );
 
   return (
-    <label htmlFor="input-input">
+    <label htmlFor={inputId}>
       {`${label}`}
       {required && <span>*</span>}
       <div>{component}</div>
