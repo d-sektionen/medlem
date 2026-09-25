@@ -1,3 +1,8 @@
+/*
+  GuestPanel component
+  OBS: This component is unused
+*/
+
 import { useCallback, useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import backendService from "../request/backendService";
