@@ -4,7 +4,7 @@ import { Button } from "../ui/buttons";
 import DateTimePicker from "../form/dateTimePicker";
 import { UserContext } from "../layout/layout";
 
-import { editForm, dScription } from "../../scss/booking.module.scss";
+import { editForm, dScription } from "../../css/booking.module.css";
 import { useCloseModal } from "../modal/useModal";
 
 function newNiceDate(hourOffset = 0) {

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FiMenu, FiUser } from "react-icons/fi";
 import ProfileMenu from "./profileMenu";
-import { topBar } from "../../scss/layout.module.scss";
+import { topBar } from "../../css/layout.module.css";
 import useModal from "../modal/useModal";
 
 const TopBar = ({ user = null, openMenu }) => {

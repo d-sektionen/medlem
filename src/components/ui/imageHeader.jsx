@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { imageHeader, Image, gradient } from "../../scss/ui.module.scss";
+import { imageHeader, Image, gradient } from "../../css/ui.module.css";
 import Pattern from "./pattern";
 
 const ImageHeader = ({ TitleTag = "h1", title = "", image = null }) => {

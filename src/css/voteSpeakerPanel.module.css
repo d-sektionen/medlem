@@ -1,5 +1,5 @@
 .speakerPanelList {
-  li {
+  & li {
     min-height: 3em;
   }
 }

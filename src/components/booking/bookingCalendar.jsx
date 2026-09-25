@@ -25,7 +25,7 @@ import {
   restrictedTimeslot,
   timeIndicators,
   nowMarker,
-} from "../../scss/bookingCalendar.module.scss";
+} from "../../css/bookingCalendar.module.css";
 import { Button } from "../ui/buttons";
 
 const splitDateRangeByDay = (start, end) => {

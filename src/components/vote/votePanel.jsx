@@ -6,7 +6,7 @@ import {
   formError,
   votePanelHeader,
   noActiveVoting,
-} from "../../scss/votePanel.module.scss";
+} from "../../css/votePanel.module.css";
 
 const VotePanel = ({ meeting }) => {
   const [votes, setVotes] = useState([]);

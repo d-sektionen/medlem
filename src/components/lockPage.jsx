@@ -18,7 +18,7 @@ import {
   roomTitle,
   batteryContainer,
   lockItemClass,
-} from "../scss/lock.module.scss";
+} from "../css/lock.module.css";
 import { post, get } from "./request";
 import BigPixels from "./layout/bigPixels";
 import { IconButton } from "./ui/buttons";

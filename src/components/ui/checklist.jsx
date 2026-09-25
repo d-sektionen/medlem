@@ -1,5 +1,5 @@
 import React from "react";
-import { checklist } from "../../scss/ui.module.scss";
+import { checklist } from "../../css/ui.module.css";
 
 export const Checklist = ({ items, selected, setSelected, maxSelected }) => {
   const toggleSelectedItem = (itemId) => {

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { get, post, del } from "./request";
 import { Button } from "./ui/buttons";
 
-import { inputLabel } from "../scss/membership.module.scss";
+import { inputLabel } from "../css/membership.module.css";
 
 const MembershipPanel = () => {
   const [initiallyLoaded, setInitiallyLoaded] = useState(true);

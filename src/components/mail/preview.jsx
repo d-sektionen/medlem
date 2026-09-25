@@ -10,7 +10,7 @@ import {
   loadingContainer,
   loading,
   loadingSpinner,
-} from "../../scss/mailPreview.module.scss";
+} from "../../css/mailPreview.module.css";
 import { FiLoader } from "react-icons/fi";
 import Window from "../ui/window";
 

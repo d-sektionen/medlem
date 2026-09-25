@@ -3,7 +3,7 @@ import QRCode from "qrcode";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 
-import { qrWrapper1, qrWrapper2, qr } from "../../scss/qr.module.scss";
+import { qrWrapper1, qrWrapper2, qr } from "../../css/qr.module.css";
 import { useCloseModal } from "../modal/useModal";
 
 const QR = () => {

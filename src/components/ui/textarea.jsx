@@ -1,4 +1,4 @@
-import { textarea } from "../../scss/textarea.module.scss";
+import { textarea } from "../../css/textarea.module.css";
 
 import React from "react";
 

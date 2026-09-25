@@ -1,5 +1,3 @@
-@import "vars";
-
 .inputContainer {
   height: 100%;
   display: flex;
@@ -7,7 +5,7 @@
   justify-content: space-between;
 }
 .inputContainer button {
-  margin: 0px; /* disable the button margin added in ui.module.scss */
+  margin: 0px; /* disable the button margin added in ui.module.css */
 }
 .inputButtons {
   display: flex;
@@ -31,7 +29,7 @@
   justify-content: space-between;
 }
 .confirmationButtons button {
-  margin: 0px; /* disable the button margin added in ui.module.scss */
+  margin: 0px; /* disable the button margin added in ui.module.css */
 }
 
 .status {
@@ -42,19 +40,19 @@
 }
 
 .textSuccess {
-  color: $dsek-green;
+  color: var(--dsek-green);
 }
 
 .textFail {
-  color: $dsek-cerise;
+  color: var(--dsek-cerise);
 }
 
 .failMessageClass {
-  background: $background-color-3;
+  background: var(--background-color-3);
   padding: 10px;
   border-radius: 12px;
-  color: $foreground-color-2;
+  color: var(--foreground-color-2);
   border-style: dashed;
   border-width: 3px;
-  border-color: $background-color-4;
+  border-color: var(--background-color-4);
 }

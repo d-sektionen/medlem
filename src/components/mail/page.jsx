@@ -12,7 +12,7 @@ import {
   textSuccess,
   textFail,
   failMessageClass,
-} from "../../scss/mail.module.scss";
+} from "../../css/mail.module.css";
 import AutoInput from "../form/input";
 import { Button } from "../ui/buttons";
 import { post } from "../request";

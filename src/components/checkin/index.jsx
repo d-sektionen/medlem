@@ -7,7 +7,7 @@ import {
   controlContainer,
   qrRegistration,
   Feedback,
-} from "../../scss/checkin.module.scss";
+} from "../../css/checkin.module.css";
 import useFeedback from "./useFeedback";
 import registerUser from "./registerUser";
 import QrScanner from "./qrScanner";
