@@ -41,11 +41,12 @@ const VotingAdminPage = () => {
 
   const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null;
 
-  // sync currentMeeting with updated meetings
   useEffect(() => {
-    if (currentMeeting)
+    // sync currentMeeting with updated meetings
+    if (currentMeeting) {
       setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
-  }, [meetings]);
+    }
+  }, [meetings, currentMeeting]);
 
   return (
     <BigPixels>
