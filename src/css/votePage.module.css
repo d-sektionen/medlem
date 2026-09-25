@@ -19,7 +19,7 @@
   grid-column: 1 / -1;
   gap: var(--base-padding);
 
-  @media screen and (min-width: 996px) {
+  @media screen and (min-width: 967px) {
     --cols: 2;
   }
 }

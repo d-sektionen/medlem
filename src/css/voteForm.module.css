@@ -3,9 +3,9 @@
   gap: var(--base-padding);
   grid-template-columns: 1fr;
 
-  /* Breakpoint: keep the 996px literal in sync with the breakpoint
+  /* Breakpoint: keep the 967px literal in sync with the breakpoint
      documentation in variables.css. */
-  @media screen and (min-width: 996px) {
+  @media screen and (min-width: 967px) {
     grid-template-columns: 1fr 1fr;
 
     &:has(> :nth-child(3)) {
