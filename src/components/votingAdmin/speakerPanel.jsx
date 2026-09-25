@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import backendService from "../request/backendService";
 import socket, { joinRoom, leaveRoom } from "../request/socket";
@@ -7,29 +7,41 @@ import { List, ListButton, ListItem } from "../ui/list";
 const SpeakerPanel = ({ meeting }) => {
   const [speakers, setSpeakers] = useState([]);
 
-  async function handleMeetingChange() {
+  const handleMeetingChange = useCallback(async () => {
     if (meeting) {
       const resp = await backendService.get(
         `/voting/speakers/?meeting_id=${meeting.id}`,
       );
       setSpeakers(resp.data);
     }
-  }
+  }, [meeting]);
 
-  function handleNewSpeakerRequest(data) {
-    if (data.meeting_id !== meeting.id) return;
+  const handleNewSpeakerRequest = useCallback(
+    (data) => {
+      if (data.meeting_id !== meeting.id) {
+        return;
+      }
 
-    setSpeakers((prev) => {
-      if (prev.find((s) => s.id === data.speaker.id)) return prev;
-      return [...prev, data.speaker];
-    });
-  }
+      setSpeakers((prev) => {
+        if (prev.find((s) => s.id === data.speaker.id)) return prev;
+        return [...prev, data.speaker];
+      });
+    },
+    [meeting.id],
+  );
 
-  function handleDeleteSpeakerRequest(data) {
-    if (data.meeting_id !== meeting.id) return;
+  const handleDeleteSpeakerRequest = useCallback(
+    (data) => {
+      if (data.meeting_id !== meeting.id) {
+        return;
+      }
 
-    setSpeakers((prev) => prev.filter((s) => s.id !== data.speaker_request_id));
-  }
+      setSpeakers((prev) =>
+        prev.filter((s) => s.id !== data.speaker_request_id),
+      );
+    },
+    [meeting.id],
+  );
 
   useEffect(() => {
     handleMeetingChange();
@@ -48,7 +60,12 @@ const SpeakerPanel = ({ meeting }) => {
 
       leaveRoom(`meeting_speaker_${meeting.id}`);
     };
-  }, [meeting]);
+  }, [
+    meeting,
+    handleMeetingChange,
+    handleNewSpeakerRequest,
+    handleDeleteSpeakerRequest,
+  ]);
 
   async function deleteSpeaker(speakerId) {
     await backendService.delete(`/voting/speakers/${speakerId}`);
