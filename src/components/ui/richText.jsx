@@ -48,24 +48,6 @@ const extensions = [
   Image.configure({ allowBase64: true }),
 ];
 
-// An empty Tiptap document is "<p></p>" while the rest of the app (and the mail
-// backend) expects an empty string, so normalise both directions.
-// StarterKit's TrailingNode keeps an empty paragraph at the end of the document
-// (so there is always somewhere to keep typing after a heading or an <hr>).
-// That scaffolding must not end up in the mail, so trailing empty paragraphs are
-// dropped as well. Both the comparison and the emitted value use this, so the
-// editor and the parent value stay in sync.
-const TRAILING_EMPTY_PARAGRAPH =
-  /<p(?:\s[^>]*)?>(?:\s|<br\s*\/?>|&nbsp;)*<\/p>$/i;
-
-const normalizeHtml = (html) => {
-  let result = (html ?? "").trim();
-  while (TRAILING_EMPTY_PARAGRAPH.test(result)) {
-    result = result.replace(TRAILING_EMPTY_PARAGRAPH, "").trim();
-  }
-  return result;
-};
-
 const headingLevel = (editor) =>
   [1, 2, 3].find((level) => editor?.isActive("heading", { level })) ?? 0;
 
@@ -94,23 +76,20 @@ const ToolbarButton = ({
 const ToolbarDivider = () => <span className={toolbarDivider} />;
 
 const RichText = ({ value, onChange }) => {
+  const html = value ?? "";
+
   const editor = useEditor({
     extensions,
-    content: value || "",
+    content: html,
     onUpdate: ({ editor: current }) => {
-      onChange?.(normalizeHtml(current.getHTML()));
+      onChange?.(current.getHTML());
     },
   });
 
-  // Tiptap only sets the initial content, so mirror external changes (toggling
-  // raw mode, loading a draft, ...) into the document. Our own updates are
-  // filtered out by the comparison and never emit an update event.
   useEffect(() => {
-    if (!editor) return;
-    const next = normalizeHtml(value);
-    if (next === normalizeHtml(editor.getHTML())) return;
-    editor.commands.setContent(next, { emitUpdate: false });
-  }, [editor, value]);
+    if (!editor || html === editor.getHTML()) return;
+    editor.commands.setContent(html, { emitUpdate: false });
+  }, [editor, html]);
 
   // useEditorState subscribes to the editor and re-renders the toolbar only
   // when one of the selected values actually changes.
