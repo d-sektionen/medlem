@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { FiBarChart2, FiEdit2, FiTrash2 } from "react-icons/fi";
 import useSWR from "swr";
 import useConfirmModal from "../modal/useConfirmModal";
