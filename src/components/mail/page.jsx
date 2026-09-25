@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { FiCheck, FiSend, FiSlash, FiUpload, FiUser } from "react-icons/fi";
 import {
   confirmation,
@@ -43,6 +43,9 @@ const MailPage = () => {
   const [rawMode, setRawMode] = useState(false);
   const [modalState, setModalState] = useState(ModalState.CLOSED);
   const [failMessage, setFailMessage] = useState("");
+
+  const infoContentId = useId();
+  const infoChiefContentId = useId();
 
   function sendMail() {
     setModalState(ModalState.SENDING);
@@ -151,17 +154,17 @@ const MailPage = () => {
 
               <br />
 
-              <label htmlFor="info-cheif-content">
+              <label htmlFor={infoChiefContentId}>
                 Infochefens hörna
                 {rawMode ? (
                   <Textarea
-                    id="info-cheif-content"
+                    id={infoChiefContentId}
                     value={infoChiefContent}
                     onChange={setInfoChiefContent}
                   />
                 ) : (
                   <RichText
-                    id="info-cheif-content"
+                    id={infoChiefContentId}
                     value={infoChiefContent}
                     onChange={setInfoChiefContent}
                   />
@@ -170,17 +173,17 @@ const MailPage = () => {
 
               <br />
 
-              <label htmlFor="info-content">
+              <label htmlFor={infoContentId}>
                 Innehåll
                 {rawMode ? (
                   <Textarea
-                    id="info-content"
+                    id={infoContentId}
                     value={content}
                     onChange={setContent}
                   />
                 ) : (
                   <RichText
-                    id="info-content"
+                    id={infoContentId}
                     value={content}
                     onChange={setContent}
                   />
