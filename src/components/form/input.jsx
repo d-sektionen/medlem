@@ -29,7 +29,7 @@ const AutoInput = ({
   const id = useId();
 
   const optionElementsCollection = initialOptions?.map((item) => (
-    <option id={id} key={item.id} value={item.id}>
+    <option key={item.id} value={item.id}>
       {item.name}
     </option>
   ));
@@ -74,7 +74,6 @@ const AutoInput = ({
         multiple
         required={required}
         value={value}
-        id={id}
         onChange={(e) =>
           onChange(
             Array.from(e.target.selectedOptions, (option) => option.value),
