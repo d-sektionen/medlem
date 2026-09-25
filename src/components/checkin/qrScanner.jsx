@@ -12,10 +12,10 @@ const QrScanner = ({ onSubmit, refresh }) => {
       codeReader.reset();
       setQrScannerState(!qrScannerState);
     }, 1500);
-  });
+  }, [qrScannerState, codeReader]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <Refresh should refresh the effect>
   useEffect(() => {
-    console.log({ refresh });
     setTimeout(() => {
       codeReader
         .decodeOnceFromVideoDevice(undefined, videoElement.current)
