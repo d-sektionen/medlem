@@ -25,10 +25,6 @@ const VotePanel = ({ currentMeeting }) => {
   };
 
   const [openChartModal] = useModal(VoteStats);
-  const closeModal = useCloseModal();
-
-  // Close modal when a vote is created
-  useEffect(closeModal, [votes]);
 
   return (
     <div>
