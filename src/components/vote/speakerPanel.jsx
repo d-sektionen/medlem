@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import { MdOutlineFrontHand } from "react-icons/md";
 import { RiMegaphoneLine } from "react-icons/ri";
@@ -11,30 +11,38 @@ import { List, ListButton, ListItem } from "../ui/list";
 
 const SpeakerPanel = ({ meeting }) => {
   const [speakers, setSpeakers] = useState([]);
-  async function handleMeetingChange() {
+  const handleMeetingChange = useCallback(async () => {
     if (meeting) {
       const resp = await backendService.get(
         `/voting/speakers/?meeting_id=${meeting.id}`,
       );
       setSpeakers(resp.data);
     }
-  }
+  }, [meeting]);
 
-  function handleNewSpeakerRequest(data) {
-    if (data.meeting_id !== meeting.id) return;
+  const handleNewSpeakerRequest = useCallback(
+    (data) => {
+      if (data.meeting_id !== meeting.id) return;
 
-    setSpeakers((prev) =>
-      prev.some((s) => s.id === data.speaker.id)
-        ? prev
-        : [...prev, data.speaker],
-    );
-  }
+      setSpeakers((prev) =>
+        prev.some((s) => s.id === data.speaker.id)
+          ? prev
+          : [...prev, data.speaker],
+      );
+    },
+    [meeting.id],
+  );
 
-  function handleDeleteSpeakerRequest(data) {
-    if (data.meeting_id !== meeting.id) return;
+  const handleDeleteSpeakerRequest = useCallback(
+    (data) => {
+      if (data.meeting_id !== meeting.id) return;
 
-    setSpeakers((prev) => prev.filter((s) => s.id !== data.speaker_request_id));
-  }
+      setSpeakers((prev) =>
+        prev.filter((s) => s.id !== data.speaker_request_id),
+      );
+    },
+    [meeting.id],
+  );
 
   useEffect(() => {
     handleMeetingChange();
@@ -53,7 +61,12 @@ const SpeakerPanel = ({ meeting }) => {
       socket.off("delete_speaker_request", handleDeleteSpeakerRequest);
       leaveRoom(`meeting_speker_${meeting.id}`);
     };
-  }, [meeting.id]);
+  }, [
+    meeting.id,
+    handleMeetingChange,
+    handleNewSpeakerRequest,
+    handleDeleteSpeakerRequest,
+  ]);
 
   async function deleteSpeakerRequest(meetingId, prioritized) {
     const prioQS = prioritized ? "&prioritized" : "";
