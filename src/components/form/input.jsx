@@ -99,7 +99,7 @@ const AutoInput = ({
   );
 
   let htmlFor = id;
-  if (["datetime"].contains(type)) {
+  if (type === "datetime") {
     // DateTime does not support id
     htmlFor = undefined;
   }
