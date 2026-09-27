@@ -4,12 +4,7 @@
  * available to every stylesheet in the bundle (including the CSS modules,
  * which no longer need to import anything to use them) and overridable at
  * runtime.
- *
  */
-
-/* https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@custom-media */
-@custom-media --small-mobile screen and (max-width: 480px);
-@custom-media --large-mobile screen and (max-width: 996px);
 
 :root {
   /* Colors */

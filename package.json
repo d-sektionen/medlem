@@ -43,8 +43,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.13",
+    "@csstools/postcss-global-data": "^4.0.0",
     "@vitejs/plugin-react": "^5.2.0",
     "gh-pages": "^6.1.1",
+    "postcss-preset-env": "^11.5.4",
     "vite": "^8.0.0"
   },
   "allowScripts": {

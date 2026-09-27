@@ -3,7 +3,7 @@
   gap: var(--base-padding);
   grid-template-columns: 1fr;
 
-  @media (--large-media) {
+  @media (--large-desktop) {
     grid-template-columns: 1fr 1fr;
 
     &:has(> :nth-child(3)) {
@@ -13,7 +13,7 @@
     /* When a single item is alone in the last row of a 3-column grid
        (positions 4, 7, 10, … that are also the last child),
        shift it to column 2 so it sits centred under the second column. */
-    &>.voteLabel:nth-child(3n + 4):last-child {
+    & > .voteLabel:nth-child(3n + 4):last-child {
       grid-column: 2;
     }
   }
