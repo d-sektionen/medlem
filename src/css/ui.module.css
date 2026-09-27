@@ -13,7 +13,7 @@
   justify-content: center;
   gap: calc(var(--base-padding) / 2);
 
-  &>svg {
+  & > svg {
     height: calc(1.5 * var(--base-padding));
     width: calc(1.5 * var(--base-padding));
   }
@@ -71,7 +71,7 @@
   cursor: pointer;
   margin: 0 calc(var(--base-padding) / 2);
 
-  &>svg {
+  & > svg {
     height: calc(3 * var(--base-padding));
     width: calc(3 * var(--base-padding));
     margin-bottom: calc(var(--base-padding) / 2);
@@ -215,7 +215,7 @@
   display: flex;
   gap: var(--base-padding);
 
-  &>* {
+  & > * {
     max-width: 30rem;
   }
 
@@ -252,8 +252,8 @@
       border: 1px solid var(--dsek-blue);
     }
 
-    &>option,
-    &>optgroup {
+    & > option,
+    & > optgroup {
       padding: var(--base-padding);
       background: var(--background-color-3);
       color: var(--foreground-color-3);

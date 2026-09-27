@@ -52,7 +52,7 @@
   color: var(--foreground-color-2);
   /* z-index: 20; */
 
-  &>svg {
+  & > svg {
     box-sizing: content-box;
     padding: var(--base-padding);
     height: calc(2 * var(--base-padding));
