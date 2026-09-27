@@ -20,9 +20,14 @@ import { UserContext } from "./layout";
 const SideMenu = ({ close, open }) => {
   const [user] = useContext(UserContext);
 
-  const escFunction = useCallback((event) => {
-    if (event.keyCode === 27) close();
-  });
+  const escFunction = useCallback(
+    (event) => {
+      if (event.keyCode === 27) {
+        close();
+      }
+    },
+    [close],
+  );
   useEffect(() => {
     document.addEventListener("keydown", escFunction, false);
     return () => document.removeEventListener("keydown", escFunction, false);

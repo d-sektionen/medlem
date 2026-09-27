@@ -8,21 +8,24 @@ const useTextField = (onEnter, elem) => {
   const regex = /^[A-Za-z0-9]+$/;
 
   // If pressed key is our target key then set to true
-  const downHandler = useCallback((e) => {
-    const keyChar = String.fromCharCode(e.keyCode);
-    if (e.key === "Enter") {
-      setText((prev) => {
-        if (prev !== "") onEnter({ text: prev, shift: e.shiftKey });
-        return "";
-      });
-      // Remove event listeners on cleanup
-    } else if (e.key === "Backspace") {
-      setText((prev) => prev.slice(0, -1));
-    } else if (regex.test(keyChar)) {
-      // console.log(keyCode + ' - ' + key + ' - ' + String.fromCharCode(keyCode))
-      setText((prev) => (prev.length > 20 ? prev : `${prev}${keyChar}`));
-    }
-  });
+  const downHandler = useCallback(
+    (e) => {
+      const keyChar = String.fromCharCode(e.keyCode);
+      if (e.key === "Enter") {
+        setText((prev) => {
+          if (prev !== "") onEnter({ text: prev, shift: e.shiftKey });
+          return "";
+        });
+        // Remove event listeners on cleanup
+      } else if (e.key === "Backspace") {
+        setText((prev) => prev.slice(0, -1));
+      } else if (regex.test(keyChar)) {
+        // console.log(keyCode + ' - ' + key + ' - ' + String.fromCharCode(keyCode))
+        setText((prev) => (prev.length > 20 ? prev : `${prev}${keyChar}`));
+      }
+    },
+    [onEnter],
+  );
 
   // Add event listeners
   useEffect(() => {
