@@ -4,7 +4,6 @@
   background-color: var(--background-color-3);
   color: var(--foreground-color-3);
   padding: var(--base-padding) calc(2 * var(--base-padding));
-  margin-bottom: var(--base-padding);
   cursor: pointer;
 
   align-content: center;
@@ -51,10 +50,6 @@
   gap: var(--base-padding);
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   padding: var(--base-padding) 0;
-
-  & .button {
-    margin-bottom: 0;
-  }
 }
 
 .iconButton {
