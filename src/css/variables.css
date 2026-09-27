@@ -5,12 +5,11 @@
  * which no longer need to import anything to use them) and overridable at
  * runtime.
  *
- * Breakpoints are deliberately NOT declared here: var() is not allowed in
- * media query conditions. Use the literal values below and keep them in sync
- * by hand:
- *   small mobile: 480px
- *   large mobile: 967px
  */
+
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@custom-media */
+@custom-media --small-mobile screen and (max-width: 480px);
+@custom-media --large-mobile screen and (max-width: 996px);
 
 :root {
   /* Colors */

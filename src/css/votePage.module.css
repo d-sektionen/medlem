@@ -19,12 +19,12 @@
   grid-column: 1 / -1;
   gap: var(--base-padding);
 
-  @media screen and (min-width: 967px) {
+  @media (--large-media) {
     --cols: 2;
   }
 }
 
-.othersContainer > * {
+.othersContainer>* {
   background-color: var(--background-color-2);
   padding: var(--base-padding);
 }

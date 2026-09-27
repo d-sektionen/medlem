@@ -13,7 +13,7 @@
   justify-content: center;
   gap: calc(var(--base-padding) / 2);
 
-  & > svg {
+  &>svg {
     height: calc(1.5 * var(--base-padding));
     width: calc(1.5 * var(--base-padding));
   }
@@ -35,10 +35,12 @@
       background-color: var(--dsek-blue);
     }
   }
+
   &:focus {
     outline-width: 0;
     box-shadow: 0 0 2px 2px var(--dsek-blue);
   }
+
   &:visited {
     color: var(--foreground-color-3);
   }
@@ -49,6 +51,7 @@
   gap: var(--base-padding);
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   padding: var(--base-padding) 0;
+
   & .button {
     margin-bottom: 0;
   }
@@ -68,7 +71,7 @@
   cursor: pointer;
   margin: 0 calc(var(--base-padding) / 2);
 
-  & > svg {
+  &>svg {
     height: calc(3 * var(--base-padding));
     width: calc(3 * var(--base-padding));
     margin-bottom: calc(var(--base-padding) / 2);
@@ -93,7 +96,7 @@
   z-index: 10;
   position: relative;
 
-  @media screen and (max-width: 480px) {
+  @media (--small-mobile) {
     grid-gap: calc(var(--base-padding) / 4);
     padding: 0;
     background: var(--background-color-2);
@@ -113,6 +116,7 @@
 
 .list {
   margin: 0;
+
   & li {
     display: flex;
     list-style: none;
@@ -135,6 +139,7 @@
     margin: 0;
     font-size: 1.2rem;
   }
+
   & p {
     font-size: 0.9rem;
     margin: 0;
@@ -155,6 +160,7 @@
     padding: var(--base-padding);
     height: calc(4 * var(--base-padding));
     color: var(--foreground-color-3);
+
     & svg {
       width: calc(2 * var(--base-padding));
       height: calc(2 * var(--base-padding));
@@ -164,6 +170,7 @@
       color: var(--dsek-cerise);
       cursor: pointer;
     }
+
     &:focus {
       outline: none;
       filter: drop-shadow(0 0 2px var(--dsek-blue));
@@ -208,23 +215,26 @@
   display: flex;
   gap: var(--base-padding);
 
-  & > * {
+  &>* {
     max-width: 30rem;
   }
 
   & h1 {
     margin: 0;
   }
+
   & .actions {
     display: flex;
     width: 100%;
     align-items: center;
     gap: var(--base-padding);
   }
+
   & .selectContainer {
     position: relative;
     flex-grow: 1;
   }
+
   & select {
     /* padding: 0 calc(0.5 * var(--base-padding)); */
     height: 100%;
@@ -242,13 +252,14 @@
       border: 1px solid var(--dsek-blue);
     }
 
-    & > option,
-    & > optgroup {
+    &>option,
+    &>optgroup {
       padding: var(--base-padding);
       background: var(--background-color-3);
       color: var(--foreground-color-3);
     }
   }
+
   & .hint {
     user-select: none;
     color: var(--foreground-color-4);
