@@ -25,7 +25,6 @@
   --foreground-color-3: #f4f4f4;
   --foreground-color-4: #fff;
 
-  /* color.adjust($dsek-blue, $lightness: 30%) and 15% */
   --link-color: #5f88d6;
   --link-color-visited: #305fb9;
   --red: red;
