@@ -1,0 +1,119 @@
+.darknessOverlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 29;
+  background: rgb(17 17 17 / 0.9);
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  max-width: 250px;
+  width: 90%;
+  left: 0;
+
+  /* for browsers that don't support backdrop filter */
+  background: var(--background-color-2)
+    linear-gradient(45deg, rgb(32 64 124 / 0.5), rgb(112 189 68 / 0.5));
+
+  box-shadow: var(--box-shadow-raised);
+  z-index: 30;
+
+  /* for the most modern browsers */
+  @supports (backdrop-filter: blur(20px)) {
+    background: linear-gradient(
+      45deg,
+      rgb(32 64 124 / 0.5),
+      rgb(112 189 68 / 0.5)
+    );
+    backdrop-filter: blur(20px);
+  }
+
+  & > div {
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.imgWrapper {
+  border-radius: 50%;
+  display: block;
+  margin: calc(2 * var(--base-padding));
+
+  & img {
+    border-radius: 50%;
+    margin: 0;
+  }
+}
+
+.pageList {
+  margin: 0;
+  padding: 0;
+
+  & li {
+    list-style: none;
+    margin: 0;
+
+    & a {
+      display: block;
+      padding: var(--base-padding);
+      text-decoration: none;
+      color: var(--foreground-color-3);
+
+      &:hover {
+        background: rgb(17 17 17 / 0.5);
+      }
+    }
+    & .thisPage {
+      background: rgb(17 17 17 / 0.3);
+    }
+  }
+}
+
+.x {
+  position: absolute;
+
+  box-sizing: content-box;
+  padding: var(--base-padding);
+  height: calc(2 * var(--base-padding));
+  width: calc(2 * var(--base-padding));
+  color: var(--foreground-color-4);
+  cursor: pointer;
+  &:hover {
+    color: var(--dsek-cerise);
+  }
+}
+
+.footer {
+  text-align: center;
+  margin-top: auto;
+  padding: var(--base-padding);
+
+  & > p {
+    color: var(--background-color-1);
+    & a {
+      color: var(--foreground-color-3);
+    }
+  }
+
+  & > div {
+    margin-top: var(--base-padding);
+    & > a {
+      color: var(--background-color-1);
+      &:hover {
+        color: var(--dsek-cerise);
+      }
+      & svg {
+        height: calc(3 * var(--base-padding));
+        width: calc(3 * var(--base-padding));
+      }
+    }
+  }
+}
