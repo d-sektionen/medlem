@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { inputLabel } from "./membership.module.css";
+import { inputLabel } from "../scss/membership.module.scss";
 import { del, get, post } from "./request";
 import { Button } from "./ui/buttons";
 

@@ -2,12 +2,12 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import { MdOutlineFrontHand } from "react-icons/md";
 import { RiMegaphoneLine } from "react-icons/ri";
+import { speakerPanelList } from "../../scss/voteSpeakerPanel.module.scss";
 import { UserContext } from "../layout/layout";
 import backendService from "../request/backendService";
 import socket, { joinRoom, leaveRoom } from "../request/socket";
 import { Button, ButtonGroup } from "../ui/buttons";
 import { List, ListButton, ListItem } from "../ui/list";
-import { speakerPanelList } from "./speakerPanel.module.css";
 
 const SpeakerPanel = ({ meeting }) => {
   const [speakers, setSpeakers] = useState([]);

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useContext } from "react";
+import { pixels } from "../../scss/layout.module.scss";
 import { LoadingContext } from "./layout";
-import { pixels } from "./layout.module.css";
 import Pixels from "./pixels";
 
 const BigPixels = ({ children = undefined }) => {

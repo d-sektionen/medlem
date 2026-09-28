@@ -2,8 +2,9 @@ import QRCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
+
+import { qr, qrWrapper1, qrWrapper2 } from "../../scss/qr.module.scss";
 import { useCloseModal } from "../modal/useModal";
-import { qr, qrWrapper1, qrWrapper2 } from "./qr.module.css";
 
 const QR = () => {
   const { data } = useSWR("/account/identification-token/");

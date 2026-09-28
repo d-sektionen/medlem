@@ -1,23 +1,25 @@
+@import "vars";
+
 .controls {
   display: flex;
   justify-content: space-between;
 
   display: grid;
   grid-template-columns: 1fr auto auto auto;
-  gap: var(--base-padding);
+  gap: $base-padding;
   align-items: baseline;
 }
 
-.calendarBooking {
-  fill: var(--dsek-blue);
+.Booking {
+  fill: $dsek-blue;
   transition: fill 0.2s ease;
   cursor: pointer;
 
   &:hover {
-    fill: var(--dsek-green);
+    fill: $dsek-green;
   }
-  & rect {
-    stroke: var(--background-color-2);
+  rect {
+    stroke: $background-color-2;
   }
 }
 
@@ -26,17 +28,17 @@
 }
 
 .timeIndicators {
-  & text {
-    fill: rgb(170 170 170 / 0.5);
+  text {
+    fill: rgba($foreground-color-1, 0.5);
   }
-  & line {
-    stroke: rgb(170 170 170 / 0.2);
+  line {
+    stroke: rgba($foreground-color-1, 0.2);
     pointer-events: none;
   }
 }
 
 .nowMarker {
-  stroke: var(--red);
+  stroke: $red;
   stroke-width: 2px;
   pointer-events: none;
 }

@@ -1,7 +1,11 @@
 import { Component } from "react";
+import {
+  Failure,
+  inputLabel,
+  Success,
+} from "../../scss/preferences.module.scss";
 import { put } from "../request";
 import { Button } from "../ui/buttons";
-import { errorState, inputLabel, successState } from "./preferences.module.css";
 
 class Preferences extends Component {
   constructor(props) {
@@ -115,7 +119,7 @@ class Preferences extends Component {
             />
           </label>
           {errors.first_name && (
-            <div className={errorState}>{errors.first_name}</div>
+            <div className={Failure}>{errors.first_name}</div>
           )}
         </div>
         <div>
@@ -128,7 +132,7 @@ class Preferences extends Component {
             />
           </label>
           {errors.last_name && (
-            <div className={errorState}>{errors.last_name}</div>
+            <div className={Failure}>{errors.last_name}</div>
           )}
         </div>
         <div>
@@ -140,7 +144,7 @@ class Preferences extends Component {
             />
           </label>
           {errors.profile?.liu_card_id && (
-            <div className={errorState}>{errors.profile.liu_card_id}</div>
+            <div className={Failure}>{errors.profile.liu_card_id}</div>
           )}
         </div>
         <div>
@@ -153,17 +157,15 @@ class Preferences extends Component {
             />
           </label>
           {errors.profile?.infomail_subscriber && (
-            <div className={errorState}>
-              {errors.profile.infomail_subscriber}
-            </div>
+            <div className={Failure}>{errors.profile.infomail_subscriber}</div>
           )}
         </div>
         <div>
           <Button type="submit">Spara</Button>
         </div>
         <div>
-          {error && <div className={errorState}>{error}</div>}
-          {success && <div className={successState}>{success}</div>}
+          {error && <div className={Failure}>{error}</div>}
+          {success && <div className={Success}>{success}</div>}
         </div>
       </form>
     );

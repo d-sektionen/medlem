@@ -6,7 +6,6 @@ import { NavLink } from "react-router-dom";
 import { BASE_URL, PAGES } from "../../config";
 import logo from "../../images/round.svg";
 import webbu_logo from "../../images/webbu-logo-inverted.png";
-import { UserContext } from "./layout";
 import {
   darknessOverlay,
   footer,
@@ -15,7 +14,8 @@ import {
   pageList,
   thisPage,
   x,
-} from "./sideMenu.module.css";
+} from "../../scss/sideMenu.module.scss";
+import { UserContext } from "./layout";
 
 const SideMenu = ({ close, open }) => {
   const [user] = useContext(UserContext);

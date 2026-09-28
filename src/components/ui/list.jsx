@@ -4,7 +4,7 @@ import {
   listButtons,
   listItemColor,
   listText,
-} from "./ui.module.css";
+} from "../../scss/ui.module.scss";
 
 const List = ({ children, maxHeight, className }) => (
   <ul

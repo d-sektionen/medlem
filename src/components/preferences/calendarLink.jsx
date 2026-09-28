@@ -1,5 +1,5 @@
+import { calendarSubNotice } from "../../scss/preferences.module.scss";
 import { Button } from "../ui/buttons";
-import { calendarSubNotice } from "./preferences.module.css";
 
 const CalendarLink = ({ url }) => (
   <>

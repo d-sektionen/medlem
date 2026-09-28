@@ -1,7 +1,9 @@
+@import "vars";
+
 :global {
-  /* Change color to match colorscheme */
+  // Change color to match colorscheme
   .quill {
-    background-color: var(--background-color-3) !important;
+    background-color: $background-color-3 !important;
   }
   /* .ql-container {
     height: inherit !important;
@@ -9,22 +11,22 @@
   } */
   .ql-toolbar .ql-stroke {
     fill: none !important;
-    stroke: var(--foreground-color-2) !important;
+    stroke: $foreground-color-2 !important;
   }
   .ql-toolbar .ql-fill {
-    fill: var(--foreground-color-2) !important;
+    fill: $foreground-color-2 !important;
     stroke: none;
   }
   .ql-toolbar .ql-picker {
-    color: var(--foreground-color-2) !important;
+    color: $foreground-color-2 !important;
   }
   .ql-picker-item {
-    color: var(--background-color-3) !important;
+    color: $background-color-3 !important;
   }
 
-  /* Remove borders */
+  // Remove borders
   .ql-toolbar.ql-snow {
-    background-color: var(--background-color-4) !important;
+    background-color: $background-color-4 !important;
     border: none !important;
   }
 
@@ -32,7 +34,7 @@
     border: none !important;
   }
 
-  /* Active colors */
+  // Active colors
   .ql-snow.ql-toolbar button:hover,
   .ql-snow .ql-toolbar button:hover,
   .ql-snow.ql-toolbar button:focus,
@@ -47,7 +49,7 @@
   .ql-snow .ql-toolbar .ql-picker-item:hover,
   .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
   .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
-    color: var(--dsek-cerise) !important;
+    color: $dsek-cerise !important;
     transition: transform 0.2s ease !important;
     transform: scale(
       1.03
@@ -81,7 +83,7 @@
   .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
   .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
   .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {
-    fill: var(--dsek-cerise) !important;
+    fill: $dsek-cerise !important;
   }
   .ql-snow.ql-toolbar button:hover .ql-stroke,
   .ql-snow .ql-toolbar button:hover .ql-stroke,
@@ -111,6 +113,6 @@
   .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
   .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
   .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
-    stroke: var(--dsek-cerise) !important;
+    stroke: $dsek-cerise !important;
   }
 }

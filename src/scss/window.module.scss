@@ -1,16 +1,18 @@
+@import "vars";
+
 .window {
   position: relative;
   border-radius: 0.5em;
   overflow: hidden;
   border-style: solid;
-  border-color: var(--background-color-3);
+  border-color: $background-color-3;
   border-width: 1.5px;
 
-  box-shadow: var(--box-shadow-raised);
+  box-shadow: $box-shadow-raised;
 }
 
 .windowTitleBar {
-  background-color: var(--background-color-3);
+  background-color: $background-color-3;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -31,21 +33,9 @@
   width: 1em;
   height: 1em;
   border-radius: 50%;
-  background-color: var(--background-color-4);
+  background-color: $background-color-4;
 
   margin-left: 0.5em;
-
-  opacity: 0.5;
-
-  &:nth-child(1) {
-    background-color: var(--dsek-brown);
-  }
-  &:nth-child(2) {
-    background-color: var(--dsek-yellow);
-  }
-  &:nth-child(3) {
-    background-color: var(--dsek-cerise);
-  }
 }
 
 .windowContent {

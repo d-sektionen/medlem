@@ -1,4 +1,8 @@
-import { gridContainer, gridFullWidth, gridItem } from "./ui.module.css";
+import {
+  gridContainer,
+  gridFullWidth,
+  gridItem,
+} from "../../scss/ui.module.scss";
 
 const GridContainer = ({ children }) => (
   <div className={gridContainer}>{children}</div>

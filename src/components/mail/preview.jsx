@@ -1,8 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FiLoader } from "react-icons/fi";
-import { post } from "../request";
-import Window from "../ui/window";
 import {
   errorBody,
   errorContainer,
@@ -12,7 +10,9 @@ import {
   loadingContainer,
   loadingSpinner,
   previewFrame,
-} from "./mailPreview.module.css";
+} from "../../scss/mailPreview.module.scss";
+import { post } from "../request";
+import Window from "../ui/window";
 
 const Preview = ({ subject, content, infoChiefContent }) => {
   const [preview, setPreview] = useState("");

@@ -10,7 +10,6 @@ import { FiLock, FiUnlock, FiWifi, FiWifiOff } from "react-icons/fi";
 import useSWR from "swr";
 import erkan from "../images/erkan.png";
 import rumett from "../images/rumett.png";
-import BigPixels from "./layout/bigPixels";
 import {
   batteryContainer,
   buttons,
@@ -19,7 +18,8 @@ import {
   logoContainer,
   roomTitle,
   success,
-} from "./lock.module.css";
+} from "../scss/lock.module.scss";
+import BigPixels from "./layout/bigPixels";
 import { get, post } from "./request";
 import { IconButton } from "./ui/buttons";
 import { GridContainer, GridItem } from "./ui/grid";

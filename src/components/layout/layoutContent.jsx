@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import { useEffect, useMemo, useState } from "react";
 
+import { contentWrapper } from "../../scss/layout.module.scss";
 import BackendService from "../request/backendService";
 import { Button } from "../ui/buttons";
 import { GridContainer, GridItem } from "../ui/grid";
 import usePageContext from "../usePageContext";
 import BigPixels from "./bigPixels";
-import { contentWrapper } from "./layout.module.css";
 import LoginPage from "./loginPage";
 import SideMenu from "./sideMenu";
 import TopBar from "./topBar";

@@ -1,4 +1,4 @@
-import { textarea } from "./textarea.module.css";
+import { textarea } from "../../scss/textarea.module.scss";
 
 const TextArea = ({ value, onChange, id }) => {
   return (

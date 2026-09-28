@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
+
+import { gradient, Image, imageHeader } from "../../scss/ui.module.scss";
 import Pattern from "./pattern";
-import { gradient, Image, imageHeader } from "./ui.module.css";
 
 const ImageHeader = ({ TitleTag = "h1", title = "", image = null }) => {
   return (

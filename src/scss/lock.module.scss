@@ -1,11 +1,14 @@
+@import "vars";
+@import "mixins";
+
 .success {
   text-align: center;
-  color: var(--dsek-green);
+  color: $dsek-green;
 }
 
 .error {
   text-align: center;
-  color: var(--red);
+  color: $red;
 }
 
 .buttons {
@@ -16,7 +19,7 @@
 .lockItemClass {
   height: 30rem;
 
-  @media (--small-mobile) {
+  @include small-mobile-only {
     height: unset;
   }
 }
@@ -29,7 +32,7 @@
   height: 50%;
   margin: 0 auto;
 
-  @media (--small-mobile) {
+  @include small-mobile-only {
     height: unset;
     max-height: fit-content;
   }
@@ -45,12 +48,12 @@
   justify-content: center;
   align-items: center;
 
-  & p {
+  p {
     padding-left: 4px;
     margin: 0 2px;
   }
 
-  & svg {
+  svg {
     width: 1.3em;
     height: 1.3em;
     margin-left: 6px;

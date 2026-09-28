@@ -8,7 +8,7 @@ import {
   modal,
   modalWrapper,
   NoPadding,
-} from "./modal.module.css";
+} from "../../scss/modal.module.scss";
 
 const Modal = ({ children, title, isOpen, options, setOpen }) => {
   const close = useCallback(() => {

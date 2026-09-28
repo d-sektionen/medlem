@@ -1,13 +1,5 @@
 import { useId, useState } from "react";
 import { FiCheck, FiSend, FiSlash, FiUpload, FiUser } from "react-icons/fi";
-import AutoInput from "../form/input";
-import BigPixels from "../layout/bigPixels";
-import Modal from "../modal/modal";
-import { post } from "../request";
-import { Button } from "../ui/buttons";
-import { GridContainer, GridItem } from "../ui/grid";
-import RichText from "../ui/richText";
-import Textarea from "../ui/textarea";
 import {
   confirmation,
   confirmationButtons,
@@ -17,7 +9,15 @@ import {
   status,
   textFail,
   textSuccess,
-} from "./mail.module.css";
+} from "../../scss/mail.module.scss";
+import AutoInput from "../form/input";
+import BigPixels from "../layout/bigPixels";
+import Modal from "../modal/modal";
+import { post } from "../request";
+import { Button } from "../ui/buttons";
+import { GridContainer, GridItem } from "../ui/grid";
+import RichText from "../ui/richText";
+import Textarea from "../ui/textarea";
 import Preview from "./preview";
 
 const ModalState = Object.freeze({

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { FiVideo, FiX } from "react-icons/fi";
-import BigPixels from "../layout/bigPixels";
-import { IconButton } from "../ui/buttons";
-import { GridContainer, GridItem } from "../ui/grid";
-import useLocalStorage from "../useLocalStorage";
 import {
   container,
   controlContainer,
   Feedback,
   qrRegistration,
-} from "./checkin.module.css";
+} from "../../scss/checkin.module.scss";
+import BigPixels from "../layout/bigPixels";
+import { IconButton } from "../ui/buttons";
+import { GridContainer, GridItem } from "../ui/grid";
+import useLocalStorage from "../useLocalStorage";
 import QrScanner from "./qrScanner";
 import registerUser from "./registerUser";
 import { CompatibilityTextField, TextField } from "./textField";

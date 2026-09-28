@@ -1,7 +1,7 @@
 import GeoPattern from "geopattern";
 import { useEffect, useState } from "react";
 
-import { Ppattern } from "./ui.module.css";
+import { Ppattern } from "../../scss/ui.module.scss";
 
 const Pattern = ({ seed = null }) => {
   const [pattern, setPattern] = useState(null);
