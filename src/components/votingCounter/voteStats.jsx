@@ -1,6 +1,6 @@
 import useSWR from "swr";
 
-const VoteStats = ({ _currentMeeting, voteId }) => {
+const VoteStats = ({ voteId }) => {
   const { data } = useSWR(() => voteId && `/voting/admin-votes/${voteId}/`);
 
   const voteSum = (
