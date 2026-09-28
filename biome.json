@@ -3,10 +3,11 @@
   "vcs": {
     "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": true
+    "useIgnoreFile": true,
+    "defaultBranch": "master"
   },
   "files": {
-    "includes": ["**", "!!**/dist", "!**/src/images"]
+    "includes": ["**"]
   },
   "formatter": {
     "enabled": true,
