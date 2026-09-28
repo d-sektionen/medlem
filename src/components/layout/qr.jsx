@@ -13,10 +13,15 @@ const QR = () => {
   const closeModal = useCloseModal();
 
   useEffect(() => {
-    if (data && data.username) {
-      QRCode.toCanvas(canvasRef.current, data.username, { scale: 8 }, (err) => {
-        if (err) setError(err);
-      });
+    if (data?.username) {
+      QRCode.toCanvas(
+        canvasRef.current,
+        data.username,
+        { scale: 32 },
+        (err) => {
+          if (err) setError(err);
+        },
+      );
     }
   }, [data]);
 
