@@ -19,20 +19,24 @@ const QrScanner = ({ onSubmit, refresh }) => {
     let reloadTimeout;
 
     const startTimeout = setTimeout(async () => {
-      controls = await codeReader.current.decodeFromVideoDevice(
-        undefined,
-        videoElement.current,
-        (result, error, scanControls) => {
-          if (!result || cancelled) return;
+      try {
+        controls = await codeReader.current.decodeFromVideoDevice(
+          undefined,
+          videoElement.current,
+          (result, error, scanControls) => {
+            if (!result || cancelled) return;
 
-          scanControls.stop();
-          onSubmit({ text: result.getText() });
-          reloadTimeout = reloadQrScanner();
+            scanControls.stop();
+            onSubmit({ text: result.getText() });
+            reloadTimeout = reloadQrScanner();
+          },
+        );
+
+        if (cancelled) {
+          controls.stop();
         }
-      );
-
-      if (cancelled) {
-        controls.stop();
+      } catch (err) {
+        console.error(err);
       }
     }, 500);
 
