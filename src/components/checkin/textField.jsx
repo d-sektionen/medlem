@@ -48,7 +48,8 @@ const TextField = ({ onSubmit }) => {
   const text = useTextField(onSubmit, elem);
 
   return (
-    <div ref={elem} role="menu" tabIndex={0} className={textField}>
+    // biome-ignore lint/a11y/useSemanticElements: <Run only once, when the component mounts>
+    <div ref={elem} role="textbox" tabIndex={0} className={textField}>
       {text}
     </div>
   );
