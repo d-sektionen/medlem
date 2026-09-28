@@ -21,7 +21,7 @@ import useModal from "../modal/useModal";
 
 import {
   controls,
-  Booking,
+  calendarBooking,
   restrictedTimeslot,
   timeIndicators,
   nowMarker,
@@ -135,7 +135,7 @@ const BookingCalendar = ({ bookings }) => {
 
               return (
                 <g
-                  className={`${Booking} ${
+                  className={`${calendarBooking} ${
                     booking.restricted_timeslot ? restrictedTimeslot : ""
                   }`}
                   key={booking.id}
