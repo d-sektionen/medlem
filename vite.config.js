@@ -1,4 +1,6 @@
+import postcssGlobalData from "@csstools/postcss-global-data";
 import react from "@vitejs/plugin-react";
+import postcssPresetEnv from "postcss-preset-env";
 import { defineConfig, loadEnv } from "vite";
 
 export default defineConfig(({ mode }) => {
@@ -19,11 +21,12 @@ export default defineConfig(({ mode }) => {
         // available on the default export object.
         localsConvention: "camelCase",
       },
-      preprocessorOptions: {
-        scss: {
-          // Silence deprecation warnings about @import
-          silenceDeprecations: ["import"],
-        },
+      postcss: {
+        plugins: [
+          // Add media.css to global data to make sure the media rules are always availible
+          postcssGlobalData({ files: ["src/css/media.css"] }),
+          postcssPresetEnv(),
+        ],
       },
     },
     server: {

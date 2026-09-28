@@ -1,10 +1,7 @@
-import {
-  bookingButtonContainer,
-  itemDescription,
-} from "../../scss/booking.module.scss";
 import useModal from "../modal/useModal";
 import { Button } from "../ui/buttons";
 import ImageHeader from "../ui/imageHeader";
+import { bookingButtonContainer, itemDescription } from "./booking.module.css";
 import BookingCalendar from "./bookingCalendar";
 import EditBooking from "./editBooking";
 

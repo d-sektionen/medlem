@@ -37,5 +37,10 @@
     "formatter": {
       "enabled": true
     }
+  },
+  "css": {
+    "linter": {
+      "enabled": false
+    }
   }
 }

@@ -1,0 +1,64 @@
+@import "variables.css";
+@import "normalize.css";
+@import "fonts.css";
+
+body {
+  font-family: var(--dsek-font-order);
+  background: var(--background-color-1);
+  color: var(--foreground-color-2);
+}
+
+a {
+  color: var(--link-color);
+
+  &:visited {
+    color: var(--link-color-visited);
+  }
+}
+
+p {
+  line-height: 1.4;
+  color: var(--foreground-color-2);
+  margin: var(--base-padding) 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--foreground-color-3);
+  font-weight: normal;
+  margin-bottom: var(--base-padding);
+  margin-top: calc(3 * var(--base-padding));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  &:nth-child(1) {
+    margin-top: 0;
+  }
+  &:nth-last-child(1) {
+    margin-bottom: 0;
+  }
+}
+
+input,
+textarea,
+select {
+  border: none;
+  background-color: var(--background-color-3);
+  color: var(--foreground-color-1);
+  padding: var(--base-padding);
+}
+
+input[type="checkbox"] {
+  width: 0.8em;
+  height: 0.8em;
+}

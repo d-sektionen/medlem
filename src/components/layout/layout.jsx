@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { SWRConfig } from "swr";
 
 import { get } from "../request";
-import "../../scss/general.scss";
+import "../../css/general.css";
 
 import { TITLE } from "../../config";
-import { app, containerWrapper } from "../../scss/layout.module.scss";
 import DsektionSnowfall from "../christmas/snowfall";
 import ModalHandler from "../modal/modalHandler";
 import usePageContext from "../usePageContext";
+import { app, containerWrapper } from "./layout.module.css";
 import LayoutContent from "./layoutContent";
 
 export const LoadingContext = React.createContext({
