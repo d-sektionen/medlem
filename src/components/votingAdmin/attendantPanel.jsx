@@ -35,7 +35,7 @@ const AttendantPanel = ({ currentMeeting }) => {
 
       try {
         setShowAttendantErroLabel(false);
-        const _newAttendant = await backendService.post("/voting/attendants/", {
+        await backendService.post("/voting/attendants/", {
           user_username: input,
           meeting_id: currentMeeting.id,
           has_voting_rights: true,
