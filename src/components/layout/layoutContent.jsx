@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { contentWrapper } from "../../scss/layout.module.scss";
 import BackendService from "../request/backendService";
