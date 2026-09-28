@@ -23,7 +23,7 @@ const QrScanner = ({ onSubmit, refresh }) => {
         controls = await codeReader.current.decodeFromVideoDevice(
           undefined,
           videoElement.current,
-          (result, error, scanControls) => {
+          (result, _error, scanControls) => {
             if (!result || cancelled) return;
 
             scanControls.stop();
