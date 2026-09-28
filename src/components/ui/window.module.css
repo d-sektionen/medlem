@@ -34,6 +34,18 @@
   background-color: var(--background-color-4);
 
   margin-left: 0.5em;
+
+  opacity: 0.5;
+
+  &:nth-child(1) {
+    background-color: $dsek-brown;
+  }
+  &:nth-child(2) {
+    background-color: $dsek-yellow;
+  }
+  &:nth-child(3) {
+    background-color: $dsek-cerise;
+  }
 }
 
 .windowContent {
