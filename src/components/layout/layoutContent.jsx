@@ -20,19 +20,11 @@ const LayoutContent = ({ children, userContextValue, loadingContextValue }) => {
   const [error, setError] = useState(null);
 
   const requiredPrivileges = pageContext.requiredPrivileges;
-  const [hasPrivileges, setHasPrivileges] = useState(false);
-
-  useEffect(() => {
-    setHasPrivileges(
+  const hasPrivileges = useMemo(
+    () =>
       requiredPrivileges === undefined || user?.privileges[requiredPrivileges],
-    );
-  }, [user, requiredPrivileges]);
-
-  useEffect(() => {
-    setHasPrivileges(
-      requiredPrivileges === undefined || user?.privileges[requiredPrivileges],
-    );
-  }, [user, requiredPrivileges]);
+    [user, requiredPrivileges],
+  );
 
   const loggedIn = user !== null;
 
