@@ -6,7 +6,7 @@ import {
   listButtons,
   list,
   listButton,
-} from "../../css/ui.module.css";
+} from "./ui.module.css";
 
 const List = ({ children, maxHeight, className }) => (
   <ul

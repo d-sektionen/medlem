@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { path } from "../../css/pixels.module.css";
+import { path } from "./pixels.module.css";
 
 /**
  * Displays pixels the D-sektionen logo.

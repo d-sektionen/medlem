@@ -11,7 +11,7 @@ import {
   currentMeetingContainer,
   votePanelContainer,
   othersContainer,
-} from "../../css/votePage.module.css";
+} from "./votePage.module.css";
 import usePageContext from "../usePageContext";
 
 export default function VotePage() {

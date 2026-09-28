@@ -1,4 +1,4 @@
-import { textarea } from "../../css/textarea.module.css";
+import { textarea } from "./textarea.module.css";
 
 import React from "react";
 

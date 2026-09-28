@@ -4,7 +4,7 @@ import {
   gridContainer,
   gridItem,
   gridFullWidth,
-} from "../../css/ui.module.css";
+} from "./ui.module.css";
 
 const GridContainer = ({ children }) => (
   <div className={gridContainer}>{children}</div>

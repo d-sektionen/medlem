@@ -4,7 +4,7 @@ import { SWRConfig } from "swr";
 
 import { get } from "../request";
 import "../../css/general.css";
-import { app, containerWrapper } from "../../css/layout.module.css";
+import { app, containerWrapper } from "./layout.module.css";
 
 import { TITLE } from "../../config";
 import ModalHandler from "../modal/modalHandler";

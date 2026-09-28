@@ -9,7 +9,7 @@ import {
   voteLabel,
   placeVoteContainer,
   alreadyVotedClass,
-} from "../../css/voteForm.module.css";
+} from "./voteForm.module.css";
 
 const VoteForm = ({ vote, setErrors }) => {
   const [checkedId, setCheckedId] = useState(-1);

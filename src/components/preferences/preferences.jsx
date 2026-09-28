@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { put, patch } from "../request";
 
-import { inputLabel, errorState, successState } from "../../css/preferences.module.css";
+import { inputLabel, errorState, successState } from "./preferences.module.css";
 import { Button } from "../ui/buttons";
 
 class Preferences extends Component {

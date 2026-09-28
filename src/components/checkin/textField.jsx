@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { textField } from "../../css/checkin.module.css";
+import { textField } from "./checkin.module.css";
 
 const useTextField = (onEnter, elem) => {
   // State for keeping track of whether key is pressed

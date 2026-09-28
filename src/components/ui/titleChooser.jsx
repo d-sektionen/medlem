@@ -5,7 +5,7 @@ import {
   titleChooser,
   selectContainer,
   hint,
-} from "../../css/ui.module.css";
+} from "./ui.module.css";
 import { Button } from "./buttons";
 
 const TitleChooser = ({

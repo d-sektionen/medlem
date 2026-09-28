@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { contentWrapper } from "../../css/layout.module.css";
+import { contentWrapper } from "./layout.module.css";
 
 import BigPixels from "./bigPixels";
 import { GridContainer, GridItem } from "../ui/grid";

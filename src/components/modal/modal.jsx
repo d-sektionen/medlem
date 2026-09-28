@@ -8,7 +8,7 @@ import {
   modalWrapper,
   modal,
   NoPadding,
-} from "../../css/modal.module.css";
+} from "./modal.module.css";
 
 const Modal = ({ children, title, isOpen, options, setOpen }) => {
   const close = () => setOpen(false);
