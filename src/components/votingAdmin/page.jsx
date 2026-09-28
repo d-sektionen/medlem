@@ -41,12 +41,13 @@ const VotingAdminPage = () => {
 
   const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null;
 
+  // re-point the selection at the freshly fetched meeting (or clear it if it is gone)
   useEffect(() => {
-    // sync currentMeeting with updated meetings
-    if (currentMeeting) {
-      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
-    }
-  }, [meetings, currentMeeting]);
+    setCurrentMeeting(
+      (selected) =>
+        unorderedMeetings?.find(({ id }) => id === selected?.id) ?? null,
+    );
+  }, [unorderedMeetings]);
 
   return (
     <BigPixels>

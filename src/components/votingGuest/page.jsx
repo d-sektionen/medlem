@@ -16,12 +16,12 @@ const VotePage = () => {
   const [currentMeeting, setCurrentMeeting] = useState(null);
   const { data: meetings } = useSWR("/voting/guest-meetings/");
 
-  // sync currentMeeting with updated meetings
+  // re-point the selection at the freshly fetched meeting (or clear it if it is gone)
   useEffect(() => {
-    if (currentMeeting) {
-      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
-    }
-  }, [meetings, currentMeeting]);
+    setCurrentMeeting(
+      (selected) => meetings?.find(({ id }) => id === selected?.id) ?? null,
+    );
+  }, [meetings]);
 
   return (
     <BigPixels>

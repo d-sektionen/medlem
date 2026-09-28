@@ -32,13 +32,13 @@ const AttendancePage = () => {
     ? [...unorderedOccurrences].reverse()
     : null;
 
-  // sync currentOccurrence with updated occurrences
+  // re-point the selection at the freshly fetched occurrence (or clear it if it is gone)
   useEffect(() => {
-    if (currentOccurrence)
-      setCurrentOccurrence(
-        unorderedOccurrences.find((m) => m.id === currentOccurrence.id),
-      );
-  }, [unorderedOccurrences, currentOccurrence]);
+    setCurrentOccurrence(
+      (selected) =>
+        unorderedOccurrences?.find(({ id }) => id === selected?.id) ?? null,
+    );
+  }, [unorderedOccurrences]);
 
   return (
     <BigPixels>
