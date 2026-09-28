@@ -1,33 +1,53 @@
-import { BrowserQRCodeReader } from "@zxing/library";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+
+import { BrowserQRCodeReader } from "@zxing/browser";
 
 const QrScanner = ({ onSubmit, refresh }) => {
   const videoElement = useRef(null);
   const [qrScannerState, setQrScannerState] = useState(false);
-  // TODO: Swap zxing/library for zxing/browser as this class was moved there.
-  const codeReader = useMemo(() => new BrowserQRCodeReader(), []);
+  const codeReader = useRef(new BrowserQRCodeReader());
 
   const reloadQrScanner = useCallback(() => {
-    setTimeout(() => {
-      codeReader.reset();
-      setQrScannerState(!qrScannerState);
+    return setTimeout(() => {
+      setQrScannerState((state) => !state);
     }, 1500);
   }, [qrScannerState, codeReader]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <Refresh should refresh the effect>
   useEffect(() => {
-    setTimeout(() => {
-      codeReader
-        .decodeOnceFromVideoDevice(undefined, videoElement.current)
-        .then((result) => {
-          onSubmit({ text: result.text });
-          reloadQrScanner();
-        })
-        .catch((err) => console.error(err));
+    let cancelled = false;
+    let controls;
+    let reloadTimeout;
+
+    const startTimeout = setTimeout(async () => {
+      try {
+        controls = await codeReader.current.decodeFromVideoDevice(
+          undefined,
+          videoElement.current,
+          (result, error, scanControls) => {
+            if (!result || cancelled) return;
+
+            scanControls.stop();
+            onSubmit({ text: result.getText() });
+            reloadTimeout = reloadQrScanner();
+          },
+        );
+
+        if (cancelled) {
+          controls.stop();
+        }
+      } catch (err) {
+        console.error(err);
+      }
     }, 500);
 
-    return () => codeReader.reset();
-  }, [onSubmit, reloadQrScanner, codeReader, refresh]);
+    return () => {
+      cancelled = true;
+      clearTimeout(startTimeout);
+      clearTimeout(reloadTimeout);
+      controls?.stop();
+    };
+  }, [qrScannerState, refresh]);
 
   return (
     <video

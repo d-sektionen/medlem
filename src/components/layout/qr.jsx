@@ -6,14 +6,14 @@ import { useCloseModal } from "../modal/useModal";
 import { qr, qrWrapper1, qrWrapper2 } from "./qr.module.css";
 
 const QR = () => {
-  const { data } = useSWR("/account/identification-token/");
+  const { data } = useSWR("/account/me/");
   const [error, setError] = useState(null);
   const canvasRef = useRef(null);
   const closeModal = useCloseModal();
 
   useEffect(() => {
-    if (data?.token) {
-      QRCode.toCanvas(canvasRef.current, data.token, { scale: 8 }, (err) => {
+    if (data && data.username) {
+      QRCode.toCanvas(canvasRef.current, data.username, { scale: 8 }, (err) => {
         if (err) setError(err);
       });
     }
