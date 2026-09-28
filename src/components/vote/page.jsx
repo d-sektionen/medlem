@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import {
-  currentMeetingContainer,
-  othersContainer,
-  votePanelContainer,
-} from "../../scss/votePage.module.scss";
 import BigPixels from "../layout/bigPixels";
 import { GridContainer, GridItem } from "../ui/grid";
 import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
 import MeetingInfoPanel from "./meetingInfoPanel";
 import SpeakerPanel from "./speakerPanel";
+import {
+  currentMeetingContainer,
+  othersContainer,
+  votePanelContainer,
+} from "./votePage.module.css";
 import VotePanel from "./votePanel";
 
 export default function VotePage() {

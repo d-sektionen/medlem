@@ -1,5 +1,3 @@
-@import "vars";
-
 .qrWrapper1 {
   grid-template-columns: 1fr;
   grid-template-rows: minmax(100px, 60vh);
@@ -8,9 +6,9 @@
 .qrWrapper2 {
   height: 100%;
   display: flex;
-  margin: -$base-padding;
-  //padding-bottom: $base-padding;
-  margin-bottom: $base-padding;
+  margin: calc(-1 * var(--base-padding));
+  /* padding-bottom: var(--base-padding); */
+  margin-bottom: var(--base-padding);
   background: #fff;
 }
 

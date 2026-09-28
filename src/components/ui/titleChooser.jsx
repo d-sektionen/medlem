@@ -1,12 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect, useMemo } from "react";
-import {
-  actions,
-  hint,
-  selectContainer,
-  titleChooser,
-} from "../../scss/ui.module.scss";
 import { Button } from "./buttons";
+import { actions, hint, selectContainer, titleChooser } from "./ui.module.css";
 
 const TitleChooser = ({
   title,

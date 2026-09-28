@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
+import backendService from "../request/backendService";
+import socket, { joinRoom, leaveRoom } from "../request/socket";
+import VoteForm from "./voteForm";
 import {
   formError,
   noActiveVoting,
   votePanelHeader,
-} from "../../scss/votePanel.module.scss";
-import backendService from "../request/backendService";
-import socket, { joinRoom, leaveRoom } from "../request/socket";
-import VoteForm from "./voteForm";
+} from "./votePanel.module.css";
 
 const VotePanel = ({ meeting }) => {
   const [votes, setVotes] = useState([]);

@@ -14,15 +14,15 @@ import {
   subWeeks,
 } from "date-fns";
 import { useMemo, useState } from "react";
+import useModal from "../modal/useModal";
+import { Button } from "../ui/buttons";
 import {
-  Booking,
+  calendarBooking,
   controls,
   nowMarker,
   restrictedTimeslot,
   timeIndicators,
-} from "../../scss/bookingCalendar.module.scss";
-import useModal from "../modal/useModal";
-import { Button } from "../ui/buttons";
+} from "./bookingCalendar.module.css";
 import ViewBooking from "./viewBooking";
 
 const splitDateRangeByDay = (start, end) => {
@@ -131,7 +131,7 @@ const BookingCalendar = ({ bookings }) => {
 
               return (
                 <g
-                  className={`${Booking} ${
+                  className={`${calendarBooking} ${
                     booking.restricted_timeslot ? restrictedTimeslot : ""
                   }`}
                   key={booking.id}

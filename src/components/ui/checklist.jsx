@@ -1,4 +1,4 @@
-import { checklist } from "../../scss/ui.module.scss";
+import { checklist } from "./ui.module.css";
 
 export const Checklist = ({ items, selected, setSelected, maxSelected }) => {
   const toggleSelectedItem = (itemId) => {

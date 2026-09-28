@@ -1,5 +1,3 @@
-@import "vars";
-
 .votePanelHeader {
   text-align: center;
 }
@@ -10,5 +8,5 @@
 }
 
 .formError {
-  color: $red;
+  color: var(--red);
 }

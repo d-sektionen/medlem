@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { MdOutlineHowToVote } from "react-icons/md";
+import { post } from "../request";
+import { Button } from "../ui/buttons";
 import {
   alreadyVotedClass,
   placeVoteContainer,
@@ -7,9 +9,7 @@ import {
   voteInput,
   voteLabel,
   votesContainer,
-} from "../../scss/voteForm.module.scss";
-import { post } from "../request";
-import { Button } from "../ui/buttons";
+} from "./voteForm.module.css";
 
 const VoteForm = ({ vote, setErrors }) => {
   const [checkedId, setCheckedId] = useState(-1);

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-import { blob, slider, switchy } from "../../scss/ui.module.scss";
+import { blob, slider, switchy } from "./ui.module.css";
 
 const Checkbox = ({
   text = "",
