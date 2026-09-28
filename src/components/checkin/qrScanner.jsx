@@ -10,7 +10,7 @@ const QrScanner = ({ onSubmit, refresh }) => {
     return setTimeout(() => {
       setQrScannerState((state) => !state);
     }, 1500);
-  }, [qrScannerState, codeReader]);
+  }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <Refresh should refresh the effect>
   useEffect(() => {
