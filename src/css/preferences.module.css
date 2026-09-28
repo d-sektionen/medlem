@@ -19,13 +19,13 @@
   }
 }
 
-.Error {
+.errorState {
   color: red;
   font-size: 0.8em;
   margin: 1rem 0;
 }
 
-.Success {
+.successState {
   color: green;
   font-size: 0.8em;
   margin: 1rem 0;
