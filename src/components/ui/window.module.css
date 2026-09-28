@@ -38,13 +38,13 @@
   opacity: 0.5;
 
   &:nth-child(1) {
-    background-color: $dsek-brown;
+    background-color: var(--dsek-brown);
   }
   &:nth-child(2) {
-    background-color: $dsek-yellow;
+    background-color: var(--dsek-yellow);
   }
   &:nth-child(3) {
-    background-color: $dsek-cerise;
+    background-color: var(--dsek-cerise);
   }
 }
 
