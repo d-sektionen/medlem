@@ -153,7 +153,7 @@ class Preferences extends Component {
             />
           </label>
           {errors.profile && errors.profile.infomail_subscriber && (
-            <div className={error-state}>{errors.profile.infomail_subscriber}</div>
+            <div className={errorState}>{errors.profile.infomail_subscriber}</div>
           )}
         </div>
         <div>
