@@ -23,11 +23,11 @@ const Preview = ({ subject, content, infoChiefContent }) => {
   const [scroll, setScroll] = useState({ top: 0, left: 0 });
 
   const saveCurrentScroll = useCallback(() => {
-    const win = iframeRef.current.contentWindow;
+    const win = iframeRef.current?.contentWindow;
 
     setScroll({
-      top: win.scrollY,
-      left: win.scrollX,
+      top: win?.scrollY,
+      left: win?.scrollX,
     });
   }, []);
 
