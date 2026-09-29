@@ -53,6 +53,7 @@ const headingLevel = (editor) =>
 const ToolbarButton = ({
   label,
   isActive = false,
+  isToggle = true,
   disabled = false,
   onClick,
   children,
@@ -62,7 +63,7 @@ const ToolbarButton = ({
     className={`${toolbarButton}${isActive ? ` ${toolbarButtonActive}` : ""}`}
     title={label}
     aria-label={label}
-    aria-pressed={isActive}
+    aria-pressed={isToggle ? isActive : undefined}
     disabled={disabled}
     // Keep the selection in the editor when a toolbar button is pressed.
     onMouseDown={(event) => event.preventDefault()}
@@ -247,11 +248,12 @@ const RichText = ({ value, onChange }) => {
         <ToolbarButton label="Länk" isActive={state.link} onClick={promptLink}>
           <FiLink />
         </ToolbarButton>
-        <ToolbarButton label="Bild" onClick={promptImage}>
+        <ToolbarButton label="Bild" isToggle={false} onClick={promptImage}>
           <FiImage />
         </ToolbarButton>
         <ToolbarButton
           label="Horisontell linje"
+          isToggle={false}
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
         >
           <FiMinus />
@@ -261,6 +263,7 @@ const RichText = ({ value, onChange }) => {
 
         <ToolbarButton
           label="Ångra"
+          isToggle={false}
           disabled={!state.canUndo}
           onClick={() => editor.chain().focus().undo().run()}
         >
@@ -268,6 +271,7 @@ const RichText = ({ value, onChange }) => {
         </ToolbarButton>
         <ToolbarButton
           label="Gör om"
+          isToggle={false}
           disabled={!state.canRedo}
           onClick={() => editor.chain().focus().redo().run()}
         >
@@ -276,7 +280,11 @@ const RichText = ({ value, onChange }) => {
 
         <ToolbarDivider />
 
-        <ToolbarButton label="Rensa formatering" onClick={clearFormatting}>
+        <ToolbarButton
+          label="Rensa formatering"
+          isToggle={false}
+          onClick={clearFormatting}
+        >
           <FiFile />
         </ToolbarButton>
       </div>
