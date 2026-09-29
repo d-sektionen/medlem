@@ -152,31 +152,37 @@ const MailPage = () => {
 
               <br />
 
-              <label>
-                Infochefens hörna
-                {rawMode ? (
+              {rawMode ? (
+                <label>
+                  Infochefens hörna
                   <Textarea
                     value={infoChiefContent}
                     onChange={setInfoChiefContent}
                   />
-                ) : (
+                </label>
+              ) : (
+                <div>
+                  Infochefens hörna
                   <RichText
                     value={infoChiefContent}
                     onChange={setInfoChiefContent}
                   />
-                )}
-              </label>
+                </div>
+              )}
 
               <br />
 
-              <label>
-                Innehåll
-                {rawMode ? (
+              {rawMode ? (
+                <label>
+                  Innehåll
                   <Textarea value={content} onChange={setContent} />
-                ) : (
+                </label>
+              ) : (
+                <div>
+                  Innehåll
                   <RichText value={content} onChange={setContent} />
-                )}
-              </label>
+                </div>
+              )}
             </div>
 
             <div className={inputButtons}>
