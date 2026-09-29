@@ -16,7 +16,7 @@ import {
   FiMessageSquare,
   FiMinus,
   FiUnderline,
-  FiFile
+  FiFile,
 } from "react-icons/fi";
 import { MdStrikethroughS } from "react-icons/md";
 
@@ -93,7 +93,7 @@ const RichText = ({ value, onChange }) => {
 
   useEffect(() => {
     if (!editor || html === editor.getHTML()) return;
-    editor.commands.setContent(html, { emitUpdate: false });
+    editor.commands.setContent(html, { emitUpdate: true });
   }, [editor, html]);
 
   // useEditorState subscribes to the editor and re-renders the toolbar only
