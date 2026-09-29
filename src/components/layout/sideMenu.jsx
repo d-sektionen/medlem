@@ -16,7 +16,7 @@ import {
   pageList,
   thisPage,
   footer,
-} from "../../scss/sideMenu.module.scss";
+} from "./sideMenu.module.css";
 import { UserContext } from "./layout";
 
 const SideMenu = ({ close, open }) => {

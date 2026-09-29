@@ -1,4 +1,4 @@
-import "../../scss/richText.module.scss";
+import "./richText.module.css";
 
 import Image from "@tiptap/extension-image";
 import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
@@ -28,7 +28,7 @@ import {
   toolbarButtonText,
   toolbarDivider,
   wrapper,
-} from "../../scss/richText.module.scss";
+} from "./richText.module.css";
 
 const HEADING_LEVELS = [1, 2, 3];
 

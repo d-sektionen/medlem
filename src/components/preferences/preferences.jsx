@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { put, patch } from "../request";
 
-import { inputLabel, Error, Success } from "../../scss/preferences.module.scss";
+import { inputLabel, errorState, successState } from "./preferences.module.css";
 import { Button } from "../ui/buttons";
 
 class Preferences extends Component {
@@ -48,8 +48,8 @@ class Preferences extends Component {
 
           setUser((prev) => ({
             ...prev,
-            first_name: res.data.firstName,
-            last_name: res.data.lastName,
+            first_name: res.data.first_name,
+            last_name: res.data.last_name,
             profile: {
               ...prev.profile,
               liu_card_id: res.data.liu_card_id,
@@ -112,11 +112,12 @@ class Preferences extends Component {
             Förnamn:
             <input
               value={firstName}
-              onChange={(e) => this.handleChange("firstName", e)}
+              title="För- och efternamn hämtas från LiU och kan ej redigeras från medlemstjänsten."
+              disabled
             />
           </label>
           {errors.first_name && (
-            <div className={Error}>{errors.first_name}</div>
+            <div className={errorState}>{errors.first_name}</div>
           )}
         </div>
         <div>
@@ -124,10 +125,11 @@ class Preferences extends Component {
             Efternamn:
             <input
               value={lastName}
-              onChange={(e) => this.handleChange("lastName", e)}
+              title="För- och efternamn hämtas från LiU och kan ej redigeras från medlemstjänsten."
+              disabled
             />
           </label>
-          {errors.last_name && <div className={Error}>{errors.last_name}</div>}
+          {errors.last_name && <div className={errorState}>{errors.last_name}</div>}
         </div>
         <div>
           <label className={inputLabel}>
@@ -138,7 +140,7 @@ class Preferences extends Component {
             />
           </label>
           {errors.profile && errors.profile.liu_card_id && (
-            <div className={Error}>{errors.profile.liu_card_id}</div>
+            <div className={errorState}>{errors.profile.liu_card_id}</div>
           )}
         </div>
         <div>
@@ -151,15 +153,15 @@ class Preferences extends Component {
             />
           </label>
           {errors.profile && errors.profile.infomail_subscriber && (
-            <div className={Error}>{errors.profile.infomail_subscriber}</div>
+            <div className={errorState}>{errors.profile.infomail_subscriber}</div>
           )}
         </div>
         <div>
           <Button type="submit">Spara</Button>
         </div>
         <div>
-          {error && <div className={Error}>{error}</div>}
-          {success && <div className={Success}>{success}</div>}
+          {error && <div className={errorState}>{error}</div>}
+          {success && <div className={successState}>{success}</div>}
         </div>
       </form>
     );

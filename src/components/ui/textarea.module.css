@@ -1,8 +1,6 @@
-@import "vars";
-
 .textarea {
   display: block;
   width: 100%;
   color: #ddd;
-  background-color: $background-color-3;
+  background-color: var(--background-color-3);
 }

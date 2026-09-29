@@ -21,11 +21,11 @@ import useModal from "../modal/useModal";
 
 import {
   controls,
-  Booking,
+  calendarBooking,
   restrictedTimeslot,
   timeIndicators,
   nowMarker,
-} from "../../scss/bookingCalendar.module.scss";
+} from "./bookingCalendar.module.css";
 import { Button } from "../ui/buttons";
 
 const splitDateRangeByDay = (start, end) => {
@@ -135,7 +135,7 @@ const BookingCalendar = ({ bookings }) => {
 
               return (
                 <g
-                  className={`${Booking} ${
+                  className={`${calendarBooking} ${
                     booking.restricted_timeslot ? restrictedTimeslot : ""
                   }`}
                   key={booking.id}

@@ -3,20 +3,25 @@ import QRCode from "qrcode";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 
-import { qrWrapper1, qrWrapper2, qr } from "../../scss/qr.module.scss";
+import { qrWrapper1, qrWrapper2, qr } from "./qr.module.css";
 import { useCloseModal } from "../modal/useModal";
 
 const QR = () => {
-  const { data } = useSWR("/account/identification-token/");
+  const { data } = useSWR("/account/me/");
   const [error, setError] = useState(null);
   const canvasRef = useRef(null);
   const closeModal = useCloseModal();
 
   useEffect(() => {
-    if (data && data.token) {
-      QRCode.toCanvas(canvasRef.current, data.token, { scale: 8 }, (err) => {
-        if (err) setError(err);
-      });
+    if (data?.username) {
+      QRCode.toCanvas(
+        canvasRef.current,
+        data.username,
+        { scale: 32 },
+        (err) => {
+          if (err) setError(err);
+        },
+      );
     }
   }, [data]);
 

@@ -17,41 +17,38 @@
     "preview": "vite preview",
     "serve": "vite preview --port 4000",
     "deploy": "npm run build && gh-pages -d dist",
-    "format": "biome format --write && prettier --write .",
-    "check": "biome check && prettier --check .",
-    "fix": "biome check --write && prettier --write ."
+    "format": "biome format --write",
+    "check": "biome check",
+    "fix": "biome check --write"
   },
   "dependencies": {
     "@tiptap/extension-image": "^3.31.3",
     "@tiptap/pm": "^3.31.3",
     "@tiptap/react": "^3.31.3",
     "@tiptap/starter-kit": "^3.31.3",
-    "@zxing/library": "^0.20.0",
+    "@zxing/browser": "^0.2.1",
     "axios": "^1.6.7",
     "axios-auth-refresh": "^3.3.6",
     "date-fns": "^3.3.1",
     "framer-motion": "^11.0.8",
     "geopattern": "^1.2.3",
     "prop-types": "^15.8.1",
-    "qrcode": "^1.5.3",
+    "qrcode": "^1.5.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-router-dom": "^7.18.3",
     "react-snowfall": "^2.1.0",
-    "sass": "^1.71.1",
     "socket.io-client": "^4.8.3",
     "swr": "^2.2.5",
     "webrtc-adapter": "^8.2.3"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.13",
+    "@csstools/postcss-global-data": "^4.0.0",
     "@vitejs/plugin-react": "^5.2.0",
     "gh-pages": "^6.1.1",
-    "prettier": "^3.9.6",
+    "postcss-preset-env": "^11.5.4",
     "vite": "^8.0.0"
-  },
-  "allowScripts": {
-    "@parcel/watcher@2.5.1": true
   }
 }
