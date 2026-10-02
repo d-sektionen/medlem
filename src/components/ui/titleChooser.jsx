@@ -16,11 +16,14 @@ const TitleChooser = ({
   noChoicesLabel = "",
   onChange = () => {},
 }) => {
-  const allChoices = useMemo(() => [
-    ...(choices || []),
-    // merge all categorized choices to single array.
-    ...Object.values(categorizedChoices).flat(),
-  ]);
+  const allChoices = useMemo(
+    () => [
+      ...(choices || []),
+      // merge all categorized choices to single array.
+      ...Object.values(categorizedChoices).flat(),
+    ],
+    [choices, categorizedChoices],
+  );
 
   // Re-select the previously selected choice if there is one
   useEffect(() => {
