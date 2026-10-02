@@ -52,7 +52,7 @@ const SpeakerPanel = ({ meeting }) => {
           <ListItem
             title={speaker?.user?.pretty_name}
             subtitle={speaker.prioritized ? "Replik" : null}
-            key={`speaker-${speaker.id}` ?? `index-${i}`}
+            key={speaker.id ? `speaker-${speaker.id}` : `index-${i}`}
             buttons={[
               <ListButton
                 shown={user?.id === speaker?.user?.id}
