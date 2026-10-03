@@ -1,12 +1,12 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 import BigPixels from "../layout/bigPixels";
 import { GridContainer, GridItem } from "../ui/grid";
 import TitleChooser from "../ui/titleChooser";
-import SpeakerPanel from "./speakerPanel";
-import MeetingInfoPanel from "./meetingInfoPanel";
 import usePageContext from "../usePageContext";
+import MeetingInfoPanel from "./meetingInfoPanel";
+import SpeakerPanel from "./speakerPanel";
 
 //import { get } from '../request'
 
@@ -16,10 +16,11 @@ const VotePage = () => {
   const [currentMeeting, setCurrentMeeting] = useState(null);
   const { data: meetings } = useSWR("/voting/guest-meetings/");
 
-  // sync currentMeeting with updated meetings
+  // re-point the selection at the freshly fetched meeting (or clear it if it is gone)
   useEffect(() => {
-    if (currentMeeting)
-      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
+    setCurrentMeeting(
+      (selected) => meetings?.find(({ id }) => id === selected?.id) ?? null,
+    );
   }, [meetings]);
 
   return (

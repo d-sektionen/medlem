@@ -1,29 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
-
-import MeetingPanel from "./meetingPanel";
-import DoorkeeperPanel from "../checkin/doorkeeperPanel";
-import VotePanel from "./votePanel";
-import AttendantPanel from "./attendantPanel";
-import { GridContainer, GridItem } from "../ui/grid";
-import SpeakerPanel from "./speakerPanel";
-import TitleChooser from "../ui/titleChooser";
-import useModal, { useCloseModal } from "../modal/useModal";
-import { post, patch } from "../request";
 import BigPixels from "../layout/bigPixels";
+import { patch } from "../request";
+import { GridContainer, GridItem } from "../ui/grid";
+import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
+import AttendantPanel from "./attendantPanel";
+import MeetingPanel from "./meetingPanel";
+import VotePanel from "./votePanel";
 
 const VotingAdminPage = () => {
   const { title } = usePageContext();
 
   const [currentMeeting, setCurrentMeeting] = useState(null);
   const { data: unorderedMeetings, mutate } = useSWR("/voting/admin-meetings/");
-  const closeModal = useCloseModal();
-
-  const create = async (data) => {
-    const { data: newMeeting } = await post("/voting/admin-meetings/", data);
-    mutate([...unorderedMeetings, newMeeting]);
-  };
 
   const updatePatch = async (data) => {
     const { data: updatedMeeting } = await patch(
@@ -40,11 +30,13 @@ const VotingAdminPage = () => {
 
   const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null;
 
-  // sync currentMeeting with updated meetings
+  // re-point the selection at the freshly fetched meeting (or clear it if it is gone)
   useEffect(() => {
-    if (currentMeeting)
-      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
-  }, [meetings]);
+    setCurrentMeeting(
+      (selected) =>
+        unorderedMeetings?.find(({ id }) => id === selected?.id) ?? null,
+    );
+  }, [unorderedMeetings]);
 
   return (
     <BigPixels>

@@ -1,9 +1,7 @@
-import React, { Component } from "react";
-
-import { put, patch } from "../request";
-
-import { inputLabel, errorState, successState } from "./preferences.module.css";
+import { Component } from "react";
+import { put } from "../request";
 import { Button } from "../ui/buttons";
+import { errorState, inputLabel, successState } from "./preferences.module.css";
 
 class Preferences extends Component {
   constructor(props) {
@@ -129,7 +127,9 @@ class Preferences extends Component {
               disabled
             />
           </label>
-          {errors.last_name && <div className={errorState}>{errors.last_name}</div>}
+          {errors.last_name && (
+            <div className={errorState}>{errors.last_name}</div>
+          )}
         </div>
         <div>
           <label className={inputLabel}>
@@ -139,7 +139,7 @@ class Preferences extends Component {
               onChange={(e) => this.handleChange("liuCardId", e)}
             />
           </label>
-          {errors.profile && errors.profile.liu_card_id && (
+          {errors.profile?.liu_card_id && (
             <div className={errorState}>{errors.profile.liu_card_id}</div>
           )}
         </div>
@@ -152,8 +152,10 @@ class Preferences extends Component {
               onChange={(e) => this.handleChange("infomailSubscriber", e, true)}
             />
           </label>
-          {errors.profile && errors.profile.infomail_subscriber && (
-            <div className={errorState}>{errors.profile.infomail_subscriber}</div>
+          {errors.profile?.infomail_subscriber && (
+            <div className={errorState}>
+              {errors.profile.infomail_subscriber}
+            </div>
           )}
         </div>
         <div>

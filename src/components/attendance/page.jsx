@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
-
-import AttendantPanel from "./attendantPanel";
 import DoorkeeperPanel from "../checkin/doorkeeperPanel";
-import { GridContainer, GridItem } from "../ui/grid";
 import BigPixels from "../layout/bigPixels";
-import TitleChooser from "../ui/titleChooser";
-import AddOccurrence from "./addOccurrence";
 import useModal, { useCloseModal } from "../modal/useModal";
 import { post } from "../request";
+import { GridContainer, GridItem } from "../ui/grid";
+import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
+import AddOccurrence from "./addOccurrence";
+import AttendantPanel from "./attendantPanel";
 
 const AttendancePage = () => {
   const { title } = usePageContext();
@@ -33,12 +32,12 @@ const AttendancePage = () => {
     ? [...unorderedOccurrences].reverse()
     : null;
 
-  // sync currentOccurrence with updated occurrences
+  // re-point the selection at the freshly fetched occurrence (or clear it if it is gone)
   useEffect(() => {
-    if (currentOccurrence)
-      setCurrentOccurrence(
-        unorderedOccurrences.find((m) => m.id === currentOccurrence.id),
-      );
+    setCurrentOccurrence(
+      (selected) =>
+        unorderedOccurrences?.find(({ id }) => id === selected?.id) ?? null,
+    );
   }, [unorderedOccurrences]);
 
   return (

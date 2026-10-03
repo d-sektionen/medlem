@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { MdOutlineHowToVote } from "react-icons/md";
 import { post } from "../request";
 import { Button } from "../ui/buttons";
-import { MdOutlineHowToVote } from "react-icons/md";
 import {
+  alreadyVotedClass,
+  placeVoteContainer,
   questionHeader,
-  votesContainer,
   voteInput,
   voteLabel,
-  placeVoteContainer,
-  alreadyVotedClass,
+  votesContainer,
 } from "./voteForm.module.css";
 
 const VoteForm = ({ vote, setErrors }) => {
