@@ -2,7 +2,6 @@ name: Code quality
 
 on:
   pull_request:
-  push:
 
 jobs:
   quality:
