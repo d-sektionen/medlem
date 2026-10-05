@@ -9,6 +9,7 @@ import {
   FiCode,
   FiCornerUpLeft,
   FiCornerUpRight,
+  FiFile,
   FiImage,
   FiItalic,
   FiLink,
@@ -16,7 +17,6 @@ import {
   FiMessageSquare,
   FiMinus,
   FiUnderline,
-  FiFile,
 } from "react-icons/fi";
 import { MdStrikethroughS } from "react-icons/md";
 

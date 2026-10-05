@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FiLoader } from "react-icons/fi";
 import { post } from "../request";
 import Window from "../ui/window";
-import { useRef } from "react";
 import {
   errorBody,
   errorContainer,
