@@ -1,23 +1,22 @@
-import React, { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
-
-import MeetingPanel from "./meetingPanel";
 import DoorkeeperPanel from "../checkin/doorkeeperPanel";
-import VotePanel from "./votePanel";
-import AttendantPanel from "./attendantPanel";
-import { GridContainer, GridItem } from "../ui/grid";
-import SpeakerPanel from "./speakerPanel";
-import TitleChooser from "../ui/titleChooser";
-import AddMeeting from "./addMeeting";
-import useModal, { useCloseModal } from "../modal/useModal";
-import { post, patch } from "../request";
 import BigPixels from "../layout/bigPixels";
+import useModal, { useCloseModal } from "../modal/useModal";
+import { patch, post } from "../request";
+import { GridContainer, GridItem } from "../ui/grid";
+import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
+import AddMeeting from "./addMeeting";
+import AttendantPanel from "./attendantPanel";
+import MeetingPanel from "./meetingPanel";
+import SpeakerPanel from "./speakerPanel";
+import VotePanel from "./votePanel";
 
 const VotingAdminPage = () => {
   const { title } = usePageContext();
 
-  const [currentMeeting, setCurrentMeeting] = useState(null);
+  const [currentMeetingId, setCurrentMeetingId] = useState(null);
   const { data: unorderedMeetings, mutate } = useSWR("/voting/admin-meetings/");
   const [openCreateModal] = useModal(AddMeeting);
   const closeModal = useCloseModal();
@@ -42,11 +41,9 @@ const VotingAdminPage = () => {
 
   const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null;
 
-  // sync currentMeeting with updated meetings
-  useEffect(() => {
-    if (currentMeeting)
-      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
-  }, [meetings]);
+  const currentMeeting = useMemo(() => {
+    return unorderedMeetings?.find(({ id }) => id === currentMeetingId) ?? null;
+  }, [unorderedMeetings, currentMeetingId]);
 
   return (
     <BigPixels>
@@ -55,7 +52,7 @@ const VotingAdminPage = () => {
           <TitleChooser
             title={title}
             choice={currentMeeting}
-            setChoice={setCurrentMeeting}
+            setChoice={(meeting) => setCurrentMeetingId(meeting.id)}
             choices={meetings}
             label="name"
             hintLabel="Välj ett möte"

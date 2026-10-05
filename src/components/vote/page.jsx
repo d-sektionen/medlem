@@ -1,29 +1,36 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
-
 import BigPixels from "../layout/bigPixels";
 import { GridContainer, GridItem } from "../ui/grid";
 import TitleChooser from "../ui/titleChooser";
-import SpeakerPanel from "./speakerPanel";
+import usePageContext from "../usePageContext";
 import MeetingInfoPanel from "./meetingInfoPanel";
-import VotePanel from "./votePanel";
+import SpeakerPanel from "./speakerPanel";
 import {
   currentMeetingContainer,
-  votePanelContainer,
   othersContainer,
+  votePanelContainer,
 } from "./votePage.module.css";
-import usePageContext from "../usePageContext";
+import VotePanel from "./votePanel";
 
 export default function VotePage() {
   const { title } = usePageContext();
 
-  const [currentMeeting, setCurrentMeeting] = useState(null);
-  const { data: meetings } = useSWR("/voting/meetings/");
+  const [currentMeetingId, setCurrentMeetingId] = useState(null);
+  const { data: meetings, mutate } = useSWR("/voting/meetings/");
 
-  useEffect(() => {
-    if (currentMeeting)
-      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
-  }, [meetings]);
+  const currentMeeting = useMemo(() => {
+    return meetings?.find(({ id }) => id === currentMeetingId) ?? null;
+  }, [meetings, currentMeetingId]);
+
+  // Update the fetched meeting list so the derived selection reflects the change
+  const setCurrentMeeting = (updatedMeeting) => {
+    mutate(
+      meetings.map((meeting) =>
+        meeting.id === updatedMeeting.id ? updatedMeeting : meeting,
+      ),
+    );
+  };
 
   return (
     <BigPixels>
@@ -32,7 +39,7 @@ export default function VotePage() {
           <TitleChooser
             title={title}
             choice={currentMeeting}
-            setChoice={setCurrentMeeting}
+            setChoice={(meeting) => setCurrentMeetingId(meeting.id)}
             choices={meetings}
             label="name"
             hintLabel="Välj ett möte"

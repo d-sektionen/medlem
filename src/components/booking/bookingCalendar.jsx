@@ -1,32 +1,29 @@
-import React, { useMemo, useState } from "react";
-
 import {
-  differenceInCalendarDays,
-  startOfDay,
   addDays,
-  endOfDay,
-  getISODay,
-  differenceInMinutes,
-  startOfISOWeek,
-  getISOWeekYear,
-  getISOWeek,
-  subWeeks,
   addWeeks,
+  differenceInCalendarDays,
+  differenceInMinutes,
+  endOfDay,
   endOfISOWeek,
+  getISODay,
+  getISOWeek,
+  getISOWeekYear,
   isSameISOWeek,
+  startOfDay,
+  startOfISOWeek,
+  subWeeks,
 } from "date-fns";
-
-import ViewBooking from "./viewBooking";
+import { useMemo, useState } from "react";
 import useModal from "../modal/useModal";
-
+import { Button } from "../ui/buttons";
 import {
-  controls,
   calendarBooking,
+  controls,
+  nowMarker,
   restrictedTimeslot,
   timeIndicators,
-  nowMarker,
 } from "./bookingCalendar.module.css";
-import { Button } from "../ui/buttons";
+import ViewBooking from "./viewBooking";
 
 const splitDateRangeByDay = (start, end) => {
   const dayCount = differenceInCalendarDays(end, start);
@@ -54,10 +51,8 @@ const BookingCalendar = ({ bookings }) => {
 
   const bookingsThisWeek = useMemo(() => {
     return (
-      bookings &&
-      bookings
-        // convert dates from string to date types.
-        .map(({ start, end, ...booking }) => ({
+      bookings // convert dates from string to date types.
+        ?.map(({ start, end, ...booking }) => ({
           ...booking,
           start: new Date(start),
           end: new Date(end),
@@ -106,6 +101,7 @@ const BookingCalendar = ({ bookings }) => {
         viewBox="0 0 400 240"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <title>Week</title>
         {bookingsThisWeek &&
           [...bookingsThisWeek]
             .sort((a, b) => b.restricted_timeslot - a.restricted_timeslot)
@@ -144,12 +140,14 @@ const BookingCalendar = ({ bookings }) => {
                     // Remove dayParts that are not in the visible week.
                     .filter(([s]) => isSameISOWeek(s, page))
                     .map(([s, e]) => (
+                      // biome-ignore lint/a11y/useSemanticElements: rect is used as a button here, due to legacy code
                       <rect
                         key={`${booking.id}, ${getISODay(s)}`}
                         x={calculateX(s) + overlapIndex * (2 * width - 50)}
                         y={calculateY(s)}
                         width={width}
                         height={calculateHeight(s, e)}
+                        role="button"
                         onClick={() =>
                           openViewBooking("Bokningsinformation", {
                             booking,

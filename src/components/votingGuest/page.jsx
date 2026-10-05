@@ -1,26 +1,24 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
 
 import BigPixels from "../layout/bigPixels";
 import { GridContainer, GridItem } from "../ui/grid";
 import TitleChooser from "../ui/titleChooser";
-import SpeakerPanel from "./speakerPanel";
-import MeetingInfoPanel from "./meetingInfoPanel";
 import usePageContext from "../usePageContext";
+import MeetingInfoPanel from "./meetingInfoPanel";
+import SpeakerPanel from "./speakerPanel";
 
 //import { get } from '../request'
 
 const VotePage = () => {
   const { title } = usePageContext();
 
-  const [currentMeeting, setCurrentMeeting] = useState(null);
+  const [currentMeetingId, setCurrentMeetingId] = useState(null);
   const { data: meetings } = useSWR("/voting/guest-meetings/");
 
-  // sync currentMeeting with updated meetings
-  useEffect(() => {
-    if (currentMeeting)
-      setCurrentMeeting(meetings.find((m) => m.id === currentMeeting.id));
-  }, [meetings]);
+  const currentMeeting = useMemo(() => {
+    return meetings?.find(({ id }) => id === currentMeetingId) ?? null;
+  }, [meetings, currentMeetingId]);
 
   return (
     <BigPixels>
@@ -29,7 +27,7 @@ const VotePage = () => {
           <TitleChooser
             title={title}
             choice={currentMeeting}
-            setChoice={setCurrentMeeting}
+            setChoice={(meeting) => setCurrentMeetingId(meeting.id)}
             choices={meetings}
             label="name"
             noChoicesLabel="Det finns inga möten tillgängliga just nu. Du kan bara se möten du blivit inbjuden till."

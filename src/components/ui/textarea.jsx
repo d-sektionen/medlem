@@ -1,12 +1,11 @@
 import { textarea } from "./textarea.module.css";
 
-import React from "react";
-
-const TextArea = ({ value, onChange }) => {
+const TextArea = ({ value, onChange, id }) => {
   return (
     <textarea
       className={textarea}
       value={value}
+      id={id}
       onChange={(e) => onChange(e.target.value)}
     />
   );

@@ -1,10 +1,4 @@
-import React from "react";
-
-import {
-  gridContainer,
-  gridItem,
-  gridFullWidth,
-} from "./ui.module.css";
+import { gridContainer, gridFullWidth, gridItem } from "./ui.module.css";
 
 const GridContainer = ({ children }) => (
   <div className={gridContainer}>{children}</div>

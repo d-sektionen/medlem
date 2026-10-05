@@ -1,24 +1,23 @@
-import React, { useState } from "react";
+import { useId, useState } from "react";
+import { FiCheck, FiSend, FiSlash, FiUpload, FiUser } from "react-icons/fi";
+import AutoInput from "../form/input";
 import BigPixels from "../layout/bigPixels";
+import Modal from "../modal/modal";
+import { post } from "../request";
+import { Button } from "../ui/buttons";
 import { GridContainer, GridItem } from "../ui/grid";
+import RichText from "../ui/richText";
 import Textarea from "../ui/textarea";
-
 import {
-  inputContainer,
-  inputButtons,
   confirmation,
   confirmationButtons,
-  status,
-  textSuccess,
-  textFail,
   failMessageClass,
+  inputButtons,
+  inputContainer,
+  status,
+  textFail,
+  textSuccess,
 } from "./mail.module.css";
-import AutoInput from "../form/input";
-import { Button } from "../ui/buttons";
-import { post } from "../request";
-import { FiSend, FiCheck, FiSlash, FiUpload, FiUser } from "react-icons/fi";
-import RichText from "../ui/richText";
-import Modal from "../modal/modal";
 import Preview from "./preview";
 
 const ModalState = Object.freeze({
@@ -44,6 +43,9 @@ const MailPage = () => {
   const [rawMode, setRawMode] = useState(false);
   const [modalState, setModalState] = useState(ModalState.CLOSED);
   const [failMessage, setFailMessage] = useState("");
+
+  const infoContentId = useId();
+  const infoChiefContentId = useId();
 
   function sendMail() {
     setModalState(ModalState.SENDING);
@@ -91,7 +93,7 @@ const MailPage = () => {
         }}
         options={{}}
       >
-        {modalState == ModalState.CONFIRMATION ? (
+        {modalState === ModalState.CONFIRMATION ? (
           <div className={confirmation}>
             <div>
               <h3>Är du säker på att du vill skicka ut detta infomail?</h3>
@@ -113,17 +115,17 @@ const MailPage = () => {
               </Button>
             </div>
           </div>
-        ) : modalState == ModalState.SENDING ? (
+        ) : modalState === ModalState.SENDING ? (
           <div className={status}>
             <FiUpload size="9rem" />
             <h2>Mailet skickas...</h2>
           </div>
-        ) : modalState == ModalState.SUCCESS ? (
+        ) : modalState === ModalState.SUCCESS ? (
           <div className={status}>
             <FiSend size="9rem" className={textSuccess} />
             <h2 className={textSuccess}>Mailet har skickats!</h2>
           </div>
-        ) : modalState == ModalState.FAIL ? (
+        ) : modalState === ModalState.FAIL ? (
           <div className={status}>
             <FiSlash size="9rem" className={textFail} />
             <h2 className={textFail}>Ett fel uppstod vid utskick av mailet.</h2>
@@ -152,37 +154,44 @@ const MailPage = () => {
 
               <br />
 
-              {rawMode ? (
-                <label>
-                  Infochefens hörna
+              <label htmlFor={infoChiefContentId}>
+                Infochefens hörna
+                {rawMode ? (
                   <Textarea
+                    id={infoChiefContentId}
                     value={infoChiefContent}
                     onChange={setInfoChiefContent}
                   />
-                </label>
-              ) : (
-                <div>
-                  Infochefens hörna
-                  <RichText
-                    value={infoChiefContent}
-                    onChange={setInfoChiefContent}
-                  />
-                </div>
-              )}
+                ) : (
+                  <div>
+                    Infochefens hörna
+                    <RichText
+                      id={infoChiefContentId}
+                      value={infoChiefContent}
+                      onChange={setInfoChiefContent}
+                    />
+                  </div>
+                )}
+              </label>
 
               <br />
 
-              {rawMode ? (
-                <label>
-                  Innehåll
-                  <Textarea value={content} onChange={setContent} />
-                </label>
-              ) : (
-                <div>
-                  Innehåll
-                  <RichText value={content} onChange={setContent} />
-                </div>
-              )}
+              <label htmlFor={infoContentId}>
+                Innehåll
+                {rawMode ? (
+                  <Textarea
+                    id={infoContentId}
+                    value={content}
+                    onChange={setContent}
+                  />
+                ) : (
+                  <RichText
+                    id={infoContentId}
+                    value={content}
+                    onChange={setContent}
+                  />
+                )}
+              </label>
             </div>
 
             <div className={inputButtons}>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import request, { options } from "../request";
-import AutoInput from "./input";
 import { Button } from "../ui/buttons";
+import AutoInput from "./input";
 
 const AutoForm = ({
   endpoint,
@@ -17,10 +17,6 @@ const AutoForm = ({
 
   const setValue = (field, value) => {
     setValues((old) => ({ ...old, [field]: value }));
-  };
-
-  const setError = (field, error) => {
-    setErrors((old) => ({ ...old, [field]: error }));
   };
 
   useEffect(() => {
@@ -38,8 +34,8 @@ const AutoForm = ({
 
         setFields(editable);
       })
-      .catch((err) => {});
-  }, endpoint);
+      .catch((_err) => {});
+  }, [endpoint]);
 
   return (
     <form
@@ -57,21 +53,20 @@ const AutoForm = ({
         }
       }}
     >
-      {fields &&
-        fields.map((field) => (
-          <React.Fragment key={field.key}>
-            <AutoInput
-              {...field}
-              onChange={(newValue) => {
-                setValue(field.key, newValue);
-              }}
-              value={values[field.key]}
-            />
-            {Object.prototype.hasOwnProperty.call(errors, field.key) && (
-              <div>{errors[field.key].join(", ")}</div>
-            )}
-          </React.Fragment>
-        ))}
+      {fields?.map((field) => (
+        <React.Fragment key={field.key}>
+          <AutoInput
+            {...field}
+            onChange={(newValue) => {
+              setValue(field.key, newValue);
+            }}
+            value={values[field.key]}
+          />
+          {Object.hasOwn(errors, field.key) && (
+            <div>{errors[field.key].join(", ")}</div>
+          )}
+        </React.Fragment>
+      ))}
       <Button type="submit" onClick={() => {}}>
         Submit
       </Button>

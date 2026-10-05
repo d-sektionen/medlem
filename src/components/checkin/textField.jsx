@@ -1,28 +1,31 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { textField } from "./checkin.module.css";
 
 const useTextField = (onEnter, elem) => {
   // State for keeping track of whether key is pressed
   const [text, setText] = useState("");
-  const regex = RegExp("^[A-Za-z0-9]+$");
+  const regex = /^[A-Za-z0-9]+$/;
 
   // If pressed key is our target key then set to true
-  const downHandler = (e) => {
-    const keyChar = String.fromCharCode(e.keyCode);
-    if (e.key === "Enter") {
-      setText((prev) => {
-        if (prev !== "") onEnter({ text: prev, shift: e.shiftKey });
-        return "";
-      });
-      // Remove event listeners on cleanup
-    } else if (e.key === "Backspace") {
-      setText((prev) => prev.slice(0, -1));
-    } else if (regex.test(keyChar)) {
-      // console.log(keyCode + ' - ' + key + ' - ' + String.fromCharCode(keyCode))
-      setText((prev) => (prev.length > 20 ? prev : `${prev}${keyChar}`));
-    }
-  };
+  const downHandler = useCallback(
+    (e) => {
+      const keyChar = String.fromCharCode(e.keyCode);
+      if (e.key === "Enter") {
+        setText((prev) => {
+          if (prev !== "") onEnter({ text: prev, shift: e.shiftKey });
+          return "";
+        });
+        // Remove event listeners on cleanup
+      } else if (e.key === "Backspace") {
+        setText((prev) => prev.slice(0, -1));
+      } else if (regex.test(keyChar)) {
+        // console.log(keyCode + ' - ' + key + ' - ' + String.fromCharCode(keyCode))
+        setText((prev) => (prev.length > 20 ? prev : `${prev}${keyChar}`));
+      }
+    },
+    [onEnter],
+  );
 
   // Add event listeners
   useEffect(() => {
@@ -35,7 +38,7 @@ const useTextField = (onEnter, elem) => {
       };
     }
     return () => {};
-  }, [onEnter, elem]); // Empty array ensures that effect is only run on mount and unmount
+  }, [elem, downHandler]);
 
   return text;
 };
@@ -45,7 +48,8 @@ const TextField = ({ onSubmit }) => {
   const text = useTextField(onSubmit, elem);
 
   return (
-    <div ref={elem} tabIndex={0} className={textField}>
+    // biome-ignore lint/a11y/useSemanticElements: <div is used here, a full reimplementation is needed to use a semantic element>
+    <div ref={elem} role="textbox" tabIndex={0} className={textField}>
       {text}
     </div>
   );
@@ -73,4 +77,4 @@ const CompatibilityTextField = ({ onSubmit }) => {
   );
 };
 
-export { TextField, CompatibilityTextField };
+export { CompatibilityTextField, TextField };

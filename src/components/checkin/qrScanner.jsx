@@ -1,18 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
-
 import { BrowserQRCodeReader } from "@zxing/browser";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const QrScanner = ({ onSubmit, refresh }) => {
   const videoElement = useRef(null);
   const [qrScannerState, setQrScannerState] = useState(false);
   const codeReader = useRef(new BrowserQRCodeReader());
 
-  const reloadQrScanner = () => {
+  const reloadQrScanner = useCallback(() => {
     return setTimeout(() => {
       setQrScannerState((state) => !state);
     }, 1500);
-  };
+  }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <Refresh should refresh the effect>
   useEffect(() => {
     let cancelled = false;
     let controls;
@@ -23,7 +23,7 @@ const QrScanner = ({ onSubmit, refresh }) => {
         controls = await codeReader.current.decodeFromVideoDevice(
           undefined,
           videoElement.current,
-          (result, error, scanControls) => {
+          (result, _error, scanControls) => {
             if (!result || cancelled) return;
 
             scanControls.stop();
@@ -46,7 +46,7 @@ const QrScanner = ({ onSubmit, refresh }) => {
       clearTimeout(reloadTimeout);
       controls?.stop();
     };
-  }, [qrScannerState, refresh]);
+  }, [onSubmit, reloadQrScanner, qrScannerState, refresh]);
 
   return (
     <video
