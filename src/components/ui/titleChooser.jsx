@@ -1,12 +1,7 @@
-import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-  actions,
-  titleChooser,
-  selectContainer,
-  hint,
-} from "./ui.module.css";
+import { useEffect, useMemo } from "react";
 import { Button } from "./buttons";
+import { actions, hint, selectContainer, titleChooser } from "./ui.module.css";
 
 const TitleChooser = ({
   title,
@@ -21,17 +16,14 @@ const TitleChooser = ({
   noChoicesLabel = "",
   onChange = () => {},
 }) => {
-  const allChoices = [
-    ...(choices || []),
-    // merge all categorized choices to single array.
-    ...Object.keys(categorizedChoices).reduce(
-      (accumulator, category) => [
-        ...accumulator,
-        ...categorizedChoices[category],
-      ],
-      [],
-    ),
-  ];
+  const allChoices = useMemo(
+    () => [
+      ...(choices || []),
+      // merge all categorized choices to single array.
+      ...Object.values(categorizedChoices).flat(),
+    ],
+    [choices, categorizedChoices],
+  );
 
   // Re-select the previously selected choice if there is one
   useEffect(() => {
@@ -46,7 +38,7 @@ const TitleChooser = ({
     if (selectedItem) {
       setChoice(selectedItem);
     }
-  }, [choices, categorizedChoices]);
+  }, [allChoices, setChoice, title]);
 
   return (
     <div className={titleChooser}>

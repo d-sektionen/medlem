@@ -1,10 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
 import QRCode from "qrcode";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
-
-import { qrWrapper1, qrWrapper2, qr } from "./qr.module.css";
 import { useCloseModal } from "../modal/useModal";
+import { qr, qrWrapper1, qrWrapper2 } from "./qr.module.css";
 
 const QR = () => {
   const { data } = useSWR("/account/me/");

@@ -6,8 +6,7 @@ export default function useFeedback() {
 
   let timeout = null;
 
-  // Remove event listeners on cleanup
-  // Empty array ensures that effect is only run on mount and unmount
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <Remove event listeners on cleanup Empty array ensures that effect is only run on mount and unmount>
   useEffect(
     () => () => {
       clearTimeout(timeout);

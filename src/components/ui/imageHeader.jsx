@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
-import { imageHeader, Image, gradient } from "./ui.module.css";
 import Pattern from "./pattern";
+import { gradient, Image, imageHeader } from "./ui.module.css";
 
 const ImageHeader = ({ TitleTag = "h1", title = "", image = null }) => {
   return (

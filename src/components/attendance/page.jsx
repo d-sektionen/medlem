@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
-
-import AttendantPanel from "./attendantPanel";
 import DoorkeeperPanel from "../checkin/doorkeeperPanel";
-import { GridContainer, GridItem } from "../ui/grid";
 import BigPixels from "../layout/bigPixels";
-import TitleChooser from "../ui/titleChooser";
-import AddOccurrence from "./addOccurrence";
 import useModal, { useCloseModal } from "../modal/useModal";
 import { post } from "../request";
+import { GridContainer, GridItem } from "../ui/grid";
+import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
+import AddOccurrence from "./addOccurrence";
+import AttendantPanel from "./attendantPanel";
 
 const AttendancePage = () => {
   const { title } = usePageContext();
 
-  const [currentOccurrence, setCurrentOccurrence] = useState(null);
+  const [currentOccurrenceId, setCurrentOccurrenceId] = useState(null);
   const { data: unorderedOccurrences, mutate } = useSWR(
     "/attendance/occurrences/",
   );
@@ -33,13 +32,11 @@ const AttendancePage = () => {
     ? [...unorderedOccurrences].reverse()
     : null;
 
-  // sync currentOccurrence with updated occurrences
-  useEffect(() => {
-    if (currentOccurrence)
-      setCurrentOccurrence(
-        unorderedOccurrences.find((m) => m.id === currentOccurrence.id),
-      );
-  }, [unorderedOccurrences]);
+  const currentOccurrence = useMemo(() => {
+    return (
+      unorderedOccurrences?.find(({ id }) => id === currentOccurrenceId) ?? null
+    );
+  }, [unorderedOccurrences, currentOccurrenceId]);
 
   return (
     <BigPixels>
@@ -48,7 +45,7 @@ const AttendancePage = () => {
           <TitleChooser
             title={title}
             choice={currentOccurrence}
-            setChoice={setCurrentOccurrence}
+            setChoice={(occurrence) => setCurrentOccurrenceId(occurrence.id)}
             choices={occurrences}
             label="name"
             action={() => {
