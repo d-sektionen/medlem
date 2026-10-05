@@ -135,19 +135,19 @@ const BookingCalendar = ({ bookings }) => {
                     booking.restricted_timeslot ? restrictedTimeslot : ""
                   }`}
                   key={booking.id}
-                  role="menu"
                 >
                   {dayParts
                     // Remove dayParts that are not in the visible week.
                     .filter(([s]) => isSameISOWeek(s, page))
                     .map(([s, e]) => (
+                      // biome-ignore lint/a11y/useSemanticElements: rect is used as a button here, due to legacy code
                       <rect
                         key={`${booking.id}, ${getISODay(s)}`}
                         x={calculateX(s) + overlapIndex * (2 * width - 50)}
                         y={calculateY(s)}
                         width={width}
                         height={calculateHeight(s, e)}
-                        role="menuitem"
+                        role="button"
                         onClick={() =>
                           openViewBooking("Bokningsinformation", {
                             booking,
