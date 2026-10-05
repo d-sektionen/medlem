@@ -163,14 +163,11 @@ const MailPage = () => {
                     onChange={setInfoChiefContent}
                   />
                 ) : (
-                  <div>
-                    Infochefens hörna
-                    <RichText
-                      id={infoChiefContentId}
-                      value={infoChiefContent}
-                      onChange={setInfoChiefContent}
-                    />
-                  </div>
+                  <RichText
+                    id={infoChiefContentId}
+                    value={infoChiefContent}
+                    onChange={setInfoChiefContent}
+                  />
                 )}
               </label>
 
