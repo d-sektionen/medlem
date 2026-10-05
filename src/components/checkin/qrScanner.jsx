@@ -46,7 +46,7 @@ const QrScanner = ({ onSubmit, refresh }) => {
       clearTimeout(reloadTimeout);
       controls?.stop();
     };
-  }, [qrScannerState, refresh]);
+  }, [onSubmit, reloadQrScanner, qrScannerState, refresh]);
 
   return (
     <video
