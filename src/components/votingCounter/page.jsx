@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
 import BigPixels from "../layout/bigPixels";
 import { patch } from "../request";
@@ -12,7 +12,7 @@ import VotePanel from "./votePanel";
 const VotingAdminPage = () => {
   const { title } = usePageContext();
 
-  const [currentMeeting, setCurrentMeeting] = useState(null);
+  const [currentMeetingId, setCurrentMeetingId] = useState(null);
   const { data: unorderedMeetings, mutate } = useSWR("/voting/admin-meetings/");
 
   const updatePatch = async (data) => {
@@ -30,13 +30,9 @@ const VotingAdminPage = () => {
 
   const meetings = unorderedMeetings ? [...unorderedMeetings].reverse() : null;
 
-  // re-point the selection at the freshly fetched meeting (or clear it if it is gone)
-  useEffect(() => {
-    setCurrentMeeting(
-      (selected) =>
-        unorderedMeetings?.find(({ id }) => id === selected?.id) ?? null,
-    );
-  }, [unorderedMeetings]);
+  const currentMeeting = useMemo(() => {
+    return unorderedMeetings?.find(({ id }) => id === currentMeetingId) ?? null;
+  }, [unorderedMeetings, currentMeetingId]);
 
   return (
     <BigPixels>
@@ -45,7 +41,7 @@ const VotingAdminPage = () => {
           <TitleChooser
             title={title}
             choice={currentMeeting}
-            setChoice={setCurrentMeeting}
+            setChoice={(meeting) => setCurrentMeetingId(meeting.id)}
             choices={meetings}
             label="name"
             hintLabel="Välj ett möte"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
 import BigPixels from "../layout/bigPixels";
 import { GridContainer, GridItem } from "../ui/grid";
@@ -16,15 +16,21 @@ import VotePanel from "./votePanel";
 export default function VotePage() {
   const { title } = usePageContext();
 
-  const [currentMeeting, setCurrentMeeting] = useState(null);
-  const { data: meetings } = useSWR("/voting/meetings/");
+  const [currentMeetingId, setCurrentMeetingId] = useState(null);
+  const { data: meetings, mutate } = useSWR("/voting/meetings/");
 
-  // re-point the selection at the freshly fetched meeting (or clear it if it is gone)
-  useEffect(() => {
-    setCurrentMeeting(
-      (selected) => meetings?.find(({ id }) => id === selected?.id) ?? null,
+  const currentMeeting = useMemo(() => {
+    return meetings?.find(({ id }) => id === currentMeetingId) ?? null;
+  }, [meetings, currentMeetingId]);
+
+  // Update the fetched meeting list so the derived selection reflects the change
+  const setCurrentMeeting = (updatedMeeting) => {
+    mutate(
+      meetings.map((meeting) =>
+        meeting.id === updatedMeeting.id ? updatedMeeting : meeting,
+      ),
     );
-  }, [meetings]);
+  };
 
   return (
     <BigPixels>
@@ -33,7 +39,7 @@ export default function VotePage() {
           <TitleChooser
             title={title}
             choice={currentMeeting}
-            setChoice={setCurrentMeeting}
+            setChoice={(meeting) => setCurrentMeetingId(meeting.id)}
             choices={meetings}
             label="name"
             hintLabel="Välj ett möte"

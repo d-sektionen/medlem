@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
 import DoorkeeperPanel from "../checkin/doorkeeperPanel";
 import BigPixels from "../layout/bigPixels";
@@ -13,7 +13,7 @@ import AttendantPanel from "./attendantPanel";
 const AttendancePage = () => {
   const { title } = usePageContext();
 
-  const [currentOccurrence, setCurrentOccurrence] = useState(null);
+  const [currentOccurrenceId, setCurrentOccurrenceId] = useState(null);
   const { data: unorderedOccurrences, mutate } = useSWR(
     "/attendance/occurrences/",
   );
@@ -32,13 +32,11 @@ const AttendancePage = () => {
     ? [...unorderedOccurrences].reverse()
     : null;
 
-  // re-point the selection at the freshly fetched occurrence (or clear it if it is gone)
-  useEffect(() => {
-    setCurrentOccurrence(
-      (selected) =>
-        unorderedOccurrences?.find(({ id }) => id === selected?.id) ?? null,
+  const currentOccurrence = useMemo(() => {
+    return (
+      unorderedOccurrences?.find(({ id }) => id === currentOccurrenceId) ?? null
     );
-  }, [unorderedOccurrences]);
+  }, [unorderedOccurrences, currentOccurrenceId]);
 
   return (
     <BigPixels>
@@ -47,7 +45,7 @@ const AttendancePage = () => {
           <TitleChooser
             title={title}
             choice={currentOccurrence}
-            setChoice={setCurrentOccurrence}
+            setChoice={(occurrence) => setCurrentOccurrenceId(occurrence.id)}
             choices={occurrences}
             label="name"
             action={() => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
 
 import BigPixels from "../layout/bigPixels";
@@ -13,15 +13,12 @@ import SpeakerPanel from "./speakerPanel";
 const VotePage = () => {
   const { title } = usePageContext();
 
-  const [currentMeeting, setCurrentMeeting] = useState(null);
+  const [currentMeetingId, setCurrentMeetingId] = useState(null);
   const { data: meetings } = useSWR("/voting/guest-meetings/");
 
-  // re-point the selection at the freshly fetched meeting (or clear it if it is gone)
-  useEffect(() => {
-    setCurrentMeeting(
-      (selected) => meetings?.find(({ id }) => id === selected?.id) ?? null,
-    );
-  }, [meetings]);
+  const currentMeeting = useMemo(() => {
+    return meetings?.find(({ id }) => id === currentMeetingId) ?? null;
+  }, [meetings, currentMeetingId]);
 
   return (
     <BigPixels>
@@ -30,7 +27,7 @@ const VotePage = () => {
           <TitleChooser
             title={title}
             choice={currentMeeting}
-            setChoice={setCurrentMeeting}
+            setChoice={(meeting) => setCurrentMeetingId(meeting.id)}
             choices={meetings}
             label="name"
             noChoicesLabel="Det finns inga möten tillgängliga just nu. Du kan bara se möten du blivit inbjuden till."
