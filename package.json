@@ -25,7 +25,7 @@
     "@zxing/browser": "^0.2.1",
     "axios": "^1.6.7",
     "axios-auth-refresh": "^3.3.6",
-    "date-fns": "^3.3.1",
+    "date-fns": "^4.4.0",
     "framer-motion": "^11.0.8",
     "geopattern": "^1.2.3",
     "prop-types": "^15.8.1",
