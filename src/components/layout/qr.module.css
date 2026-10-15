@@ -15,7 +15,11 @@
 .qr {
   max-height: 100%;
   max-width: 100%;
+  /* qrcode writes fixed inline width/height styles on the canvas, so
+     !important is required to let the code scale with its container. */
+  /* biome-ignore lint/complexity/noImportantStyles: overrides qrcode's inline height */
   height: auto !important;
+  /* biome-ignore lint/complexity/noImportantStyles: overrides qrcode's inline width */
   width: auto !important;
   margin: auto;
 }
