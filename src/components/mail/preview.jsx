@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FiLoader } from "react-icons/fi";
 import { post } from "../request";
 import Window from "../ui/window";
@@ -15,12 +15,25 @@ import {
 } from "./mailPreview.module.css";
 
 const Preview = ({ subject, content, infoChiefContent }) => {
+  const iframeRef = useRef(null);
   const [preview, setPreview] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [scroll, setScroll] = useState({ top: 0, left: 0 });
+
+  const saveCurrentScroll = useCallback(() => {
+    const win = iframeRef.current?.contentWindow;
+
+    setScroll({
+      top: win?.scrollY,
+      left: win?.scrollX,
+    });
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
+
+    // Fetch preview
     const controller = new AbortController();
     const signal = controller.signal;
     let isLatest = true;
@@ -28,6 +41,9 @@ const Preview = ({ subject, content, infoChiefContent }) => {
     post("/mail/preview/", { content, infoChiefContent }, { signal })
       .then((data) => {
         if (!isLatest) return; // ignore stale response
+
+        saveCurrentScroll();
+
         setPreview(data.data);
         setErrorMessage(null);
       })
@@ -46,7 +62,20 @@ const Preview = ({ subject, content, infoChiefContent }) => {
       isLatest = false;
       controller.abort();
     };
-  }, [content, infoChiefContent]);
+  }, [content, infoChiefContent, saveCurrentScroll]);
+
+  function handleFrameLoad(event) {
+    const frameWindow = event.target.contentWindow;
+    if (!frameWindow) {
+      return;
+    }
+
+    try {
+      frameWindow.scrollTo(scroll);
+    } catch (err) {
+      console.warn("Could not scroll the mail preview into position:", err);
+    }
+  }
 
   return (
     <Window title={`Ämne: ${subject}`}>
@@ -62,9 +91,11 @@ const Preview = ({ subject, content, infoChiefContent }) => {
       ) : (
         <iframe
           title="preview"
+          ref={iframeRef}
           srcDoc={preview}
           className={previewFrame}
-          sandbox=""
+          sandbox="allow-same-origin" // allow scrollTo
+          onLoad={handleFrameLoad}
         ></iframe>
       )}
 
