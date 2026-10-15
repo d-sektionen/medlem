@@ -8,7 +8,6 @@ import {
   FiCode,
   FiCornerUpLeft,
   FiCornerUpRight,
-  FiFile,
   FiItalic,
   FiLink,
   FiList,
@@ -16,7 +15,7 @@ import {
   FiMinus,
   FiUnderline,
 } from "react-icons/fi";
-import { MdStrikethroughS } from "react-icons/md";
+import { MdStrikethroughS, MdFormatClear } from "react-icons/md";
 
 import {
   editorContent,
@@ -278,7 +277,7 @@ const RichText = ({ value, onChange }) => {
           isToggle={false}
           onClick={clearFormatting}
         >
-          <FiFile />
+          <MdFormatClear />
         </ToolbarButton>
       </div>
 
