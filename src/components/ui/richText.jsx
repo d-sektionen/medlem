@@ -1,6 +1,5 @@
 import "./richText.module.css";
 
-import Image from "@tiptap/extension-image";
 import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect } from "react";
@@ -10,7 +9,6 @@ import {
   FiCornerUpLeft,
   FiCornerUpRight,
   FiFile,
-  FiImage,
   FiItalic,
   FiLink,
   FiList,
@@ -30,6 +28,8 @@ import {
   wrapper,
 } from "./richText.module.css";
 
+import usePromptModal from "../modal/usePromptModal";
+
 const HEADING_LEVELS = [1, 2, 3];
 
 // Defined outside of the component so the extensions (and with them the whole
@@ -44,7 +44,6 @@ const extensions = [
       HTMLAttributes: { rel: "noopener noreferrer nofollow", target: "_blank" },
     },
   }),
-  Image.configure({ allowBase64: true }),
 ];
 
 const headingLevel = (editor) =>
@@ -84,6 +83,8 @@ const ToolbarText = ({ children }) => (
 const RichText = ({ value, onChange }) => {
   const html = value ?? "";
 
+  const [prompt] = usePromptModal();
+
   const editor = useEditor({
     extensions,
     content: html,
@@ -122,12 +123,13 @@ const RichText = ({ value, onChange }) => {
   const setHeading = (level) =>
     editor.chain().focus().toggleHeading({ level }).run();
 
-  const promptLink = () => {
+  const promptLink = async () => {
     const previousUrl = editor.getAttributes("link").href ?? "";
-    const url = window.prompt(
+    const url = await prompt(
       "Länkens adress (lämna tomt för att ta bort länken):",
       previousUrl || "https://",
     );
+
     if (url === null) return; // cancelled
 
     const trimmed = url.trim();
@@ -142,12 +144,6 @@ const RichText = ({ value, onChange }) => {
       .extendMarkRange("link")
       .setLink({ href: trimmed })
       .run();
-  };
-
-  const promptImage = () => {
-    const src = window.prompt("Bildens adress (URL):", "https://");
-    if (!src?.trim()) return;
-    editor.chain().focus().setImage({ src: src.trim() }).run();
   };
 
   const clearFormatting = () =>
@@ -247,9 +243,6 @@ const RichText = ({ value, onChange }) => {
 
         <ToolbarButton label="Länk" isActive={state.link} onClick={promptLink}>
           <FiLink />
-        </ToolbarButton>
-        <ToolbarButton label="Bild" isToggle={false} onClick={promptImage}>
-          <FiImage />
         </ToolbarButton>
         <ToolbarButton
           label="Horisontell linje"
