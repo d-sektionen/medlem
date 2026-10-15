@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { Button } from "../ui/buttons";
 import { promptActions, promptForm } from "./modal.module.css";
@@ -21,6 +21,7 @@ const Prompt = ({
   const close = useCloseModal();
   const [value, setValue] = useState(defaultValue);
   const input = useRef(null);
+  const messageId = useId();
 
   // The browser's prompt() opens with the field focused and its default value
   // selected, so typing immediately replaces it.
@@ -43,9 +44,10 @@ const Prompt = ({
         close();
       }}
     >
-      <p>{message}</p>
+      <p id={messageId}>{message}</p>
       <input
         ref={input}
+        aria-labelledby={messageId}
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />
