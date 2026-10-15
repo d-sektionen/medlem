@@ -15,8 +15,8 @@ import {
   FiMinus,
   FiUnderline,
 } from "react-icons/fi";
-import { MdStrikethroughS, MdFormatClear } from "react-icons/md";
-
+import { MdFormatClear, MdStrikethroughS } from "react-icons/md";
+import usePromptModal from "../modal/usePromptModal";
 import {
   editorContent,
   toolbar,
@@ -26,8 +26,6 @@ import {
   toolbarDivider,
   wrapper,
 } from "./richText.module.css";
-
-import usePromptModal from "../modal/usePromptModal";
 
 const HEADING_LEVELS = [1, 2, 3];
 
