@@ -1,3 +1,5 @@
+/* biome-ignore-all lint: This file is removed in pr #159 */
+
 :global {
   /* Change color to match colorscheme */
   .quill {
