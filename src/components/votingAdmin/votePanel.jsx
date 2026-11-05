@@ -1,11 +1,13 @@
-import { FiBarChart2, FiEdit2, FiTrash2 } from "react-icons/fi";
+import { FiBarChart2, FiTrash2, FiX } from "react-icons/fi";
+import { MdRocketLaunch } from "react-icons/md";
 import useSWR from "swr";
 import useConfirmModal from "../modal/useConfirmModal";
 import useModal, { useCloseModal } from "../modal/useModal";
-import { del, post, put } from "../request";
+import { del, patch, post } from "../request";
 import { Button } from "../ui/buttons";
 import { List, ListButton, ListItem } from "../ui/list";
 import AddVote from "./addVote";
+import { newVoteButtonContainer } from "./votePanel.module.css";
 import VoteStats from "./voteStats";
 
 const VotePanel = ({ currentMeeting }) => {
@@ -13,16 +15,13 @@ const VotePanel = ({ currentMeeting }) => {
     `/voting/admin-votes/?event_id=${currentMeeting.id}`,
   );
 
+  const closeModal = useCloseModal();
+
   const create = async (data) => {
     const { data: newVote } = await post("/voting/admin-votes/", data);
     mutate([...votes, newVote]);
+    closeModal();
     return newVote;
-  };
-
-  const update = async (id, data) => {
-    const { data: updatedVote } = await put(`/voting/admin-votes/${id}/`, data);
-    mutate([...votes.filter((v) => v.id !== id), updatedVote]);
-    return updatedVote;
   };
 
   const open = async (vote) => {
@@ -33,33 +32,47 @@ const VotePanel = ({ currentMeeting }) => {
     });
   };
 
+  const toggleOpen = async (vote) => {
+    await patch(`/voting/admin-votes/${vote.id}/`, { open: !vote.open });
+    // Revalidate since activating a vote closes the previously active one.
+    mutate();
+  };
+
   const [openCreateModal] = useModal(AddVote);
   const [openChartModal] = useModal(VoteStats);
-  const closeModal = useCloseModal();
   const [confirmModal] = useConfirmModal();
 
   return (
     <div>
       <h2>Omröstningar</h2>
-      <Button
-        onClick={() =>
-          openCreateModal("Ny omröstning", {
-            currentMeeting,
-            create,
-          })
-        }
-      >
-        Ny omröstning
-      </Button>
+      <div className={newVoteButtonContainer}>
+        <Button
+          onClick={() =>
+            openCreateModal("Ny omröstning", {
+              currentMeeting,
+              create,
+            })
+          }
+        >
+          Ny omröstning
+        </Button>
+      </div>
       <List maxHeight="268px">
-        {votes
-          ?.filter((vote) => vote.meeting === currentMeeting.id)
+        {[...(votes ?? [])]
+          .filter((vote) => vote.meeting === currentMeeting.id)
+          .sort((a, b) => b.id - a.id)
           .map((vote) => (
             <ListItem
               title={vote.question}
-              subtitle={vote.open ? "Active" : undefined}
+              subtitle={vote.open ? "Active" : "\u00A0"}
               key={vote.id}
               buttons={[
+                <ListButton
+                  onClick={() => toggleOpen(vote)}
+                  iconComponent={vote.open ? FiX : MdRocketLaunch}
+                  text={vote.open ? "Stäng omröstning" : "Aktivera omröstning"}
+                  key="toggle"
+                />,
                 <ListButton
                   onClick={() =>
                     confirmModal(
@@ -94,18 +107,6 @@ const VotePanel = ({ currentMeeting }) => {
                   iconComponent={FiBarChart2}
                   text="Resultat"
                   key="results"
-                />,
-                <ListButton
-                  onClick={() =>
-                    openCreateModal(`Uppdatera "${vote.question}"`, {
-                      currentMeeting,
-                      update,
-                      updateData: vote,
-                    })
-                  }
-                  iconComponent={FiEdit2}
-                  text="Uppdatera omröstning"
-                  key="update"
                 />,
               ]}
             />

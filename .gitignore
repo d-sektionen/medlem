@@ -72,5 +72,5 @@ yarn-error.log
 # Visual Studio Code
 .vscode
 
-# Deepseek Harness
+# temporary files
 .tmp-verify

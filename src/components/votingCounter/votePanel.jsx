@@ -21,7 +21,7 @@ const VotePanel = ({ currentMeeting }) => {
           .map((vote) => (
             <ListItem
               title={vote.question}
-              subtitle={vote.open ? "Active" : undefined}
+              subtitle={vote.open ? "Active" : "\u00A0"}
               key={vote.id}
               buttons={[
                 <ListButton
