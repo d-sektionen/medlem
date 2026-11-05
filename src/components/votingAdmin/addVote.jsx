@@ -8,21 +8,13 @@ const createAlternative = (existingData = {}) => {
   return { text: "", ...existingData, key: currentKey };
 };
 
-const AddVote = ({ currentMeeting, create, updateData, update }) => {
-  const [question, setQuestion] = useState(
-    updateData ? updateData.question : "",
-  );
-  const [alternatives, setAlternatives] = useState(
-    updateData
-      ? updateData.alternatives.map((alt) => createAlternative(alt))
-      : [
-          createAlternative({ text: "Vakant" }),
-          createAlternative({ text: "Blankt" }),
-        ],
-  );
-  const [currentQuestion, setCurrentQuestion] = useState(
-    updateData ? updateData.open : true,
-  );
+const AddVote = ({ currentMeeting, create }) => {
+  const [question, setQuestion] = useState("");
+  const [alternatives, setAlternatives] = useState([
+    createAlternative({ text: "Vakant" }),
+    createAlternative({ text: "Blankt" }),
+  ]);
+  const [currentQuestion, setCurrentQuestion] = useState(true);
 
   return (
     <div>
@@ -85,24 +77,15 @@ const AddVote = ({ currentMeeting, create, updateData, update }) => {
       <button
         type="button"
         onClick={() => {
-          if (updateData) {
-            update(updateData.id, {
-              question,
-              open: currentQuestion,
-              alternatives,
-              meeting: currentMeeting.id,
-            });
-          } else {
-            create({
-              question,
-              open: currentQuestion,
-              alternatives,
-              meeting: currentMeeting.id,
-            });
-          }
+          create({
+            question,
+            open: currentQuestion,
+            alternatives,
+            meeting: currentMeeting.id,
+          });
         }}
       >
-        {updateData ? "Uppdatera omröstning" : "Skapa ny omröstning"}
+        Skapa ny omröstning
       </button>
     </div>
   );
