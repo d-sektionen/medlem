@@ -7,6 +7,7 @@ import { Button } from "../ui/buttons";
 import { List, ListButton, ListItem } from "../ui/list";
 import AddVote from "./addVote";
 import VoteStats from "./voteStats";
+import {newVoteButtonContainer} from "./votePanel.module.css";
 
 const VotePanel = ({ currentMeeting }) => {
   const { data: votes, mutate } = useSWR(
@@ -37,16 +38,18 @@ const VotePanel = ({ currentMeeting }) => {
   return (
     <div>
       <h2>Omröstningar</h2>
-      <Button
-        onClick={() =>
-          openCreateModal("Ny omröstning", {
-            currentMeeting,
-            create,
-          })
-        }
-      >
-        Ny omröstning
-      </Button>
+      <div className={newVoteButtonContainer}>
+        <Button
+          onClick={() =>
+            openCreateModal("Ny omröstning", {
+              currentMeeting,
+              create,
+            })
+          }
+        >
+          Ny omröstning
+        </Button>
+      </div>
       <List maxHeight="268px">
         {votes
           ?.filter((vote) => vote.meeting === currentMeeting.id)
