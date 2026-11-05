@@ -32,6 +32,9 @@
   /* flex-direction: column; */
   /* align-items: stretch; */
   /* justify-content: space-between; */
+  @media (min-width: 1024px) {
+    margin-left: 250px;
+  }
 }
 
 .contentWrapper {
@@ -62,5 +65,14 @@
     &:hover {
       color: var(--dsek-cerise);
     }
+  }
+  @media (min-width: 1024px) {
+    justify-content: flex-end;
+  }
+}
+
+.hamburger {
+  @media (min-width: 1024px) {
+    display: none;
   }
 }
