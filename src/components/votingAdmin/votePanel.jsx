@@ -1,8 +1,8 @@
-import { FiBarChart2, FiEdit2, FiTrash2 } from "react-icons/fi";
+import { FiBarChart2, FiTrash2 } from "react-icons/fi";
 import useSWR from "swr";
 import useConfirmModal from "../modal/useConfirmModal";
 import useModal, { useCloseModal } from "../modal/useModal";
-import { del, post, put } from "../request";
+import { del, post } from "../request";
 import { Button } from "../ui/buttons";
 import { List, ListButton, ListItem } from "../ui/list";
 import AddVote from "./addVote";
@@ -13,16 +13,13 @@ const VotePanel = ({ currentMeeting }) => {
     `/voting/admin-votes/?event_id=${currentMeeting.id}`,
   );
 
+  const closeModal = useCloseModal();
+
   const create = async (data) => {
     const { data: newVote } = await post("/voting/admin-votes/", data);
     mutate([...votes, newVote]);
+    closeModal();
     return newVote;
-  };
-
-  const update = async (id, data) => {
-    const { data: updatedVote } = await put(`/voting/admin-votes/${id}/`, data);
-    mutate([...votes.filter((v) => v.id !== id), updatedVote]);
-    return updatedVote;
   };
 
   const open = async (vote) => {
@@ -35,7 +32,6 @@ const VotePanel = ({ currentMeeting }) => {
 
   const [openCreateModal] = useModal(AddVote);
   const [openChartModal] = useModal(VoteStats);
-  const closeModal = useCloseModal();
   const [confirmModal] = useConfirmModal();
 
   return (
@@ -94,18 +90,6 @@ const VotePanel = ({ currentMeeting }) => {
                   iconComponent={FiBarChart2}
                   text="Resultat"
                   key="results"
-                />,
-                <ListButton
-                  onClick={() =>
-                    openCreateModal(`Uppdatera "${vote.question}"`, {
-                      currentMeeting,
-                      update,
-                      updateData: vote,
-                    })
-                  }
-                  iconComponent={FiEdit2}
-                  text="Uppdatera omröstning"
-                  key="update"
                 />,
               ]}
             />
