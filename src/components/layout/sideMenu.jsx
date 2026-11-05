@@ -17,7 +17,7 @@ import {
   x,
 } from "./sideMenu.module.css";
 
-const desktopMode = "(min-width: 1024px)";
+const desktopMode = "(--large-dekstop)";
 
 const SideMenu = ({ close, open }) => {
   const [user] = useContext(UserContext);
