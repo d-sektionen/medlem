@@ -17,12 +17,15 @@ import {
   x,
 } from "./sideMenu.module.css";
 
-const desktopMode = "(--large-dekstop)";
+const desktopMode = "(min-width: 996px)";
 
 const SideMenu = ({ close, open }) => {
   const [user] = useContext(UserContext);
 
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(
+    () => window.matchMedia(desktopMode).matches,
+  );
+
   useEffect(() => {
     const mq = window.matchMedia(desktopMode);
     const onChange = (e) => setIsDesktop(e.matches);

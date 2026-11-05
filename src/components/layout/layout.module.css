@@ -32,7 +32,7 @@
   /* flex-direction: column; */
   /* align-items: stretch; */
   /* justify-content: space-between; */
-  @media (--large-dekstop) {
+  @media (--large-desktop) {
     margin-left: 250px;
   }
 }
@@ -66,13 +66,13 @@
       color: var(--dsek-cerise);
     }
   }
-  @media (--large-dekstop) {
+  @media (--large-desktop) {
     justify-content: flex-end;
   }
 }
 
 .hamburger {
-  @media (--large-dekstop) {
+  @media (--large-desktop) {
     display: none;
   }
 }
