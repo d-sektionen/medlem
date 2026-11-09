@@ -11,4 +11,6 @@ if (baseUrl.includes("localhost") || baseUrl.includes("127.0.0.1")) {
       "The deployed site will not be able to reach the backend.\n" +
       "Update BASE_URL in your .env file (for example https://backend.d-sektionen.se) before deploying.\n",
   );
+
+  process.exitCode = 1;
 }
