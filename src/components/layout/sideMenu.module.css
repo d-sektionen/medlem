@@ -23,6 +23,10 @@
   box-shadow: var(--box-shadow-raised);
   z-index: 30;
 
+  @media (--large-desktop) {
+    width: 250px;
+  }
+
   /* for the most modern browsers */
   @supports (backdrop-filter: blur(20px)) {
     background: linear-gradient(
@@ -64,6 +68,10 @@
   cursor: pointer;
   &:hover {
     color: var(--dsek-cerise);
+  }
+
+  @media (--large-desktop) {
+    display: none;
   }
 }
 

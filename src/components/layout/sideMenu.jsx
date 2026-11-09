@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import PropTypes from "prop-types";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { FiGithub, FiX } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
 import { BASE_URL, PAGES } from "../../config";
@@ -17,16 +17,32 @@ import {
   x,
 } from "./sideMenu.module.css";
 
+const desktopMode = "(min-width: 996px)";
+
 const SideMenu = ({ close, open }) => {
   const [user] = useContext(UserContext);
 
+  const [isDesktop, setIsDesktop] = useState(
+    () => window.matchMedia(desktopMode).matches,
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia(desktopMode);
+    const onChange = (e) => setIsDesktop(e.matches);
+    setIsDesktop(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  const visible = open || isDesktop;
+
   const escFunction = useCallback(
     (event) => {
-      if (event.keyCode === 27) {
+      if (event.keyCode === 27 && !isDesktop) {
         close();
       }
     },
-    [close],
+    [close, isDesktop],
   );
   useEffect(() => {
     document.addEventListener("keydown", escFunction, false);
@@ -35,19 +51,21 @@ const SideMenu = ({ close, open }) => {
 
   return (
     <AnimatePresence style={{ overflow: "hidden" }}>
-      {open && [
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2, delay: 0 }}
-          className={darknessOverlay}
-          onClick={close}
-          key="overlay"
-        />,
+      {visible && [
+        !isDesktop && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2, delay: 0 }}
+            className={darknessOverlay}
+            onClick={close}
+            key="overlay"
+          />
+        ),
         <motion.div
           exit={{ x: "-100%" }}
-          initial={{ x: "-100%" }}
+          initial={isDesktop ? false : { x: "-100%" }}
           animate={{ x: "0%" }}
           className={menu}
           key="menu"

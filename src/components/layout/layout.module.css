@@ -32,6 +32,9 @@
   /* flex-direction: column; */
   /* align-items: stretch; */
   /* justify-content: space-between; */
+  @media (--large-desktop) {
+    margin-left: 250px;
+  }
 }
 
 .contentWrapper {
@@ -62,5 +65,14 @@
     &:hover {
       color: var(--dsek-cerise);
     }
+  }
+  @media (--large-desktop) {
+    justify-content: flex-end;
+  }
+}
+
+.hamburger {
+  @media (--large-desktop) {
+    display: none;
   }
 }
