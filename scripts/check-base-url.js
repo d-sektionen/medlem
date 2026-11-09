@@ -5,7 +5,7 @@ import { loadEnv } from "vite";
 const env = loadEnv("production", process.cwd(), "");
 const baseUrl = env.BASE_URL || "https://backend.d-sektionen.se";
 
-if (baseUrl.includes("localhost")) {
+if (baseUrl.includes("localhost") || baseUrl.includes("127.0.0.1")) {
   console.warn(
     `\nWarning: BASE_URL is set to "${baseUrl}", which includes "localhost".\n` +
       "The deployed site will not be able to reach the backend.\n" +
