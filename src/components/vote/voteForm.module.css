@@ -44,7 +44,7 @@
   }
 
   &:has(.voteInput:checked) {
-    background-color: var(--dsek-green) !important;
+    background-color: var(--dsek-green);
     color: var(--background-color-2);
     font-weight: 800;
   }

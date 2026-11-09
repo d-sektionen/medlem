@@ -27,14 +27,6 @@
     opacity: 0.6;
   }
 
-  &:enabled {
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--dsek-blue);
-    }
-  }
-
   &:focus {
     outline-width: 0;
     box-shadow: 0 0 2px 2px var(--dsek-blue);
@@ -149,7 +141,6 @@
   & .listButton {
     display: block;
     margin: 0;
-    padding: 0;
     border: none;
     background: none;
     padding: var(--base-padding);
@@ -243,16 +234,16 @@
     color: var(--foreground-color-3);
     padding-left: var(--base-padding);
 
-    &:focus {
-      border: 1px solid var(--dsek-blue);
-    }
-
     & > option,
     & > optgroup {
       padding: var(--base-padding);
       background: var(--background-color-3);
       color: var(--foreground-color-3);
     }
+  }
+
+  & select:focus {
+    border: 1px solid var(--dsek-blue);
   }
 
   & .hint {
