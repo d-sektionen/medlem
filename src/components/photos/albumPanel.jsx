@@ -1,11 +1,11 @@
+import { useMemo } from "react";
 import useSWR from "swr";
 import PhotoCard from "./photoCard";
 import {
-  photoGrid,
   albumPanel,
   large as largeClass,
+  photoGrid,
 } from "./photos.module.css";
-import { useMemo } from "react";
 
 const AlbumPanel = ({ albumId, onPhotoClick }) => {
   const { data: album } = useSWR(`/photos/albums/${albumId}/`);

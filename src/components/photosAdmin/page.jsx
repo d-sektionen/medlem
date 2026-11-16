@@ -1,13 +1,13 @@
 import { useState } from "react";
 import useSWR from "swr";
 import BigPixels from "../layout/bigPixels";
+import useModal from "../modal/useModal";
 import { post } from "../request";
 import { GridContainer, GridItem } from "../ui/grid";
 import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
-import AlbumPanel from "./albumPanel";
-import useModal from "../modal/useModal";
 import AddAlbum from "./addAlbum";
+import AlbumPanel from "./albumPanel";
 
 const PhotosAdminPage = () => {
   const { title } = usePageContext();

@@ -1,11 +1,11 @@
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import useModal from "../modal/useModal";
 import { del, patch, post, put } from "../request";
 import { Button } from "../ui/buttons";
 import { GridItem } from "../ui/grid";
-import { albumActions, photosList } from "./photosAdmin.module.css";
-import useModal from "../modal/useModal";
 import AddAlbum from "./addAlbum";
 import AddPhoto from "./addPhoto";
+import { albumActions, photosList } from "./photosAdmin.module.css";
 
 const photoFormData = (data, extra = {}) => {
   const formData = new FormData();

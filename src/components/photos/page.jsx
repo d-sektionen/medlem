@@ -1,13 +1,12 @@
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import useSWR from "swr";
 import BigPixels from "../layout/bigPixels";
 import { GridContainer, GridItem } from "../ui/grid";
-import usePageContext from "../usePageContext";
 import TitleChooser from "../ui/titleChooser";
-import { useContext, useEffect, useState } from "react";
-import useSWR from "swr";
+import usePageContext from "../usePageContext";
 import AlbumPanel from "./albumPanel";
 import PhotoModal from "./photoModal";
-import { useSearchParams } from "react-router-dom";
-import { UserContext } from "../layout/layout";
 
 const PhotosPage = () => {
   const { title } = usePageContext();

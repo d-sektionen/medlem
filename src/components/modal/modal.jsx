@@ -5,10 +5,10 @@ import { FiX } from "react-icons/fi";
 
 import {
   darknessOverlay,
+  Floating,
   modal,
   modalWrapper,
   NoPadding,
-  Floating,
 } from "./modal.module.css";
 
 const Modal = ({ children, title, isOpen, options, setOpen }) => {

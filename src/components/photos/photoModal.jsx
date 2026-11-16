@@ -1,19 +1,17 @@
-import { useMemo, useEffect } from "react";
-import Modal from "../modal/modal";
-
-import {
-  photoModalContent,
-  photoModalControls,
-  photoModalDetails,
-} from "./photos.module.css";
-import { Button } from "../ui/buttons";
+import { useEffect, useMemo } from "react";
 import {
   FiChevronLeft,
   FiChevronRight,
   FiDownload,
   FiShare2,
-  FiTrash,
 } from "react-icons/fi";
+import Modal from "../modal/modal";
+import { Button } from "../ui/buttons";
+import {
+  photoModalContent,
+  photoModalControls,
+  photoModalDetails,
+} from "./photos.module.css";
 
 const PhotoModal = ({ photo, isOpen, setOpen, onNext, onPrevious }) => {
   const details = useMemo(() => {

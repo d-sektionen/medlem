@@ -1,14 +1,14 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { FiImage, FiTrash2, FiUpload } from "react-icons/fi";
+import { FiImage, FiTrash2 } from "react-icons/fi";
 
 import {
+  bottomBar,
   dragging,
   dropzone,
   fileLabel,
   fileMeta,
   filePicker,
   filePreview,
-  bottomBar,
   hiddenInput,
 } from "./filePicker.module.css";
 
