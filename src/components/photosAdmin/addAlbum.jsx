@@ -8,9 +8,7 @@ const AddAlbum = ({ album, create, update }) => {
   const close = useCloseModal();
 
   const [title, setTitle] = useState(album?.title ?? "");
-  const [description, setDescription] = useState(
-    album?.description ?? ""
-  );
+  const [description, setDescription] = useState(album?.description ?? "");
   const [errors, setErrors] = useState({});
 
   const save = () => {

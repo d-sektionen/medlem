@@ -17,12 +17,7 @@ const photoFormData = (data, extra = {}) => {
   return formData;
 };
 
-const AlbumPanel = ({
-  album,
-  mutateAlbums,
-  setAlbum,
-  createAlbum,
-}) => {
+const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
   const [openAlbumModal] = useModal(AddAlbum);
   const [openPhotoModal] = useModal(AddPhoto);
 

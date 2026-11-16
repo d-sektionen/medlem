@@ -10,7 +10,9 @@ const AddPhoto = ({ photo, create, update }) => {
 
   const [title, setTitle] = useState(photo?.title ?? "");
   const [featured, setFeatured] = useState(photo?.featured ?? false);
-  const [date, setDate] = useState(photo ? new Date(photo.date).toISOString().split('T')[0] : null);
+  const [date, setDate] = useState(
+    photo ? new Date(photo.date).toISOString().split("T")[0] : null,
+  );
   const [image, setImage] = useState(null);
 
   const [errors, setErrors] = useState({});

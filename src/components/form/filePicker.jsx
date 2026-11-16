@@ -100,9 +100,7 @@ const FilePicker = ({
 
       {value && (
         <div className={bottomBar}>
-          <span>
-            {value.name}
-          </span>
+          <span>{value.name}</span>
 
           <button type="button" onClick={clear}>
             <FiTrash2 /> Ta bort
