@@ -17,7 +17,7 @@ const AutoInput = ({
   // Set the initial options based on the first value received
   // biome-ignore lint/correctness/useExhaustiveDependencies: <Run only once, when the component mounts>
   useEffect(() => {
-    if (value) {
+    if (type === "field" && Array.isArray(value)) {
       setInitialOptions(value);
     }
   }, []);

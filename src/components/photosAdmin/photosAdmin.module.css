@@ -1,0 +1,31 @@
+.photosList {
+    list-style: none;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: auto;
+
+    & > li {
+        display: flex;
+        align-items: center;
+        height: 3.25rem;
+        gap: 0.5rem;
+        padding: 0.25rem;
+        margin: 0;
+
+        & > div {
+            margin-right: auto;
+        }
+
+        & img {
+            object-fit: cover;
+            height: 100%;
+            margin: 0;
+        }
+    }
+}
+
+.albumActions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}

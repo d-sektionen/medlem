@@ -8,6 +8,7 @@ import {
   modal,
   modalWrapper,
   NoPadding,
+  Floating,
 } from "./modal.module.css";
 
 const Modal = ({ children, title, isOpen, options, setOpen }) => {
@@ -15,7 +16,7 @@ const Modal = ({ children, title, isOpen, options, setOpen }) => {
     setOpen(false);
   }, [setOpen]);
 
-  const { noPadding } = options;
+  const { noPadding, floating } = options;
 
   useEffect(() => {
     if (isOpen) {
@@ -58,7 +59,7 @@ const Modal = ({ children, title, isOpen, options, setOpen }) => {
           className={modalWrapper}
           key="modal"
         >
-          <div className={modal}>
+          <div className={`${floating && Floating} ${modal}`}>
             <header>
               <h2>{title}</h2>
               <FiX onClick={close} />

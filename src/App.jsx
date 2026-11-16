@@ -14,6 +14,8 @@ import VotePage from "./components/vote/page";
 import VotingAdminPage from "./components/votingAdmin/page";
 import VotingCounterPage from "./components/votingCounter/page";
 import VotingGuestPage from "./components/votingGuest/page";
+import PhotosPage from "./components/photos/page";
+import PhotosAdminPage from "./components/photosAdmin/page";
 import { PAGES } from "./config";
 
 /*
@@ -34,6 +36,8 @@ const PAGE_COMPONENTS = {
   "/checkin": CheckinPage,
   "/keylog": KeylogPage,
   "/mail": MailPage,
+  "/photos": PhotosPage,
+  "/photos-admin": PhotosAdminPage,
 };
 
 const App = () => (
