@@ -19,17 +19,34 @@ const socket = io(BASE_URL, {
 /*
  * Connection status store.
  *
+ * status:
  * "connecting":   no connection has been attempted to completion yet.
  * "connected":    the socket is connected and has (re)joined its rooms.
  * "disconnected": the connection was lost or could not be established; a
  *                 reconnect is always pending while in this state.
+ *
+ * reason, only set while disconnected, tells why reconnecting cannot succeed
+ * until the user does something:
+ * "offline":      the browser reports that it has no network connection.
+ * "unauthorized": the session has expired and the user has to log in again.
+ * null:           nothing for the user to do, reconnecting is automatic.
  */
-let status = socket.connected ? "connected" : "connecting";
+let state = {
+  status: socket.connected ? "connected" : "connecting",
+  reason: null,
+};
+let sessionExpired = false;
 const statusListeners = new Set();
 
-function setStatus(next) {
-  if (next === status) return;
-  status = next;
+function setStatus(status) {
+  let reason = null;
+  if (status === "disconnected") {
+    if (navigator.onLine === false) reason = "offline";
+    else if (sessionExpired) reason = "unauthorized";
+  }
+  if (status === state.status && reason === state.reason) return;
+
+  state = { status, reason };
   statusListeners.forEach((listener) => {
     listener();
   });
@@ -40,12 +57,13 @@ function subscribeStatus(listener) {
   return () => statusListeners.delete(listener);
 }
 
-function getStatus() {
-  return status;
+function getState() {
+  return state;
 }
 
+/** Returns the WebSocket connection state as `{ status, reason }`. */
 export function useSocketStatus() {
-  return useSyncExternalStore(subscribeStatus, getStatus);
+  return useSyncExternalStore(subscribeStatus, getState);
 }
 
 /*
@@ -82,8 +100,13 @@ function scheduleManualReconnect() {
       // the axios-auth-refresh interceptor, so the handshake gets a valid
       // cookie.
       await backendService.get("/account/me/");
-    } catch {
-      // The backend may be unreachable; connecting fails and retries anyway.
+      sessionExpired = false;
+    } catch (error) {
+      // A 401 means that refreshing the session failed as well, so the user
+      // has to log in again. Any other error means the backend is unreachable.
+      // Either way connecting fails and is retried, which also picks up a
+      // session that was renewed in another tab.
+      sessionExpired = error.response?.status === 401;
     }
     socket.connect();
   }, delay);
@@ -92,6 +115,7 @@ function scheduleManualReconnect() {
 socket.on("connect", () => {
   clearManualRetry();
   manualRetryAttempts = 0;
+  sessionExpired = false;
   joinedRooms.forEach((room) => {
     socket.emit("join", { room });
   });
@@ -125,7 +149,12 @@ function reconnectNow() {
 }
 
 if (typeof window !== "undefined") {
-  window.addEventListener("online", reconnectNow);
+  window.addEventListener("online", () => {
+    setStatus(state.status);
+    reconnectNow();
+  });
+  // Recompute the reason so the user is told to check their network.
+  window.addEventListener("offline", () => setStatus(state.status));
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") reconnectNow();
   });

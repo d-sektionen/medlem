@@ -59,6 +59,15 @@
   color: var(--foreground-color-3);
   box-shadow: var(--box-shadow-raised);
   pointer-events: auto;
+
+  & p {
+    color: inherit;
+  }
+
+  /* The default button background is the same as the toast background. */
+  & button {
+    background-color: var(--background-color-4);
+  }
 }
 
 .toastError {
