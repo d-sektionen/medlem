@@ -17,15 +17,16 @@ const PhotosPage = () => {
   const [photo, setPhoto] = useState(null);
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const albumId = searchParams.get("album");
 
+    let foundAlbum;
+    let foundPhoto;
+
     if (albumId && albums) {
-      const foundAlbum = albums.find(
-        (album) => album.id === parseInt(albumId, 10),
-      );
+      foundAlbum = albums.find((album) => album.id === parseInt(albumId, 10));
       if (foundAlbum) {
         setAlbum(foundAlbum);
       }
@@ -34,7 +35,7 @@ const PhotosPage = () => {
     const photoId = searchParams.get("photo");
 
     if (photoId && album) {
-      const foundPhoto = album.photos.find(
+      foundPhoto = album.photos.find(
         (photo) => photo.id === parseInt(photoId, 10),
       );
       if (foundPhoto) {
@@ -42,15 +43,25 @@ const PhotosPage = () => {
         setIsPhotoModalOpen(true);
       }
     }
-  }, [searchParams, album, albums]);
+
+    if (foundAlbum || foundPhoto) {
+      setSearchParams(
+        (prevParams) => {
+          const newParams = new URLSearchParams(prevParams);
+          if (foundAlbum) newParams.delete("album");
+          if (foundPhoto) newParams.delete("photo");
+          return newParams;
+        },
+        {
+          replace: true,
+        },
+      );
+    }
+  }, [searchParams, setSearchParams, album, albums]);
 
   const handlePhotoClick = (photo) => {
     setPhoto(photo);
     setIsPhotoModalOpen(true);
-  };
-
-  const handleClosePhotoModal = () => {
-    setIsPhotoModalOpen(false);
   };
 
   const getRelativePhoto = (direction) => {
@@ -104,7 +115,6 @@ const PhotosPage = () => {
         isOpen={isPhotoModalOpen}
         setOpen={setIsPhotoModalOpen}
         photo={photo}
-        onClose={handleClosePhotoModal}
         onNext={handleNextPhoto}
         onPrevious={handlePreviousPhoto}
       />

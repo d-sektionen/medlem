@@ -1,5 +1,6 @@
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import useModal from "../modal/useModal";
+import useConfirmModal from "../modal/useConfirmModal";
+import useModal, { useCloseModal } from "../modal/useModal";
 import { del, patch, post, put } from "../request";
 import { Button } from "../ui/buttons";
 import { GridItem } from "../ui/grid";
@@ -21,6 +22,9 @@ const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
   const [openAlbumModal] = useModal(AddAlbum);
   const [openPhotoModal] = useModal(AddPhoto);
 
+  const closeModal = useCloseModal();
+  const [confirmModal] = useConfirmModal();
+
   const updateAlbum = async (albumId, data) => {
     const { data: updatedAlbum } = await put(
       `/photos/albums/${albumId}/`,
@@ -30,7 +34,6 @@ const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
     mutateAlbums((current = []) =>
       current.map((a) => (a.id === albumId ? updatedAlbum : a)),
     );
-    setAlbum((current) => (current?.id === albumId ? updatedAlbum : current));
 
     return updatedAlbum;
   };
@@ -38,9 +41,7 @@ const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
   const deleteAlbum = async (albumId) => {
     await del(`/photos/albums/${albumId}/`);
 
-    mutateAlbums((current = []) => current.filter((a) => a.id !== albumId), {
-      revalidate: false,
-    });
+    mutateAlbums((current = []) => current.filter((a) => a.id !== albumId));
     setAlbum((current) => (current?.id === albumId ? null : current));
   };
 
@@ -77,15 +78,35 @@ const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
     return updatedPhoto;
   };
 
+  const onDeletePhotoClick = (photoId) => {
+    confirmModal(
+      `Vill du ta bort fotot?`,
+      async () => {
+        await deletePhoto(photoId);
+      },
+      closeModal,
+    );
+  };
+
   const deletePhoto = async (photoId) => {
     await del(`/photos/photos/${photoId}/`);
 
-    const removePhotoFromAlbum = (current) => ({
-      ...current,
-      photos: current.photos.filter((photo) => photo.id !== photoId),
-    });
+    mutateAlbums((current = []) =>
+      current.map((album) => ({
+        ...album,
+        photos: album.photos.filter((photo) => photo.id !== photoId),
+      })),
+    );
+  };
 
-    mutateAlbums((current = []) => current.map(removePhotoFromAlbum));
+  const onDeleteAlbumClick = () => {
+    confirmModal(
+      `Vill du ta bort albumet?`,
+      async () => {
+        await deleteAlbum(album.id);
+      },
+      closeModal,
+    );
   };
 
   return (
@@ -112,7 +133,7 @@ const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
             <FiEdit /> Redigera
           </Button>
 
-          <Button onClick={() => deleteAlbum(album.id)}>
+          <Button onClick={() => onDeleteAlbumClick()}>
             <FiTrash2 /> Radera
           </Button>
         </div>
@@ -141,7 +162,7 @@ const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
                   <FiEdit />
                 </Button>
 
-                <Button onClick={() => deletePhoto(photo.id)}>
+                <Button onClick={() => onDeletePhotoClick(photo.id)}>
                   <FiTrash2 />
                 </Button>
               </li>

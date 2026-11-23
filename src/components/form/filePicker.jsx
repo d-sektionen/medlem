@@ -19,6 +19,7 @@ const FilePicker = ({
   accept = "image/*",
   required = false,
   existingUrl,
+  canClear = true,
 }) => {
   const id = useId();
   const inputRef = useRef(null);
@@ -98,7 +99,7 @@ const FilePicker = ({
         </div>
       </label>
 
-      {value && (
+      {canClear && value && (
         <div className={bottomBar}>
           <span>{value.name}</span>
 

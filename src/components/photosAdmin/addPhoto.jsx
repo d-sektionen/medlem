@@ -11,7 +11,7 @@ const AddPhoto = ({ photo, create, update }) => {
   const [title, setTitle] = useState(photo?.title ?? "");
   const [featured, setFeatured] = useState(photo?.featured ?? false);
   const [date, setDate] = useState(
-    photo ? new Date(photo.date).toISOString().split("T")[0] : null,
+    ((photo && new Date(photo.date)) || new Date()).toISOString().split("T")[0],
   );
   const [image, setImage] = useState(null);
 
@@ -64,7 +64,7 @@ const AddPhoto = ({ photo, create, update }) => {
         value={featured}
         onChange={(e) => setFeatured(e)}
       ></AutoInput>
-      {errors.description && <div>{errors.description.join(", ")}</div>}
+      {errors.featured && <div>{errors.featured.join(", ")}</div>}
 
       <FilePicker
         label="Bild"
@@ -73,8 +73,9 @@ const AddPhoto = ({ photo, create, update }) => {
         accept="image/*"
         required={isNew}
         existingUrl={photo?.image_url}
+        canClear={false}
       />
-      {errors.file && <div>{errors.file.join(", ")}</div>}
+      {errors.image && <div>{errors.image.join(", ")}</div>}
 
       {errors.non_field_errors && (
         <div>{errors.non_field_errors.join(", ")}</div>

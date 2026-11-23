@@ -59,7 +59,7 @@ const Modal = ({ children, title, isOpen, options, setOpen }) => {
           className={modalWrapper}
           key="modal"
         >
-          <div className={`${floating && Floating} ${modal}`}>
+          <div className={`${floating ? Floating : ""} ${modal}`}>
             <header>
               <h2>{title}</h2>
               <FiX onClick={close} />
