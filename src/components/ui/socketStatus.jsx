@@ -12,8 +12,8 @@ import {
 
 // Keyed by the reason for a disconnect when there is one, else by the status.
 const LABELS = {
-  connecting: "Ansluter till live-uppdateringar …",
-  connected: "Live-uppdateringar anslutna",
+  connecting: "Ansluter till D-cide …",
+  connected: "Ansluten till D-cide",
   disconnected: "Anslutningen bröts, återansluter …",
   offline: "Ingen internetanslutning",
   unauthorized: "Utloggad, ladda om sidan",
@@ -36,15 +36,15 @@ const ReloadButton = () => (
 );
 
 const STALLED_AFTER = 20_000;
-const NOT_UPDATING =
-  "Omröstningar och talarlistan uppdateras inte förrän anslutningen är tillbaka.";
 
 /**
  * Tells the user that the connection is lost and what they need to do about
  * it, if anything. Mounted for as long as the socket stays disconnected.
  */
-function DisconnectedToast({ reason }) {
+function DisconnectedToast({ reason, stale }) {
   const [stalled, setStalled] = useState(false);
+  const notUpdating =
+    stale && `${stale} uppdateras inte förrän anslutningen är tillbaka.`;
 
   useEffect(() => {
     const timer = setTimeout(() => setStalled(true), STALLED_AFTER);
@@ -54,7 +54,7 @@ function DisconnectedToast({ reason }) {
   let content = (
     <p>
       <strong>Anslutningen till D-cide bröts.</strong> Återansluter automatiskt,
-      du behöver inte göra något. {NOT_UPDATING}
+      du behöver inte göra något. {notUpdating}
     </p>
   );
 
@@ -63,7 +63,7 @@ function DisconnectedToast({ reason }) {
       <p>
         <strong>Du saknar internetanslutning.</strong> Kontrollera ditt wifi
         eller din mobildata. D-cide återansluter automatiskt när du är online
-        igen. {NOT_UPDATING}
+        igen. {notUpdating}
       </p>
     );
   } else if (reason === "unauthorized") {
@@ -71,7 +71,7 @@ function DisconnectedToast({ reason }) {
       <>
         <p>
           <strong>Du har loggats ut.</strong> Ladda om sidan och logga in igen
-          för att fortsätta följa mötet. {NOT_UPDATING}
+          för att fortsätta följa mötet. {notUpdating}
         </p>
         <ReloadButton />
       </>
@@ -82,7 +82,7 @@ function DisconnectedToast({ reason }) {
         <p>
           <strong>Anslutningen till D-cide bröts.</strong> Återanslutningen tar
           längre tid än väntat. Kontrollera din internetanslutning eller ladda
-          om sidan. {NOT_UPDATING}
+          om sidan. {notUpdating}
         </p>
         <ReloadButton />
       </>
@@ -101,8 +101,12 @@ const RECONNECTED_TOAST_DURATION = 4_000;
 /**
  * Fixed notice that appears while the WebSocket is disconnected and briefly
  * confirms when the connection is back.
+ *
+ * `stale` names what the page loads over the socket, for example
+ * "Omröstningar och talarlistan", so the notice can say what stops updating.
+ * Leave it out on pages that do not show any socket-driven content.
  */
-export function SocketStatusToast() {
+export function SocketStatusToast({ stale }) {
   const { status, reason } = useSocketStatus();
   const previousStatus = useRef(status);
   const [showReconnected, setShowReconnected] = useState(false);
@@ -128,7 +132,9 @@ export function SocketStatusToast() {
   return (
     // The live region is always rendered so screen readers pick up changes.
     <div className={toastRegion} aria-live="polite">
-      {status === "disconnected" && <DisconnectedToast reason={reason} />}
+      {status === "disconnected" && (
+        <DisconnectedToast reason={reason} stale={stale} />
+      )}
       {showReconnected && (
         <div className={`${toast} ${toastSuccess}`}>
           Återansluten till D-cide.

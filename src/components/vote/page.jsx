@@ -62,7 +62,9 @@ export default function VotePage() {
           </div>
         )}
       </GridContainer>
-      {currentMeeting && <SocketStatusToast />}
+      {currentMeeting && (
+        <SocketStatusToast stale="Omröstningar och talarlistan" />
+      )}
     </BigPixels>
   );
 }

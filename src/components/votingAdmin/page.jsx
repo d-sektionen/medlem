@@ -92,7 +92,9 @@ const VotingAdminPage = () => {
           </>
         )}
       </GridContainer>
-      {currentMeeting && <SocketStatusToast />}
+      {currentMeeting && (
+        <SocketStatusToast stale="Deltagare, dörrvakter och talarlistan" />
+      )}
     </BigPixels>
   );
 };
