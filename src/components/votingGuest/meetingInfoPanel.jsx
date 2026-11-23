@@ -1,3 +1,5 @@
+import { SocketStatusIndicator } from "../ui/socketStatus";
+
 const MeetingInfoPanel = ({ currentMeeting }) => (
   <div>
     <h2>Mötesinfo</h2>
@@ -9,6 +11,7 @@ const MeetingInfoPanel = ({ currentMeeting }) => (
           : "Du är inte registrerad på mötet."}
       </strong>
     </p>
+    <SocketStatusIndicator />
     {currentMeeting.description && (
       <p style={{ whiteSpace: "pre-line" }}>{currentMeeting.description}</p>
     )}

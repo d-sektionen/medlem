@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import useSWR from "swr";
 import BigPixels from "../layout/bigPixels";
 import { GridContainer, GridItem } from "../ui/grid";
+import { SocketStatusToast } from "../ui/socketStatus";
 import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
 import MeetingInfoPanel from "./meetingInfoPanel";
@@ -61,6 +62,7 @@ export default function VotePage() {
           </div>
         )}
       </GridContainer>
+      {currentMeeting && <SocketStatusToast />}
     </BigPixels>
   );
 }

@@ -5,6 +5,7 @@ import BigPixels from "../layout/bigPixels";
 import useModal, { useCloseModal } from "../modal/useModal";
 import { patch, post } from "../request";
 import { GridContainer, GridItem } from "../ui/grid";
+import { SocketStatusToast } from "../ui/socketStatus";
 import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
 import AddMeeting from "./addMeeting";
@@ -91,6 +92,7 @@ const VotingAdminPage = () => {
           </>
         )}
       </GridContainer>
+      {currentMeeting && <SocketStatusToast />}
     </BigPixels>
   );
 };
