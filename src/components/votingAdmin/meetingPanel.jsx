@@ -1,9 +1,11 @@
 import { Button, ButtonGroup } from "../ui/buttons";
+import { SocketStatusIndicator } from "../ui/socketStatus";
 
 const MeetingPanel = ({ currentMeeting, updatePatch }) => (
   <div>
     <h2>Mötesinfo</h2>
     <h3>{currentMeeting.name}</h3>
+    <SocketStatusIndicator />
     {currentMeeting.description && (
       <p style={{ whiteSpace: "pre-line" }}>{currentMeeting.description}</p>
     )}

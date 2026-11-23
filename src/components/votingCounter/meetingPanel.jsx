@@ -1,7 +1,10 @@
+import { SocketStatusIndicator } from "../ui/socketStatus";
+
 const MeetingPanel = ({ currentMeeting, _updatePatch }) => (
   <div>
     <h2>Mötesinfo</h2>
     <h3>{currentMeeting.name}</h3>
+    <SocketStatusIndicator />
     {currentMeeting.description && (
       <p style={{ whiteSpace: "pre-line" }}>{currentMeeting.description}</p>
     )}
