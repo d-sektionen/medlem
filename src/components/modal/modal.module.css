@@ -84,3 +84,22 @@
     grid-column: 1 / 3;
   }
 }
+
+/* The body of the prompt modal, mimicking the browser's prompt() dialog. */
+.promptForm {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: var(--base-padding);
+
+  & > input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.promptActions {
+  align-self: end;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--base-padding);
+}
