@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import useSWR from "swr";
+import useModal from "../modal/useModal";
 import PhotoCard from "./photoCard";
+import PhotoModal from "./photoModal";
 import {
   albumPanel,
   large as largeClass,
   photoGrid,
 } from "./photos.module.css";
-import useModal from "../modal/useModal";
-import PhotoModal from "./photoModal";
 
 const AlbumPanel = ({ album }) => {
   const { data: photos } = useSWR(`/photos/photos/?album=${album.id}`);

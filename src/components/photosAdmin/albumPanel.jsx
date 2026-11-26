@@ -1,4 +1,5 @@
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import useSWR from "swr";
 import useConfirmModal from "../modal/useConfirmModal";
 import useModal, { useCloseModal } from "../modal/useModal";
 import { del, patch, post, put } from "../request";
@@ -7,7 +8,6 @@ import { GridItem } from "../ui/grid";
 import AddAlbum from "./addAlbum";
 import AddPhoto from "./addPhoto";
 import { albumActions, photosList } from "./photosAdmin.module.css";
-import useSWR from "swr";
 
 const photoFormData = (data, extra = {}) => {
   const formData = new FormData();
