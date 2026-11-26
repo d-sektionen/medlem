@@ -105,6 +105,7 @@ export const PAGES = [
   {
     path: "/photos",
     title: "Fotogalleri",
+    requiredPrivileges: "member",
     menu: true,
   },
   {

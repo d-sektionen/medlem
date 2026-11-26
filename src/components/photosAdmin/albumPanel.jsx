@@ -21,7 +21,7 @@ const photoFormData = (data, extra = {}) => {
 
 const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
   const { data: photos, mutate: mutatePhotos } = useSWR(
-    `/photos/photos/?album_id=${album.id}`,
+    `/photos/photos/?album=${album.id}`,
   );
 
   const [openAlbumModal] = useModal(AddAlbum);
