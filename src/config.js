@@ -102,4 +102,16 @@ export const PAGES = [
     requiredPrivileges: "infomail_sender",
     menu: true,
   },
+  {
+    path: "/photos",
+    title: "Fotogalleri",
+    requiredPrivileges: "member",
+    menu: true,
+  },
+  {
+    path: "/photos-admin",
+    title: "Fotogalleri Admin",
+    requiredPrivileges: "photos_admin",
+    menu: true,
+  },
 ];

@@ -21,19 +21,27 @@
 }
 
 .modal {
-  background-color: rgb(34 34 34 / 0.9);
-  margin: auto;
-
-  max-width: 800px;
-  min-width: 250px;
-  max-height: 100%;
-  min-height: 250px;
-
   backdrop-filter: blur(10px);
 
   display: grid;
   grid-template-rows: auto 1fr;
   pointer-events: initial;
+
+  &.Floating {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+  }
+
+  &:not(.Floating) {
+    margin: auto;
+    background-color: rgb(34 34 34 / 0.9);
+
+    max-width: 800px;
+    min-width: 250px;
+    max-height: 100%;
+    min-height: 250px;
+  }
 
   & > header {
     /* background: rgb(34 34 34 / 0.5); */

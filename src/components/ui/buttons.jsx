@@ -25,6 +25,7 @@ const Button = ({
   children,
   disabled,
   type = "button",
+  download = false,
 }) => {
   if (to)
     return (
@@ -52,6 +53,7 @@ const Button = ({
         className={button}
         href={disabled ? undefined : href}
         target={target}
+        download={download}
         onClick={
           disabled
             ? (e) => {
