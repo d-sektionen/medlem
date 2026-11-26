@@ -5,7 +5,6 @@ import {
   FiDownload,
   FiShare2,
 } from "react-icons/fi";
-import Modal from "../modal/modal";
 import { Button } from "../ui/buttons";
 import {
   photoModalContent,
@@ -13,7 +12,7 @@ import {
   photoModalDetails,
 } from "./photos.module.css";
 
-const PhotoModal = ({ photo, isOpen, setOpen, onNext, onPrevious }) => {
+const PhotoModal = ({ photo, onNext, onPrevious }) => {
   const details = useMemo(() => {
     const uploaded = photo?.date
       ? new Date(photo.date).toLocaleDateString()
@@ -38,8 +37,6 @@ const PhotoModal = ({ photo, isOpen, setOpen, onNext, onPrevious }) => {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (!isOpen) return;
-
       if (event.key === "ArrowRight") {
         onNext();
       } else if (event.key === "ArrowLeft") {
@@ -52,7 +49,7 @@ const PhotoModal = ({ photo, isOpen, setOpen, onNext, onPrevious }) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onNext, onPrevious]);
+  }, [onNext, onPrevious]);
 
   const onCopyClick = () => {
     if (!photo) return;
@@ -64,43 +61,36 @@ const PhotoModal = ({ photo, isOpen, setOpen, onNext, onPrevious }) => {
   };
 
   return (
-    <Modal
-      title={photo?.title ?? "Ingen titel"}
-      isOpen={isOpen}
-      setOpen={setOpen}
-      options={{ floating: true }}
-    >
-      <div className={photoModalContent}>
-        <div>
-          <Button onClick={onPrevious}>
-            <FiChevronLeft />
-          </Button>
-        </div>
-
-        <img src={photo?.image_url} alt={photo?.title} />
-
-        <div>
-          <Button onClick={onNext}>
-            <FiChevronRight />
-          </Button>
-        </div>
-
-        <div className={photoModalControls}>
-          <Button href={photo?.image_url} download>
-            <FiDownload />
-          </Button>
-          <Button onClick={onCopyClick}>
-            <FiShare2 />
-          </Button>
-        </div>
-
-        <p className={photoModalDetails}>
-          {details}
-          <br></br>
-          {tags && tags.length > 0 ? `Taggar: ${tags}` : "Inga taggar"}
-        </p>
+    <div className={photoModalContent}>
+      <div>
+        <Button onClick={onPrevious}>
+          <FiChevronLeft />
+        </Button>
       </div>
-    </Modal>
+
+      <img src={photo?.image_url} alt={photo?.title} />
+
+      <div>
+        <Button onClick={onNext}>
+          <FiChevronRight />
+        </Button>
+      </div>
+
+      <div className={photoModalControls}>
+        <Button href={photo?.image_url} download>
+          <FiDownload />
+        </Button>
+        <Button onClick={onCopyClick}>
+          <FiShare2 />
+        </Button>
+      </div>
+
+      <p className={photoModalDetails}>
+        {details}
+        <br></br>
+        {tags && tags.length > 0 ? `Taggar: ${tags}` : "Inga taggar"}
+      </p>
+    </div>
   );
 };
 

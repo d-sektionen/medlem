@@ -7,6 +7,7 @@ import { GridItem } from "../ui/grid";
 import AddAlbum from "./addAlbum";
 import AddPhoto from "./addPhoto";
 import { albumActions, photosList } from "./photosAdmin.module.css";
+import useSWR from "swr";
 
 const photoFormData = (data, extra = {}) => {
   const formData = new FormData();
@@ -19,6 +20,10 @@ const photoFormData = (data, extra = {}) => {
 };
 
 const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
+  const { data: photos, mutate: mutatePhotos } = useSWR(
+    `/photos/photos/?album_id=${album.id}`,
+  );
+
   const [openAlbumModal] = useModal(AddAlbum);
   const [openPhotoModal] = useModal(AddPhoto);
 
@@ -51,13 +56,17 @@ const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
       photoFormData(data, { album_id: album.id }),
     );
 
-    mutateAlbums((current = []) =>
-      current.map((a) =>
-        a.id === album.id ? { ...a, photos: [...a.photos, newPhoto] } : a,
-      ),
-    );
+    mutatePhotos((current = []) => [...current, newPhoto]);
 
     return newPhoto;
+  };
+
+  const onEditClick = (photo) => {
+    openPhotoModal(`Redigera ${photo.title}`, {
+      create: createPhoto,
+      update: updatePhoto,
+      photo,
+    });
   };
 
   const updatePhoto = async (photoId, data) => {
@@ -66,23 +75,18 @@ const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
       photoFormData(data),
     );
 
-    mutateAlbums((current = []) =>
-      current.map((a) => ({
-        ...a,
-        photos: a.photos.map((photo) =>
-          photo.id === photoId ? updatedPhoto : photo,
-        ),
-      })),
+    mutatePhotos((current = []) =>
+      current.map((p) => (p.id === photoId ? updatedPhoto : p)),
     );
 
     return updatedPhoto;
   };
 
-  const onDeletePhotoClick = (photoId) => {
+  const onDeletePhotoClick = (photo) => {
     confirmModal(
       `Vill du ta bort fotot?`,
       async () => {
-        await deletePhoto(photoId);
+        await deletePhoto(photo.id);
       },
       closeModal,
     );
@@ -91,12 +95,9 @@ const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
   const deletePhoto = async (photoId) => {
     await del(`/photos/photos/${photoId}/`);
 
-    mutateAlbums((current = []) =>
-      current.map((album) => ({
-        ...album,
-        photos: album.photos.filter((photo) => photo.id !== photoId),
-      })),
-    );
+    mutatePhotos((current = []) => current.filter((p) => p.id !== photoId));
+
+    return true;
   };
 
   const onDeleteAlbumClick = () => {
@@ -141,34 +142,15 @@ const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
       <GridItem>
         <h2>Foton</h2>
 
-        <ul className={photosList}>
-          {album.photos.length === 0 ? (
-            <li>Inga foton</li>
-          ) : (
-            album.photos.map((photo) => (
-              <li key={photo.id}>
-                <img src={photo.image_url} alt={photo.title} />
-                <div>{photo.title}</div>
-
-                <Button
-                  onClick={() =>
-                    openPhotoModal(`Redigera ${photo.title}`, {
-                      create: () => {},
-                      update: updatePhoto,
-                      photo,
-                    })
-                  }
-                >
-                  <FiEdit />
-                </Button>
-
-                <Button onClick={() => onDeletePhotoClick(photo.id)}>
-                  <FiTrash2 />
-                </Button>
-              </li>
-            ))
-          )}
-        </ul>
+        {photos ? (
+          <PhotoList
+            photos={photos}
+            onEditClick={onEditClick}
+            onDeleteClick={onDeletePhotoClick}
+          />
+        ) : (
+          <p>Laddar foton...</p>
+        )}
 
         <Button
           onClick={() =>
@@ -181,6 +163,33 @@ const AlbumPanel = ({ album, mutateAlbums, setAlbum, createAlbum }) => {
         </Button>
       </GridItem>
     </>
+  );
+};
+
+const PhotoList = ({ photos, onEditClick, onDeleteClick }) => {
+  return (
+    <ul className={photosList}>
+      {photos.length === 0 ? (
+        <li>Inga foton</li>
+      ) : (
+        photos
+          .toSorted((a, b) => a.title.localeCompare(b.title))
+          .map((photo) => (
+            <li key={photo.id}>
+              <img src={photo.image_url} alt={photo.title} />
+              <div>{photo.title}</div>
+
+              <Button onClick={() => onEditClick(photo)}>
+                <FiEdit />
+              </Button>
+
+              <Button onClick={() => onDeleteClick(photo)}>
+                <FiTrash2 />
+              </Button>
+            </li>
+          ))
+      )}
+    </ul>
   );
 };
 

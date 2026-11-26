@@ -6,19 +6,46 @@ import {
   large as largeClass,
   photoGrid,
 } from "./photos.module.css";
+import useModal from "../modal/useModal";
+import PhotoModal from "./photoModal";
 
-const AlbumPanel = ({ albumId, onPhotoClick }) => {
-  const { data: album } = useSWR(`/photos/albums/${albumId}/`);
+const AlbumPanel = ({ album }) => {
+  const { data: photos } = useSWR(`/photos/photos/?album_id=${album.id}`);
+
+  const [openPhotoModal] = useModal(PhotoModal);
 
   const featuredPhotos = useMemo(() => {
-    if (!album) return [];
-    return album.photos.filter((photo) => photo.featured);
-  }, [album]);
+    if (!photos) return [];
+    return photos.filter((photo) => photo.featured);
+  }, [photos]);
 
   const nonFeaturedPhotos = useMemo(() => {
-    if (!album) return [];
-    return album.photos.filter((photo) => !photo.featured);
-  }, [album]);
+    if (!photos) return [];
+    return photos.filter((photo) => !photo.featured);
+  }, [photos]);
+
+  const showPhotoModal = (photo) => {
+    openPhotoModal(
+      photo.title,
+      {
+        photo,
+        onNext: () => showRelativePhoto(photo, 1),
+        onPrevious: () => showRelativePhoto(photo, -1),
+      },
+      { floating: true },
+    );
+  };
+
+  const showRelativePhoto = (photo, direction) => {
+    if (!photos) return;
+
+    const currentIndex = photos.findIndex((p) => p.id === photo.id);
+    if (currentIndex === -1) return;
+
+    const nextIndex =
+      (currentIndex + direction + photos.length) % photos.length;
+    showPhotoModal(photos[nextIndex]);
+  };
 
   return (
     <div className={albumPanel}>
@@ -34,7 +61,7 @@ const AlbumPanel = ({ albumId, onPhotoClick }) => {
 
               <PhotoList
                 photos={featuredPhotos}
-                onPhotoClick={onPhotoClick}
+                onPhotoClick={showPhotoModal}
                 large={true}
               />
 
@@ -43,7 +70,10 @@ const AlbumPanel = ({ albumId, onPhotoClick }) => {
           )}
 
           {nonFeaturedPhotos.length > 0 && (
-            <PhotoList photos={nonFeaturedPhotos} onPhotoClick={onPhotoClick} />
+            <PhotoList
+              photos={nonFeaturedPhotos}
+              onPhotoClick={showPhotoModal}
+            />
           )}
 
           {nonFeaturedPhotos.length === 0 && featuredPhotos.length === 0 && (
