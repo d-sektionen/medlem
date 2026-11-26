@@ -3,6 +3,7 @@ import useSWR from "swr";
 import BigPixels from "../layout/bigPixels";
 import { patch } from "../request";
 import { GridContainer, GridItem } from "../ui/grid";
+import { SocketStatusToast } from "../ui/socketStatus";
 import TitleChooser from "../ui/titleChooser";
 import usePageContext from "../usePageContext";
 import AttendantPanel from "./attendantPanel";
@@ -65,6 +66,7 @@ const VotingAdminPage = () => {
           </>
         )}
       </GridContainer>
+      {currentMeeting && <SocketStatusToast />}
     </BigPixels>
   );
 };

@@ -59,7 +59,7 @@ const SpeakerPanel = ({ meeting }) => {
       socket.off("connect", handleMeetingChange);
       socket.off("new_speaker_request", handleNewSpeakerRequest);
       socket.off("delete_speaker_request", handleDeleteSpeakerRequest);
-      leaveRoom(`meeting_speker_${meeting.id}`);
+      leaveRoom(`meeting_speaker_${meeting.id}`);
     };
   }, [
     meeting.id,

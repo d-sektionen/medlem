@@ -1,6 +1,7 @@
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 import { del, post } from "../request";
 import { Button } from "../ui/buttons";
+import { SocketStatusIndicator } from "../ui/socketStatus";
 
 export default function MeetingInfoPanel({
   currentMeeting,
@@ -17,6 +18,7 @@ export default function MeetingInfoPanel({
             : "Du är inte registrerad på mötet."}
         </strong>
       </p>
+      <SocketStatusIndicator />
       {currentMeeting.description && (
         <p style={{ whiteSpace: "pre-line" }}>{currentMeeting.description}</p>
       )}
